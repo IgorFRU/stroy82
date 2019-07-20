@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoriesTable extends Migration
+class CreateSetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,13 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('sets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('category');
-            $table->bigInteger('category_id')->unsigned()->nullable();
-            $table->string('image')->nullable();
+            $table->string('set');
+            $table->string('image');
             $table->string('description')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
-            $table->integer('views')->default(0)->nullable();
-
-            $table->foreign('category_id')
-                ->references('id')
-                ->on('categories')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
         });
     }
 
@@ -38,6 +30,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('sets');
     }
 }

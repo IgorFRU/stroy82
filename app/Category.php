@@ -1,4 +1,4 @@
-i<?php
+<?php
 
 namespace App;
 
@@ -19,6 +19,10 @@ class Category extends Model
     ];
 
     public function children() {
-        return $this->hasMany("App\Category", 'category_id');
+        return $this->hasMany(Category::class);
+    }
+
+    public function products() {
+        return $this->hasMany(Product::class);
     }
 }
