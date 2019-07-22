@@ -16,6 +16,9 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('product');
+            $table->string('slug')->nullable();
+            $table->string('scu')->nullable();
+            $table->string('autoscu', 20)->nullable();      // автоматически генерируемый уникальный артикул
             $table->bigInteger('category_id')->nullable()->unsigned();
             $table->bigInteger('manufacture_id')->nullable()->unsigned();
             $table->bigInteger('vendor_id')->nullable()->unsigned();

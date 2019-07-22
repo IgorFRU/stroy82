@@ -16,6 +16,7 @@ class CreateManufacturesTable extends Migration
         Schema::create('manufactures', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('manufacture');
+            $table->string('slug');
             $table->string('country')->nullable();
             $table->string('image')->nullable();
             $table->string('description')->nullable();

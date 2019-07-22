@@ -10,6 +10,7 @@ class Image extends Model
 
     protected $fillable = [
         'image',
+        'originalname',
         'thumbnail',
         'name',
         'alt',
