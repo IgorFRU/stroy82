@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        // return view('home');
-        echo ('consumer');
+        return view('home');
+        // echo ('consumer');
     }
 }

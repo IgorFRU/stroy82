@@ -10,9 +10,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $guard = 'consumer';
-    
-    public $timestamps = false;
+    // protected $guard = 'user';
 
     protected $fillable = [
         'quick',

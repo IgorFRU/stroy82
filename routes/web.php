@@ -18,6 +18,7 @@ Route::get('/', function () {
 // Route::get('/admin/login/{token?}', 'Auth\LoginController@showLoginForm')->name('auth.login')->middleware('check.url.login.token');
 // Route::post('/admin/login', 'Auth\LoginController@login')->name('admin.login.post');
 // Route::get('/admin/logout', 'Auth\LoginController@logout')->name('auth.logout');
+Auth::routes();
 
 Route::group(['prefix' => 'admin'], function(){
   Route::get('/', 'AdminController@index')->name('admin.index');
@@ -26,5 +27,5 @@ Route::group(['prefix' => 'admin'], function(){
     
     
 });
-Auth::routes();
+
 Route::get('/home', 'UserController@index')->name('home');
