@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConsumerOrdersTable extends Migration
+class CreateOrderUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateConsumerOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('consumer_orders', function (Blueprint $table) {
+        Schema::create('order_users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('consumer_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('order_id');
 
-            $table->foreign('consumer_id')
+            $table->foreign('user_id')
                 ->references('id')
-                ->on('consumers')
+                ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->foreign('order_id')
@@ -38,6 +38,6 @@ class CreateConsumerOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('consumer_orders');
+        Schema::dropIfExists('order_users');
     }
 }

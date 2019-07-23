@@ -24,8 +24,10 @@ class CheckUrlLoginToken
         // } else {
         //     return redirect('/');
         // }
-
-        if (request()->token == env('LOGIN_URL_TOKEN')) {
+        
+        // if (request()->token == env('LOGIN_URL_TOKEN')) {
+            
+        if (request()->token == '123') {
             return $next($request);
         } else {
             return redirect('/');
