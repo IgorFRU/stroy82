@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\ResetPasswordNotification;
 
 class User extends Authenticatable
 {
@@ -33,5 +34,15 @@ class User extends Authenticatable
     
     public function orders() {
         return $this->belongsToMany(Order::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function scopeLast($query, $count)
+    {
+        return $query->orderBy('id', 'desc')->take($count);
     }
 }

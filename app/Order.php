@@ -29,4 +29,14 @@ class Order extends Model
     public function statuschangehistories() {
         return $this->hasMany(Statuschangehistory::class);
     }
+
+    public function scopeUnread($query)
+    {
+        return $query->orderBy('id', 'desc')->where('read_at', '');
+    }
+
+    public function scopeLast($query, $count)
+    {
+        return $query->orderBy('id', 'desc')->take($count);
+    }
 }

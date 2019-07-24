@@ -12,7 +12,7 @@ class AdminLoginController extends Controller
     protected $redirectTo = '/admin';
 
     public function __construct() {
-        $this->middleware('guest:admin')->except('logout');
+        $this->middleware('guest:admin')->except(['logout', 'userLogout', 'adminLogout']);
     }
 
     public function showLoginForm() {
@@ -33,6 +33,16 @@ class AdminLoginController extends Controller
         }
 
         return redirect()->back()->withInput($request->only('email', 'remember'));
+    }
+
+    public function adminLogout()
+    {
+        Auth::guard('admin')->logout();
+
+        // $request->session()->invalidate();
+
+        // return $this->loggedOut($request) ?: redirect('/');
+        return redirect('/');
     }
 
     public function guard() {

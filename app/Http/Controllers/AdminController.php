@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Setting;
+use App\Admin;
+use App\User;
+use App\Order;
+use Auth;
 
 class AdminController extends Controller
 {
@@ -23,7 +28,15 @@ class AdminController extends Controller
      */
     public function index()
     {
-        // return view('home');
-        echo ('is admin');
+        $data = [
+            'settings' => Setting::first(),
+            'one_admin' => Auth::user(),
+            'admins' => Admin::get(),
+            'orders' => Order::unread()->last(5)->get(),
+            'users' => User::last(5)->get(),
+        ];
+        // dd($data['orders']);
+        return view('admin', $data);
+        // echo ('is admin');
     }
 }
