@@ -53,10 +53,10 @@
                                         <input type="text" name="viber" class="form-control" id="viber" value="{{ $settings->viber ?? '' }}">
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-info">Из осн. тел.</button>
+                                        <button type="button" id="phone_1_button" class="btn btn-info">Из осн. тел.</button>
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-info">Из доп. тел.</button>
+                                        <button type="button" id="phone_2_button" class="btn btn-info">Из доп. тел.</button>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -168,4 +168,21 @@
         </div>
     </div>
 </div>
+<script>
+    const phone_1 = document.querySelector('#phone_1').value;
+    const phone_2 = document.querySelector('#phone_2').value;
+    var viber = document.querySelector('#viber');
+    const phone_1_button = document.querySelector('#phone_1_button');
+    const phone_2_button = document.querySelector('#phone_2_button');
+    viber.value = phone_1;
+    console.log(phone_1_button);
+    phone_1_button.addEventListener('click', function() {
+        console.log(phone_1_button);
+        viber.value = phone_1;
+    });
+    phone_2_button.addEventListener('click', ()=>{
+        console.log(phone_1_button);
+        viber.value = phone_2;
+    });
+</script>
 @endsection
