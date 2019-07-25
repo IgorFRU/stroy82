@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        
+        return view('admin.categories.index');
     }
 
     /**
@@ -24,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.create');
     }
 
     /**

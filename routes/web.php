@@ -22,19 +22,19 @@ Auth::routes();
 Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 
 
-Route::group(['prefix' => 'admin'], function(){
-  Route::get('/', 'AdminController@index')->name('admin.index');
-  Route::post('/settings', 'AdminController@settings')->name('admin.settings');
-  Route::get('/login/{token?}', 'Auth\AdminLoginController@showLoginForm')->name('admin.login')->middleware('check.url.login.token');
-  Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
-  Route::get('/logout', 'Auth\AdminLoginController@adminLogout')->name('admin.logout');
+Route::prefix('admin')->name('admin.')->group(function(){
+  Route::get('/', 'AdminController@index')->name('index');
+  Route::post('/settings', 'AdminController@settings')->name('settings');
+  Route::get('/login/{token?}', 'Auth\AdminLoginController@showLoginForm')->name('login')->middleware('check.url.login.token');
+  Route::post('/login', 'Auth\AdminLoginController@login')->name('login.submit');
+  Route::get('/logout', 'Auth\AdminLoginController@adminLogout')->name('logout');
     
-  Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');    
-  Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');    
+  Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('password.email');    
+  Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('password.request');    
   Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset');  
-  Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');    
-
-  // Route::get('/');
+  Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('password.reset');
+  
+  Route::resource('/categories', 'CategoryController');
 });
 
 Route::get('/home', 'UserController@index')->name('home');
