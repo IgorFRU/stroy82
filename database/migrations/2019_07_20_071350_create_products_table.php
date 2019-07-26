@@ -35,7 +35,7 @@ class CreateProductsTable extends Migration
             $table->unsignedDecimal('unit_in_package', 8, 3)->nullable();           // в одной упаковке ед.измерения
             $table->tinyInteger('amount_in_package')->nullable()->unsigned();       // в одной упаковке штук
             $table->unsignedDecimal('price', 8, 2);            
-            $table->integer('views')->default(0)->nullable()->unsigned();
+            $table->integer('views')->default(0)->unsigned();
             $table->timestamps();
 
             $table->foreign('category_id')

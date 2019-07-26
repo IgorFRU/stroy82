@@ -18,8 +18,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        
-        return view('admin.categories.index');
+        $data = array (
+            'categories' => Category::orderBy('id', 'DESC')
+                                    ->paginate(7)
+        );
+
+        return view('admin.categories.index', $data);
     }
 
     /**
@@ -29,7 +33,16 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        $data = array (
+            'category' => [],
+            //коллекция вложенных подкатегорий
+            'categories' => Category::with('children')->where('category_id', '0')->get(),
+            //символ, обозначающий вложенность категорий
+            'delimiter' => ''
+        );
+        // dd($data['categories']);
+        
+        return view('admin.categories.create', $data);
     }
 
     /**
@@ -40,7 +53,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+
+        $category = Category::create($request->all());
+        
+        return redirect()->route('admin.categories.index')
+            ->with('success', 'Категория успешно добавлена.');
     }
 
     /**
@@ -62,7 +80,13 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $data = array (
+            'category' => $category,
+            'categories' => Category::with('children')->where('category_id', '0')->get(),
+            'delimiter' => ''
+        );
+        
+        return view('admin.categories.edit', $data);
     }
 
     /**
@@ -74,7 +98,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category->update($request->except(['alias', 'image']));
+
+        return redirect()->route('admin.categories.index')->with('success', 'Категория успешно Изменена');
     }
 
     /**

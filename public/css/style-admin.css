@@ -1,3 +1,15 @@
 * {
     font-family: 'Cuprum', sans-serif;
 }
+
+.card-img-container {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-img-container img {
+    padding-top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+}
