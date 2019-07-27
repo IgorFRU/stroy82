@@ -12,9 +12,14 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        
+        if (isset($request->category)) {
+            echo 'Товары из категории ' . $request->category;
+        } else {
+            echo 'все товары';
+        }
     }
 
     /**
@@ -81,5 +86,9 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function showInCategory($categoryId) {
+        echo ($categoryId);
     }
 }

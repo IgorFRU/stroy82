@@ -13,3 +13,22 @@
     transform: translateY(-50%);
     position: absolute;
 }
+
+.card-30 {
+    width: 30.33%;
+    margin: 10px 1.5%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.category_edit_img {
+    width: 100%;
+    overflow: hidden;
+}
+
+.category_edit_img img {
+    max-width: 100%;
+    border-radius: 4px;
+}

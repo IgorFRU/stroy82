@@ -5,8 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Schema;
 use App\Category;
+use App\Http\Services\SavingImage;
 use Illuminate\Support\Str;
-use Intervention\Image\ImageManagerStatic;
+use Illuminate\Support\Facades\Storage;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,13 +41,15 @@ class AppServiceProvider extends ServiceProvider
             if($model->image) {
                 $path = public_path().'\imgs\categories\\';
                 $file = $model->image;
-                $base_name = str_random(20);
-                $filename = $base_name .'.' . $file->getClientOriginalExtension() ?: 'png';
-                $img = ImageManagerStatic::make($file);
-                $img->resize(600, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save($path . $filename);
-                $model->image = $filename;
+                $img = new WorkWithImage($file, $path);
+                $model->image = $img->saveImage();
+            }
+        });
+
+        Category::updating(function(Category $model) {
+            dd($model->id);
+            if($model->image) {
+                dd($model);
             }
         });
     }

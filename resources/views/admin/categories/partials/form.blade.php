@@ -1,6 +1,3 @@
-<form action="{{route('admin.categories.store')}}" method="post" enctype="multipart/form-data">
-        @csrf
-
 <div class="row">
     <div class="col-lg-6">
         <div class="row">
@@ -69,9 +66,14 @@
                 <label class="custom-file-label" for="customFile">Выберите файл</label>
             </div>                                    
         </div>
+        @isset($category->image)
+            <div class="category_edit_img">
+                <p>При загрузке нового изображения старое будет удалено!</p>
+                <img src="{{ asset('imgs/categories/')}}/{{ $category->image }}" alt="">
+            </div>            
+        @endisset
     </div>
 </div>
 <div class="row col-md-12 d-flex justify-content-end">
     <button type="submit" class="btn btn-primary">Сохранить</button>
-</div>
-</form>        
+</div>       
