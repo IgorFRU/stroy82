@@ -98,7 +98,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $category->update($request->except(['alias', 'image']));
+        // dd($request);
+        $category->update($request->except('alias'));
 
         return redirect()->route('admin.categories.index')->with('success', 'Категория успешно Изменена');
     }

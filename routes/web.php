@@ -27,7 +27,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::post('/settings', 'AdminController@settings')->name('settings');
   Route::get('/login/{token?}', 'Auth\AdminLoginController@showLoginForm')->name('login')->middleware('check.url.login.token');
   Route::post('/login', 'Auth\AdminLoginController@login')->name('login.submit');
-  Route::get('/logout', 'Auth\AdminLoginController@adminLogout')->name('logout');
+  Route::post('/logout', 'Auth\AdminLoginController@adminLogout')->name('logout');
     
   Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('password.email');    
   Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('password.request');    

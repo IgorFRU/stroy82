@@ -15,9 +15,10 @@ class WorkWithImage
     public function __construct($file, $path) {
         // dd($file);
         $this->file = $file;
+        $this->path = $path;
         $this->randomString = str_random(20);
         $this->filename = $this->randomString .'.' . $file->getClientOriginalExtension() ?: 'png';
-        $this->path = $path;
+        
     }
 
     public function saveImage() {

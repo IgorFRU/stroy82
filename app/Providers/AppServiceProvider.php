@@ -5,9 +5,10 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Schema;
 use App\Category;
-use App\Http\Services\SavingImage;
+use App\Http\Services\WorkWithImage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Filesystem\Filesystem;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191); //NEW: Increase StringLength
 
-        Category::saving(function(Category $model){
+        Category::creating(function(Category $model){
             $model->slug = Str::slug(mb_substr($model->category, 0, 60) . "-", "-");
             $double = Category::where('slug', $model->slug)->first();
             if ($double) {
@@ -39,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
             }
 
             if($model->image) {
+                // dd($model);
                 $path = public_path().'\imgs\categories\\';
                 $file = $model->image;
                 $img = new WorkWithImage($file, $path);
@@ -47,9 +49,14 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Category::updating(function(Category $model) {
-            dd($model->id);
             if($model->image) {
-                dd($model);
+                $old_image = Category::select('image')->find($model->id);
+                $file = new Filesystem;
+                $file->delete(public_path().'\imgs\categories\\' . $old_image->image);
+                $path = public_path().'\imgs\categories\\';
+                $file = $model->image;
+                $img = new WorkWithImage($file, $path);
+                $model->image = $img->saveImage();
             }
         });
     }
