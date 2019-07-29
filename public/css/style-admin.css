@@ -21,6 +21,22 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     overflow: hidden;
+    position: relative;
+}
+
+.card-30 .card_buttons {
+    position: absolute;
+    top: 16px;
+    display: none;
+    width: 80%;
+}
+
+.card-30:hover .card_buttons {
+    display: flex;
+}
+
+.card-30:hover .card_buttons a {
+    margin-right: 10px;
 }
 
 .category_edit_img {
@@ -31,4 +47,19 @@
 .category_edit_img img {
     max-width: 100%;
     border-radius: 4px;
+}
+
+.edit_form {
+    margin-bottom: 50px;
+}
+
+.edit_form_bottom_menu {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #343a40;
+    left: 0;
+    padding: 10px;
+    padding-bottom: 0;
+    margin-bottom: -4px;
 }

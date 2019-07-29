@@ -112,6 +112,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        unlink(public_path('imgs/categories/'.$category->image));
+        $category->delete();
+
+        return redirect()->route('admin.categories.index')->with('success', 'Категория успешно удалена');
     }
 }

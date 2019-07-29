@@ -50,13 +50,18 @@ class AppServiceProvider extends ServiceProvider
 
         Category::updating(function(Category $model) {
             if($model->image) {
+                // dd($model->image);
                 $old_image = Category::select('image')->find($model->id);
-                $file = new Filesystem;
-                $file->delete(public_path().'\imgs\categories\\' . $old_image->image);
-                $path = public_path().'\imgs\categories\\';
-                $file = $model->image;
-                $img = new WorkWithImage($file, $path);
-                $model->image = $img->saveImage();
+                // dd($old_image->image);
+                if($model->image != $old_image->image) {
+                    $file = new Filesystem;
+                    $file->delete(public_path().'\imgs\categories\\' . $old_image->image);
+                    $path = public_path().'\imgs\categories\\';
+                    $file = $model->image;
+                    $img = new WorkWithImage($file, $path);
+                    $model->image = $img->saveImage();
+                }
+                
             }
         });
     }

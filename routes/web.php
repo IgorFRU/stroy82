@@ -35,6 +35,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('password.reset');
   
   Route::resource('/categories', 'CategoryController');
+  Route::resource('/manufactures', 'ManufactureController');
   Route::resource('/products', 'ProductController');
   // Route::get('/products', 'ProductController');
 });

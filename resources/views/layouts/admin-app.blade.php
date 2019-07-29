@@ -51,7 +51,8 @@
                                     <i class="fas fa-industry"></i>  Производители
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Новый производитель</a>
+                                <a class="dropdown-item" href="{{ route('admin.manufactures.index') }}">Все производители</a>
+                                <a class="dropdown-item" href="{{ route('admin.manufactures.create') }}">Новый производитель</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

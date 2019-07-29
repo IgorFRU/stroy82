@@ -29,18 +29,18 @@
                                         <p class="card-text">родит.кат.: <a href="{{ route('admin.categories.edit', ['id' => $category->parents->id]) ?? '' }}" class="badge badge-light">{{ $category->parents->category }}</a></p>
                                     @endisset
                                     <p class="card-text">{{ $category->description }}</p>
-                                    <hr>
-                                    <span>товаров в категории: </span>{{ $category->products->count() }}
-                                    <hr>
-                                    <div class="d-flex justify-content-between">
-                                        <a href="{{ route('admin.categories.edit', ['id' => $category->id]) }}" class="btn btn-warning col-sm-6">Редактировать</a>
-                                        <div class="input-group col-sm-6">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1"><i class="fas fa-eye"></i></span>
-                                            </div>
-                                            <input type="text" class="form-control" disabled value="{{ $category->views }}">
-                                        </div>
-                                    </div>                                    
+                                    <span>товаров в категории: </span>{{ $category->products->count() }} | <span>просмотров: {{ $category->views }}</span>
+                                    
+                                    <div class="card_buttons">
+                                        <a href="{{ route('admin.categories.edit', ['id' => $category->id]) }}" class="btn btn-warning"><i class="fas fa-pen"></i>  Редактировать</a>
+                                        
+                                            
+                                            <form onsubmit="if(confirm('Удалить?')) {return true} else {return false}" action="{{route('admin.categories.destroy', $category)}}" method="post">
+                                                @csrf                         
+                                                 <input type="hidden" name="_method" value="delete">                         
+                                                 <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i>  Удалить</button>                                                 
+                                             </form>
+                                    </div>                                   
                                 </div>
                             </div>
                             

@@ -23,7 +23,7 @@ class Manufacture extends Model
     }
 
     public function setSlugAttribute($value) {
-        $this->attributes['slug'] = Str::slug(mb_substr($this->product_name, 0, 60) . "-", "-");
+        $this->attributes['slug'] = Str::slug(mb_substr($this->manufacture, 0, 60) . "-", "-");
         $double = Manufacture::where('slug', $this->attributes['slug'])->first();
 
         if ($double) {

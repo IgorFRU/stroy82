@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class ManufactureController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,11 @@ class ManufactureController extends Controller
      */
     public function index()
     {
-        //
+        $data = array (
+            'manufactures' => Manufacture::orderBy('id', 'DESC')
+        );
+
+        return view('admin.manufactures.index', $data);
     }
 
     /**
@@ -24,7 +32,12 @@ class ManufactureController extends Controller
      */
     public function create()
     {
-        //
+        $data = array (
+            'manufacture' => [],
+        );
+        // dd($data['categories']);
+        
+        return view('admin.manufactures.create', $data);
     }
 
     /**
@@ -35,7 +48,9 @@ class ManufactureController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $manufacture = Manufacture::create($request->all());
+        
+        return redirect()->route('admin.manufactures.index');
     }
 
     /**
@@ -57,7 +72,11 @@ class ManufactureController extends Controller
      */
     public function edit(Manufacture $manufacture)
     {
-        //
+        $data = array (
+            'manufacture' => $manufacture
+        );
+        
+        return view('admin.manufactures.edit', $data);
     }
 
     /**
@@ -69,7 +88,9 @@ class ManufactureController extends Controller
      */
     public function update(Request $request, Manufacture $manufacture)
     {
-        //
+        $manufacture->update($request->except('alias'));
+
+        return redirect()->route('admin.manufactures.index');
     }
 
     /**
@@ -80,6 +101,8 @@ class ManufactureController extends Controller
      */
     public function destroy(Manufacture $manufacture)
     {
-        //
+        unlink(public_path('imgs/manufactures/'.$manufacture->image));
+        $manufacture->delete();
+        return redirect()->route('admin.manufactures.index');
     }
 }
