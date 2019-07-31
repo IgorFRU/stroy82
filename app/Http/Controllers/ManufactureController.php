@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Manufacture;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ManufactureController extends Controller
 {
@@ -19,9 +20,8 @@ class ManufactureController extends Controller
     public function index()
     {
         $data = array (
-            'manufactures' => Manufacture::orderBy('id', 'DESC')
+            'manufactures' => Manufacture::orderBy('id', 'DESC')->get(),
         );
-
         return view('admin.manufactures.index', $data);
     }
 
@@ -48,6 +48,7 @@ class ManufactureController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $manufacture = Manufacture::create($request->all());
         
         return redirect()->route('admin.manufactures.index');

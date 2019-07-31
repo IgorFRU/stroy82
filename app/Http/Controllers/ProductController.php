@@ -17,6 +17,8 @@ class ProductController extends Controller
         
         if (isset($request->category)) {
             echo 'Товары из категории ' . $request->category;
+        } elseif (isset($request->manufacture)) {
+            echo 'Товары производителя ' . $request->manufacture;
         } else {
             echo 'все товары';
         }

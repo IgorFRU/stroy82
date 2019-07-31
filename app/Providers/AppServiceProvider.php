@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Schema;
 use App\Category;
+use App\Manufacture;
 use App\Http\Services\WorkWithImage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -64,5 +65,32 @@ class AppServiceProvider extends ServiceProvider
                 
             }
         });
+
+        // Manufacture::creating(function(Manufacture $model){
+        //     if($model->image) {
+        //         // dd($model);
+        //         $path = public_path().'\imgs\manufactures\\';
+        //         $file = $model->image;
+        //         $img = new WorkWithImage($file, $path);
+        //         $model->image = $img->saveImage();
+        //     }
+        // });
+
+        // Manufacture::updating(function(Manufacture $model) {
+        //     if($model->image) {
+        //         // dd($model->image);
+        //         $old_image = Manufacture::select('image')->find($model->id);
+        //         // dd($old_image->image);
+        //         if($model->image != $old_image->image) {
+        //             $file = new Filesystem;
+        //             $file->delete(public_path().'\imgs\manufactures\\' . $old_image->image);
+        //             $path = public_path().'\imgs\manufactures\\';
+        //             $file = $model->image;
+        //             $img = new WorkWithImage($file, $path);
+        //             $model->image = $img->saveImage();
+        //         }
+                
+        //     }
+        // });
     }
 }

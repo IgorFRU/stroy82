@@ -22,7 +22,7 @@
                                     " class="card-img-top img-fluid">
                                 </div>                                
                                 <div class="card-body">
-                                    <a href="{{ route('admin.products.index', ['category' => $manufacture->id]) }}">
+                                    <a href="{{ route('admin.products.index', ['manufacture' => $manufacture->id]) }}">
                                         <h5 class="card-title">{{ $manufacture->manufacture }}</h5>
                                     </a>
                                     <p class="card-text">страна: {{ $manufacture->country ?? '' }}</p>
