@@ -63,7 +63,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">slug</span>
                 </div>
-                <input type="text" class="form-control" name="slug" readonly aria-label="Username" aria-describedby="basic-addon1" value="{{ $manufacture->slug ?? '0' }}">
+                <input type="text" class="form-control" name="slug" readonly aria-label="Username" aria-describedby="basic-addon1" value="{{ $manufacture->slug ?? '' }}">
             </div>
             <div class="mb-3 col-md-2">
                     <button type="submit" class="btn btn-primary">Сохранить</button>

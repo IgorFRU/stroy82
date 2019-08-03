@@ -177,7 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        App\Http\Services\WorkWithImage::class,
+        // App\Http\Services\WorkWithImage::class,
 
     ],
 

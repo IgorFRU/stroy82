@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Unit;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UnitController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,10 @@ class UnitController extends Controller
      */
     public function index()
     {
-        //
+        $data = array (
+            'units' => Unit::orderBy('unit', 'ASC')->get(),
+        );
+        return view('admin.units.index', $data);
     }
 
     /**
@@ -24,7 +32,12 @@ class UnitController extends Controller
      */
     public function create()
     {
-        //
+        $data = array (
+            'unit' => [],
+        );
+        // dd($data['categories']);
+        
+        return view('admin.units.create', $data);
     }
 
     /**
@@ -35,7 +48,9 @@ class UnitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $manufacture = Unit::create($request->all());
+        
+        return redirect()->route('admin.units.index');
     }
 
     /**
@@ -57,7 +72,11 @@ class UnitController extends Controller
      */
     public function edit(Unit $unit)
     {
-        //
+        $data = array (
+            'unit' => $unit
+        );
+        
+        return view('admin.units.edit', $data);
     }
 
     /**
@@ -69,7 +88,9 @@ class UnitController extends Controller
      */
     public function update(Request $request, Unit $unit)
     {
-        //
+        $unit->update($request->all());
+
+        return redirect()->route('admin.units.index');
     }
 
     /**
@@ -80,6 +101,7 @@ class UnitController extends Controller
      */
     public function destroy(Unit $unit)
     {
-        //
+        $unit->delete();
+        return redirect()->route('admin.units.index');
     }
 }

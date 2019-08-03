@@ -35,8 +35,16 @@ class AdminController extends Controller
             'orders' => Order::unread()->last(5)->get(),
             'users' => User::last(5)->get(),
         ];
-        // dd($data['orders']);
+        // dd($data['settings']);
         return view('admin', $data);
         // echo ('is admin');
+    }
+
+    public function settings(Request $request) {
+        // dd($request);
+        $settings = Setting::first();
+        $settings->update($request->all());
+
+        return redirect()->route('admin.index');
     }
 }

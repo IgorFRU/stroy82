@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Manufacture;
+use App\Vendor;
 use Illuminate\Http\Request;
 
-class ManufactureController extends Controller
+class VendorController extends Controller
 {
     public function __construct()
     {
@@ -19,9 +19,9 @@ class ManufactureController extends Controller
     public function index()
     {
         $data = array (
-            'manufactures' => Manufacture::orderBy('id', 'DESC')->get(),
+            'vendors' => Vendor::orderBy('vendor', 'ASC')->get(),
         );
-        return view('admin.manufactures.index', $data);
+        return view('admin.vendors.index', $data);
     }
 
     /**
@@ -32,11 +32,11 @@ class ManufactureController extends Controller
     public function create()
     {
         $data = array (
-            'manufacture' => [],
+            'vendor' => [],
         );
         // dd($data['categories']);
         
-        return view('admin.manufactures.create', $data);
+        return view('admin.vendors.create', $data);
     }
 
     /**
@@ -47,19 +47,18 @@ class ManufactureController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $manufacture = Manufacture::create($request->all());
+        $vendor = Vendor::create($request->all());
         
-        return redirect()->route('admin.manufactures.index');
+        return redirect()->route('admin.vendors.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Manufacture  $manufacture
+     * @param  \App\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function show(Manufacture $manufacture)
+    public function show(Vendor $vendor)
     {
         //
     }
@@ -67,44 +66,42 @@ class ManufactureController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Manufacture  $manufacture
+     * @param  \App\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Manufacture $manufacture)
+    public function edit(Vendor $vendor)
     {
         $data = array (
-            'manufacture' => $manufacture
+            'vendor' => $vendor
         );
         
-        return view('admin.manufactures.edit', $data);
+        return view('admin.vendors.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Manufacture  $manufacture
+     * @param  \App\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Manufacture $manufacture)
+    public function update(Request $request, Vendor $vendor)
     {
-        $manufacture->update($request->except('alias'));
+        // dd($vendor);
+        $vendor->update($request->all());
 
-        return redirect()->route('admin.manufactures.index');
+        return redirect()->route('admin.vendors.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Manufacture  $manufacture
+     * @param  \App\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Manufacture $manufacture)
+    public function destroy(Vendor $vendor)
     {
-        if ($manufacture->image) {
-            unlink(public_path('imgs/manufactures/'.$manufacture->image));
-        }        
-        $manufacture->delete();
-        return redirect()->route('admin.manufactures.index');
+        $vendor->delete();
+        return redirect()->route('admin.vendors.index');
     }
 }

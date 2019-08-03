@@ -68,6 +68,7 @@
                                     <i class="fas fa-archive"></i>  Товары
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Все товары</a>
                                 <a class="dropdown-item" href="#">Новый товар</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Популярные</a>
@@ -93,10 +94,12 @@
                                     <i class="fas fa-ellipsis-h"></i>
                             </span>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#"><i class="fas fa-store-alt"></i>  Поставщики</a>
+                                <a class="dropdown-item" href="{{ route('admin.vendors.index') }}"><i class="fas fa-store-alt"></i>  Поставщики</a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-images"></i>  Баннеры</a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-percentage"></i>  Акции</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-percentage"></i>  Скидки</a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-newspaper"></i>  Статьи</a>
+                                <a class="dropdown-item" href="{{ route('admin.units.index') }}"><i class="fas fa-tape"></i>  Ед. измерения</a>
                             </div>
                         </li>
                         <li class="nav-item">
