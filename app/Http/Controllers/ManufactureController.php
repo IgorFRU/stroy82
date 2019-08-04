@@ -48,7 +48,7 @@ class ManufactureController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $manufacture = Manufacture::create($request->all());
         
         return redirect()->route('admin.manufactures.index');
