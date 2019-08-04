@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class DiscountController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,10 @@ class DiscountController extends Controller
      */
     public function index()
     {
-        //
+        $data = array (
+            'discounts' => Discount::orderBy('id', 'DESC')->get(),
+        );
+        return view('admin.discounts.index', $data);
     }
 
     /**
@@ -24,7 +31,11 @@ class DiscountController extends Controller
      */
     public function create()
     {
-        //
+        $data = array (
+            'discount' => [],
+        );
+        
+        return view('admin.discounts.create', $data);
     }
 
     /**
@@ -35,7 +46,9 @@ class DiscountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $discount = Discount::create($request->all());
+        
+        return redirect()->route('admin.discounts.index');
     }
 
     /**
@@ -57,7 +70,11 @@ class DiscountController extends Controller
      */
     public function edit(Discount $discount)
     {
-        //
+        $data = array (
+            'discount' => $discount
+        );
+        
+        return view('admin.discounts.edit', $data);
     }
 
     /**
@@ -69,7 +86,9 @@ class DiscountController extends Controller
      */
     public function update(Request $request, Discount $discount)
     {
-        //
+        $discount->update($request->except('alias'));
+
+        return redirect()->route('admin.discounts.index');
     }
 
     /**
@@ -80,6 +99,7 @@ class DiscountController extends Controller
      */
     public function destroy(Discount $discount)
     {
-        //
+        $discount->delete();
+        return redirect()->route('admin.discounts.index');
     }
 }

@@ -18,8 +18,8 @@ class Discount extends Model
     ];
     
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'phone_verified_at' => 'datetime',
+        'discount_start' => 'datetime',
+        'discount_end' => 'datetime',
     ];
 
     public function products() {

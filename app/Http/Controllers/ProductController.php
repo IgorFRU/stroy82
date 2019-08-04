@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Category;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +25,12 @@ class ProductController extends Controller
         } elseif (isset($request->manufacture)) {
             echo 'Товары производителя ' . $request->manufacture;
         } else {
-            echo 'все товары';
+            $data = array (
+                'products' => Product::orderBy('id', 'DESC')->get(),
+                'categories' => Category::orderBy('id', 'DESC')->get(),
+            );
+    
+            return view('admin.products.index', $data);
         }
     }
 

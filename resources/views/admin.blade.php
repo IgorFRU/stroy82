@@ -16,7 +16,7 @@
                     
                     <div class="row">
                         <div class="col-md-5">
-                            <form method="POST" action="{{ route('admin.settings', ['id' => $settings->id]) }}">         
+                            <form method="POST" action="{{ route('admin.settings') }}">         
                             {{-- <form method="POST" action="admin/settings/{{ $settings->id }}">     --}}
                                 @php
                                     // dd($settings->id)
