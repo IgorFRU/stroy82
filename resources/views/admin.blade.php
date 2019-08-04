@@ -16,7 +16,14 @@
                     
                     <div class="row">
                         <div class="col-md-5">
-                            <form method="POST" action="{{ route('admin.settings') }}">                            
+                            <form method="POST" action="{{ route('admin.settings', ['id' => $settings->id]) }}">         
+                            {{-- <form method="POST" action="admin/settings/{{ $settings->id }}">     --}}
+                                @php
+                                    // dd($settings->id)
+                                @endphp     
+                                @csrf
+                                {{-- <input type="hidden" name="_method" value="put">                    --}}
+                                <input type="hidden" name="id" value="{{ $settings->id }}">                   
                                 <div class="form-group row">
                                     <label for="site_name" class="col-sm-4 col-form-label">Название сайта</label>
                                     <div class="col-md-8">

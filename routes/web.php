@@ -11,20 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-  return view('welcome');
-});
+Route::get('/', 'MainController@index');
 
-// Route::get('/admin/login/{token?}', 'Auth\LoginController@showLoginForm')->name('auth.login')->middleware('check.url.login.token');
-// Route::post('/admin/login', 'Auth\LoginController@login')->name('admin.login.post');
-// Route::get('/admin/logout', 'Auth\LoginController@logout')->name('auth.logout');
-Auth::routes();
-Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 
 
 Route::prefix('admin')->name('admin.')->group(function(){
   Route::get('/', 'AdminController@index')->name('index');
-  Route::post('/settings', 'AdminController@settings')->name('settings');
+  Route::put('/settings', 'AdminController@settings')->name('settings');
   Route::get('/login/{token?}', 'Auth\AdminLoginController@showLoginForm')->name('login')->middleware('check.url.login.token');
   Route::post('/login', 'Auth\AdminLoginController@login')->name('login.submit');
   Route::post('/logout', 'Auth\AdminLoginController@adminLogout')->name('logout');
@@ -37,7 +30,11 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::resource('/categories', 'CategoryController');
   Route::resource('/manufactures', 'ManufactureController');
   Route::resource('/products', 'ProductController');
-  // Route::get('/products', 'ProductController');
+  Route::resource('/units', 'UnitController');
+  Route::resource('/vendors', 'VendorController');
 });
 
 Route::get('/home', 'UserController@index')->name('home');
+
+Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout');
+Auth::routes();

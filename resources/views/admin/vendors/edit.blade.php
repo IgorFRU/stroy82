@@ -5,15 +5,15 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card edit_form">
-                <div class="card-header"><p class="h3">Редактирование производителя 
-                    <button type="button" class="btn btn-primary">{{ $manufacture->manufacture }}</button></p>
+                <div class="card-header"><p class="h3">Редактирование поставщика 
+                    <button type="button" class="btn btn-primary">{{ $vendor->vendor }}</button></p>
                 </div>
                 <div class="card-body">
                         {{-- Forme include --}}
-                    <form action="{{route('admin.manufactures.update', ['id' => $manufacture->id])}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.vendors.update', ['id' => $vendor->id])}}" method="post">
                         @csrf
                         <input type="hidden" name="_method" value="put">
-                        @include('admin.manufactures.partials.form')
+                        @include('admin.vendors.partials.form')
                     
                     </form>                    
                 </div>

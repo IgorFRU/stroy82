@@ -19,7 +19,7 @@ class CreateManufacturesTable extends Migration
             $table->string('slug');
             $table->string('country')->nullable();
             $table->string('image')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
         });

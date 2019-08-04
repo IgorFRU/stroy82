@@ -16,25 +16,14 @@ class CreateVendorsTable extends Migration
         Schema::create('vendors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('vendor');
+            $table->string('delivery_time')->nullable();
             $table->string('address')->nullable();
             $table->string('site')->nullable();
-            $table->string('description')->nullable();
-            $table->bigInteger('email_id')->nullable()->unsigned()->unique();
-            $table->bigInteger('phone_id')->nullable()->unsigned()->unique();
+            $table->text('description')->nullable();
+            $table->string('email')->nullable()->unique();
+            $table->string('phone')->nullable()->unique();
             $table->integer('price_name')->nullable();
             $table->timestamps();
-
-            $table->foreign('email_id')
-                ->references('id')
-                ->on('emails')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
-
-            $table->foreign('phone_id')
-                ->references('id')
-                ->on('phones')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
         });
     }
 

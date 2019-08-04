@@ -17,7 +17,7 @@ class CreateSetsTable extends Migration
             $table->bigIncrements('id');
             $table->string('set');
             $table->string('image');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
         });
