@@ -6,7 +6,9 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <p class="h3">Товары</p>
+                    <p class="h3">Товары @isset($parent_category)
+                        из категории "{{ $parent_category }}"
+                    @endisset</p>
                     <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Новый товар</a>                
                 </div>
                 <div class="col-md-12">
@@ -21,7 +23,7 @@
                             <th scope="col">Наличие</th>
                             <th scope="col">Срок доставки</th>
                             <th scope="col">Оплата онлайн</th>
-                            <th scope="col" class="col-md-1"></th>
+                            <th scope="col"></th>
                             {{-- <th scope="col">Описание</th> --}}
                             </tr>
                         </thead>

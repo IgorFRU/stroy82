@@ -20,23 +20,23 @@
                             <th scope="col">Начало</th>
                             <th scope="col">Окончание</th>
                             <th scope="col">Товаров</th>
-                            <th scope="col">Описание</th>
-                            <th scope="col" class="col-md-1"></th>
+                            {{-- <th scope="col">Описание</th> --}}
+                            <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                         @php
-                            $count = 1
+                            $count = 1;
                         @endphp   
                         @forelse ($discounts as $discount)
                         <tr>
                             <th scope="row">{{ $count++ }}</th>
                             <td>{{ $discount->discount }}</td>
-                            <td>{{ $discount->value }} {{ $discount->type }}</td>
-                            <td>{{ $discount->discount_start }}</td>
-                            <td>{{ $discount->discount_end }}</td>
+                            <td>{{ $discount->value }} @if ($discount->type === 'rub') руб. @else % @endif </td>
+                            <td>{{ Carbon\Carbon::parse($discount->discount_start)->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM') }}</td>
+                            <td>{{ Carbon\Carbon::parse($discount->discount_end)->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM') }}</td>
                             <td> </td>
-                            <td>{{ $discount->description }}</td>
+                            {{-- <td>{{ mb_substr($discount->description, 0, 10) }}{{ strlen ($discount->description ) > 10 ? "..." : "" }}</td> --}}
                             <td>
                                 <div class="row">                                
                                     <a href="{{ route('admin.discounts.edit', ['id' => $discount->id]) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>

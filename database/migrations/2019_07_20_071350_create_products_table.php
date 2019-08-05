@@ -25,6 +25,11 @@ class CreateProductsTable extends Migration
             $table->bigInteger('vendor_id')->nullable()->unsigned();
             $table->bigInteger('unit_id')->nullable()->unsigned();
             $table->bigInteger('discount_id')->nullable()->unsigned();
+            $table->unsignedDecimal('size_l', 8, 3)->nullable(); //длина 
+            $table->unsignedDecimal('size_w', 8, 3)->nullable(); //ширина 
+            $table->unsignedDecimal('size_t', 8, 3)->nullable(); //толщина 
+            $table->enum('size_type', ['mm', 'cm', 'm'])->nullable();
+            $table->unsignedDecimal('mass', 8, 3)->nullable(); //масса 
             $table->string('short_description')->nullable();
             $table->text('description')->nullable();
             $table->string('delivery_time')->nullable();

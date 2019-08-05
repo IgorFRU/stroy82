@@ -1,56 +1,60 @@
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         
         <div class="form-group row">
-            <label for="manufacture" class="col-sm-4 col-form-label">Название производителя</label>
-            <div class="col-md-8">
-                <input type="text" name="manufacture" class="form-control" id="category" value="{{ $manufacture->manufacture ?? '' }}">
+            <label for="discount" class="col-sm-3 col-form-label">Название акции</label>
+            <div class="col-md-9">
+                <input type="text" name="discount" class="form-control" id="discount" value="{{ $discount->discount ?? '' }}">
             </div>                                    
         </div>
         <div class="form-group row">
-            <label for="description" class="col-sm-4 col-form-label">Описание производителя</label>
-            <div class="col-md-8">
-                    <textarea class="form-control" name="description" id="description" rows="6">{{ $manufacture->description ?? '' }}</textarea>
+            <label for="description" class="col-sm-3 col-form-label">Описание акции</label>
+            <div class="col-md-9">
+                    <textarea class="form-control" name="description" id="description" rows="6">{{ $discount->description ?? '' }}</textarea>
             </div>
         </div>
-        <hr>
-        <div class="form-group row">
-            <label for="meta_description" class="col-sm-4 col-form-label">Дополнительное писание (для поисковых машин)</label>
-            <div class="col-md-8">
-                    <textarea class="form-control" name="meta_description" id="exampleFormControlTextarea1" rows="4">{{ $manufacture->meta_description ?? '' }}</textarea>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="meta_keywords" class="col-sm-4 col-form-label">Ключевые слова (для поисковых машин)</label>
-            <div class="col-md-8">
-                    <textarea class="form-control" name="meta_keywords" id="meta_keywords" rows="2">{{ $manufacture->meta_keywords ?? '' }}</textarea>
-            </div>                                    
-        </div>
-        
     </div>
-    <div class="col-lg-6">            
+    <div class="col-lg-4">            
         <div class="form-group row">
-            <label for="country" class="col-sm-4 col-form-label">Страна</label>
-            <div class="col-md-8">
-                <input type="text" name="country" class="form-control" id="category" value="{{ $manufacture->country ?? '' }}">
-            </div>                                    
-        </div>
+            <label for="value" class="col-sm-3 col-form-label">Скидка</label>
+            <div class="col-md-5">
+                <input type="text" name="value" class="form-control" id="value" value="{{ $discount->value ?? '' }}">
+            </div>       
+            <div class="col-md-4">
+                <select class="form-control" name="type" id="">
+                    <option value="%" @if ($discount->type === '%') selected @endif >%</option>
+                    <option value="rub" @if ($discount->type === 'rub') selected @endif >Руб.</option>
+                </select>
+            </div>                              
+        </div>  
+        <hr>  
+        <p>Сроки действия акции</p>       
         <div class="form-group row">
-            <label for="image" class="col-sm-4 col-form-label">Изображение</label>
-            <div class="custom-file col-md-7">
-                <input type="file" class="custom-file-input" id="customFile" name="image">
-                <label class="custom-file-label" for="customFile">Выберите файл</label>
-            </div>                                    
-        </div>
-        @isset($manufacture->image)
-            <div class="category_edit_img">
-                <div class="p-3 mb-2 bg-danger text-white rounded">При загрузке нового изображения старое будет удалено навсегда!</div>
-                <img src="{{ asset('imgs/manufactures/')}}/{{ $manufacture->image }}" alt="">
-            </div>            
-        @endisset
+            <label for="value" class="col-sm-3 col-form-label">Начало</label>
+            <div class="col-md-9">
+                <input type="date" class="form-control" id="discount_start" name="discount_start"
+                @isset($discount->discount_start)
+                value="{{ Carbon\Carbon::parse($discount->discount_start)->format('Y-m-d')}}"
+                @endisset
+                required>
+            </div>                            
+        </div>             
+        <div class="form-group row">
+            <label for="value" class="col-sm-3 col-form-label">Конец</label>
+            <div class="col-md-9">
+                <input type="date" class="form-control" id="discount_end" name="discount_end" 
+                @isset($discount->discount_end)
+                value="{{ Carbon\Carbon::parse($discount->discount_end)->format('Y-m-d')}}"
+                @endisset
+                 required>
+            </div>                            
+        </div>       
     </div>
 </div>
-   
+
+   @php
+    //    dd(Carbon\Carbon::parse($discount->discount_end)->format('d-m-Y'))
+   @endphp
 <div class="edit_form_bottom_menu">
     <div class="row align-middle">        
             <div class="input-group mb-3 col-md-1">

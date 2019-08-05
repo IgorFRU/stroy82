@@ -10,7 +10,7 @@
         <div class="form-group row">
             <label for="description" class="col-sm-4 col-form-label">Описание категории</label>
             <div class="col-md-8">
-                    <textarea class="form-control" name="description" id="description" rows="6">{{ $category->description ?? '' }}</textarea>
+                    <textarea class="form-control" name="description" id="description" rows="16">{{ $category->description ?? '' }}</textarea>
             </div>
         </div>
         <hr>

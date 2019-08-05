@@ -28,7 +28,7 @@
                                     @isset($category->parents)
                                         <p class="card-text">родит.кат.: <a href="{{ route('admin.categories.edit', ['id' => $category->parents->id]) ?? '' }}" class="badge badge-light">{{ $category->parents->category }}</a></p>
                                     @endisset
-                                    <p class="card-text">{{ $category->description }}</p>
+                                    <p class="card-text">{{ mb_substr(strip_tags($category->description), 0, 50) }}{{ strlen ($category->description ) > 50 ? "..." : "" }}</p>
                                     <span>товаров в категории: </span>{{ $category->products->count() }} | <span>просмотров: {{ $category->views }}</span>
                                     
                                     <div class="card_buttons">
