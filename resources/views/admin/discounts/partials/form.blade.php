@@ -22,8 +22,8 @@
             </div>       
             <div class="col-md-4">
                 <select class="form-control" name="type" id="">
-                    <option value="%" @if ($discount->type === '%') selected @endif >%</option>
-                    <option value="rub" @if ($discount->type === 'rub') selected @endif >Руб.</option>
+                    <option value="%" @if (isset($discount->type) && $discount->type === '%') selected @endif >%</option>
+                    <option value="rub" @if (isset($discount->type) && $discount->type === 'rub') selected @endif >Руб.</option>
                 </select>
             </div>                              
         </div>  

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Discount;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class DiscountController extends Controller
 {
@@ -18,9 +19,25 @@ class DiscountController extends Controller
      */
     public function index()
     {
+        $today = Carbon::now();
         $data = array (
-            'discounts' => Discount::orderBy('id', 'DESC')->get(),
+            'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
+            'today' => $today,
+            'actually' => true,
         );
+
+        return view('admin.discounts.index', $data);
+    }
+
+    public function archive()
+    {
+        $today = Carbon::now();
+        $data = array (
+            'discounts' => Discount::where('discount_end', '<', $today)->orderBy('discount_start', 'DESC')->get(),
+            'today' => $today,
+            'actually' => false,
+        );
+
         return view('admin.discounts.index', $data);
     }
 

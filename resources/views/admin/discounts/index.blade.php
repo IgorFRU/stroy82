@@ -7,11 +7,20 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <p class="h3">Акции</p>
-                    <a href="{{ route('admin.discounts.create') }}" class="btn btn-primary">Новая акция</a>                
+                    <div>
+                        <a href="{{ route('admin.discounts.create') }}" class="btn btn-primary">Новая акция</a>  
+                        @if ($actually)
+                            <a href="{{ route('admin.discounts.archive') }}" class="btn btn-secondary">Архив акций</a>
+                        @else
+                            <a href="{{ route('admin.discounts.index') }}" class="btn btn-success">Актуальные акции</a>
+                        @endif
+                        
+                    </div>
+                                  
                 </div>
                 <div class="col-md-12">
                     
-                    <table class="table table-striped">
+                    <table class="table">
                         <thead>
                             <tr>
                             <th scope="col">#</th>
@@ -29,8 +38,18 @@
                             $count = 1;
                         @endphp   
                         @forelse ($discounts as $discount)
-                        <tr>
-                            <th scope="row">{{ $count++ }}</th>
+                        <tr 
+                            @if ($today->between(Carbon\Carbon::parse($discount->discount_start),
+                                                 Carbon\Carbon::parse($discount->discount_end)))
+                                class="table-success"
+                            @elseif ($today->greaterThan(Carbon\Carbon::parse($discount->discount_start)->toDateString()))
+                                class="table-secondary"
+                            @else
+                                class="table-warning"
+                            @endif
+                        >
+                            <th scope="row">{{ $count++ }}
+                            </th>
                             <td>{{ $discount->discount }}</td>
                             <td>{{ $discount->value }} @if ($discount->type === 'rub') руб. @else % @endif </td>
                             <td>{{ Carbon\Carbon::parse($discount->discount_start)->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM') }}</td>

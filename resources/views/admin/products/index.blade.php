@@ -36,7 +36,7 @@
                             <th scope="row">{{ $count++ }}</th>
                             <td>{{ $product->product }}</td>
                             <td>{{ $product->price }}</td>
-                            <td>{{ $product->category->category }}</td>
+                            {{-- <td>{{ $product->categories->category }}</td> --}}
                             <td>{{ $product->quantity }}</td>
                             <td>{{ $product->delivery_time }}</td>
                             <td>{{ $product->pay_online }}</td>

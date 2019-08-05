@@ -17,7 +17,7 @@ Route::get('/', 'MainController@index');
 
 Route::prefix('admin')->name('admin.')->group(function(){
   Route::get('/', 'AdminController@index')->name('index');
-  Route::post('/settings', 'AdminController@settings')->name('settings');
+  Route::post('/settings/{id}', 'AdminController@settings')->name('settings');
   Route::get('/login/{token?}', 'Auth\AdminLoginController@showLoginForm')->name('login')->middleware('check.url.login.token');
   Route::post('/login', 'Auth\AdminLoginController@login')->name('login.submit');
   Route::post('/logout', 'Auth\AdminLoginController@adminLogout')->name('logout');
@@ -32,6 +32,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::resource('/products', 'ProductController');
   Route::resource('/units', 'UnitController');
   Route::resource('/vendors', 'VendorController');
+  Route::get('/discounts/archive', 'DiscountController@archive')->name('discounts.archive');
   Route::resource('/discounts', 'DiscountController');
 });
 

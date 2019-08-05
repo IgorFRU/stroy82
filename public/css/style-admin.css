@@ -62,6 +62,7 @@
     padding: 10px;
     padding-bottom: 0;
     margin-bottom: -4px;
+    z-index: 10;
 }
 
 .tab_item {

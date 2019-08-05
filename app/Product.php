@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -54,7 +55,7 @@ class Product extends Model
     }
 
     public function setSlugAttribute($value) {
-        $this->attributes['slug'] = Str::slug(mb_substr($this->product_name, 0, 60) . "-", "-");
+        $this->attributes['slug'] = Str::slug(mb_substr($this->product, 0, 60), "-");
         $this->attributes['slug'] .= '-' . $this->attributes['scu'];
         $double = Product::where('slug', $this->attributes['slug'])->first();
 

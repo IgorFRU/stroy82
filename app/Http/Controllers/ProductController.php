@@ -7,7 +7,9 @@ use App\Category;
 use App\Manufacture;
 use App\Discount;
 use App\Vendor;
+use App\Unit;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -48,13 +50,15 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $today = Carbon::now();
         $data = array (
             'product' => [],
             //коллекция вложенных подкатегорий
             'categories' => Category::with('children')->where('category_id', '0')->get(),
             'manufactures' => Manufacture::get(),
-            'discounts' => Discount::get(),
+            'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
             'vendors' => Vendor::get(),
+            'units' => Unit::get(),
             //символ, обозначающий вложенность категорий
             'delimiter' => ''
         );
@@ -71,7 +75,11 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $product = Product::create($request->all());
+        
+        return redirect()->route('admin.products.index')
+            ->with('success', 'Категория успешно добавлена.');
     }
 
     /**

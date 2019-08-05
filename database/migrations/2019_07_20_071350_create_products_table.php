@@ -41,7 +41,8 @@ class CreateProductsTable extends Migration
             $table->unsignedDecimal('unit_in_package', 8, 3)->nullable();           // в одной упаковке ед.измерения
             $table->tinyInteger('amount_in_package')->nullable()->unsigned()->default(1);       // в одной упаковке штук
             $table->unsignedDecimal('price', 8, 2)->nullable();            
-            $table->unsignedDecimal('quantity', 8, 3)->nullable();                  // кол-во у поставщика            
+            $table->unsignedDecimal('quantity', 8, 3)->nullable();                  // кол-во в Симферополе            
+            $table->unsignedDecimal('quantity_vendor', 8, 3)->nullable();                  // кол-во у поставщика            
             $table->integer('views')->default(0)->unsigned();
             $table->timestamps();
 
