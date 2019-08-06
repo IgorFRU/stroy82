@@ -1,14 +1,14 @@
 <form id="createproduct" action="{{route('admin.products.store')}}" method="post">
     @csrf
 <nav class="nav nav-pills nav-fill tabs">
-    <span class="nav-item nav-link active" data-tab="main">Основная информация</span>
+    <span class="nav-item nav-link @if (!isset($addImages)) active @endisset" data-tab="main">Основная информация</span>
     <span class="nav-item nav-link" data-tab="description1">Описание</span>
     <span class="nav-item nav-link" data-tab="size">Габариты</span>
     <span class="nav-item nav-link" data-tab="properties">Характеристики</span>
-    <span class="nav-item nav-link" data-tab="photos">Фотографии</span>
+    <span class="nav-item nav-link @if (isset($addImages)) active @endisset" data-tab="photos">Фотографии</span>
 </nav>
 <hr>
-<div id="main" class="tab_item active">
+<div id="main" class="tab_item @if (!isset($addImages)) active @endisset">
     <div class="row">
         <div class="col-lg-8">
             <div class="row">                
@@ -23,7 +23,7 @@
                 <div class="col col-lg-3">
                     <div class="form-group">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="published" @if (isset($product->published))
+                            <input class="form-check-input" type="checkbox" id="published" name="published" value="1" @if (isset($product->published))
                                 checked
                             @endif>
                             <label class="form-check-label" for="published">
@@ -35,7 +35,7 @@
                 <div class="col col-lg-3">
                     <div class="form-group">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="pay_online" @if (isset($product->pay_online))
+                            <input class="form-check-input" type="checkbox" id="pay_online" value="1" name="pay_online" @if (isset($product->pay_online))
                             checked
                         @endif>
                             <label class="form-check-label" for="pay_online">
@@ -358,7 +358,7 @@
             @csrf
             @include('admin.products.partials.form_img')
         </form> --}}
-<div id="photos" class="tab_item">
+<div id="photos" class="tab_item @if (isset($addImages)) active @endisset">
 <form action="" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-lg-12"> 
@@ -436,5 +436,8 @@
             
                 <input type="submit" id="imgupload" value="Отправить">
             </section> --}}
+            <div class="mb-3 col-md-2">
+                <button type="submit" class="btn btn-primary">Добавить</button>
+        </div>
 </form>
 </div>

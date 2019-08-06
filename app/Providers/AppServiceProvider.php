@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Schema;
 use App\Category;
+use App\Product;
 use App\Manufacture;
 use App\Http\Services\WorkWithImage;
 use Illuminate\Support\Str;
@@ -63,6 +64,18 @@ class AppServiceProvider extends ServiceProvider
                     $model->image = $img->saveImage();
                 }
                 
+            }
+        });
+
+        Product::creating(function(Product $model){
+            $model->slug = Str::slug(mb_substr($model->product, 0, 60), "-");
+            if ($model->scu) {
+                $model->slug .= $model->scu;
+            }
+            $double = Product::where('slug', $model->slug)->first();
+            if ($double) {
+                $next_id = Product::select('id')->orderby('id', 'desc')->first()['id'];
+                $model->slug .= '-' . ++$next_id;
             }
         });
 

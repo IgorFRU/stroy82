@@ -77,6 +77,7 @@ class ProductController extends Controller
     {
         // dd($request->all());
         $product = Product::create($request->all());
+        // dd($product);
         
         // return redirect()->route('admin.products.index')
         //     ->with('success', 'Категория успешно добавлена.');
@@ -85,12 +86,17 @@ class ProductController extends Controller
 
     public function storeAjax(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $product = Product::create($request->all());
+        // $product->slug = $product->product;
         
         // return redirect()->route('admin.products.index')
         //     ->with('success', 'Категория успешно добавлена.');
-        return redirect()->route('admin.products.addImages', $product);
+
+        // return redirect()->route('admin.products.addImages', $product);
+        // return response()->view('admin.products.addImages', $product);
+        echo json_encode(array('id' => $product->id));
+        // return response('Hello World', 200);
     }
 
     /**
@@ -128,6 +134,7 @@ class ProductController extends Controller
 
     public function addImages(Product $product)
     {
+        // dd($product);
         $today = Carbon::now();
         $data = array (
             'product' => $product,

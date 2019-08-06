@@ -22,7 +22,7 @@ class Discount extends Model
         'discount_end' => 'datetime',
     ];
 
-    public function products() {
+    public function product() {
         return $this->hasMany(Product::class);
     }
 
