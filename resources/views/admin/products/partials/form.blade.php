@@ -59,14 +59,13 @@
                 </div>
                 <div class="col">
                     <div class="form-group row">
-                        <label for="quantity" class="col-sm-6 col-form-label">Наличие (поставщик)</label>
+                        <label for="quantity_vendor" class="col-sm-6 col-form-label">Наличие (поставщик)</label>
                         <div class="col-md-6">
-                            <input type="text" name="quantity" class="form-control" id="quantity" value="{{ $product->quantity ?? '' }}">
+                            <input type="text" name="quantity_vendor" class="form-control" id="quantity_vendor" value="{{ $product->quantity_vendor ?? '' }}">
                         </div>                                    
                     </div>    
                 </div>
-            </div>      
-  
+            </div>  
             <div class="row">
                 <div class="col">
                     <div class="form-group row">
@@ -81,7 +80,7 @@
                         <label for="unit_id" class="col-md-4 col-form-label">Ед. изм.</label>
                         <div class="col-md-8">
                             <select class="form-control" id="unit_id" name="unit_id">
-                                <option>------------</option>
+                                <option></option>
                                 @forelse ($units as $unit)
                                     <option value="{{ $unit->id }}">{{ $unit->unit }}</option>
                                 @empty
@@ -98,7 +97,7 @@
                 <label for="category_id" class="col-md-4 col-form-label">Категория</label>
                 <div class="col-md-8">
                     <select class="form-control" id="category_id" name="category_id">
-                        <option>------------</option>
+                        <option></option>
                         @include('admin.categories.partials.child-categories', ['categories' => $categories])
                     </select>
                 </div> 
@@ -107,7 +106,7 @@
                 <label for="manufacture_id" class="col-md-4 col-form-label">Производитель</label>
                 <div class="col-md-8">
                     <select class="form-control" id="manufacture_id" name="manufacture_id">
-                        <option>------------</option>
+                        <option></option>
                         @forelse ($manufactures as $manufacture)
                             <option value="{{ $manufacture->id }}">{{ $manufacture->manufacture }}</option>
                         @empty
@@ -120,7 +119,7 @@
                 <label for="vendor" class="col-sm-4 col-form-label">Поставщик</label>
                 <div class="col-md-8">
                     <select class="form-control" id="vendor" name="vendor_id">
-                        <option>------------</option>
+                        <option></option>
                         @forelse ($vendors as $vendor)
                             <option value="{{ $vendor->id }}">
                                 {{ $vendor->vendor }} 
@@ -156,7 +155,7 @@
                         <label for="discount" class="col-sm-4 col-form-label">Акция</label>
                         <div class="col-md-8">
                             <select class="form-control" id="discount" name="discount_id">
-                                <option>------------</option>
+                                <option></option>
                                 @forelse ($discounts as $discount)
                                     <option value="{{ $discount->id }}">
                                         {{ $discount->discount }} - 
@@ -171,6 +170,18 @@
                             </select>
                         </div>                                    
                     </div>    
+                </div>
+                <div class="col col-lg-4">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="packaging" @if (isset($product->packaging))
+                                checked
+                            @endif>
+                            <label class="form-check-label" for="packaging">
+                                Продажа упаковками
+                            </label>
+                        </div>
+                    </div> 
                 </div>
             </div>                      
         </div>
@@ -192,6 +203,10 @@
                       
         </div>
     </div>
+
+
+
+    <input type="text" name="autoscu" class="form-control" id="autoscu" value="{{ $product->autoscu ?? '' }}">
     <hr>
     <div class="row">
         <div class="col-lg-6">
@@ -212,9 +227,6 @@
             @endisset
         </div>
     </div>
-
-
-
 </div>
 <div id="description1" class="tab_item">
     <div class="row">
@@ -273,7 +285,7 @@
                         {{-- <label for="size_type" class="col-md-4 col-form-label">Ед. изм.</label> --}}
                         <div class="col-md-12">
                             <select class="form-control" id="size_type" name="size_type">
-                                <option>------------</option>
+                                <option></option>
                                 <option value="mm">мм.</option>
                                 <option value="cm">см.</option>
                                 <option value="m">м.</option>
@@ -306,40 +318,6 @@
 <div id="properties" class="tab_item">
     <p>Характеристики</p>
 </div>
-
-
-    
-
-
-
-
-
-
-
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
-
-
-
-
-
-
-
-
-
-   
 <div class="edit_form_bottom_menu">
     <div class="row align-middle">        
             <div class="input-group mb-3 col-md-1">
@@ -347,12 +325,18 @@
                     <span class="input-group-text" id="basic-addon1">id</span>
                 </div>
                 <input type="text" class="form-control" name="id" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $product->id ?? '' }}">
-            </div>
-            <div class="input-group mb-3 col-md-8">
+            </div>       
+            {{-- <div class="input-group mb-3 col-md-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">арт.</span>
+                </div>
+                <input type="text" class="form-control" name="autoscu" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $product->autoscu ?? '' }}">
+            </div> --}}
+            <div class="input-group mb-3 col-md-7">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">slug</span>
                 </div>
-                <input type="text" class="form-control" name="slug" readonly aria-label="Username" aria-describedby="basic-addon1" value="{{ $product->slug ?? '' }}">
+                <input type="text" class="form-control" name="slug"  aria-label="Username" aria-describedby="basic-addon1" value="{{ $product->slug ?? '' }}">
             </div>
             <div class="mb-3 col-md-2">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
