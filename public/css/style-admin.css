@@ -2,6 +2,10 @@
     font-family: 'Cuprum', sans-serif;
 }
 
+.table td, .table th {
+    padding: 0.2rem;
+}
+
 .card-img-container {
     height: 200px;
     overflow: hidden;

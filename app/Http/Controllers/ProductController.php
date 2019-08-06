@@ -78,8 +78,19 @@ class ProductController extends Controller
         // dd($request->all());
         $product = Product::create($request->all());
         
-        return redirect()->route('admin.products.index')
-            ->with('success', 'Категория успешно добавлена.');
+        // return redirect()->route('admin.products.index')
+        //     ->with('success', 'Категория успешно добавлена.');
+        return redirect()->route('admin.products.addImages', $product);
+    }
+
+    public function storeAjax(Request $request)
+    {
+        dd($request->all());
+        $product = Product::create($request->all());
+        
+        // return redirect()->route('admin.products.index')
+        //     ->with('success', 'Категория успешно добавлена.');
+        return redirect()->route('admin.products.addImages', $product);
     }
 
     /**
@@ -101,7 +112,35 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $today = Carbon::now();
+        $data = array (
+            'product' => $product,
+            'categories' => Category::with('children')->where('category_id', '0')->get(),
+            'manufactures' => Manufacture::get(),
+            'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
+            'vendors' => Vendor::get(),
+            'units' => Unit::get(),
+            'delimiter' => ''
+        );
+        
+        return view('admin.products.edit', $data);
+    }
+
+    public function addImages(Product $product)
+    {
+        $today = Carbon::now();
+        $data = array (
+            'product' => $product,
+            'categories' => Category::with('children')->where('category_id', '0')->get(),
+            'manufactures' => Manufacture::get(),
+            'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
+            'vendors' => Vendor::get(),
+            'units' => Unit::get(),
+            'delimiter' => '',
+            'addImages' => true,
+        );
+        
+        return view('admin.products.edit', $data);
     }
 
     /**

@@ -22,10 +22,13 @@ class DiscountController extends Controller
         $today = Carbon::now();
         $data = array (
             'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
+            // 'numeral' => Discount::where([
+            //                 'discount_end', '>', $today,
+            //                 'type', '%'
+            //             ])->numeral();
             'today' => $today,
             'actually' => true,
         );
-
         return view('admin.discounts.index', $data);
     }
 

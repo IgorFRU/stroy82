@@ -1,8 +1,11 @@
+<form id="createproduct" action="{{route('admin.products.store')}}" method="post">
+    @csrf
 <nav class="nav nav-pills nav-fill tabs">
     <span class="nav-item nav-link active" data-tab="main">Основная информация</span>
     <span class="nav-item nav-link" data-tab="description1">Описание</span>
     <span class="nav-item nav-link" data-tab="size">Габариты</span>
     <span class="nav-item nav-link" data-tab="properties">Характеристики</span>
+    <span class="nav-item nav-link" data-tab="photos">Фотографии</span>
 </nav>
 <hr>
 <div id="main" class="tab_item active">
@@ -318,6 +321,9 @@
 <div id="properties" class="tab_item">
     <p>Характеристики</p>
 </div>
+
+
+
 <div class="edit_form_bottom_menu">
     <div class="row align-middle">        
             <div class="input-group mb-3 col-md-1">
@@ -341,6 +347,94 @@
             <div class="mb-3 col-md-2">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
             </div>
-                    
+            <div class="mb-3 col-md-2">
+                <a href="{{ route('admin.products.index') }}" class="btn btn-danger">Выйти</a>
+            </div>
         </div>
-</div>   
+</div>  
+
+</form>
+{{-- <form action="{{route('admin.productimg')}}" method="post" enctype="multipart/form-data">
+            @csrf
+            @include('admin.products.partials.form_img')
+        </form> --}}
+<div id="photos" class="tab_item">
+<form action="" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-lg-12"> 
+секция для отображения загруженных изображений
+
+        </div>
+    </div>
+    <hr>
+    @if (!isset($addImages))
+        <button type="button" id="createproductandaddimages" class="btn btn-primary btn-lg btn-block">Добавить фотографии</button>
+    @else
+    <div class="col-lg-8">                
+        <div class="row">
+            <div class="col">
+                <div class="form-group row">
+                    <label for="image" class="col-md-4 col-form-label">Изображение</label>
+                    <div class="col-md-8">
+                        <input type="file" class="custom-file-input" id="customFile" name="image">
+                        <label class="custom-file-label" for="customFile">Выберите файл</label>
+                    </div>                                    
+                </div>    
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group row">
+                    <label for="name" class="col-sm-4 col-form-label">Название изображения</label>
+                    <div class="col-md-8">
+                        <input type="text" name="name" class="form-control" id="name" value="{{ $image->name ?? '' }}">
+                    </div>                                    
+                </div>    
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group row">
+                    <label for="alt" class="col-sm-4 col-form-label">"Alt"</label>
+                    <div class="col-md-8">
+                        <input type="text" name="alt" class="form-control" id="alt" value="{{ $image->alt ?? '' }}">
+                    </div>                                    
+                </div>    
+            </div>
+        </div>
+    </div> 
+    @endif
+    
+    {{-- <div class="row"> --}}
+        
+    {{-- </div> --}}
+
+        {{-- <section>
+                <div class="grey_box">
+            
+                </div>
+            
+            
+                <div class="grey_box">
+                    <label for="image">Файл</label>
+                    <input type="file" name="image">
+                </div>
+                <div class="grey_box">
+                    <label for="name">Название файла</label>
+                    <input type="text" name="name" id="">
+                </div>
+                <div class="grey_box">
+                    <label for="alt">Alt</label>
+                    <input type="text" name="alt" id="">
+                </div>
+                <div class="grey_box">
+                    <label for="main">Главное изображение</label>
+                    <input type="checkbox" name="main" id="main" value="1">
+                </div>
+            
+                <input name="product_id" type="hidden" value="{{ $product->id ?? '' }}">
+            
+                <input type="submit" id="imgupload" value="Отправить">
+            </section> --}}
+</form>
+</div>

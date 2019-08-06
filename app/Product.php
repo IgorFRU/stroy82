@@ -53,6 +53,10 @@ class Product extends Model
         $this->attributes['autoscu'] = mt_rand(100, 999) . '-' . mt_rand(100, 999) . '-' . mt_rand(1000, 9999);
     }
 
+    public function getPriceNumberAttribute() {
+        return number_format($this->price, 2, ',', ' ');
+    }
+
     public function categories() {
         return $this->belongsTo(Category::class);
     }

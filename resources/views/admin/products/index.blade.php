@@ -32,21 +32,48 @@
                             $count = 1
                         @endphp   
                         @forelse ($products as $product)
-                        <tr>
+                        @php
+                            // dd($product)
+                        @endphp
+                        <tr @if (!$product->published) class='bg-secondary'  @endif>
                             <th scope="row">{{ $count++ }}</th>
                             <td>{{ $product->product }}</td>
-                            <td>{{ $product->price }}</td>
-                            {{-- <td>{{ $product->categories->category }}</td> --}}
+                            <td>
+                                @isset($product->discount)
+                                    @if ($product->discount->type == '%')
+                                        <div class='btn-group' role="group">
+                                            <div class="btn text-light bg-success btn-sm" data-toggle="tooltip" data-placement="top" title="Акция '{{ $product->discount->discount }}' до {{ Carbon\Carbon::parse($product->discount->discount_end)->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM') }}"> 
+                                                {{ $product->price * $product->discount->numeral }} руб.
+                                            </div>
+                                            <div class="btn text-light bg-secondary btn-sm">{{ $product->price_number }} руб.</div>
+                                        </div>
+                                    @elseif ($product->discount->type == 'rub')
+                                        <div class='btn-group' role="group">
+                                            <div class="btn text-light bg-success btn-sm" data-toggle="tooltip" data-placement="top" title="Акция '{{ $product->discount->discount }}' до {{ Carbon\Carbon::parse($product->discount->discount_end)->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM') }}">
+                                                {{ $product->price - $product->discount->value }} руб.
+                                            </div>
+                                            <div class="btn text-light bg-secondary btn-sm">{{ $product->price_number }} руб.</div>
+                                    @endif
+                                @endisset
+                                @empty ($product->discount)
+                                    <div class="btn text-light bg-success btn-sm">{{ $product->price_number }} руб.</div>
+                                @endempty
+                                
+                            
+                            
+                            </td>
+                            <td>{{ $product->categories->category ?? '' }}</td>
+                            {{-- <td>{{ $product->manufactures->manufacture }}</td> --}}
                             <td>{{ $product->quantity }}</td>
                             <td>{{ $product->delivery_time }}</td>
                             <td>{{ $product->pay_online }}</td>
                             <td>
-                                <div class="row">                                
-                                    <a href="{{ route('admin.products.edit', ['id' => $product->id]) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
+                                <div class='row'>                                
+                                    <a href="{{ route('admin.products.edit', ['id' => $product->id]) }}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
                                     <form onsubmit="if(confirm('Удалить?')) {return true} else {return false}" action="{{route('admin.products.destroy', $product)}}" method="post">
                                     @csrf                         
                                     <input type="hidden" name="_method" value="delete">                         
-                                    <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>                                                 
+                                    <button type="submit" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>                                                 
                                 </form>
                                 </div>
                             </td>

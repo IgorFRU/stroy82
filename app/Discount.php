@@ -25,4 +25,9 @@ class Discount extends Model
     public function products() {
         return $this->hasMany(Product::class);
     }
+
+    //перевод процентов число, которое умножается на базовую стоимость
+    public function getNumeralAttribute() {
+        return (100 - $this->value) / 100;
+    }
 }
