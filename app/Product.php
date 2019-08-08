@@ -40,7 +40,9 @@ class Product extends Model
 
     public function setSlugAttribute($value) {
         $this->attributes['slug'] = Str::slug(mb_substr($this->product, 0, 60), "-");
-        $this->attributes['slug'] .= '-' . Str::slug(mb_substr($this->attributes['scu'], 0, 10), "-");
+        if (isset($this->attributes['scu'])) {
+            $this->attributes['slug'] .= '-' . Str::slug(mb_substr($this->attributes['scu'], 0, 10), "-");
+        }        
         $double = Product::where('slug', $this->attributes['slug'])->first();
 
         if ($double) {

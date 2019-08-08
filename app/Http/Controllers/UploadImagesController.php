@@ -2,20 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Image;
+use App\ImageProduct;
+use App\Product;
+use App\Category;
+use App\Manufacture;
+use App\Discount;
+use App\Vendor;
+use App\Unit;
 use Illuminate\Http\Request;
-use Intervention\Image\ImageU;
-use app\Image;
-use app\ImageProduct;
-use app\Product;
+use Intervention\Image\ImageManagerStatic;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class UploadImagesController extends Controller
 {
     public function product(Request $request)
     {
-        // $file_tmp[] = $_FILES['image']['tmp_name'];
         $path = public_path().'\imgs\products\\';
+        if (!file_exists($path)) {
+            mkdir($path, 0777);
+        }
         $path_thumbnail = public_path().'\imgs\products\thumbnails\\';
+        if (!file_exists($path_thumbnail)) {
+            mkdir($path_thumbnail, 0777);
+        }
         $file = $request->file('image');
 
         $base_name = str_random(20);
@@ -23,7 +34,7 @@ class UploadImagesController extends Controller
 
         $filename = $base_name .'.' . $file->getClientOriginalExtension() ?: 'png';
         $filename_thumbnail = $base_name .'_thumbnail.' . $file->getClientOriginalExtension() ?: 'png';
-        $img = ImageU::make($file);
+        $img = ImageManagerStatic::make($file);
         $img->resize(600, null, function ($constraint) {
                 $constraint->aspectRatio();
             })
@@ -44,27 +55,14 @@ class UploadImagesController extends Controller
             }            
         }
 
-        
-
         $image = Image::create([
-            'file' => $filename, 
+            'image' => $filename, 
             'name' => $request->name,
             'productname' => $productname,
             'alt' => $request->alt,
             'thumbnail' => $filename_thumbnail,
             'main' => $request->main
-            ]);
-        
-        // $product = Product::find($request->product_id);
-        // $product->thumbnail = $filename_thumbnail;        
-        // $product->save();
-
-        // Product::where('id', $request->product_id)
-        //   ->update(['thumbnail' => $filename_thumbnail]);
-
-        //ImageProduct
-
-        
+            ]);      
         
         $image->products()->attach($request->product_id);
 
@@ -79,9 +77,8 @@ class UploadImagesController extends Controller
                             ->get();
             $mainimg[0]->main = 1;
             $mainimg[0]->save();
-            // dd($mainimg[0]);
         }
 
-        return redirect()->back()->with('success', 'Изображение загружено');
+        return redirect()->back()->with('addImages', 'true');
     }
 }

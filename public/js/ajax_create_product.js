@@ -1,13 +1,14 @@
 $(document).ready(function() {
     $(function() {
-        $('#createproductandaddimages').click(function() {
+        $('#createproductandaddimages').click(function(e) {
+            e.preventDefault();
             // console.log($('input[name="product"]').val());
             // console.log($('#createproduct').serialize());
             // var form = $('#createproduct');
             // // console.log(form);
             // var data = new FormData($('#createproduct')[0]);
             // console.log(form.attr('method'));
-            // console.log(data);
+            // console.log($('#createproduct').serialize());
             $.ajax({
                 url: '/admin/products/store/ajax',
                 type: "POST",

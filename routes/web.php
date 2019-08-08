@@ -29,14 +29,14 @@ Route::prefix('admin')->name('admin.')->group(function(){
   
   Route::resource('/categories', 'CategoryController');
   Route::resource('/manufactures', 'ManufactureController');
+  Route::resource('/products', 'ProductController');
   Route::post('/products/store/ajax', 'ProductController@storeAjax')->name('products.storeAjax');
   Route::get('/products/addImages/{product}', 'ProductController@addImages')->name('products.addImages');
-  Route::resource('/products', 'ProductController');
   Route::resource('/units', 'UnitController');
   Route::resource('/vendors', 'VendorController');
   Route::get('/discounts/archive', 'DiscountController@archive')->name('discounts.archive');
   Route::resource('/discounts', 'DiscountController');
-  Route::post('/productimg', 'UploadImagesController@product');
+  Route::any('/productimg', 'UploadImagesController@product')->name('product.image.upload');
 });
 
 Route::get('/home', 'UserController@index')->name('home');

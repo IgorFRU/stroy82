@@ -229,7 +229,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'ImageU' => Intervention\Image\Facades\Image::class,
+        'ImageManagerStatic' => Intervention\Image\Facades\Image::class,
 
     ],
 

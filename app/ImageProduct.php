@@ -9,4 +9,5 @@ class ImageProduct extends Model
     public $timestamps = false;
 
     protected $fillable = ['image_id', 'product_id'];
+    public $table = "image_product";
 }

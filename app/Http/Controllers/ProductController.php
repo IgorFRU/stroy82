@@ -59,6 +59,7 @@ class ProductController extends Controller
             'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
             'vendors' => Vendor::get(),
             'units' => Unit::get(),
+            'typeRequest' => 'create',       //тип запроса - создание или редактирование, чтобы можно было менять action формы
             //символ, обозначающий вложенность категорий
             'delimiter' => ''
         );
@@ -81,7 +82,7 @@ class ProductController extends Controller
         
         // return redirect()->route('admin.products.index')
         //     ->with('success', 'Категория успешно добавлена.');
-        return redirect()->route('admin.products.addImages', $product);
+        return redirect()->route('admin.products.index', $product);
     }
 
     public function storeAjax(Request $request)
@@ -126,6 +127,7 @@ class ProductController extends Controller
             'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
             'vendors' => Vendor::get(),
             'units' => Unit::get(),
+            'typeRequest' => 'edit',
             'delimiter' => ''
         );
         
@@ -159,7 +161,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $product->update($request->except('alias'));
+
+        return redirect()->route('admin.products.index');
     }
 
     /**

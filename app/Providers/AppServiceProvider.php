@@ -67,17 +67,17 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-        Product::creating(function(Product $model){
-            $model->slug = Str::slug(mb_substr($model->product, 0, 60), "-");
-            if ($model->scu) {
-                $model->slug .= $model->scu;
-            }
-            $double = Product::where('slug', $model->slug)->first();
-            if ($double) {
-                $next_id = Product::select('id')->orderby('id', 'desc')->first()['id'];
-                $model->slug .= '-' . ++$next_id;
-            }
-        });
+        // Product::creating(function(Product $model){
+        //     $model->slug = Str::slug(mb_substr($model->product, 0, 60), "-");
+        //     if ($model->scu) {
+        //         $model->slug .= $model->scu;
+        //     }
+        //     $double = Product::where('slug', $model->slug)->first();
+        //     if ($double) {
+        //         $next_id = Product::select('id')->orderby('id', 'desc')->first()['id'];
+        //         $model->slug .= '-' . ++$next_id;
+        //     }
+        // });
 
         // Manufacture::creating(function(Manufacture $model){
         //     if($model->image) {
