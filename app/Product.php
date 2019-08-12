@@ -62,6 +62,10 @@ class Product extends Model
     public function categories() {
         return $this->belongsTo(Category::class);
     }
+    
+    public function articles() {
+        return $this->belongsTo(Article::class);
+    }
 
     public function manufactures() {
         return $this->belongsTo(Manufacture::class);

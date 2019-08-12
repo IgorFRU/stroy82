@@ -19,6 +19,7 @@ class UploadImagesController extends Controller
 {
     public function product(Request $request)
     {
+        // dd($request->all());
         $path = public_path().'\imgs\products\\';
         if (!file_exists($path)) {
             mkdir($path, 0777);
@@ -78,7 +79,7 @@ class UploadImagesController extends Controller
             $mainimg[0]->main = 1;
             $mainimg[0]->save();
         }
-
-        return redirect()->back()->with('addImages', 'true');
+        // return redirect()->back()->with('addImages', 'true');
+        return redirect()->route('admin.products.addImages', $request->product_id);
     }
 }

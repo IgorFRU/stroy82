@@ -417,7 +417,7 @@
                     <div class="form-group row">
                         <label for="alt" class="col-sm-4 col-form-label">"Alt"</label>
                         <div class="col-md-7">
-                            <input type="text" name="alt" class="form-control" id="alt" value="{{ $image->alt ?? '' }}">
+                            <input type="text" name="alt" class="form-control" id="alt" value="{{ $image->alt ?? $product->product }}">
                         </div>                                    
                     </div>   
                 </div>

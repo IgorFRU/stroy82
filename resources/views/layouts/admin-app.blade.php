@@ -103,7 +103,7 @@
                                 <a class="dropdown-item" href="#"><i class="fas fa-images"></i>  Баннеры</a>
                                 <a class="dropdown-item" href="{{ route('admin.discounts.index') }}"><i class="fas fa-percentage"></i>  Акции</a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-percentage"></i>  Скидки</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-newspaper"></i>  Статьи</a>
+                                <a class="dropdown-item" href="{{ route('admin.articles.index') }}"><i class="fas fa-newspaper"></i>  Статьи</a>
                                 <a class="dropdown-item" href="{{ route('admin.units.index') }}"><i class="fas fa-tape"></i>  Ед. измерения</a>
                             </div>
                         </li>

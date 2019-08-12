@@ -8,7 +8,7 @@ $(document).ready(function() {
             // // console.log(form);
             // var data = new FormData($('#createproduct')[0]);
             // console.log(form.attr('method'));
-            // console.log($('#createproduct').serialize());
+            alert($('#createproduct').serialize());
             $.ajax({
                 url: '/admin/products/store/ajax',
                 type: "POST",
@@ -22,10 +22,9 @@ $(document).ready(function() {
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(data) {
-                    alert('OK !!!');
                     var response = $.parseJSON(data)
-                    console.log(response.id);
                     window.location.href = '/admin/products/addImages/' + response.id;
+                    // window.location.href = '/admin/products/' + response.id + '/edit/';
                     // $('#addArticle').modal('hide');
                     // $('#articles-wrap').removeClass('hidden').addClass('show');
                     // $('.alert').removeClass('show').addClass('hidden');
@@ -36,7 +35,7 @@ $(document).ready(function() {
                     //$('.table > tbody:last').append(str);
                 },
                 error: function(msg) {
-                    alert(msg);
+                    console.log(msg);
                 }
             });
         });

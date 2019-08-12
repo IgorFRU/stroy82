@@ -10,4 +10,12 @@ class ImageProduct extends Model
 
     protected $fillable = ['image_id', 'product_id'];
     public $table = "image_product";
+
+    public function images() {
+        return $this->hasOne(Image::class, 'id', 'image_id');
+    }
+
+    public function products() {
+        return $this->hasOne(Product::class, 'id', 'product_id');
+    }
 }

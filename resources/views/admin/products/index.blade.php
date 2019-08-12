@@ -8,6 +8,9 @@
                 <div class="card-header d-flex justify-content-between">
                     <p class="h3">Товары @isset($parent_category)
                         из категории "{{ $parent_category }}"
+                    @endisset
+                    @isset($parent_category)
+                        производителя "{{ $parent_manufacture }}"
                     @endisset</p>
                     <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Новый товар</a>                
                 </div>
