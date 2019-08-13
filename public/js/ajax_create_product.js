@@ -2,13 +2,13 @@ $(document).ready(function() {
     $(function() {
         $('#createproductandaddimages').click(function(e) {
             e.preventDefault();
+            tinyMCE.triggerSave();
             // console.log($('input[name="product"]').val());
             // console.log($('#createproduct').serialize());
             // var form = $('#createproduct');
             // // console.log(form);
             // var data = new FormData($('#createproduct')[0]);
             // console.log(form.attr('method'));
-            alert($('#createproduct').serialize());
             $.ajax({
                 url: '/admin/products/store/ajax',
                 type: "POST",

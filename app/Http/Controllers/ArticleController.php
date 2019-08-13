@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use Illuminate\Http\Request;
+use Illuminate\Filesystem\Filesystem;
 
 class ArticleController extends Controller
 {
@@ -32,7 +33,11 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        $data = array (
+            'article' => []
+        );
+        
+        return view('admin.articles.create', $data);
     }
 
     /**
@@ -43,7 +48,10 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $article = Article::create($request->all());
+        
+        return redirect()->route('admin.articles.index');
     }
 
     /**
@@ -65,7 +73,11 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        $data = array (
+            'article' => $article
+        );
+        
+        return view('admin.articles.edit', $data);
     }
 
     /**
@@ -77,7 +89,9 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        //
+        $article->update($request->except('alias'));
+
+        return redirect()->route('admin.articles.index');
     }
 
     /**
@@ -88,6 +102,17 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        //
+        if (file_exists(public_path('imgs/articles/'. $article->image))) {
+            try {
+                $file = new Filesystem;
+                $file->delete(public_path('imgs/articles/'. $article->image));
+            } catch (\Throwable $th) {
+                echo 'Сообщение: '   . $th->getMessage() . '<br />';
+            }                
+        }
+        // unlink(public_path('imgs/articles/'.$article->image));
+        $article->delete();
+
+        return redirect()->route('admin.articles.index');
     }
 }

@@ -14,15 +14,14 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card edit_form">
-                <div class="card-header"><p class="h3">Редактирование категории 
-                    <button type="button" class="btn btn-primary">{{ $category->category }}</button></p>
+                <div class="card-header"><p class="h3">Редактирование статьи 
+                    <button type="button" class="btn btn-primary">{{ $article->article }}</button></p>
                 </div>
                 <div class="card-body">
-                        {{-- Forme include --}}
-                    <form action="{{route('admin.categories.update', ['id' => $category->id])}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.articles.update', ['id' => $article->id])}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="_method" value="put">
-                        @include('admin.categories.partials.form')
+                        @include('admin.articles.partials.form')
                     
                     </form>                    
                 </div>

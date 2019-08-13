@@ -27,4 +27,15 @@ $(function() {
             js_oneclick_hidden[i].value = checbox.value;
         });
     });
+
+    // в карточке добавления / редактирования товара показ или скрытие большой кнопки "добавить изображения"
+    $('#createproductandaddimages').hide(0);
+    $('#product').bind('input', function() {
+        let value = $('#product').val();
+        if (value.length > 3) {
+            $('#createproductandaddimages').show();
+        } else {
+            $('#createproductandaddimages').hide(0);
+        }
+    });
 });

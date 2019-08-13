@@ -26,7 +26,7 @@
                                         <h5 class="card-title">{{ $article->article }}</h5>
                                     </a>
                                     <p class="card-text">{{ mb_substr(strip_tags($article->description), 0, 50) }}{{ strlen ($article->description ) > 50 ? "..." : "" }}</p>
-                                    <span>товаров в статье: </span>{{ $article->products->count() }}
+                                    {{-- <span>товаров в статье: </span>{{ $article->products->count() }} --}}
                                     
                                     <div class="card_buttons">
                                         <a href="{{ route('admin.articles.edit', ['id' => $article->id]) }}" class="btn btn-warning"><i class="fas fa-pen"></i>  Редактировать</a>

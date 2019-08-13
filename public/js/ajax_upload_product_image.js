@@ -10,14 +10,7 @@ $(document).ready(function() {
         // } else {
         //     $('#createproductandaddimages').hide(0);
         // }
-        $('#product').bind('input', function() {
-            let value = $('#product').val();
-            if (value.length > 0) {
-                $('#createproductandaddimages').show();
-            } else {
-                $('#createproductandaddimages').hide(0);
-            }
-        });
+        
         // console.log($('#createproduct #product').val());
 
 
@@ -34,7 +27,7 @@ $(document).ready(function() {
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(data) {
-                    alert('Отлично');
+                    // alert('Отлично');
                     // $('#addArticle').modal('hide');
                     // $('#articles-wrap').removeClass('hidden').addClass('show');
                     // $('.alert').removeClass('show').addClass('hidden');

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Article extends Model
 {
@@ -13,7 +14,17 @@ class Article extends Model
         'description'
     ];
 
-    public function parents() {
-        return $this->belongsTo('App\Category', 'category_id', 'id');        
+    public function setSlugAttribute($value) {
+        $this->attributes['slug'] = Str::slug(mb_substr($this->article, 0, 60), "-");
+        $double = Article::where('slug', $this->attributes['slug'])->first();
+
+        if ($double) {
+            $next_id = Article::select('id')->orderby('id', 'desc')->first()['id'];
+            $this->attributes['slug'] .= '-' . ++$next_id;
+        }
+    }
+
+    public function products() {
+        return $this->belongsToMany(Product::class);
     }
 }

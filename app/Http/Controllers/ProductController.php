@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Filesystem\Filesystem;
 
 class ProductController extends Controller
 {
@@ -181,32 +182,23 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        // dd($product->images);
-
-        // $images = ImageProduct::where('product_id', $product->id)->get();
-        // foreach ($images as $image) {
-        //     echo $image->images->image;
-        //     echo '<br>';
-        // }
-        
         $images = ImageProduct::where('product_id', $product->id)->get();
         $imagesIdArray = $images->pluck('image_id');
-        
         foreach ($images as $image) {
-            // echo $image->image;
-            // echo '<br>';
-            if (file_exists(public_path('imgs/products/'.$image->image))) {
+            if (file_exists(public_path('imgs/products/'.$image->images->image))) {
                 try {
-                    unlink(public_path('imgs/products/'.$image->image));
+                    $file = new Filesystem;
+                    $file->delete(public_path('imgs/products/'. $image->images->image));
                 } catch (\Throwable $th) {
-                    //echo 'Сообщение: '   . $th->getMessage() . '<br />';
+                    echo 'Сообщение: '   . $th->getMessage() . '<br />';
                 }                
             }
-            if (file_exists(public_path('imgs/products/thumbnails/'.$image->thumbnail))) {
+            if (file_exists(public_path() .'\imgs\products\thumbnails\\' . $image->images->thumbnail)) {
                 try {
-                    unlink(public_path('imgs/products/thumbnails/'.$image->thumbnail));
+                    $file = new Filesystem;
+                    $file->delete(public_path().'\imgs\products\thumbnails\\' . $image->images->thumbnail);
                 } catch (\Throwable $th) {
-                    //echo 'Сообщение: '   . $th->getMessage() . '<br />';
+                    echo 'Сообщение: '   . $th->getMessage() . '<br />';
                 }                
             }
         }
@@ -219,24 +211,6 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('admin.products.index');
-
-        // dd($imagesArray);
-
-        // $product->images()->detach($images);
-
-
-        // foreach ($product->images as $key => $image) {
-        //     $oneImage = Image::where('image', $image->image);
-        //     echo $oneImage->count();
-        //     if ($oneImage->count() == 1) {
-
-        //     }
-        // }
-
-        // unlink(public_path('imgs/products/'.$proruct->images));
-        // $category->delete();
-
-        // return redirect()->route('admin.categories.index')->with('success', 'Категория успешно удалена');
     }
 
     public function showInCategory($categoryId) {

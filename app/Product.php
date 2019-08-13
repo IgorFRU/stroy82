@@ -64,7 +64,7 @@ class Product extends Model
     }
     
     public function articles() {
-        return $this->belongsTo(Article::class);
+        return $this->belongsToMany(Article::class);
     }
 
     public function manufactures() {
