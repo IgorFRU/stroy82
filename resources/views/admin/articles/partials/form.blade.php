@@ -48,6 +48,79 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                 Добавить товары
             </button>
+            @isset($article->products)
+            <div class="col-md-12">
+                    
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Товар</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Категория</th>
+                        <th scope="col">Наличие</th>
+                        <th scope="col"></th>
+                        {{-- <th scope="col">Описание</th> --}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @php
+                        $count = 1
+                    @endphp   
+                    @forelse ($article->products as $product)
+                    @php
+                        // dd($product)
+                    @endphp
+                    <tr @if (!$product->published) class='bg-secondary'  @endif>
+                        <th scope="row">{{ $count++ }}</th>
+                        <td>{{ $product->product }}</td>
+                        <td>
+                            @isset($product->discount)
+                                @if ($product->discount->type == '%')
+                                    <div class='btn-group' role="group">
+                                        <div class="btn text-light bg-success btn-sm" data-toggle="tooltip" data-placement="top" title="Акция '{{ $product->discount->discount }}' до {{ Carbon\Carbon::parse($product->discount->discount_end)->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM') }}"> 
+                                            {{ $product->price * $product->discount->numeral }} руб.
+                                        </div>
+                                        <div class="btn text-light bg-secondary btn-sm">{{ $product->price_number }} руб.</div>
+                                    </div>
+                                @elseif ($product->discount->type == 'rub')
+                                    <div class='btn-group' role="group">
+                                        <div class="btn text-light bg-success btn-sm" data-toggle="tooltip" data-placement="top" title="Акция '{{ $product->discount->discount }}' до {{ Carbon\Carbon::parse($product->discount->discount_end)->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM') }}">
+                                            {{ $product->price - $product->discount->value }} руб.
+                                        </div>
+                                        <div class="btn text-light bg-secondary btn-sm">{{ $product->price_number }} руб.</div>
+                                @endif
+                            @endisset
+                            @empty ($product->discount)
+                                <div class="btn text-light bg-success btn-sm">{{ $product->price_number }} руб.</div>
+                            @endempty
+                            
+                        
+                        
+                        </td>
+                        <td>{{ $product->categories->category ?? '' }}</td>
+                        {{-- <td>{{ $product->manufactures->manufacture }}</td> --}}
+                        <td>{{ $product->quantity }}</td>
+                        <td>
+                            <div class='row'>                                
+                                
+                                <form onsubmit="if(confirm('Удалить?')) {return true} else {return false}" action="{{route('admin.products.destroy', $product)}}" method="post">
+                                @csrf                         
+                                <input type="hidden" name="_method" value="delete">                         
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>                                                 
+                            </form>
+                            </div>
+                        </td>
+                        {{-- <td>{{ $vendor->description }}</td> --}}
+                    </tr>
+                    @empty
+                        <div class="alert alert-warning">Вы еще не добавили ни одного товара!</div>
+                    @endforelse
+                
+            
+        </div>
+            @endisset
+            
             
             <!-- Modal -->
             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -79,13 +152,13 @@
                     </div>
                 </div>
                 <div>
-                    <input type="hidden" id="article_id" name="article_id" value="{{ $article->id }}">
+                    <input type="hidden" id="article_id" name="article_id" value="{{ $article->id ?? ''}}">
                 </div>
                 <div class="hidden_inputs">
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-secondary" id="articleAddProductButtonClose" data-changed="false" data-dismiss="modal">Закрыть</button>
                     <button type="button" class="btn btn-primary" id="articleAddProductButton" disabled>Добавить</button>
                 </div>
                 </div>
@@ -95,29 +168,29 @@
 </div>
    
 <div class="edit_form_bottom_menu">
-        <div class="row align-middle">        
-                <div class="input-group mb-3 col-md-1">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">id</span>
-                    </div>
-                    <input type="text" class="form-control" name="id" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $article->id ?? '' }}">
-                </div>
-                {{-- <div class="input-group mb-3 col-md-1">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-eye"></i></span>
-                    </div>
-                    <input type="text" class="form-control" name="views" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $article->views ?? '' }}">
-                </div> --}}
-                <div class="input-group mb-3 col-md-8">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">slug</span>
-                    </div>
-                    <input type="text" name="slug" class="form-control" id="slug" value="{{ $article->slug ?? '' }}">
-                    {{-- <input type="text" class="form-control" name="slug" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $article->slug ?? '0' }}"> --}}
-                </div>
-                <div class="mb-3 col-md-2">
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-                        
+    <div class="row align-middle">        
+        <div class="input-group mb-3 col-md-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">id</span>
             </div>
+            <input type="text" class="form-control" name="id" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $article->id ?? '' }}">
+        </div>
+        {{-- <div class="input-group mb-3 col-md-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-eye"></i></span>
+            </div>
+            <input type="text" class="form-control" name="views" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $article->views ?? '' }}">
+        </div> --}}
+        <div class="input-group mb-3 col-md-8">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">slug</span>
+            </div>
+            <input type="text" name="slug" class="form-control" id="slug" value="{{ $article->slug ?? '' }}">
+            {{-- <input type="text" class="form-control" name="slug" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $article->slug ?? '0' }}"> --}}
+        </div>
+        <div class="mb-3 col-md-2">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+                
+    </div>
 </div>   

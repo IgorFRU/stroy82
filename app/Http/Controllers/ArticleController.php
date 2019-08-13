@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Category;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
@@ -37,7 +38,8 @@ class ArticleController extends Controller
     public function create()
     {
         $data = array (
-            'article' => []
+            'article' => [],
+            'categories' => Category::with('children')->where('category_id', '0')->get(),
         );
         
         return view('admin.articles.create', $data);
@@ -140,12 +142,13 @@ class ArticleController extends Controller
         }
 
         $products = Arr::sort($products);
+        
 
         foreach ($products as $key => $product) {
             $article->products()->attach($product);
-        }
-
-        
+        }        
+        $products['collection'] = Product::whereIn('id', $products)->get();
+        $products['article'] = $jsonArticle;
 
         echo json_encode($products);
     }

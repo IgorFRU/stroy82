@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\Image;
 use App\ImageProduct;
+use App\ArticleProduct;
 use App\Category;
 use App\Manufacture;
 use App\Discount;
@@ -219,9 +220,12 @@ class ProductController extends Controller
 
     public function ajaxSearch(Request $request) {
         $json = array();
+        $article = $request->article;
+        $articleProducts = ArticleProduct::where('article_id', $article)->pluck('product_id');
         if (strlen($request->product) > 3) {
             // $json = array();
-            $products = Product::where('product', 'like', '%' . $request->product . '%')->get();
+            $products = Product::where('product', 'like', '%' . $request->product . '%')
+                                ->whereNotIn('id', $articleProducts)->get();
             if ($products) {
                 // echo json_encode(array('products' => $product));
                 foreach ($products as $key => $product) {
@@ -244,7 +248,8 @@ class ProductController extends Controller
         }
 
         if (isset($request->category) && $request->category != 0) {
-            $products = Product::where('category_id', $request->category)->get();
+            $products = Product::where('category_id', $request->category)
+                                ->whereNotIn('id', $articleProducts)->get();
             if ($products) {
                 // echo json_encode(array('products' => $product));
                 foreach ($products as $key => $product) {

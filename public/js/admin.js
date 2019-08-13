@@ -42,13 +42,15 @@ $(function() {
     //живой поиск для добавления товара к статье
     $('#articleAddProductSearch').bind('input', function() {
         let value = $('#articleAddProductSearch').val();
+        let dataArticle = $('input#article_id').val();
         if (value.length > 3) {
             $.ajax({
                 type: "POST",
                 url: "/admin/products/search/ajax",
                 // dataType: 'json',
                 data: {
-                    product: value
+                    product: value,
+                    article: dataArticle
                 },
                 headers: {
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -166,11 +168,18 @@ $(function() {
             },
             success: function(data) {
                 var response = $.parseJSON(data);
-                console.log(response);
-                // $("#articleAddProductSearchResult").html(data['content']);
-                // var response = $.parseJSON(data);
+                console.log(response.collection[0]);
+                $('#articleAddProductButton').prop('disabled', true);
+                $('#articleAddProductButtonClose').prop('data-changed', true);
+                // window.location.href = '/admin/articles/'+ response.article[0] +'/edit';
             },
             error: function(msg) {}
         });
+    });
+
+    $('#articleAddProductButtonClose').on('click', function (e) {
+        if ($('#articleAddProductButtonClose').prop('data-changed')) {
+            // window.location.href = '/admin/articles/'+ $('input#article_id').val() +'/edit';
+        }
     });
 });

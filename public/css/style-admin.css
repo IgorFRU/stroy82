@@ -81,3 +81,7 @@
 .main_image {
     border: 4px solid rgba(255, 100, 85, 0.582);
 }
+
+#articleAddProductSearchResult > span {
+    cursor: pointer;
+}
