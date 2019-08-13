@@ -1,4 +1,9 @@
-<div class="row">
+<nav class="nav nav-pills nav-fill tabs">
+    <span class="nav-item nav-link active" data-tab="main">Основная информация</span>
+    <span class="nav-item nav-link" data-tab="products">Связанные товары</span>
+</nav>
+<hr>
+<div class="row tab_item active" id="main">
     <div class="col-lg-12">
         
         <div class="form-group row">
@@ -36,6 +41,56 @@
             </div>
         </div>
         {{-- <input type="text" class="form-control" name="slug" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $article->slug ?? '0' }}"> --}}
+    </div>
+</div>
+<div id="products" class="tab_item">
+    <div class="col-lg-12">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Добавить товары
+            </button>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Добавить товары</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="articleAddProductSearch" name="product" placeholder="Поиск товара">
+                        <div id="articleAddProductSearchResult">
+                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select id="articleAddProductByCategory" name="category" class="form-control">
+                            <option selected value="0">Выберите категорию...</option>
+                            <@include('admin.categories.partials.child-categories', ['categories' => $categories])
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select id="articleAddProductByCategoryShow" class="form-control">
+                            <option selected value="0">Выберите товар...</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <input type="hidden" id="article_id" name="article_id" value="{{ $article->id }}">
+                </div>
+                <div class="hidden_inputs">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary" id="articleAddProductButton" disabled>Добавить</button>
+                </div>
+                </div>
+            </div>
+            </div>
     </div>
 </div>
    

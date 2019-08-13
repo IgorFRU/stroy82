@@ -22,7 +22,7 @@ $(document).ready(function() {
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(data) {
-                    var response = $.parseJSON(data)
+                    var response = $.parseJSON(data);
                     window.location.href = '/admin/products/addImages/' + response.id;
                     // window.location.href = '/admin/products/' + response.id + '/edit/';
                     // $('#addArticle').modal('hide');

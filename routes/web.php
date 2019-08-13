@@ -29,9 +29,11 @@ Route::prefix('admin')->name('admin.')->group(function(){
   
   Route::resource('/categories', 'CategoryController');
   Route::resource('/articles', 'ArticleController');
+  Route::post('/articles/addProducts', 'ArticleController@addProducts');
   Route::resource('/manufactures', 'ManufactureController');
   Route::resource('/products', 'ProductController');
   Route::post('/products/store/ajax', 'ProductController@storeAjax')->name('products.storeAjax');
+  Route::post('/products/search/ajax', 'ProductController@ajaxSearch'); // поиск товара для добавления к статье
   Route::get('/products/addImages/{product}', 'ProductController@addImages')->name('products.addImages');
   Route::resource('/units', 'UnitController');
   Route::resource('/vendors', 'VendorController');

@@ -216,4 +216,56 @@ class ProductController extends Controller
     public function showInCategory($categoryId) {
         echo ($categoryId);
     }
+
+    public function ajaxSearch(Request $request) {
+        $json = array();
+        if (strlen($request->product) > 3) {
+            // $json = array();
+            $products = Product::where('product', 'like', '%' . $request->product . '%')->get();
+            if ($products) {
+                // echo json_encode(array('products' => $product));
+                foreach ($products as $key => $product) {
+                    // $json['content'] = $product;
+                    
+                    $json[$key] = $product;
+                }    
+                if (count($json)) {
+                    echo json_encode($json);
+                } else {
+                    $json[0] = 'Ничего не найдено';
+                    echo json_encode($json);
+                    // echo json_encode(array('msg' => 'Ничего'));
+                }
+            } else {
+                echo json_encode(array('msg' => 'Ничего не найдено'));
+                // $json['msg'] = 'Ничего не найдено';
+                // echo json_encode($json);
+            }            
+        }
+
+        if (isset($request->category) && $request->category != 0) {
+            $products = Product::where('category_id', $request->category)->get();
+            if ($products) {
+                // echo json_encode(array('products' => $product));
+                foreach ($products as $key => $product) {
+                    // $json['content'] = $product;
+                    
+                    $json[$key] = $product;
+                }    
+                if (count($json)) {
+                    echo json_encode($json);
+                } else {
+                    $json[0] = 'Ничего не найдено';
+                    echo json_encode($json);
+                    // echo json_encode(array('msg' => 'Ничего'));
+                }
+            } else {
+                echo json_encode(array('msg' => 'Ничего не найдено'));
+                // $json['msg'] = 'Ничего не найдено';
+                // echo json_encode($json);
+            }
+        }
+        // echo json_encode(array('response' => $request->product));
+        // echo json_encode($request->all());
+    }
 }

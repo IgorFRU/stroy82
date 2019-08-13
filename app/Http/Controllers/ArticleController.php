@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 class ArticleController extends Controller
 {
@@ -74,7 +77,9 @@ class ArticleController extends Controller
     public function edit(Article $article)
     {
         $data = array (
-            'article' => $article
+            'article' => $article,
+            'categories' => Category::with('children')->where('category_id', '0')->get(),
+            'delimiter' => ''
         );
         
         return view('admin.articles.edit', $data);
@@ -114,5 +119,34 @@ class ArticleController extends Controller
         $article->delete();
 
         return redirect()->route('admin.articles.index');
+    }
+
+    public function addProducts(Request $request) {
+        // dd($request->all());
+
+        // $json = array();
+
+        $jsonProducts = $request->products;
+        $jsonArticle = Str::after($request->article, 'article_id=');
+        $jsonProducts = explode("&", $jsonProducts);
+        $jsonProducts = array_unique($jsonProducts);
+
+        $article = Article::where('id', $jsonArticle)->first();
+
+        foreach ($jsonProducts as $key => $product) {
+            $products[] = Str::after($product, 'product_id=');
+
+            // $article->products()->attach($products[$key]);
+        }
+
+        $products = Arr::sort($products);
+
+        foreach ($products as $key => $product) {
+            $article->products()->attach($product);
+        }
+
+        
+
+        echo json_encode($products);
     }
 }
