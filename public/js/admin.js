@@ -1,9 +1,7 @@
 $(function() {
-    $('.js-example-basic-multiple').select2();
+    // $('.js-example-basic-multiple').select2();
 
     $('nav.tabs > span').on('click', function() {
-        // console.log($(this).data('tab'));
-        // const attr = $(this).data('tab');
         var currentTabData = $('nav.tabs > span.active').data('tab');
 
         if (currentTabData != $(this).data('tab')) {
@@ -14,8 +12,6 @@ $(function() {
             $('div.tab_item').removeClass('active');
             $('div#' + $(this).data('tab')).addClass('active');
         }
-        // $('div#' + $(this).data('tab')).removeClass('active');
-        // $('div#' + $(this).data('tab')).addClass('active');
     });
 
     const js_oneclick = document.querySelectorAll('.js_oneclick');
@@ -49,7 +45,6 @@ $(function() {
             $.ajax({
                 type: "POST",
                 url: "/admin/products/search/ajax",
-                // dataType: 'json',
                 data: {
                     product: value,
                     article: dataArticle
@@ -62,17 +57,13 @@ $(function() {
 
                     $("#articleAddProductSearchResult").empty();
                     if (response[0] == 'Ничего не найдено') {
-                        // console.log(response[0]);
                         $("#articleAddProductSearchResult").append("<div>" + response[0] + "</div>");
                     } else if (response.length > 0) {
                         $("#articleAddProductSearchResult").append("<table class='table'><thead> <tr><th scope = 'col' > id </th><th scope = 'col' > Название </th> <th scope = 'col' > Цена (базовая)</th></tr></thead><tbody > ");
                         response.forEach(element => {
-                            // console.log(element.id);
-                            // $("#articleAddProductSearchResult").append("<div data-id=" + element.id + ">" + element.product + ' ' + element.price + "</div>");
                             $("#articleAddProductSearchResult > table").append("<tr><th scope='row'><span data-product_id=" + element.id + "><i class='fas fa-plus-square'></i></span> " + element.id + "</th><td><a href='#' blank>" + element.product + "</a></td><td >" + element.price + "</td></td></tr >");
                         });
                         $("#articleAddProductSearchResult > table").append("</tbody></table>");
-                        // $('#articleAddProductButton').prop('disabled', false);
 
                         $("span").on('click', function(e) {
                             $(".hidden_inputs").append("<input type='hidden' name='product_id' value=" + e.target.parentNode.getAttribute('data-product_id') + ">");
@@ -96,7 +87,6 @@ $(function() {
             $.ajax({
                 type: "POST",
                 url: "/admin/products/search/ajax",
-                // dataType: 'json',
                 data: {
                     category: value,
                     article: article
@@ -106,17 +96,14 @@ $(function() {
                 },
                 success: function(data) {
                     var response = $.parseJSON(data);
-                    // console.log(response);
 
                     $("#articleAddProductSearchResult").empty();
                     $("#articleAddProductByCategoryShow").empty();
                     $("#articleAddProductByCategoryShow").append("<option selected value='0'>Выберите товар...</option>");
                     if (response[0] == 'Ничего не найдено') {
-                        // console.log(response[0]);
                         $("#articleAddProductSearchResult").append("<div>" + response[0] + "</div>");
                     } else if (response.length > 0) {
                         response.forEach(element => {
-                            // $("#articleAddProductSearchResult").append("<div data-id=" + element.id + ">" + element.product + ' ' + element.price + "</div>");
                             $("#articleAddProductByCategoryShow").append("<option data-product='" + element.product + " - " + element.price + "' value=" + element.id + ">" + element.product + " - " + element.price + "</option>");
                         });
                     }
@@ -140,7 +127,6 @@ $(function() {
 
     $('#articleAddProductButtonClose').on('click', function(e) {
         if ($('#articleAddProductButtonClose').prop('data-changed')) {
-            // window.location.href = '/admin/articles/'+ $('input#article_id').val() +'/edit';
         }
     });
 
@@ -159,4 +145,46 @@ $(function() {
             $(".hidden_inputs").find("input[value = " + id + "]").attr('name', 'product_id[]');
         }
     });
+
+    // AJAX загрузка изображений для создаваемого товара
+    $('#productImage').bind('input', function() {
+        $('#add_image').prop('disabled', false);
+    });
+
+    $('#add_image').on('click', function(e) {
+        e.preventDefault();
+
+        var file_data = $("#productImage").prop("files")[0];
+
+        // console.log($(this[0]).val());
+        let data = $(this[0]);
+        console.log(file_data);
+
+        // let formData = new FormData(this);
+        // console.log(formData);
+
+        // var fd = new FormData();  
+        // console.log(fd);  
+        // fd.append( 'file', input.files[0] );
+    
+        // $.ajax({
+        //     url: '/admin/uploadimg',
+        //     data: data,
+        //     processData: false,
+        //     contentType: false,
+        //     type: 'POST',
+        //     headers: {
+        //         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        //     },
+        //     success: function(data){
+                
+        //         var response = $.parseJSON(data);
+        //         alert(response);
+        //     },
+        //     error: function(msg) {
+        //         alert(msg);
+        //     }
+        // });
+    });
+    
 });

@@ -18,7 +18,15 @@
             <div class="card edit_form">
                 <div class="card-header"><p class="h3">Новая статья</p></div>
                 <div class="card-body">
-                    
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     
                     <form action="{{route('admin.articles.store')}}" method="post" enctype="multipart/form-data">
                         @csrf            
