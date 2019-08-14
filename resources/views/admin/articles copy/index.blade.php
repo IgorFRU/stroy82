@@ -22,9 +22,6 @@
                                     " class="card-img-top img-fluid">
                                 </div>                                
                                 <div class="card-body">
-                                    <div>
-                                        <span>{{ Carbon\Carbon::parse($article->created_at)->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM') }}</span>
-                                    </div>
                                     <a href="{{ route('admin.products.index', ['article' => $article->id]) }}">
                                         <h5 class="card-title">{{ $article->article }}</h5>
                                     </a>

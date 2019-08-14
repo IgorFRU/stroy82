@@ -82,6 +82,19 @@
     border: 4px solid rgba(255, 100, 85, 0.582);
 }
 
-#articleAddProductSearchResult > span {
+#articleAddProductSearchResult>span {
     cursor: pointer;
+}
+
+#articleAddProductResult>button {
+    margin: 5px;
+    color: #fff;
+}
+
+#articleAddProductResult>button>a {
+    color: #fff;
+}
+
+#articleAddProductResult>button>span {
+    color: #ff8e8e;
 }

@@ -40,7 +40,6 @@ class ArticleController extends Controller
         $data = array (
             'article' => [],
             'categories' => Category::with('children')->where('category_id', '0')->get(),
-            'delimiter' => ''
         );
         
         return view('admin.articles.create', $data);
@@ -55,11 +54,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $article = Article::create($request->except('product_id'));
-        $products = Arr::sort($request->product_id);
-        $article->products()->sync($products, true);
-
-        
+        $article = Article::create($request->all());
         
         return redirect()->route('admin.articles.index');
     }
@@ -101,9 +96,7 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        $article->update($request->except('alias', 'product_id'));
-        $products = Arr::sort($request->product_id);
-        $article->products()->sync($products, true);
+        $article->update($request->except('alias'));
 
         return redirect()->route('admin.articles.index');
     }
