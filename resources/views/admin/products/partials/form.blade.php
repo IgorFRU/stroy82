@@ -367,12 +367,15 @@
 <div id="photos" class="tab_item">
     <div class="row">
         <div class="col-lg-12"> 
+            {{-- <div class="col-lg-12 row" id="ajaxUploadedImages">
+                
+            </div> --}}
             
-            <div class="col-lg-12 row">
+            <div id="ajaxUploadedImages" class="col-lg-12 row">
                 @isset($product->images)
                     @forelse ($product->images as $image)                
                         <div class="col-lg-2">
-                            <img src="{{ asset('imgs/products/thumbnails')}}/{{ $image->thumbnail}}" alt="..." class="rounded img-fluid img-thumbnail @if($image->main) main_image @endif ">
+                            <img data-id="{{ $image->id }}" data-name="{{ $image->name ?? '' }}" data-alt="{{ $image->alt ?? '' }}" src="{{ asset('imgs/products/thumbnails')}}/{{ $image->thumbnail}}" alt="..." class="rounded img-fluid img-thumbnail @if($image->main) main_image @endif ">
                         </div>                
                     @empty
                         секция для отображения загруженных изображений 
@@ -381,17 +384,15 @@
             </div>
         </div>
     </div>
-    <hr>
     
     
 
 </div>
 
 
-
+<div class="hidden_inputs"></div> 
 
 </form>
-       
 <form action="" id="uploadImagesForm" method="post" enctype="multipart/form-data">
     @csrf
     <div class="col-lg-7">  
@@ -403,23 +404,16 @@
                         <input type="file" class="custom-file-input" id="productImage" name="image">
                         <label class="custom-file-label" for="customFile">Выберите файл</label>
                     </div>  
-                    <div class="hidden_inputs">
-                        @isset($article->products)
-                            @foreach ($article->products as $product)
-                                <input type='hidden' name='product_id[]' value="{{ $product->id }}">
-                            @endforeach
-                        @endisset
-                        
-                    </div>                                  
+                                                     
                 </div>    
             </div>
         </div>                 
         <div class="row">
             <div class="col">
                 <div class="form-group row">
-                    <label for="name" class="col-sm-3 col-form-label">Название</label>
+                    <label for="filename" class="col-sm-3 col-form-label">Название</label>
                     <div class="col-md-9">
-                        <input type="text" name="name" class="form-control" id="name" value="{{ $image->name ?? '' }}">
+                        <input type="text" name="name" class="form-control" id="filename" value="{{ $image->name ?? '' }}">
                     </div>                                    
                 </div>    
             </div>

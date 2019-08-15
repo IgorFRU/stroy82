@@ -14,6 +14,8 @@ use App\Unit;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
+use Illuminate\Support\Str;
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Filesystem\Filesystem;
 
@@ -86,6 +88,25 @@ class ProductController extends Controller
     {
         // dd($request->all());
         $product = Product::create($request->all());
+        
+        if (isset($request->image_id)) {
+            $imagesArray = $request->image_id;
+            
+            foreach ($imagesArray as $image) {
+                $imageCollection = Image::where('id', $image)->first();
+                $old_name = $imageCollection->image;
+                $new_name = Str::after($old_name, '-noprod-');
+                $old_thumbnail = $imageCollection->thumbnail;
+                $new_thumbnail = Str::after($old_thumbnail, '-noprod-');
+                rename(public_path("imgs/products/". $old_name), public_path("imgs/products/". $new_name));
+                rename(public_path("imgs/products/thumbnails/". $old_thumbnail), public_path("imgs/products/thumbnails/". $new_thumbnail));
+                $imageCollection->image = $new_name;
+                $imageCollection->thumbnail = $new_thumbnail;
+                $imageCollection->update();
+                $product->images()->attach($image);
+            } 
+        }
+        
         // dd($product);
         
         // return redirect()->route('admin.products.index')

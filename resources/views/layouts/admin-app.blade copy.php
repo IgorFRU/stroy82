@@ -45,25 +45,40 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="{{ route('admin.categories.index') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-store-alt"></i> Магазин
+                                    <i class="fas fa-folder"></i>  Категории
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('admin.products.index') }}"><i class="fas fa-archive"></i> товары</a>
-                                <a class="dropdown-item" href="{{ route('admin.categories.index') }}"><i class="fas fa-folder"></i> категории</a>
-                                <a class="dropdown-item" href="{{ route('admin.manufactures.index') }}"><i class="fas fa-industry"></i> производители</a>
-                                <a class="dropdown-item" href="{{ route('admin.vendors.index') }}"><i class="fas fa-store-alt"></i>  Поставщики</a>
-                                <a class="dropdown-item" href="{{ route('admin.vendors.index') }}"><i class="fas fa-tasks"></i> Группы товаров</a>
-                                <a class="dropdown-item" href="{{ route('admin.units.index') }}"><i class="fas fa-tape"></i>  Ед. измерения</a>
+                                <a class="dropdown-item" href="{{ route('admin.categories.index') }}">Все категории</a>
+                                <a class="dropdown-item" href="{{ route('admin.categories.create') }}">Новая категория</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="{{ route('admin.categories.index') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-tags"></i> Продвижение
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-industry"></i>  Производители
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('admin.discounts.index') }}"><i class="fas fa-percentage"></i>  Акции</a>
-                                <a class="dropdown-item" href="{{ route('admin.articles.index') }}"><i class="fas fa-newspaper"></i>  Статьи</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-images"></i>  Баннеры</a>
+                                <a class="dropdown-item" href="{{ route('admin.manufactures.index') }}">Все производители</a>
+                                <a class="dropdown-item" href="{{ route('admin.manufactures.create') }}">Новый производитель</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-tasks"></i>  Группы товаров
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Новая группа</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle rounded text-dark bg-success" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-archive"></i>  Товары
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('admin.products.index') }}">Все товары</a>
+                                <a class="dropdown-item" href="{{ route('admin.products.create') }}">Новый товар</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Популярные</a>
+                                <a class="dropdown-item" href="#">Неопубликованные</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -78,6 +93,19 @@
                                 <a class="dropdown-item" href="#"><i class="fas fa-shopping-basket"></i>  Заказы</a>
                                 <a class="dropdown-item rounded text-white bg-danger" href="#"><i class="fas fa-fire"></i>  Заказы к исполнению</a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-boxes"></i>  Архив заказов</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <span class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h"></i>
+                            </span>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('admin.vendors.index') }}"><i class="fas fa-store-alt"></i>  Поставщики</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-images"></i>  Баннеры</a>
+                                <a class="dropdown-item" href="{{ route('admin.discounts.index') }}"><i class="fas fa-percentage"></i>  Акции</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-percentage"></i>  Скидки</a>
+                                <a class="dropdown-item" href="{{ route('admin.articles.index') }}"><i class="fas fa-newspaper"></i>  Статьи</a>
+                                <a class="dropdown-item" href="{{ route('admin.units.index') }}"><i class="fas fa-tape"></i>  Ед. измерения</a>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -116,10 +144,6 @@
         </nav>
 
         <main class="py-4">
-            @section('adminmenu')
-                
-                
-            @show
             @yield('content')
         </main>
     </div>

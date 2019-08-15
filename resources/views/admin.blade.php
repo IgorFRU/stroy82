@@ -86,7 +86,10 @@
                             </form>
                         </div>
                         <div class="col-md-7">
-                            <p class="h3">Список администраторов</p>
+                            <div class=" d-flex justify-content-between">
+                                <p class="h3">Список администраторов</p>
+                                <button class="btn btn-sm btn-info">Изменить параметры безопасности</button>
+                            </div>
                             <table class="table">
                                 <thead>
                                     <tr>

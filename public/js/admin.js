@@ -126,8 +126,7 @@ $(function() {
     });
 
     $('#articleAddProductButtonClose').on('click', function(e) {
-        if ($('#articleAddProductButtonClose').prop('data-changed')) {
-        }
+        if ($('#articleAddProductButtonClose').prop('data-changed')) {}
     });
 
     $('.articleAddProductResultRemove').on('click', function() {
@@ -151,40 +150,87 @@ $(function() {
         $('#add_image').prop('disabled', false);
     });
 
-    $('#add_image').on('click', function(e) {
+    $('#uploadImagesForm').on('submit', function(e) {
         e.preventDefault();
+        var filename = $('#filename').val();
+        var alt = $('#alt').val();
+        var formData = new FormData();
 
-        var file_data = $("#productImage").prop("files")[0];
+        formData.append('name', filename);
+        formData.append('alt', alt);
+        formData.append('path', 'product');
+        formData.append('image', $("#productImage").prop("files")[0]);
 
-        // console.log($(this[0]).val());
-        let data = $(this[0]);
-        console.log(file_data);
 
-        // let formData = new FormData(this);
-        // console.log(formData);
-
-        // var fd = new FormData();  
-        // console.log(fd);  
-        // fd.append( 'file', input.files[0] );
-    
-        // $.ajax({
-        //     url: '/admin/uploadimg',
-        //     data: data,
-        //     processData: false,
-        //     contentType: false,
-        //     type: 'POST',
-        //     headers: {
-        //         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-        //     },
-        //     success: function(data){
-                
-        //         var response = $.parseJSON(data);
-        //         alert(response);
-        //     },
-        //     error: function(msg) {
-        //         alert(msg);
-        //     }
-        // });
+        $.ajax({
+            type: "POST",
+            url: '/admin/uploadimg',
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                var data = $.parseJSON(data);
+                $('#add_image').prop('disabled', true);
+                $("#productImage").val("");
+                $(".hidden_inputs").append("<input type='hidden' name='image_id[]' value=" + data.id + "> ");
+                $('#ajaxUploadedImages').append("<img class='col-lg-2 bg-success rounded img-fluid img-thumbnail' data-id='" + data.id + "' data-name='"+ data.name +"'");
+                $('#ajaxUploadedImages').append("data-alt='"+ data.alt +"' src='/imgs/products/thumbnails/" + data.thumbnail + "'>");
+            },
+            error: function(errResponse) {
+                console.log(errResponse);
+            }
+        });
     });
-    
+
+    // управление фотографиями, загруженными для товара
+
+    $('#ajaxUploadedImages > div > img').on('click', function() {
+        console.log($(this)[0]);
+    });
+
+
+    // $('#add_image').on('click', function(e) {
+    //     e.preventDefault();
+
+    //     var file_data = $("#productImage").prop("files")[0];
+    //     var name = $('#filename').val();
+    //     var form_data = new FormData();
+
+    //     form_data.append('filename', name);
+
+
+    //     // console.log($(this[0]).val());
+    //     let data = $(this[0]);
+    //     console.log(form_data);
+
+    //     // let formData = new FormData(this);
+    //     // console.log(formData);
+
+    //     // var fd = new FormData();  
+    //     // console.log(fd);  
+    //     // fd.append( 'file', input.files[0] );
+
+    //     // $.ajax({
+    //     //     url: '/admin/uploadimg',
+    //     //     data: data,
+    //     //     processData: false,
+    //     //     contentType: false,
+    //     //     type: 'POST',
+    //     //     headers: {
+    //     //         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+    //     //     },
+    //     //     success: function(data){
+
+    //     //         var response = $.parseJSON(data);
+    //     //         alert(response);
+    //     //     },
+    //     //     error: function(msg) {
+    //     //         alert(msg);
+    //     //     }
+    //     // });
+    // });
+
 });

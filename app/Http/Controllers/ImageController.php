@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Image;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManagerStatic;
+use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
@@ -37,72 +39,91 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        echo json_encode($request->image);
-
-        // if ($request->path == 'product') {
-        //     $path = public_path().'\imgs\products\\';
-        //     if (!file_exists($path)) {
-        //         mkdir($path, 0777);
-        //     }
-        //     $path_thumbnail = public_path().'\imgs\products\thumbnails\\';
-        //     if (!file_exists($path_thumbnail)) {
-        //         mkdir($path_thumbnail, 0777);
-        //     }
-        // } else {
-        //     $path = public_path().'\imgs\media\\';
-        //     if (!file_exists($path)) {
-        //         mkdir($path, 0777);
-        //     }
-        //     $path_thumbnail = public_path().'\imgs\media\thumbnails\\';
-        //     if (!file_exists($path_thumbnail)) {
-        //         mkdir($path_thumbnail, 0777);
-        //     }
-        // }
         
-        // $file = $request->file('image');
 
-        // $base_name = str_random(20);
-        // $productname = Str::slug(mb_substr($request->product, 0, 60), "-");
+        if ($request->path == 'product') {
+            $path = public_path().'\imgs\products\\';
+            if (!file_exists($path)) {
+                mkdir($path, 0777);
+            }
+            $path_thumbnail = public_path().'\imgs\products\thumbnails\\';
+            if (!file_exists($path_thumbnail)) {
+                mkdir($path_thumbnail, 0777);
+            }
+        } else {
+            $path = public_path().'\imgs\media\\';
+            if (!file_exists($path)) {
+                mkdir($path, 0777);
+            }
+            $path_thumbnail = public_path().'\imgs\media\thumbnails\\';
+            if (!file_exists($path_thumbnail)) {
+                mkdir($path_thumbnail, 0777);
+            }
+        }  
 
-        // $filename = $base_name .'.' . $file->getClientOriginalExtension() ?: 'png';
-        // $filename_thumbnail = $base_name .'_thumbnail.' . $file->getClientOriginalExtension() ?: 'png';
-        // $img = ImageManagerStatic::make($file);
-        // $img->resize(600, null, function ($constraint) {
-        //         $constraint->aspectRatio();
-        //     })
-        //     ->save($path . $filename);
-        // $thumbnail = $img->resize(250, null, function ($constraint) {
-        //         $constraint->aspectRatio();
-        //     })
-        //     ->save($path_thumbnail . $filename_thumbnail);
+        if (isset($request->product_id)) {
+            $productname = isset($request->product_id);
+            $filename = '';
+            $filename_thumbnail = '';
+        } else {
+            $productname = '';
+            $filename = '-noprod-';
+            $filename_thumbnail = '-noprod-';
+        }
 
-        // if($request->main) {      
-        //     $imgs = Image::whereIn('id', ImageProduct::where('product_id', $request->product_id)
-        //                                                 ->pluck('image_id'))
-        //                     ->where('main', 1)
-        //                     ->get();
-        //     foreach ($imgs as $img) {
-        //         $img->main = 0;
-        //         $img->save();
-        //     }            
-        // }
+        $file = $request->image;
+        $base_name = str_random(20);
+        $filename .= $base_name .'.' . $file->getClientOriginalExtension() ?: 'png';
+        $filename_thumbnail .= $base_name .'_thumbnail.' . $file->getClientOriginalExtension() ?: 'png';
+        $img = ImageManagerStatic::make($file);
+        $img->resize(600, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save($path . $filename);
+        $thumbnail = $img->resize(250, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save($path_thumbnail . $filename_thumbnail);
 
-        // $image = Image::create([
-        //     'image' => $filename, 
-        //     'name' => $request->name,
-        //     'productname' => $productname,
-        //     'alt' => $request->alt,
-        //     'thumbnail' => $filename_thumbnail,
-        //     'main' => $request->main
-        //     ]);      
+        if($request->main && isset($request->product_id)) {      
+            $imgs = Image::whereIn('id', ImageProduct::where('product_id', $request->product_id)
+                                                        ->pluck('image_id'))
+                            ->where('main', 1)
+                            ->get();
+            foreach ($imgs as $img) {
+                $img->main = 0;
+                $img->save();
+            }            
+        }
+
+        if (isset($request->main)) {
+            $main = $request->main;
+        } else {
+            $main = 0;
+        }
         
+
+        $image = Image::create([
+            'image' => $filename, 
+            'name' => $request->name,
+            'productname' => $productname,
+            'alt' => $request->alt,
+            'thumbnail' => $filename_thumbnail,
+            'main' => $request->main
+        ]);    
+        
+        // echo json_encode($request->all());
+        echo json_encode($image);
+        
+        
+
         // $image->products()->attach($request->product_id);
 
         // $imgs = Image::whereIn('id', ImageProduct::where('product_id', $request->product_id)
-        //                                                 ->pluck('image_id'))
-        //                     ->where('main', 1)
-        //                     ->pluck('id');
-        // //dd($imgs);
+                            //                             ->pluck('image_id'))
+                            // ->where('main', 1)
+                            // ->pluck('id');
+        //dd($imgs);
         // if (count($imgs) == 0) {
         //     $mainimg = Image::whereIn('id', ImageProduct::where('product_id', $request->product_id)
         //                                                 ->pluck('image_id'))
@@ -110,7 +131,7 @@ class ImageController extends Controller
         //     $mainimg[0]->main = 1;
         //     $mainimg[0]->save();
         // }
-        // // return redirect()->back()->with('addImages', 'true');
+        // return redirect()->back()->with('addImages', 'true');
         // return redirect()->route('admin.products.addImages', $request->product_id);
     }
 

@@ -1,5 +1,10 @@
 @extends('layouts.admin-app')
 
+@section('adminmenu')
+    @parent
+    @include('admin.partials.adminmenu2')
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -22,8 +27,13 @@
                                     " class="card-img-top img-fluid">
                                 </div>                                
                                 <div class="card-body">
-                                    <div>
-                                        <span>{{ Carbon\Carbon::parse($article->created_at)->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM') }}</span>
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span class="text-muted">{{ Carbon\Carbon::parse($article->created_at)->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM') }}</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-muted">товаров привязано: {{ $article->products->count() }}</span>
+                                        </div>
                                     </div>
                                     <a href="{{ route('admin.products.index', ['article' => $article->id]) }}">
                                         <h5 class="card-title">{{ $article->article }}</h5>

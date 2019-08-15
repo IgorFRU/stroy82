@@ -1,4 +1,8 @@
 @extends('layouts.admin-app')
+@section('adminmenu')
+    @parent
+    @include('admin.partials.adminmenu2')
+@endsection
 @section('scripts')
     @parent
     <script src="https://cdn.tiny.cloud/1/4ogn001qp1t620kw68fag111as9qnq1nqba3n4ycar2puh9p/tinymce/5/tinymce.min.js"></script>

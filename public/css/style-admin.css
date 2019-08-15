@@ -98,3 +98,21 @@
 #articleAddProductResult>button>span {
     color: #ff8e8e;
 }
+
+nav {
+    text-transform: uppercase;
+}
+
+#ajaxUploadedImages {
+    margin: 10px 0;
+}
+
+
+/* 
+#ajaxUploadedImages .img_with_footer {
+    overflow: hidden;
+}
+
+#ajaxUploadedImages .img_with_footer img {
+    max-width: 100%;
+} */
