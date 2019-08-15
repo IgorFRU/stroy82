@@ -163,24 +163,24 @@ class ProductController extends Controller
         return view('admin.products.edit', $data);
     }
 
-    public function addImages(Product $product)
-    {
-        // dd($product);
-        $today = Carbon::now();
-        $data = array (
-            'product' => $product,
-            'categories' => Category::with('children')->where('category_id', '0')->get(),
-            'manufactures' => Manufacture::get(),
-            'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
-            'vendors' => Vendor::get(),
-            'units' => Unit::get(),
-            'typeRequest' => 'edit',
-            'delimiter' => '',
-            'addImages' => true,
-        );
+    // public function addImages(Product $product)
+    // {
+    //     // dd($product);
+    //     $today = Carbon::now();
+    //     $data = array (
+    //         'product' => $product,
+    //         'categories' => Category::with('children')->where('category_id', '0')->get(),
+    //         'manufactures' => Manufacture::get(),
+    //         'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
+    //         'vendors' => Vendor::get(),
+    //         'units' => Unit::get(),
+    //         'typeRequest' => 'edit',
+    //         'delimiter' => '',
+    //         'addImages' => true,
+    //     );
         
-        return view('admin.products.edit', $data);
-    }
+    //     return view('admin.products.edit', $data);
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -192,6 +192,24 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $product->update($request->except('alias'));
+        
+        if (isset($request->image_id)) {
+            $imagesArray = $request->image_id;
+            
+            foreach ($imagesArray as $image) {
+                $imageCollection = Image::where('id', $image)->first();
+                $old_name = $imageCollection->image;
+                $new_name = Str::after($old_name, '-noprod-');
+                $old_thumbnail = $imageCollection->thumbnail;
+                $new_thumbnail = Str::after($old_thumbnail, '-noprod-');
+                rename(public_path("imgs/products/". $old_name), public_path("imgs/products/". $new_name));
+                rename(public_path("imgs/products/thumbnails/". $old_thumbnail), public_path("imgs/products/thumbnails/". $new_thumbnail));
+                $imageCollection->image = $new_name;
+                $imageCollection->thumbnail = $new_thumbnail;
+                $imageCollection->update();
+                $product->images()->attach($image);
+            } 
+        }
 
         return redirect()->route('admin.products.index');
     }

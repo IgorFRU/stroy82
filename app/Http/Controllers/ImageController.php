@@ -27,7 +27,7 @@ class ImageController extends Controller
     public function create()
     {
         
-        
+        //
 
     }
 
@@ -166,7 +166,12 @@ class ImageController extends Controller
      */
     public function update(Request $request, Image $image)
     {
-        //
+        $image = Image::where('id', $request->id)->first();
+        $image->name = $request->name;
+        $image->alt = $request->alt;
+        $image->update();
+
+        echo json_encode($image);
     }
 
     /**

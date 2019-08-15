@@ -137,6 +137,7 @@ $(function() {
             button.addClass('btn-danger');
 
             $(".hidden_inputs").find("input[value = " + id + "]").attr('name', 'del');
+            // console.log($(".hidden_inputs").find("input[value = " + id + "]").attr('name'));
         } else {
             button.removeClass('btn-danger');
             button.addClass('btn-secondary');
@@ -150,7 +151,7 @@ $(function() {
         $('#add_image').prop('disabled', false);
     });
 
-    $('#uploadImagesForm').on('submit', function(e) {
+    $('#add_image').on('click', function(e) {
         e.preventDefault();
         var filename = $('#filename').val();
         var alt = $('#alt').val();
@@ -176,8 +177,7 @@ $(function() {
                 $('#add_image').prop('disabled', true);
                 $("#productImage").val("");
                 $(".hidden_inputs").append("<input type='hidden' name='image_id[]' value=" + data.id + "> ");
-                $('#ajaxUploadedImages').append("<img class='col-lg-2 bg-success rounded img-fluid img-thumbnail' data-id='" + data.id + "' data-name='"+ data.name +"'");
-                $('#ajaxUploadedImages').append("data-alt='"+ data.alt +"' src='/imgs/products/thumbnails/" + data.thumbnail + "'>");
+                $('#ajaxUploadedImages').append("<img class='col-lg-2 bg-success rounded img-fluid img-thumbnail' data-id='" + data.id + "' data-name='"+ data.name +" data-alt='"+ data.alt +"' src='/imgs/products/thumbnails/" + data.thumbnail + "'>");
             },
             error: function(errResponse) {
                 console.log(errResponse);
@@ -187,8 +187,54 @@ $(function() {
 
     // управление фотографиями, загруженными для товара
 
-    $('#ajaxUploadedImages > div > img').on('click', function() {
-        console.log($(this)[0]);
+    $('#ajaxUploadedImages > div').on('click', function() {
+        // console.log($(this).find('img'));
+        let img = $(this).find('img');
+        let id = img.attr('data-id');
+        let name = img.attr('data-name');
+        let alt = img.attr('data-alt');
+
+        $('#filename').val(name);
+        $('#alt').val(alt);
+
+
+        let allImages = $('#ajaxUploadedImages > div > img');
+        allImages.each(function(i,elem) {
+            $(elem).removeClass('bg-warning');
+        });
+
+        img.addClass('bg-warning');
+        $('#add_image').prop('disabled', false);
+        $('#add_image_reload').prop('disabled', false);
+        $('#add_image_delete').prop('disabled', false);
+
+        // $('#add_image_reload').on('click', function () {
+        //     $('#hiddenTypeForm').append("<input type='hidden' name='_method' value='put'>");
+        //     $.ajax({
+        //         type: "PUT",
+        //         url: '/admin/updateimg/'.id,
+        //         data: {
+        //             id: id,
+        //             name: name,
+        //             alt: alt
+        //         },
+        //         processData: false,
+        //         contentType: false,
+        //         headers: {
+        //             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        //         },
+        //         success: function(data) {
+        //             var data = $.parseJSON(data);
+        //             $('#hiddenTypeForm').empty();
+        //             console.log(data);
+        //         },
+        //         error: function(errResponse) {
+        //             console.log(errResponse);
+                    
+        //             // $('#hiddenTypeForm').empty();
+        //         }
+        //     });
+        // });
     });
 
 

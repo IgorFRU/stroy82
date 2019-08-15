@@ -28,6 +28,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('password.reset');
   
   Route::post('/uploadimg',  'ImageController@store');
+  // Route::any('/updateimg/{id}',  'ImageController@update');
   Route::resource('/categories', 'CategoryController');
   Route::resource('/articles', 'ArticleController');
   Route::post('/articles/addProducts', 'ArticleController@addProducts');

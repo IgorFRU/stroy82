@@ -1,3 +1,13 @@
+
+        
+<nav class="nav nav-pills nav-fill tabs">
+    <span class="nav-item nav-link @if (!isset($addImages)) active @endisset" data-tab="main">Основная информация</span>
+    <span class="nav-item nav-link" data-tab="description1">Описание</span>
+    <span class="nav-item nav-link" data-tab="size">Габариты</span>
+    <span class="nav-item nav-link" data-tab="properties">Характеристики</span>
+    <span class="nav-item nav-link add_photos_tab @if (isset($addImages)) active @endisset" data-tab="photos">Фотографии</span>
+</nav>
+<hr>
 <form id="createproduct" 
     @isset($typeRequest)
         @if($typeRequest == 'create')
@@ -14,15 +24,6 @@
     @endisset             
             
         @csrf
-        
-<nav class="nav nav-pills nav-fill tabs">
-    <span class="nav-item nav-link @if (!isset($addImages)) active @endisset" data-tab="main">Основная информация</span>
-    <span class="nav-item nav-link" data-tab="description1">Описание</span>
-    <span class="nav-item nav-link" data-tab="size">Габариты</span>
-    <span class="nav-item nav-link" data-tab="properties">Характеристики</span>
-    <span class="nav-item nav-link add_photos_tab @if (isset($addImages)) active @endisset" data-tab="photos">Фотографии</span>
-</nav>
-<hr>
 <div id="main" class="tab_item @if (!isset($addImages)) active @endisset">
     <div class="row">
         <div class="col-lg-8">
@@ -362,7 +363,8 @@
             </div>
         </div>
 </div>
-
+<div class="hidden_inputs"></div> 
+</form>
 
 <div id="photos" class="tab_item">
     <div class="row">
@@ -373,12 +375,15 @@
             
             <div id="ajaxUploadedImages" class="col-lg-12 row">
                 @isset($product->images)
-                    @forelse ($product->images as $image)                
+                    @forelse ($product->images as $image)  
+                    @php
+                        // dd($image);
+                    @endphp              
                         <div class="col-lg-2">
                             <img data-id="{{ $image->id }}" data-name="{{ $image->name ?? '' }}" data-alt="{{ $image->alt ?? '' }}" src="{{ asset('imgs/products/thumbnails')}}/{{ $image->thumbnail}}" alt="..." class="rounded img-fluid img-thumbnail @if($image->main) main_image @endif ">
                         </div>                
                     @empty
-                        секция для отображения загруженных изображений 
+                         
                     @endforelse
                 @endisset
             </div>
@@ -387,71 +392,74 @@
     
     
 
-</div>
 
-
-<div class="hidden_inputs"></div> 
-
-</form>
-<form action="" id="uploadImagesForm" method="post" enctype="multipart/form-data">
-    @csrf
-    <div class="col-lg-7">  
-        <div class="row">
-            <div class="col">
-                <div class="form-group row">
-                    <label for="image" class="col-md-3 col-form-label">Изображение</label>
-                    <div class="col-md-9">
-                        <input type="file" class="custom-file-input" id="productImage" name="image">
-                        <label class="custom-file-label" for="customFile">Выберите файл</label>
-                    </div>  
-                                                     
-                </div>    
+    <form action="" id="uploadImagesForm" method="post" enctype="multipart/form-data">
+        <div id="hiddenTypeForm"></div>
+        @csrf
+        <div class="col-lg-7">  
+            <div class="row">
+                <div class="col">
+                    <div class="form-group row">
+                        <label for="image" class="col-md-3 col-form-label">Изображение</label>
+                        <div class="col-md-9">
+                            <input type="file" class="custom-file-input" id="productImage" name="image">
+                            <label class="custom-file-label" for="customFile">Выберите файл</label>
+                        </div>  
+                                                         
+                    </div>    
+                </div>
+            </div>                 
+            <div class="row">
+                <div class="col">
+                    <div class="form-group row">
+                        <label for="filename" class="col-sm-3 col-form-label">Название</label>
+                        <div class="col-md-9">
+                            <input type="text" name="name" class="form-control" id="filename" value="{{ $image->name ?? '' }}">
+                        </div>                                    
+                    </div>    
+                </div>
             </div>
-        </div>                 
-        <div class="row">
-            <div class="col">
-                <div class="form-group row">
-                    <label for="filename" class="col-sm-3 col-form-label">Название</label>
-                    <div class="col-md-9">
-                        <input type="text" name="name" class="form-control" id="filename" value="{{ $image->name ?? '' }}">
-                    </div>                                    
-                </div>    
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-sm-9">
-                <div class="form-group row">
-                    <label for="alt" class="col-sm-4 col-form-label">"Alt"</label>
-                    <div class="col-md-7">
-                        <input type="text" name="alt" class="form-control" id="alt" value="{{ $image->alt ?? '' }}">
-                    </div>                                    
-                </div>   
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <div class="form-check">
-                        @if(isset($image->id))
-                            <input class="form-check-input js_oneclick" type="checkbox" id="main" name="main" value="{{ $image->main }}" @if($image->main) checked @endif>
-                        @else
-                            <input class="form-check-input js_oneclick" type="checkbox" name="main" id="main" value="1"  checked >
-                        @endif
-                        {{-- Скрытое поле для отправки на сервер value неотмеченного чекбокса --}}
-                        <input type="hidden" name="pay_online" id="pay_online" class="form-check-input js_oneclick_hidden" value="1" >
-                        <label class="form-check-label" for="main">
-                            Основное изображение
-                        </label>
+            <div class="row">
+                <div class="col col-sm-9">
+                    <div class="form-group row">
+                        <label for="alt" class="col-sm-4 col-form-label">"Alt"</label>
+                        <div class="col-md-7">
+                            <input type="text" name="alt" class="form-control" id="alt" value="{{ $image->alt ?? '' }}">
+                        </div>                                    
+                    </div>   
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <div class="form-check">
+                            @if(isset($image->id))
+                                <input class="form-check-input js_oneclick" type="checkbox" id="main" name="main" value="{{ $image->main }}" @if($image->main) checked @endif>
+                            @else
+                                <input class="form-check-input js_oneclick" type="checkbox" name="main" id="main" value="1"  checked >
+                            @endif
+                            {{-- Скрытое поле для отправки на сервер value неотмеченного чекбокса --}}
+                            <input type="hidden" name="pay_online" id="pay_online" class="form-check-input js_oneclick_hidden" value="1" >
+                            <label class="form-check-label" for="main">
+                                Основное изображение
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <input type="hidden" name="product_id" value="{{ $product->id ?? '' }}">
-        <div class="form-group row">            
-            <div class="mb-3 col-md-2">
-                <button type="submit" id="add_image" class="btn btn-primary" disabled>Сохранить</button>
+            <input type="hidden" name="product_id" value="{{ $product->id ?? '' }}">
+            <div class="form-group row">            
+                <div class="mb-3 col-md-2">
+                    <button type="submit" id="add_image" class="btn btn-primary" disabled>Сохранить</button>
+                </div>
+                <div class="mb-3 col-md-2">
+                    <div id="add_image_reload" disabled class="btn btn-secondary" disabled>Обновить</div>
+                </div>
+                <div class="mb-3 col-md-2">
+                    <div id="add_image_delete" disabled class="btn btn-danger" disabled>Удалить</div>
+                </div>
             </div>
-            <div class="mb-3 col-md-2">
-                <button type="submit" id="add_image2" disabled class="btn btn-secondary" disabled>Обновить</button>
-            </div>
-        </div>
-    </div> 
-</form>
+        </div> 
+    </form>   
+
+</div>
+
+
