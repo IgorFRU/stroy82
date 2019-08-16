@@ -109,7 +109,12 @@
                             <select class="form-control" id="unit_id" name="unit_id">
                                 <option></option>
                                 @forelse ($units as $unit)
-                                    <option value="{{ $unit->id }}">{{ $unit->unit }}</option>
+                                    <option value="{{ $unit->id }}"
+                                        @isset($product->unit_id)
+                                        @if ($unit->id == $product->unit_id)
+                                        selected = "selected"
+                                        @endif
+                                    @endisset>{{ $unit->unit }}</option>
                                 @empty
                                     
                                 @endforelse
@@ -135,7 +140,12 @@
                     <select class="form-control" id="manufacture_id" name="manufacture_id">
                         <option></option>
                         @forelse ($manufactures as $manufacture)
-                            <option value="{{ $manufacture->id }}">{{ $manufacture->manufacture }}</option>
+                            <option value="{{ $manufacture->id }}"
+                                @isset($product->manufacture_id)
+                                    @if ($manufacture->id == $product->manufacture_id)
+                                    selected = "selected"
+                                    @endif
+                                @endisset>{{ $manufacture->manufacture }}</option>
                         @empty
                             
                         @endforelse
@@ -148,7 +158,12 @@
                     <select class="form-control" id="vendor" name="vendor_id">
                         <option></option>
                         @forelse ($vendors as $vendor)
-                            <option value="{{ $vendor->id }}">
+                            <option value="{{ $vendor->id }}"
+                                @isset($product->vendor_id)
+                                    @if ($vendor->id == $product->vendor_id)
+                                    selected = "selected"
+                                    @endif
+                                @endisset>
                                 {{ $vendor->vendor }} 
                             </option>
                         @empty
@@ -184,7 +199,12 @@
                             <select class="form-control" id="discount" name="discount_id">
                                 <option></option>
                                 @forelse ($discounts as $discount)
-                                    <option value="{{ $discount->id }}">
+                                    <option value="{{ $discount->id }}"
+                                        @isset($product->discount_id)
+                                            @if ($discount->id == $product->discount_id)
+                                            selected = "selected"
+                                            @endif
+                                        @endisset>
                                         {{ $discount->discount }} - 
                                         {{ $discount->value }} 
                                         {{ $discount->type }}
@@ -299,9 +319,24 @@
                         <div class="col-md-12">
                             <select class="form-control" id="size_type" name="size_type">
                                 <option></option>
-                                <option value="mm">мм.</option>
-                                <option value="cm">см.</option>
-                                <option value="m">м.</option>
+                                <option value="mm" 
+                                @isset($product->size_type)
+                                    @if ($product->size_type == 'mm')
+                                    selected = "selected"
+                                    @endif
+                                @endisset>мм.</option>
+                                <option value="cm" 
+                                @isset($product->size_type)
+                                    @if ($product->size_type == 'cm')
+                                    selected = "selected"
+                                    @endif
+                                @endisset>см.</option>
+                                <option value="m" 
+                                @isset($product->size_type)
+                                    @if ($product->size_type == 'm')
+                                    selected = "selected"
+                                    @endif
+                                @endisset>м.</option>
                             </select>
                         </div> 
                     </div>   
@@ -428,7 +463,7 @@
                         </div>                                    
                     </div>   
                 </div>
-                <div class="col">
+                {{-- <div class="col">
                     <div class="form-group">
                         <div class="form-check">
                             @if(isset($image->id))
@@ -436,25 +471,21 @@
                             @else
                                 <input class="form-check-input js_oneclick" type="checkbox" name="main" id="main" value="1"  checked >
                             @endif
-                            {{-- Скрытое поле для отправки на сервер value неотмеченного чекбокса --}}
                             <input type="hidden" name="pay_online" id="pay_online" class="form-check-input js_oneclick_hidden" value="1" >
                             <label class="form-check-label" for="main">
                                 Основное изображение
                             </label>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <input type="hidden" name="product_id" value="{{ $product->id ?? '' }}">
             <div class="form-group row">            
                 <div class="mb-3 col-md-2">
-                    <button type="submit" id="add_image" class="btn btn-primary" disabled>Сохранить</button>
+                    <button type="submit" id="add_image" data-method='store' data-id='' class="btn btn-primary" disabled>Сохранить</button>
                 </div>
                 <div class="mb-3 col-md-2">
-                    <div id="add_image_reload" disabled class="btn btn-secondary" disabled>Обновить</div>
-                </div>
-                <div class="mb-3 col-md-2">
-                    <div id="add_image_delete" disabled class="btn btn-danger" disabled>Удалить</div>
+                    <div id="add_image_delete" disabled class="btn btn-danger disabled" disabled>Удалить</div>
                 </div>
             </div>
         </div> 

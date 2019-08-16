@@ -149,24 +149,42 @@ $(function() {
     // AJAX загрузка изображений для создаваемого товара
     $('#productImage').bind('input', function() {
         $('#add_image').prop('disabled', false);
+        $('#add_image').attr('data-method', 'store');
     });
 
     $('#add_image').on('click', function(e) {
         e.preventDefault();
-        var filename = $('#filename').val();
-        var alt = $('#alt').val();
-        var formData = new FormData();
+        var method = $('#add_image').attr('data-method');
+        if (method == 'store') {
+            var filename = $('#filename').val();
+            var alt = $('#alt').val();
+            var formData = new FormData();
 
-        formData.append('name', filename);
-        formData.append('alt', alt);
-        formData.append('path', 'product');
-        formData.append('image', $("#productImage").prop("files")[0]);
+            formData.append('name', filename);
+            formData.append('alt', alt);
+            formData.append('path', 'product');
+            formData.append('method', method);
+            formData.append('image', $("#productImage").prop("files")[0]);
 
+            console.log(FormData);
+        } else if (method == 'update') {
+            var filename = $('#filename').val();
+            var alt = $('#alt').val();
+            var image_id = $('#add_image').attr('data-id');
+            var formData = new FormData();
+
+            formData.append('method', method);
+            formData.append('name', filename);
+            formData.append('alt', alt);
+            formData.append('id', image_id);
+            formData.append('path', 'product');
+        }
 
         $.ajax({
             type: "POST",
             url: '/admin/uploadimg',
             data: formData,
+            cache: false,
             processData: false,
             contentType: false,
             headers: {
@@ -174,10 +192,58 @@ $(function() {
             },
             success: function(data) {
                 var data = $.parseJSON(data);
+                var image_id = $('#add_image').attr('data-id');
+                // console.log(data.id);
+                // console.log(image_id);
+                if (typeof(data.id) != "undefined" && data.id !== null && data.id != image_id) {
+                    $('#add_image').prop('disabled', true);
+                    $("#productImage").val("");
+                    $(".hidden_inputs").append("<input type='hidden' name='image_id[]' value=" + data.id + "> ");
+                    $('#ajaxUploadedImages').append("<img class='col-lg-2 bg-success rounded img-fluid img-thumbnail' data-id='" + data.id + "' data-name='" + data.name + " data-alt='" + data.alt + "' src='/imgs/products/thumbnails/" + data.thumbnail + "'>");
+                } else if (typeof(data.id) != "undefined" && data.id !== null && data.id == image_id) {
+                    var img = $("#ajaxUploadedImages").find("[data-id='" + data.id + "']");
+                    img.attr('data-name', data.name);
+                    img.attr('data-alt', data.alt);
+                    $('#add_image').attr('data-id', '');
+                    $('#add_image').prop('disabled', true);
+                    img.removeClass('bg-warning');
+                }
+            },
+            error: function(errResponse) {
+                console.log(errResponse);
+            }
+        });
+    });
+
+    $('#add_image_delete').on('click', function() {
+        var image_id = $('#add_image').attr('data-id');
+        var method = 'delete';
+        var formData = new FormData();
+
+        formData.append('method', method);
+        formData.append('image_id', image_id);
+
+        $.ajax({
+            type: "POST",
+            url: '/admin/uploadimg',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                var data = $.parseJSON(data);
+                console.log(data);
+                var image_id = $('#add_image').attr('data-id');
+                $('#add_image').attr('data-id', '');
                 $('#add_image').prop('disabled', true);
-                $("#productImage").val("");
-                $(".hidden_inputs").append("<input type='hidden' name='image_id[]' value=" + data.id + "> ");
-                $('#ajaxUploadedImages').append("<img class='col-lg-2 bg-success rounded img-fluid img-thumbnail' data-id='" + data.id + "' data-name='"+ data.name +" data-alt='"+ data.alt +"' src='/imgs/products/thumbnails/" + data.thumbnail + "'>");
+                $('#add_image_delete').addClass('disabled');
+
+                var element = $("#ajaxUploadedImages img[data-id='" + data.id + "']").parent();
+                element.remove();
+
             },
             error: function(errResponse) {
                 console.log(errResponse);
@@ -196,87 +262,16 @@ $(function() {
 
         $('#filename').val(name);
         $('#alt').val(alt);
-
+        $('#add_image').attr('data-id', id);
 
         let allImages = $('#ajaxUploadedImages > div > img');
-        allImages.each(function(i,elem) {
+        allImages.each(function(i, elem) {
             $(elem).removeClass('bg-warning');
         });
 
         img.addClass('bg-warning');
         $('#add_image').prop('disabled', false);
-        $('#add_image_reload').prop('disabled', false);
-        $('#add_image_delete').prop('disabled', false);
-
-        // $('#add_image_reload').on('click', function () {
-        //     $('#hiddenTypeForm').append("<input type='hidden' name='_method' value='put'>");
-        //     $.ajax({
-        //         type: "PUT",
-        //         url: '/admin/updateimg/'.id,
-        //         data: {
-        //             id: id,
-        //             name: name,
-        //             alt: alt
-        //         },
-        //         processData: false,
-        //         contentType: false,
-        //         headers: {
-        //             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-        //         },
-        //         success: function(data) {
-        //             var data = $.parseJSON(data);
-        //             $('#hiddenTypeForm').empty();
-        //             console.log(data);
-        //         },
-        //         error: function(errResponse) {
-        //             console.log(errResponse);
-                    
-        //             // $('#hiddenTypeForm').empty();
-        //         }
-        //     });
-        // });
+        $('#add_image').attr('data-method', 'update');
+        $('#add_image_delete').removeClass('disabled');
     });
-
-
-    // $('#add_image').on('click', function(e) {
-    //     e.preventDefault();
-
-    //     var file_data = $("#productImage").prop("files")[0];
-    //     var name = $('#filename').val();
-    //     var form_data = new FormData();
-
-    //     form_data.append('filename', name);
-
-
-    //     // console.log($(this[0]).val());
-    //     let data = $(this[0]);
-    //     console.log(form_data);
-
-    //     // let formData = new FormData(this);
-    //     // console.log(formData);
-
-    //     // var fd = new FormData();  
-    //     // console.log(fd);  
-    //     // fd.append( 'file', input.files[0] );
-
-    //     // $.ajax({
-    //     //     url: '/admin/uploadimg',
-    //     //     data: data,
-    //     //     processData: false,
-    //     //     contentType: false,
-    //     //     type: 'POST',
-    //     //     headers: {
-    //     //         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-    //     //     },
-    //     //     success: function(data){
-
-    //     //         var response = $.parseJSON(data);
-    //     //         alert(response);
-    //     //     },
-    //     //     error: function(msg) {
-    //     //         alert(msg);
-    //     //     }
-    //     // });
-    // });
-
 });

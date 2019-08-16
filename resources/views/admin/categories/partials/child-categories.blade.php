@@ -1,9 +1,10 @@
 {{-- Подключаемый шаблон для вывода выпадающего списка родительских категорий при создании или редактировании категории --}}
 @foreach($categories as $category_list)
-    <option value="{{$category_list->id ?? ""}}"    
-    @isset($category->id)    
-        @if($category->parent_id == $category_list->id)
-            selected=""
+    <option value="{{$category_list->id ?? ""}}"  
+    @isset($category->category_id)
+           
+        @if($category->category_id == $category_list->id)
+            selected="selected"
         @endif
         @if($category->id == $category_list->category_id)
             disabled=""
@@ -11,6 +12,11 @@
         @if($category->id == $category_list->id)
             hidden="" {{-- скрываем саму категорию из списка родителей--}}
         @endif    
+    @endisset 
+    @isset($product->category_id)
+        @if ($category_list->id == $product->category_id)
+        selected = "selected"
+        @endif
     @endisset    
     >
     {!! $delimiter ?? '' !!}{{$category_list->category ?? ""}}

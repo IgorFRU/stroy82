@@ -71,49 +71,73 @@ class ImageController extends Controller
             $filename_thumbnail = '-noprod-';
         }
 
-        $file = $request->image;
-        $base_name = str_random(20);
-        $filename .= $base_name .'.' . $file->getClientOriginalExtension() ?: 'png';
-        $filename_thumbnail .= $base_name .'_thumbnail.' . $file->getClientOriginalExtension() ?: 'png';
-        $img = ImageManagerStatic::make($file);
-        $img->resize(600, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->save($path . $filename);
-        $thumbnail = $img->resize(250, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->save($path_thumbnail . $filename_thumbnail);
+        if (isset($request->method) && $request->method == 'store') {
+            $file = $request->image;
+            $base_name = str_random(20);
+            $filename .= $base_name .'.' . $file->getClientOriginalExtension() ?: 'png';
+            $filename_thumbnail .= $base_name .'_thumbnail.' . $file->getClientOriginalExtension() ?: 'png';
+            $img = ImageManagerStatic::make($file);
+            $img->resize(600, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($path . $filename);
+            $thumbnail = $img->resize(250, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($path_thumbnail . $filename_thumbnail);
 
-        if($request->main && isset($request->product_id)) {      
-            $imgs = Image::whereIn('id', ImageProduct::where('product_id', $request->product_id)
-                                                        ->pluck('image_id'))
-                            ->where('main', 1)
-                            ->get();
-            foreach ($imgs as $img) {
-                $img->main = 0;
-                $img->save();
-            }            
+            if($request->main && isset($request->product_id)) {      
+                $imgs = Image::whereIn('id', ImageProduct::where('product_id', $request->product_id)
+                                                            ->pluck('image_id'))
+                                ->where('main', 1)
+                                ->get();
+                foreach ($imgs as $img) {
+                    $img->main = 0;
+                    $img->save();
+                }            
+            }
+
+            if (isset($request->main)) {
+                $main = $request->main;
+            } else {
+                $main = 0;
+            }
+            
+
+            $image = Image::create([
+                'image' => $filename, 
+                'name' => $request->name,
+                'productname' => $productname,
+                'alt' => $request->alt,
+                'thumbnail' => $filename_thumbnail,
+                'main' => $request->main
+            ]);    
+            
+            echo json_encode($image);
         }
 
-        if (isset($request->main)) {
-            $main = $request->main;
-        } else {
-            $main = 0;
-        }
-        
+        if (isset($request->method) && $request->method == 'update') {
+            
+            $image = Image::where('id', $request->id)->first();
+            $image->name = $request->name;
+            $image->alt = $request->alt;
+            $image->update();
 
-        $image = Image::create([
-            'image' => $filename, 
-            'name' => $request->name,
-            'productname' => $productname,
-            'alt' => $request->alt,
-            'thumbnail' => $filename_thumbnail,
-            'main' => $request->main
-        ]);    
-        
-        // echo json_encode($request->all());
-        echo json_encode($image);
+            echo json_encode($image);
+        }
+
+        if (isset($request->method) && $request->method == 'delete') {
+            $image = Image::where('id', $request->image_id)->first();
+
+            if ($image->image && file_exists(public_path('imgs/products/'. $image->image))) {
+                unlink(public_path('imgs/products/'.$image->image));
+            }
+            if ($image->thumbnail && file_exists(public_path('imgs/products/thumbnails/'. $image->thumbnail))) {
+                unlink(public_path('imgs/products/thumbnails/'.$image->thumbnail));
+            }
+            $image->delete();
+            echo json_encode(array('id' => $request->image_id));
+        }
         
         
 
