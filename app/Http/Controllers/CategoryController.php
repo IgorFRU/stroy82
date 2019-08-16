@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Property;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class CategoryController extends Controller
 {
@@ -37,8 +38,8 @@ class CategoryController extends Controller
         $data = array (
             'category' => [],
             //коллекция вложенных подкатегорий
-            'categories' => Category::with('children')->where('category_id', '0')->get(),
-            'properties' => Property::all(),
+            'categories' => Category::with('children')->where('category_id', '0')->with('properties')->get(),
+            'properties' => Property::orderBy('property', 'asc')->get(),
             //символ, обозначающий вложенность категорий
             'delimiter' => ''
         );
@@ -57,6 +58,10 @@ class CategoryController extends Controller
     {
         $category = Category::create($request->all());
         
+        if (isset($request->property_id)) {
+            $properties = Arr::sort($request->property_id);
+            $category->properties()->sync($properties, true);
+        }
         return redirect()->route('admin.categories.index')
             ->with('success', 'Категория успешно добавлена.');
     }
@@ -80,10 +85,12 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        $properties = Property::orderBy('property', 'asc')->get();
+        $properties = $properties->unique_properties($category->id);
         $data = array (
             'category' => $category,
-            'categories' => Category::with('children')->where('category_id', '0')->get(),
-            'properties' => Property::all(),
+            'categories' => Category::with('children')->where('category_id', '0')->with('properties')->get(),
+            'properties' => $properties,
             'delimiter' => ''
         );
         
@@ -99,8 +106,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        // dd($request);
+        // dd($request->all());
         $category->update($request->except('alias'));
+        if (isset($request->property_id)) {
+            $properties = Arr::sort($request->property_id);
+            $category->properties()->sync($properties, true);
+        }
 
         return redirect()->route('admin.categories.index')->with('success', 'Категория успешно Изменена');
     }

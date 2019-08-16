@@ -28,6 +28,7 @@ class Category extends Model
     //         $this->attributes['slug'] .= '-' . ++$next_id;
     //     }
     // }
+
     
 
     public function children() {
@@ -40,5 +41,9 @@ class Category extends Model
 
     public function products() {
         return $this->hasMany(Product::class);
+    }
+    
+    public function properties() {
+        return $this->belongsToMany(Property::class);
     }
 }

@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class PropertyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +40,11 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
         $jsonProducts = $request->all();
-        $property = Property::where('property', $request->property)->first();
+        if (isset($request->property_id) && $request->property_id != 0) {
+            $property = Property::where('id', $request->property_id)->first();
+        } else {
+            $property = Property::where('property', $request->property)->first();
+        }        
         if (Property::where('property', $request->property)->count() == 0) {
             $property = Property::create($request->all());
         }

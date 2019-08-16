@@ -288,6 +288,15 @@ $(function() {
         }
     });
 
+    $('#property_id').bind('input', function() {
+        var property = $('#property_id').val();
+        if (property != 0) {
+            $('#propertyAddButton0').removeClass('disabled');
+        } else {
+            $('#propertyAddButton0').addClass('disabled');
+        }
+    });
+
     $('#propertyAddButton').on('click', function() {
         var property = $('#property').val();
         var slug = '';
@@ -305,16 +314,47 @@ $(function() {
                 success: function(data) {
                     var data = $.parseJSON(data);
                     console.log(data);
-                    var property = $('#property').val('');
+                    $('#property').val('');
+                    var property_id = data.id;
+                    var property = data.property;
                     $('#propertyAddButton').addClass('disabled');
-                    // var image_id = $('#add_image').attr('data-id');
-                    // $('#add_image').attr('data-id', '');
-                    // $('#add_image').prop('disabled', true);
-                    // $('#add_image_delete').addClass('disabled');
+                    $(".hidden_inputs").append("<input type='hidden' name='property_id[]' value=" + property_id + ">");
+                    $('#categoryAddPropertyResult').append("<button type='button' data-property-id='" + property_id + "' class='btn btn-success'>" + property + " <span class='categoryPropertyItemRemove' title='Открепить от категории'><i class='fas fa-window-close'></i></span><span class='categoryPropertyItemTrash rounded' title='Удалить навсегда'><i class='fas fa-trash'></i></span></button>");
+                },
+                error: function(errResponse) {
+                    console.log(errResponse);
+                }
+            });
+        }
+    });
 
-                    // var element = $("#ajaxUploadedImages img[data-id='" + data.id + "']").parent();
-                    // element.remove();
-
+    $('#propertyAddButton0').on('click', function() {
+        var property_id = $('#property_id').val();
+        var property = $('#property_id').find(':selected').attr('data-property');
+        console.log(property_id);
+        console.log(property);
+        var slug = '';
+        if (property != 0) {
+            $.ajax({
+                type: "POST",
+                url: "/admin/properties/store",
+                data: {
+                    property: property,
+                    property_id: property_id,
+                    slug: slug
+                },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    var data = $.parseJSON(data);
+                    console.log(data);
+                    $('#property_id').val(0);
+                    var property_id = data.id;
+                    var property = data.property;
+                    $('#propertyAddButton').addClass('disabled');
+                    $(".hidden_inputs").append("<input type='hidden' name='property_id[]' value=" + property_id + ">");
+                    $('#categoryAddPropertyResult').append("<button type='button' data-property-id='" + property_id + "' class='btn btn-success'>" + property + " <span class='categoryPropertyItemRemove' title='Открепить от категории'><i class='fas fa-window-close'></i></span><span class='categoryPropertyItemTrash rounded' title='Удалить навсегда'><i class='fas fa-trash'></i></span></button>");
                 },
                 error: function(errResponse) {
                     console.log(errResponse);

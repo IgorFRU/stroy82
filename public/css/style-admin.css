@@ -86,7 +86,8 @@
     cursor: pointer;
 }
 
-#articleAddProductResult>button {
+#articleAddProductResult>button,
+#categoryAddPropertyResult>button {
     margin: 5px;
     color: #fff;
 }
@@ -97,6 +98,18 @@
 
 #articleAddProductResult>button>span {
     color: #ff8e8e;
+}
+
+.categoryPropertyItemTrash {
+    margin-left: 10px;
+    padding: 10px 15px;
+    background: #ff6363;
+    margin-right: -13px;
+    display: none;
+}
+
+#categoryAddPropertyResult>button:hover .categoryPropertyItemTrash {
+    display: inline;
 }
 
 nav {
