@@ -115,6 +115,7 @@ $(function() {
         }
     });
 
+    // при выборе товара из выпадающего списка
     $('#articleAddProductByCategoryShow').on('change', function() {
         let product = $('#articleAddProductByCategoryShow').val();
         let productData = $(this).find(':selected').attr('data-product');
@@ -274,4 +275,52 @@ $(function() {
         $('#add_image').attr('data-method', 'update');
         $('#add_image_delete').removeClass('disabled');
     });
+
+    // управление характеристиками товаров
+    // в категориях
+
+    $('#property').bind('input', function() {
+        var property = $('#property').val();
+        if (property.length < 3) {
+            $('#propertyAddButton').addClass('disabled');
+        } else {
+            $('#propertyAddButton').removeClass('disabled');
+        }
+    });
+
+    $('#propertyAddButton').on('click', function() {
+        var property = $('#property').val();
+        var slug = '';
+        if (property.length > 3) {
+            $.ajax({
+                type: "POST",
+                url: "/admin/properties/store",
+                data: {
+                    property: property,
+                    slug: slug
+                },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    var data = $.parseJSON(data);
+                    console.log(data);
+                    var property = $('#property').val('');
+                    $('#propertyAddButton').addClass('disabled');
+                    // var image_id = $('#add_image').attr('data-id');
+                    // $('#add_image').attr('data-id', '');
+                    // $('#add_image').prop('disabled', true);
+                    // $('#add_image_delete').addClass('disabled');
+
+                    // var element = $("#ajaxUploadedImages img[data-id='" + data.id + "']").parent();
+                    // element.remove();
+
+                },
+                error: function(errResponse) {
+                    console.log(errResponse);
+                }
+            });
+        }
+    });
+
 });

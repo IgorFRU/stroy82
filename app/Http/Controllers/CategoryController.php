@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Property;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -37,6 +38,7 @@ class CategoryController extends Controller
             'category' => [],
             //коллекция вложенных подкатегорий
             'categories' => Category::with('children')->where('category_id', '0')->get(),
+            'properties' => Property::all(),
             //символ, обозначающий вложенность категорий
             'delimiter' => ''
         );
@@ -81,6 +83,7 @@ class CategoryController extends Controller
         $data = array (
             'category' => $category,
             'categories' => Category::with('children')->where('category_id', '0')->get(),
+            'properties' => Property::all(),
             'delimiter' => ''
         );
         
