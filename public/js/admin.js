@@ -1,5 +1,4 @@
 $(function() {
-    // $('.js-example-basic-multiple').select2();
 
     $('nav.tabs > span').on('click', function() {
         var currentTabData = $('nav.tabs > span.active').data('tab');
@@ -121,7 +120,8 @@ $(function() {
         let productData = $(this).find(':selected').attr('data-product');
         if (product > 0) {
             $(".hidden_inputs").append("<input type='hidden' name='product_id[]' value=" + product + ">");
-            $('#articleAddProductResult').append("<button type='button' data-product-id='" + product + "' class='btn btn-success'><a href='#'><i class='fas fa-external-link-square-alt'></i></a> id: " + product + " | " + productData + " руб. <span class='articleAddProductResultRemove'><i class='fas fa-window-close'></i></span></button>");
+            // $('#articleAddProductResult').append("<button type='button' data-product-id='" + product + "' class='btn btn-success'><a href='#'><i class='fas fa-external-link-square-alt'></i></a> id: " + product + " | " + productData + " руб. <span class='articleAddProductResultRemove'><i class='fas fa-window-close'></i></span></button>");
+            $('#articleAddProductResult').append("<button type='button' data-product-id='" + product + "' class='btn btn-success'><a href='#'><i class='fas fa-external-link-square-alt'></i></a> id: " + product + " | " + productData + " руб. </button>");
             $('#articleAddProductByCategoryShow option:selected').remove();
         }
     });
@@ -319,7 +319,8 @@ $(function() {
                     var property = data.property;
                     $('#propertyAddButton').addClass('disabled');
                     $(".hidden_inputs").append("<input type='hidden' name='property_id[]' value=" + property_id + ">");
-                    $('#categoryAddPropertyResult').append("<button type='button' data-property-id='" + property_id + "' class='btn btn-success'>" + property + " <span class='categoryPropertyItemRemove' title='Открепить от категории'><i class='fas fa-window-close'></i></span><span class='categoryPropertyItemTrash rounded' title='Удалить навсегда'><i class='fas fa-trash'></i></span></button>");
+                    // $('#categoryAddPropertyResult').append("<button type='button' data-property-id='" + property_id + "' class='btn btn-success'>" + property + " <span class='categoryPropertyItemRemove' title='Открепить от категории'><i class='fas fa-window-close'></i></span><span class='categoryPropertyItemTrash rounded' title='Удалить навсегда'><i class='fas fa-trash'></i></span></button>");
+                    $('#categoryAddPropertyResult').append("<button type='button' data-property-id='" + property_id + "' class='btn btn-success'>" + property + " </button>");
                 },
                 error: function(errResponse) {
                     console.log(errResponse);
@@ -334,7 +335,7 @@ $(function() {
         console.log(property_id);
         console.log(property);
         var slug = '';
-        if (property != 0) {
+        if (property_id != 0) {
             $.ajax({
                 type: "POST",
                 url: "/admin/properties/store",
@@ -352,15 +353,70 @@ $(function() {
                     $('#property_id').val(0);
                     var property_id = data.id;
                     var property = data.property;
-                    $('#propertyAddButton').addClass('disabled');
+                    $('#propertyAddButton0').addClass('disabled');
                     $(".hidden_inputs").append("<input type='hidden' name='property_id[]' value=" + property_id + ">");
-                    $('#categoryAddPropertyResult').append("<button type='button' data-property-id='" + property_id + "' class='btn btn-success'>" + property + " <span class='categoryPropertyItemRemove' title='Открепить от категории'><i class='fas fa-window-close'></i></span><span class='categoryPropertyItemTrash rounded' title='Удалить навсегда'><i class='fas fa-trash'></i></span></button>");
+                    // $('#categoryAddPropertyResult').append("<button type='button' data-property-id='" + property_id + "' class='btn btn-success'>" + property + " <span class='categoryPropertyItemRemove' title='Открепить от категории'><i class='fas fa-window-close'></i></span><span class='categoryPropertyItemTrash rounded-right' title='Удалить навсегда'  data-toggle='modal' data-target='.confirm-to-trash-property'><i class='fas fa-trash'></i></span></button>");
+                    $('#categoryAddPropertyResult').append("<button type='button' data-property-id='" + property_id + "' class='btn btn-success'>" + property + " </button>");
+                    $('select#property_id option[value="' + property_id + '"]').remove();
                 },
                 error: function(errResponse) {
                     console.log(errResponse);
                 }
             });
+        } else {
+            $('#propertyAddButton0').addClass('disabled');
+        }
+    });
+    $('span.categoryPropertyItemRemove').on('click', function() {
+        let button = $(this).parent();
+        let id = button.attr('data-property-id');
+        if (button.hasClass('btn-secondary')) {
+            button.removeClass('btn-secondary');
+            button.addClass('btn-danger');
+
+            $(".hidden_inputs").find("input[value = " + id + "]").attr('name', 'del');
+        } else {
+            button.removeClass('btn-danger');
+            button.addClass('btn-secondary');
+
+            $(".hidden_inputs").find("input[value = " + id + "]").attr('name', 'property_id[]');
         }
     });
 
+    $('span.categoryPropertyItemTrash').on('click', function() {
+        var property = $(this).parent();
+        var property_id = property.attr('data-property-id');
+        var category_id = $('#category_id-2').val();
+        $('.confirm-to-trash-property-cancel').on('click', function() {
+            property_id = 0;
+            category_id = 0;
+        });
+        $('.confirm-to-trash-property-ok').on('click', function() {
+            $.ajax({
+                type: "POST",
+                url: "/admin/properties/destroy",
+                data: {
+                    property_id: property_id,
+                    category_id: category_id
+                },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    var data = $.parseJSON(data);
+                    $('#confirmModal').modal('hide');
+                    //если удалось удалить характеристику
+                    if (data == 0) {
+                        alert('Не удалось удалить характеристику!');
+                    } else {
+                        property.remove();
+                        $(".hidden_inputs").find("input[value = " + property_id + "]").remove();
+                    }
+                },
+                error: function(errResponse) {
+                    console.log(errResponse);
+                }
+            });
+        });
+    });
 });

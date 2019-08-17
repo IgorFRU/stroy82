@@ -85,12 +85,11 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $properties = Property::orderBy('property', 'asc')->get();
-        $properties = $properties->unique_properties($category->id);
+        $property_ids = $category->properties->pluck('id');
         $data = array (
             'category' => $category,
             'categories' => Category::with('children')->where('category_id', '0')->with('properties')->get(),
-            'properties' => $properties,
+            'properties' => Property::whereNotIn('id', $property_ids)->orderBy('property', 'asc')->get(),
             'delimiter' => ''
         );
         

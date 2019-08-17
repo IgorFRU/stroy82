@@ -21,18 +21,6 @@ class Property extends Model
         if ($double) {
             $this->attributes['slug'] .= '-' . mt_rand(10, 99);
         }
-    }
-
-    public function getUniquePropertiesAttribute($category_id) {
-        
-        $properties = Property::get()->with('categories');
-        $array = array();
-        foreach ($properties as $property) {
-            if ($property->categories()->id != $category_id) {
-                $array[] = $property;
-            }
-        }
-        return $array;
     }    
 
     public function categories() {

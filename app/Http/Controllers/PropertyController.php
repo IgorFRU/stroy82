@@ -39,7 +39,7 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-        $jsonProducts = $request->all();
+
         if (isset($request->property_id) && $request->property_id != 0) {
             $property = Property::where('id', $request->property_id)->first();
         } else {
@@ -92,8 +92,15 @@ class PropertyController extends Controller
      * @param  \App\Property  $property
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Property $property)
+    public function destroy(Request $request)
     {
-        //
+        Property::where('id', $request->property_id)->delete();
+        if (Property::where('id', $request->property_id)->count() == 0) {
+            $property = $request->property_id;
+        } else {
+            $property = 0;
+        }
+        echo json_encode($property);
+
     }
 }

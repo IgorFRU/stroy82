@@ -60,7 +60,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">id</span>
             </div>
-            <input type="text" class="form-control" name="id" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $category->id ?? '' }}">
+            <input type="text" id="category_id-2" class="form-control" name="id" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $category->id ?? '' }}">
         </div>
         <div class="input-group mb-3 col-md-1">
             <div class="input-group-prepend">
@@ -121,14 +121,39 @@
                     @endforeach
                 @endisset    
             </div>
-            <div class="col-lg-12" id="categoryAddPropertyResult">
+            <span class="col-lg-12" id="categoryAddPropertyResult">
                     
                 @isset($category->properties)
                     @foreach ($category->properties as $property)
-                        <button type="button" data-product-id="{{ $property->id }}" class="btn btn-secondary">{{ $property->property }} <span class="categoryPropertyItemRemove" title="Открепить от категории"><i class="fas fa-window-close"></i></span><span class="categoryPropertyItemTrash rounded" title="Удалить навсегда"><i class="fas fa-trash"></i></span></button>
+                        <button type="button" data-property-id="{{ $property->id }}" class="btn btn-secondary">{{ $property->property }} 
+                            <span class="categoryPropertyItemRemove" title="Открепить от категории"><i class="fas fa-window-close"></i></span>
+                            <span class="categoryPropertyItemTrash rounded-right" title="Удалить навсегда"  data-toggle="modal" data-target=".confirm-to-trash-property"><i class="fas fa-trash"></i></span>
+                        </button>
                     @endforeach
                 @endisset
             </div>
         </div>
     </div>
+
+<div class="modal fade confirm-to-trash-property" tabindex="-1" id="confirmModal" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      
+        {{-- <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div> --}}
+    <div class="modal-body">
+        <p>Вы уверены, что хотите удалить эту характеристику?</p>
+        <p>Отменить выбранное действие будет невозможно!</p>
+        </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary confirm-to-trash-property-cancel" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-primary confirm-to-trash-property-ok">OK</button>
+    </div>
+    </div>
+  </div>
+</div>
 </div>
