@@ -15,6 +15,7 @@
                     @isset($parent_manufacture)
                         производителя "{{ $parent_manufacture }}"
                     @endisset</p>
+                    
                     <div class="row col-md-6">
                         <div class="col-md-5">
                             <select class="form-control" id="index_category_id" name="index_category_id">
@@ -126,9 +127,36 @@
                     </tbody>
                 </table>
                 <div class="paginate">
-                    {{ $products->appends(request()->input())->links() }}
+                    {{ $products->appends(request()->input())->links('layouts.pagination') }}
                 </div>
-                
+                <div class="items_per_page">
+                    <form  class="form-group row col-lg-6" action="{{ route('admin.products.index') }}" method="get">
+                        <label for="pp" class="col-lg-3 col-form-label">Товаров на странице</label>
+                        <div class="col-lg-2">
+                            @php
+                                $perPage = 5;
+                                $count = 5;
+                            @endphp
+                            <select class="form-control" name="pp" id="pp">
+                                @for ($i = 1; $i < $count; $i++)
+                                @php
+                                    $pP = $perPage * pow(2, $i);
+                                @endphp
+                                    <option @if ($pP == $itemsPerPage) selected='selected' @endif value="{!! $pP !!}">{!! $pP !!}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-2">
+                                <select class="form-control" id="p_published" name="p_published">
+                                    <option @if ($productPublished == 2) selected='selected' @endif value="2">Все</option>
+                                    <option @if ($productPublished == 1) selected='selected' @endif value="1">Опублик.</option>
+                                    <option @if ($productPublished == 0) selected='selected' @endif value="0">Неопублик.</option>
+                                </select>
+                            </div>
+                        <button class="btn button-primary" type="submit">OK</button>        
+                    </form> 
+                </div>                
             </div>
         </div>
     </div>

@@ -43,13 +43,34 @@ class ProductController extends Controller
             $manufacture = 0;
         }
 
+        $itemsPerPage = 10;
+
+        if (isset($request->pp)) {
+            $itemsPerPage = $request->pp;
+        }
+
+        $published = array();
+        if (isset($request->p_published)) {
+            if ($request->p_published == 2) {
+                $published = ['0', '1'];
+                $pp = 2;
+            } else {
+                $published [] = $request->p_published;
+                $pp = $request->p_published;
+            }            
+        } else {
+            $published = ['0', '1'];
+            $pp = 2;
+        }
+        
+
         $products = Product::
         when($category, function ($query, $category) {
             return $query->where('category_id', $category);
         })
         ->when($manufacture, function ($query, $manufacture) {
             return $query->where('manufacture_id', $manufacture);
-        })->with('category')->with('manufacture')->paginate(2);
+        })->with('category')->whereIn('published', $published)->with('manufacture')->paginate($itemsPerPage);
 
         $data = array (
             'products' => $products,
@@ -58,6 +79,8 @@ class ProductController extends Controller
             'current_category' => $category,
             'current_manufacture' => $manufacture,
             'manufactures' => Manufacture::get(),
+            'itemsPerPage' => $itemsPerPage,
+            'productPublished' => $pp,
         ); 
         return view('admin.products.index', $data);
     }
