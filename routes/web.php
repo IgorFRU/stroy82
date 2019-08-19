@@ -33,6 +33,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
   // Route::any('/updateimg/{id}',  'ImageController@update');
   Route::resource('/categories', 'CategoryController');
   Route::resource('/articles', 'ArticleController');
+  Route::resource('/sets', 'SetController');
   Route::post('/articles/addProducts', 'ArticleController@addProducts');
   Route::resource('/manufactures', 'ManufactureController');
   Route::resource('/products', 'ProductController');

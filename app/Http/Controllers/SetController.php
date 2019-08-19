@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class SetController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,11 @@ class SetController extends Controller
      */
     public function index()
     {
-        //
+        $data = array (
+            'sets' => Set::orderBy('id', 'DESC')->get()
+        );
+
+        return view('admin.sets.index', $data);
     }
 
     /**

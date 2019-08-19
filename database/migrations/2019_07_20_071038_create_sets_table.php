@@ -16,6 +16,7 @@ class CreateSetsTable extends Migration
         Schema::create('sets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('set');
+            $table->string('slug')->nullable()->default(null);
             $table->string('image');
             $table->text('description')->nullable();
             $table->string('meta_description')->nullable();

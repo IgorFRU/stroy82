@@ -52,7 +52,7 @@
                                 <a class="dropdown-item" href="{{ route('admin.categories.index') }}"><i class="fas fa-folder"></i> категории</a>
                                 <a class="dropdown-item" href="{{ route('admin.manufactures.index') }}"><i class="fas fa-industry"></i> производители</a>
                                 <a class="dropdown-item" href="{{ route('admin.vendors.index') }}"><i class="fas fa-store-alt"></i>  Поставщики</a>
-                                <a class="dropdown-item" href="{{ route('admin.vendors.index') }}"><i class="fas fa-tasks"></i> Группы товаров</a>
+                                <a class="dropdown-item" href="{{ route('admin.sets.index') }}"><i class="fas fa-tasks"></i> Группы товаров</a>
                                 <a class="dropdown-item" href="{{ route('admin.units.index') }}"><i class="fas fa-tape"></i>  Ед. измерения</a>
                             </div>
                         </li>

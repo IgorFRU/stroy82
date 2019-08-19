@@ -60,7 +60,10 @@ class Product extends Model
 
     public function setPriceAttribute($value) {
         // $this->attributes['price'] = number_format($value, 2, '.', '');
-        $this->attributes['price'] = preg_replace('~,~', '.', $value);
+        if ($value > 0) {
+            $this->attributes['price'] = preg_replace('~,~', '.', $value);
+        }
+        
     }
 
     public function getPriceNumberAttribute() {
@@ -73,6 +76,10 @@ class Product extends Model
     
     public function articles() {
         return $this->belongsToMany(Article::class);
+    }
+    
+    public function sets() {
+        return $this->belongsToMany(Set::class);
     }
 
     public function manufacture() {

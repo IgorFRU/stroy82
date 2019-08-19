@@ -13,6 +13,7 @@ use App\Vendor;
 use App\Unit;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cookie;
 
 use Illuminate\Support\Str;
 
@@ -32,6 +33,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        $minutes = 2;
         if (isset($request->category)) {
             $category = $request->category;
         } else {
@@ -43,22 +45,30 @@ class ProductController extends Controller
             $manufacture = 0;
         }
 
-        $itemsPerPage = 10;
+        $itemsPerPage = request()->cookie('itemsPerPage');
 
+        if (is_null($itemsPerPage)) {
+            $itemsPerPage = 10;
+        }
         if (isset($request->pp)) {
             $itemsPerPage = $request->pp;
+            Cookie::queue(cookie()->forever('itemsPerPage', $itemsPerPage));           
         }
 
+        
+        $pp = request()->cookie('p_published');
         $published = array();
+        $published = ['0', '1'];
         if (isset($request->p_published)) {
-            if ($request->p_published == 2) {
+            if ($request->p_published == 2) {                
                 $published = ['0', '1'];
                 $pp = 2;
             } else {
                 $published [] = $request->p_published;
                 $pp = $request->p_published;
-            }            
-        } else {
+            } 
+            Cookie::queue('p_published', $pp, $minutes);           
+        } else if (is_null($pp)) {
             $published = ['0', '1'];
             $pp = 2;
         }
@@ -82,6 +92,7 @@ class ProductController extends Controller
             'itemsPerPage' => $itemsPerPage,
             'productPublished' => $pp,
         ); 
+        // dd($request->p_published);
         return view('admin.products.index', $data);
     }
 

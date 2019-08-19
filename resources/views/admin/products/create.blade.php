@@ -14,8 +14,8 @@
     @parent
     @include('admin.partials.adminmenu')
 @endsection
-@section('')
-<div class="container">
+@section('content')
+<div class="">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card edit_form">
