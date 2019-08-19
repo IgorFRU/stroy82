@@ -4,7 +4,7 @@
     @include('admin.partials.adminmenu')
 @endsection
 @section('content')
-<div class="container">
+<div class="">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -12,10 +12,43 @@
                     <p class="h3">Товары @isset($parent_category)
                         из категории "{{ $parent_category }}"
                     @endisset
-                    @isset($parent_category)
+                    @isset($parent_manufacture)
                         производителя "{{ $parent_manufacture }}"
                     @endisset</p>
-                    <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Новый товар</a>                
+                    <div class="row col-md-6">
+                        <div class="col-md-5">
+                            <select class="form-control" id="index_category_id" name="index_category_id">
+                                <option value="0">-- Все категории --</option>
+                                @include('admin.products.partials.categories', ['categories' => $categories])
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <select class="form-control" id="index_manufacture_id" name="index_manufacture_id">
+                                <option value="0">-- Все производители --</option>
+                                
+                                @foreach ($manufactures as $manufacture)
+                                    <option value="{{ $manufacture->id }}"
+                                        @isset($current_manufacture)
+                                            @if($current_manufacture == $manufacture->id)
+                                                selected="selected"
+                                            @endif
+                                            @if ($manufacture->products->count() == 0)
+                                                disabled='disabled'
+                                            @endif
+                                        @endisset 
+                                        @isset($product->category_id)
+                                            @if ($category_list->id == $product->category_id)
+                                            selected = "selected"
+                                            @endif
+                                        @endisset 
+                                        >{{ $manufacture->manufacture }} ({{ $manufacture->products->count() }})</option>
+                                                                     
+                                @endforeach
+                            </select>
+                        </div> 
+                        <a href="{{ route('admin.products.create') }}" class="btn btn-primary col-md-2">Новый товар</a> 
+                    </div>
+                                   
                 </div>
                 <div class="col-md-12">
                     
@@ -23,6 +56,7 @@
                         <thead>
                             <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Арт.</th>
                             <th scope="col">Товар</th>
                             <th scope="col">Цена</th>
                             <th scope="col">Категория</th>
@@ -43,6 +77,7 @@
                         @endphp
                         <tr @if (!$product->published) class='bg-secondary'  @endif>
                             <th scope="row">{{ $count++ }}</th>
+                            <td>{{ $product->autoscu }}</td>
                             <td>{{ $product->product }}</td>
                             <td>
                                 @isset($product->discount)
@@ -68,7 +103,7 @@
                             
                             
                             </td>
-                            <td>{{ $product->categories->category ?? '' }}</td>
+                            <td>{{ $product->category->category ?? '' }}</td>
                             {{-- <td>{{ $product->manufactures->manufacture }}</td> --}}
                             <td>{{ $product->quantity }}</td>
                             <td>{{ $product->delivery_time }}</td>
@@ -83,12 +118,16 @@
                                 </form>
                                 </div>
                             </td>
-                            {{-- <td>{{ $vendor->description }}</td> --}}
                         </tr>
+                        
                         @empty
                             <div class="alert alert-warning">Вы еще не добавили ни одного товара!</div>
                         @endforelse
-                    
+                    </tbody>
+                </table>
+                <div class="paginate">
+                    {{ $products->appends(request()->input())->links() }}
+                </div>
                 
             </div>
         </div>

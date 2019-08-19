@@ -371,12 +371,18 @@
 
 
 <div class="edit_form_bottom_menu">
-    <div class="row align-middle">        
+    <div class="row align-middle">
             <div class="input-group mb-3 col-md-1">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">id</span>
                 </div>
                 <input type="text" class="form-control" name="id" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $product->id ?? '' }}">
+            </div>
+            <div class="input-group mb-3 col-md-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">art.</span>
+                </div>
+                <input type="text" class="form-control" name="id" disabled aria-label="art" aria-describedby="basic-addon1" value="{{ $product->autoscu ?? '' }}">
             </div>       
             {{-- <div class="input-group mb-3 col-md-2">
                 <div class="input-group-prepend">
@@ -384,7 +390,7 @@
                 </div>
                 <input type="text" class="form-control" name="autoscu" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $product->autoscu ?? '' }}">
             </div> --}}
-            <div class="input-group mb-3 col-md-7">
+            <div class="input-group mb-3 col-md-5">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">slug</span>
                 </div>

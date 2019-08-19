@@ -32,25 +32,34 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        
         if (isset($request->category)) {
-            $data = array (
-                'products' => Product::where('category_id', $request->category)->orderBy('id', 'DESC')->get(),
-                'parent_category' => Category::where('id', $request->category)->pluck('category')[0],
-                'categories' => Category::orderBy('id', 'DESC')->get(),
-            );
-            return view('admin.products.index', $data);
-        } elseif (isset($request->manufacture)) {
-            echo 'Товары производителя ' . $request->manufacture;
-        } elseif (isset($request->article)) {
-            echo 'Товары из статьи ' . $request->article;
+            $category = $request->category;
         } else {
-            $data = array (
-                'products' => Product::orderBy('id', 'DESC')->get(),
-                'categories' => Category::orderBy('id', 'DESC')->get(),
-            );    
-            return view('admin.products.index', $data);
+            $category = 0;
         }
+        if (isset($request->manufacture)) {
+            $manufacture = $request->manufacture;
+        } else {
+            $manufacture = 0;
+        }
+
+        $products = Product::
+        when($category, function ($query, $category) {
+            return $query->where('category_id', $category);
+        })
+        ->when($manufacture, function ($query, $manufacture) {
+            return $query->where('manufacture_id', $manufacture);
+        })->with('category')->with('manufacture')->paginate(2);
+
+        $data = array (
+            'products' => $products,
+            'categories' => Category::with('children')->where('category_id', '0')->orderBy('category', 'asc')->get(),
+            'delimiter' => '',
+            'current_category' => $category,
+            'current_manufacture' => $manufacture,
+            'manufactures' => Manufacture::get(),
+        ); 
+        return view('admin.products.index', $data);
     }
 
     /**

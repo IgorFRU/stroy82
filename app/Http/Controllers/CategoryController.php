@@ -22,7 +22,7 @@ class CategoryController extends Controller
     {
         $data = array (
             'categories' => Category::orderBy('id', 'DESC')
-                                    ->paginate(7)
+                                    ->paginate(20)
         );
 
         return view('admin.categories.index', $data);
@@ -58,7 +58,7 @@ class CategoryController extends Controller
     {
         $category = Category::create($request->all());
         
-        if (isset($request->property_id)) {
+        if (isset($request->property_id) && $request->property_id != 0) {
             $properties = Arr::sort($request->property_id);
             $category->properties()->sync($properties, true);
         }

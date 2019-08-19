@@ -53,13 +53,21 @@ class Product extends Model
 
     public function setAutoscuAttribute($value) {
         $this->attributes['autoscu'] = mt_rand(100, 999) . '-' . mt_rand(100, 999) . '-' . mt_rand(1000, 9999);
+        while (Product::where('autoscu', $this->attributes['autoscu'])->count() > 0 ) {
+            $this->attributes['autoscu'] = mt_rand(100, 999) . '-' . mt_rand(100, 999) . '-' . mt_rand(1000, 9999);
+        }
+    }
+
+    public function setPriceAttribute($value) {
+        // $this->attributes['price'] = number_format($value, 2, '.', '');
+        $this->attributes['price'] = preg_replace('~,~', '.', $value);
     }
 
     public function getPriceNumberAttribute() {
         return number_format($this->price, 2, ',', ' ');
     }
 
-    public function categories() {
+    public function category() {
         return $this->belongsTo(Category::class);
     }
     
@@ -67,7 +75,7 @@ class Product extends Model
         return $this->belongsToMany(Article::class);
     }
 
-    public function manufactures() {
+    public function manufacture() {
         return $this->belongsTo(Manufacture::class);
     }
 
