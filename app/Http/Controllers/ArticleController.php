@@ -55,7 +55,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'article' => 'required|min:3|max:255',
+            'article' => 'required|min:3|max:191',
         ]);
         $article = Article::create($request->except('product_id'));
         $products = Arr::sort($request->product_id);
@@ -104,7 +104,7 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         $validatedData = $request->validate([
-            'article' => 'required|min:3|max:255',
+            'article' => 'required|min:3|max:191',
         ]);
         $article->update($request->except('alias', 'product_id'));
         $products = Arr::sort($request->product_id);

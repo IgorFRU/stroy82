@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Set;
+use App\Category;
+use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class SetController extends Controller
 {
@@ -32,7 +35,13 @@ class SetController extends Controller
      */
     public function create()
     {
-        //
+        $data = array (
+            'set' => [],
+            'categories' => Category::with('children')->where('category_id', '0')->get(),
+            'delimiter' => ''
+        );
+        
+        return view('admin.sets.create', $data);
     }
 
     /**
@@ -43,7 +52,12 @@ class SetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'set' => 'required|min:3|max:191',
+        ]);
+        $set = Set::create($request->except('product_id'));
+        $products = Arr::sort($request->product_id);
+        $set->products()->sync($products, true);
     }
 
     /**
@@ -65,7 +79,13 @@ class SetController extends Controller
      */
     public function edit(Set $set)
     {
-        //
+        $data = array (
+            'set' => $set,
+            'categories' => Category::with('children')->where('category_id', '0')->get(),
+            'delimiter' => ''
+        );
+        
+        return view('admin.sets.edit', $data);
     }
 
     /**
@@ -77,7 +97,14 @@ class SetController extends Controller
      */
     public function update(Request $request, Set $set)
     {
-        //
+        $validatedData = $request->validate([
+            'set' => 'required|min:3|max:191',
+        ]);
+        $set->update($request->except('alias', 'product_id'));
+        $products = Arr::sort($request->product_id);
+        $set->products()->sync($products, true);
+
+        return redirect()->route('admin.sets.index');
     }
 
     /**
@@ -88,6 +115,47 @@ class SetController extends Controller
      */
     public function destroy(Set $set)
     {
-        //
+        if (file_exists(public_path('imgs/sets/'. $set->image))) {
+            try {
+                $file = new Filesystem;
+                $file->delete(public_path('imgs/sets/'. $set->image));
+            } catch (\Throwable $th) {
+                echo 'Сообщение: '   . $th->getMessage() . '<br />';
+            }                
+        }
+        // unlink(public_path('imgs/articles/'.$article->image));
+        $article->delete();
+
+        return redirect()->route('admin.articles.index');
+    }
+
+    public function addProducts(Request $request) {
+        // dd($request->all());
+
+        // $json = array();
+
+        $jsonProducts = $request->products;
+        $jsonSet = Str::after($request->set, 'set_id=');
+        $jsonProducts = explode("&", $jsonProducts);
+        $jsonProducts = array_unique($jsonProducts);
+
+        $article = Set::where('id', $jsonSet)->first();
+
+        foreach ($jsonProducts as $key => $product) {
+            $products[] = Str::after($product, 'product_id=');
+
+            // $article->products()->attach($products[$key]);
+        }
+
+        $products = Arr::sort($products);
+        
+
+        foreach ($products as $key => $product) {
+            $article->products()->attach($product);
+        }        
+        $products['collection'] = Product::whereIn('id', $products)->get();
+        $products['article'] = $jsonSet;
+
+        echo json_encode($products);
     }
 }

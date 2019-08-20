@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Schema;
 use App\Category;
 use App\Article;
+use App\Set;
 use App\Product;
 use App\Manufacture;
 use App\Http\Services\WorkWithImage;
@@ -72,12 +73,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Article::creating(function(Article $model){
-            // $model->slug = Str::slug(mb_substr($model->article, 0, 60) . "-", "-");
-            // $double = Article::where('slug', $model->slug)->first();
-            // if ($double) {
-            //     $next_id = Article::select('id')->orderby('id', 'desc')->first()['id'];
-            //     $model->slug .= '-' . ++$next_id;
-            // }
             if($model->image) {
                 // dd($model);
                 $path = public_path().'\imgs\articles\\';
@@ -99,6 +94,36 @@ class AppServiceProvider extends ServiceProvider
                         $file->delete(public_path().'\imgs\articles\\' . $old_image->image);
                     }
                     $path = public_path().'\imgs\articles\\';
+                    $file = $model->image;
+                    $img = new WorkWithImage($file, $path);
+                    $model->image = $img->saveImage();
+                }                
+            }
+        });
+
+        
+        Set::creating(function(Set $model){
+            if($model->image) {
+                // dd($model);
+                $path = public_path().'\imgs\sets\\';
+                if (!file_exists($path)) {
+                    mkdir($path, 0777);
+                }
+                $file = $model->image;
+                $img = new WorkWithImage($file, $path);
+                $model->image = $img->saveImage();
+            }
+        });
+
+        Set::updating(function(Set $model) {
+            if($model->image) {
+                $old_image = Set::select('image')->find($model->id);
+                if($model->image != $old_image->image) {
+                    if (file_exists(public_path().'\imgs\sets\\' . $old_image->image)) {                        
+                        $file = new Filesystem;
+                        $file->delete(public_path().'\imgs\sets\\' . $old_image->image);
+                    }
+                    $path = public_path().'\imgs\sets\\';
                     $file = $model->image;
                     $img = new WorkWithImage($file, $path);
                     $model->image = $img->saveImage();

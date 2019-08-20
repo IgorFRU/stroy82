@@ -216,7 +216,7 @@
             </div>
             <input type="text" class="form-control" name="views" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $article->views ?? '' }}">
         </div> --}}
-        <div class="input-group mb-3 col-md-8">
+        <div class="input-group mb-3 col-md-7">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">slug</span>
             </div>
@@ -225,6 +225,9 @@
         </div>
         <div class="mb-3 col-md-2">
                 <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+        <div class="mb-3 col-md-2">
+            <a href="{{ route('admin.products.index') }}" class="btn btn-danger">Выйти</a>
         </div>
                 
     </div>
