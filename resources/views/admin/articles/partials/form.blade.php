@@ -128,19 +128,19 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="articleAddProductSearch" name="product" placeholder="Поиск товара">
-                    <div id="articleAddProductSearchResult">
+                    <input type="text" class="form-control" id="ajaxAddProductSearch" name="product" placeholder="Поиск товара">
+                    <div id="ajaxAddProductSearchResult">
                         
                     </div>
                 </div>
                 <div class="form-group">
-                    <select id="articleAddProductByCategory" name="category" class="form-control">
+                    <select id="ajaxAddProductByCategory" name="category" class="form-control">
                         <option selected value="0">Выберите категорию...</option>
                         <@include('admin.categories.partials.child-categories', ['categories' => $categories])
                     </select>
                 </div>
                 <div class="form-group">
-                    <select id="articleAddProductByCategoryShow" class="form-control">
+                    <select id="ajaxAddProductByCategoryShow" class="form-control">
                         <option selected value="0">Выберите товар...</option>
                     </select>
                 </div>
@@ -152,8 +152,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="articleAddProductButtonClose" data-changed="false" data-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary" id="articleAddProductButton" disabled>Добавить</button>
+                <button type="button" class="btn btn-secondary" id="ajaxAddProductButtonClose" data-changed="false" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="ajaxAddProductButton" disabled>Добавить</button>
             </div>
             </div>
         </div>
@@ -170,13 +170,13 @@
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col col-lg-4">
-                        <select id="articleAddProductByCategory" name="category" class="form-control">
+                        <select id="ajaxAddProductByCategory" name="category" class="form-control">
                             <option selected value="0">Выберите категорию...</option>
                             <@include('admin.categories.partials.child-categories', ['categories' => $categories])
                         </select>
                     </div>
                     <div class="form-group col col-lg-8">
-                        <select id="articleAddProductByCategoryShow" class="form-control">
+                        <select id="ajaxAddProductByCategoryShow" class="form-control">
                             <option selected value="0">Выберите товар...</option>
                         </select>
                     </div>
@@ -190,11 +190,11 @@
                     </div>
                 </div>                      
             </div>
-            <div class="col-lg-12" id="articleAddProductResult">
+            <div class="col-lg-12" id="ajaxAddProductResult">
                     
                 @isset($article->products)
                     @foreach ($article->products as $product)
-                        <button type="button" data-product-id="{{ $product->id }}" class="btn btn-secondary"><a href="#"><i class="fas fa-external-link-square-alt"></i></a> id: {{ $product->id }} | {{ $product->product }} | {{ $product->price }} руб. <span class="articleAddProductResultRemove"><i class="fas fa-window-close"></i></span></button>
+                        <button type="button" data-product-id="{{ $product->id }}" class="btn btn-secondary"><a href="#"><i class="fas fa-external-link-square-alt"></i></a> id: {{ $product->id }} | {{ $product->product }} | {{ $product->price }} руб. <span class="ajaxAddProductResultRemove"><i class="fas fa-window-close"></i></span></button>
                     @endforeach
                 @endisset
             </div>
@@ -208,7 +208,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">id</span>
             </div>
-            <input type="text" class="form-control" name="id" id="article_id" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $article->id ?? '' }}">
+            <input type="text" class="form-control" name="id" id="object_id" data-object='article' disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $article->id ?? '' }}">
         </div>
         {{-- <div class="input-group mb-3 col-md-1">
             <div class="input-group-prepend">
@@ -227,7 +227,7 @@
                 <button type="submit" class="btn btn-primary">Сохранить</button>
         </div>
         <div class="mb-3 col-md-2">
-            <a href="{{ route('admin.products.index') }}" class="btn btn-danger">Выйти</a>
+            <a href="{{ route('admin.articles.index') }}" class="btn btn-danger">Выйти</a>
         </div>
                 
     </div>

@@ -40,20 +40,20 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link bg-secondary rounded text-white" href="{{ route('admin.index') }}" data-toggle="tooltip" data-placement="top" title="Основные настройки сайта"><i class="fas fa-sliders-h"></i><span class="sr-only">(current)</span></a>
+                        <li class="nav-item {{ Request::is('admin') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.index') }}" data-toggle="tooltip" data-placement="top" title="Основные настройки сайта"><i class="fas fa-sliders-h"></i><span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="{{ route('admin.categories.index') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-store-alt"></i> Магазин
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('admin.products.index') }}"><i class="fas fa-archive"></i> товары</a>
-                                <a class="dropdown-item" href="{{ route('admin.categories.index') }}"><i class="fas fa-folder"></i> категории</a>
-                                <a class="dropdown-item" href="{{ route('admin.manufactures.index') }}"><i class="fas fa-industry"></i> производители</a>
-                                <a class="dropdown-item" href="{{ route('admin.vendors.index') }}"><i class="fas fa-store-alt"></i>  Поставщики</a>
-                                <a class="dropdown-item" href="{{ route('admin.sets.index') }}"><i class="fas fa-tasks"></i> Группы товаров</a>
-                                <a class="dropdown-item" href="{{ route('admin.units.index') }}"><i class="fas fa-tape"></i>  Ед. измерения</a>
+                                <a class="dropdown-item {{ (Request::is('*products*') ? 'active' : '') }}" href="{{ route('admin.products.index') }}"><i class="fas fa-archive"></i> товары</a>
+                                <a class="dropdown-item {{ (Request::is('*categories*') ? 'active' : '') }}" href="{{ route('admin.categories.index') }}"><i class="fas fa-folder"></i> категории</a>
+                                <a class="dropdown-item {{ (Request::is('*manufactures*') ? 'active' : '') }}" href="{{ route('admin.manufactures.index') }}"><i class="fas fa-industry"></i> производители</a>
+                                <a class="dropdown-item {{ (Request::is('*vendors*') ? 'active' : '') }}" href="{{ route('admin.vendors.index') }}"><i class="fas fa-store-alt"></i>  Поставщики</a>
+                                <a class="dropdown-item {{ (Request::is('*vendors*') ? 'active' : '') }}" href="{{ route('admin.sets.index') }}"><i class="fas fa-tasks"></i> Группы товаров</a>
+                                <a class="dropdown-item {{ (Request::is('*units*') ? 'active' : '') }}" href="{{ route('admin.units.index') }}"><i class="fas fa-tape"></i>  Ед. измерения</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -61,8 +61,8 @@
                                 <i class="fas fa-tags"></i> Продвижение
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('admin.discounts.index') }}"><i class="fas fa-percentage"></i>  Акции</a>
-                                <a class="dropdown-item" href="{{ route('admin.articles.index') }}"><i class="fas fa-newspaper"></i>  Статьи</a>
+                                <a class="dropdown-item {{ (Request::is('*discounts*') ? 'active' : '') }}" href="{{ route('admin.discounts.index') }}"><i class="fas fa-percentage"></i>  Акции</a>
+                                <a class="dropdown-item {{ (Request::is('*articles*') ? 'active' : '') }}" href="{{ route('admin.articles.index') }}"><i class="fas fa-newspaper"></i>  Статьи</a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-images"></i>  Баннеры</a>
                             </div>
                         </li>

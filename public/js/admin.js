@@ -1,5 +1,11 @@
 $(function() {
 
+    // добавление класса active к верхним пунктам меню (родительским)
+    var navItems = $('.nav-item.dropdown').find('a.active');
+    navItems.parent().parent().addClass('active');
+
+    console.log(navItems);
+
     $('nav.tabs > span').on('click', function() {
         var currentTabData = $('nav.tabs > span.active').data('tab');
 
@@ -37,58 +43,61 @@ $(function() {
     });
 
     //живой поиск для добавления товара к статье
-    $('#articleAddProductSearch').bind('input', function() {
-        let value = $('#articleAddProductSearch').val();
-        let dataArticle = $('input#article_id').val();
-        if (value.length > 3) {
-            $.ajax({
-                type: "POST",
-                url: "/admin/products/search/ajax",
-                data: {
-                    product: value,
-                    article: dataArticle
-                },
-                headers: {
-                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(data) {
-                    var response = $.parseJSON(data);
+    // $('#ajaxAddProductSearch').bind('input', function() {
+    //     let value = $('#ajaxAddProductSearch').val();
+    //     let dataObject = $('input#article_id').val();
+    //     if (value.length > 3) {
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "/admin/products/search/ajax",
+    //             data: {
+    //                 product: value,
+    //                 object: dataObject
+    //             },
+    //             headers: {
+    //                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+    //             },
+    //             success: function(data) {
+    //                 var response = $.parseJSON(data);
 
-                    $("#articleAddProductSearchResult").empty();
-                    if (response[0] == 'Ничего не найдено') {
-                        $("#articleAddProductSearchResult").append("<div>" + response[0] + "</div>");
-                    } else if (response.length > 0) {
-                        $("#articleAddProductSearchResult").append("<table class='table'><thead> <tr><th scope = 'col' > id </th><th scope = 'col' > Название </th> <th scope = 'col' > Цена (базовая)</th></tr></thead><tbody > ");
-                        response.forEach(element => {
-                            $("#articleAddProductSearchResult > table").append("<tr><th scope='row'><span data-product_id=" + element.id + "><i class='fas fa-plus-square'></i></span> " + element.id + "</th><td><a href='#' blank>" + element.product + "</a></td><td >" + element.price + "</td></td></tr >");
-                        });
-                        $("#articleAddProductSearchResult > table").append("</tbody></table>");
+    //                 $("#ajaxAddProductSearchResult").empty();
+    //                 if (response[0] == 'Ничего не найдено') {
+    //                     $("#ajaxAddProductSearchResult").append("<div>" + response[0] + "</div>");
+    //                 } else if (response.length > 0) {
+    //                     $("#ajaxAddProductSearchResult").append("<table class='table'><thead> <tr><th scope = 'col' > id </th><th scope = 'col' > Название </th> <th scope = 'col' > Цена (базовая)</th></tr></thead><tbody > ");
+    //                     response.forEach(element => {
+    //                         $("#ajaxAddProductSearchResult > table").append("<tr><th scope='row'><span data-product_id=" + element.id + "><i class='fas fa-plus-square'></i></span> " + element.id + "</th><td><a href='#' blank>" + element.product + "</a></td><td >" + element.price + "</td></td></tr >");
+    //                     });
+    //                     $("#ajaxAddProductSearchResult > table").append("</tbody></table>");
 
-                        $("span").on('click', function(e) {
-                            $(".hidden_inputs").append("<input type='hidden' name='product_id' value=" + e.target.parentNode.getAttribute('data-product_id') + ">");
-                            e.target.parentNode.parentNode.parentNode.remove();
+    //                     $("span").on('click', function(e) {
+    //                         $(".hidden_inputs").append("<input type='hidden' name='product_id' value=" + e.target.parentNode.getAttribute('data-product_id') + ">");
+    //                         e.target.parentNode.parentNode.parentNode.remove();
 
-                            $('#articleAddProductButton').prop('disabled', false);
-                        });
-                    }
-                },
-                error: function(msg) {
-                    console.log(msg);
-                }
-            });
-        }
-    });
+    //                         $('#ajaxAddProductButton').prop('disabled', false);
+    //                     });
+    //                 }
+    //             },
+    //             error: function(msg) {
+    //                 console.log(msg);
+    //             }
+    //         });
+    //     }
+    // });
 
-    $('#articleAddProductByCategory').bind('input', function() {
-        let value = $('#articleAddProductByCategory').val();
-        let article = $('#article_id').val();
+    $('#ajaxAddProductByCategory').bind('input', function() {
+        let value = $('#ajaxAddProductByCategory').val();
+        let object = $('#object_id').val();
+        let objectType = $('#object_id').attr('data-object');
+        console.log(objectType);
         if (value > 0) {
             $.ajax({
                 type: "POST",
                 url: "/admin/products/search/ajax",
                 data: {
                     category: value,
-                    article: article
+                    object: object,
+                    objectType: objectType
                 },
                 headers: {
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -96,14 +105,14 @@ $(function() {
                 success: function(data) {
                     var response = $.parseJSON(data);
 
-                    $("#articleAddProductSearchResult").empty();
-                    $("#articleAddProductByCategoryShow").empty();
-                    $("#articleAddProductByCategoryShow").append("<option selected value='0'>Выберите товар...</option>");
+                    $("#ajaxAddProductSearchResult").empty();
+                    $("#ajaxAddProductByCategoryShow").empty();
+                    $("#ajaxAddProductByCategoryShow").append("<option selected value='0'>Выберите товар...</option>");
                     if (response[0] == 'Ничего не найдено') {
-                        $("#articleAddProductSearchResult").append("<div>" + response[0] + "</div>");
+                        $("#ajaxAddProductSearchResult").append("<div>" + response[0] + "</div>");
                     } else if (response.length > 0) {
                         response.forEach(element => {
-                            $("#articleAddProductByCategoryShow").append("<option data-product='" + element.product + " - " + element.price + "' value=" + element.id + ">" + element.product + " - " + element.price + "</option>");
+                            $("#ajaxAddProductByCategoryShow").append("<option data-product='" + element.product + " - " + element.price + "' value=" + element.id + ">" + element.product + " - " + element.price + "</option>");
                         });
                     }
                 },
@@ -115,22 +124,22 @@ $(function() {
     });
 
     // при выборе товара из выпадающего списка
-    $('#articleAddProductByCategoryShow').on('change', function() {
-        let product = $('#articleAddProductByCategoryShow').val();
-        let productData = $(this).find(':selected').attr('data-product');
+    $('#ajaxAddProductByCategoryShow').on('change', function() {
+        var product = $('#ajaxAddProductByCategoryShow').val();
+        var productData = $(this).find(':selected').attr('data-product');
         if (product > 0) {
             $(".hidden_inputs").append("<input type='hidden' name='product_id[]' value=" + product + ">");
-            // $('#articleAddProductResult').append("<button type='button' data-product-id='" + product + "' class='btn btn-success'><a href='#'><i class='fas fa-external-link-square-alt'></i></a> id: " + product + " | " + productData + " руб. <span class='articleAddProductResultRemove'><i class='fas fa-window-close'></i></span></button>");
-            $('#articleAddProductResult').append("<button type='button' data-product-id='" + product + "' class='btn btn-success'><a href='#'><i class='fas fa-external-link-square-alt'></i></a> id: " + product + " | " + productData + " руб. </button>");
-            $('#articleAddProductByCategoryShow option:selected').remove();
+            // $('#ajaxAddProductResult').append("<button type='button' data-product-id='" + product + "' class='btn btn-success'><a href='#'><i class='fas fa-external-link-square-alt'></i></a> id: " + product + " | " + productData + " руб. <span class='ajaxAddProductResultRemove'><i class='fas fa-window-close'></i></span></button>");
+            $('#ajaxAddProductResult').append("<button type='button' data-product-id='" + product + "' class='btn btn-success'><a href='#'><i class='fas fa-external-link-square-alt'></i></a> id: " + product + " | " + productData + " руб. </button>");
+            $('#ajaxAddProductByCategoryShow option:selected').remove();
         }
     });
 
-    $('#articleAddProductButtonClose').on('click', function(e) {
-        if ($('#articleAddProductButtonClose').prop('data-changed')) {}
+    $('#ajaxAddProductButtonClose').on('click', function(e) {
+        if ($('#ajaxAddProductButtonClose').prop('data-changed')) {}
     });
 
-    $('.articleAddProductResultRemove').on('click', function() {
+    $('.ajaxAddProductResultRemove').on('click', function() {
         let button = $(this).parent();
         let id = button.attr('data-product-id');
         if (button.hasClass('btn-secondary')) {

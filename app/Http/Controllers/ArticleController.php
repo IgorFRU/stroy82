@@ -134,34 +134,4 @@ class ArticleController extends Controller
 
         return redirect()->route('admin.articles.index');
     }
-
-    public function addProducts(Request $request) {
-        // dd($request->all());
-
-        // $json = array();
-
-        $jsonProducts = $request->products;
-        $jsonArticle = Str::after($request->article, 'article_id=');
-        $jsonProducts = explode("&", $jsonProducts);
-        $jsonProducts = array_unique($jsonProducts);
-
-        $article = Article::where('id', $jsonArticle)->first();
-
-        foreach ($jsonProducts as $key => $product) {
-            $products[] = Str::after($product, 'product_id=');
-
-            // $article->products()->attach($products[$key]);
-        }
-
-        $products = Arr::sort($products);
-        
-
-        foreach ($products as $key => $product) {
-            $article->products()->attach($product);
-        }        
-        $products['collection'] = Product::whereIn('id', $products)->get();
-        $products['article'] = $jsonArticle;
-
-        echo json_encode($products);
-    }
 }

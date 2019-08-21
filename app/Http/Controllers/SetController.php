@@ -58,6 +58,8 @@ class SetController extends Controller
         $set = Set::create($request->except('product_id'));
         $products = Arr::sort($request->product_id);
         $set->products()->sync($products, true);
+
+        return redirect()->route('admin.sets.index');
     }
 
     /**
@@ -123,39 +125,38 @@ class SetController extends Controller
                 echo 'Сообщение: '   . $th->getMessage() . '<br />';
             }                
         }
-        // unlink(public_path('imgs/articles/'.$article->image));
-        $article->delete();
+        $set->delete();
 
-        return redirect()->route('admin.articles.index');
+        return redirect()->route('admin.sets.index');
     }
 
-    public function addProducts(Request $request) {
-        // dd($request->all());
+    // public function addProducts(Request $request) {
+    //     // dd($request->all());
 
-        // $json = array();
+    //     // $json = array();
 
-        $jsonProducts = $request->products;
-        $jsonSet = Str::after($request->set, 'set_id=');
-        $jsonProducts = explode("&", $jsonProducts);
-        $jsonProducts = array_unique($jsonProducts);
+    //     $jsonProducts = $request->products;
+    //     $jsonSet = Str::after($request->set, 'set_id=');
+    //     $jsonProducts = explode("&", $jsonProducts);
+    //     $jsonProducts = array_unique($jsonProducts);
 
-        $article = Set::where('id', $jsonSet)->first();
+    //     $article = Set::where('id', $jsonSet)->first();
 
-        foreach ($jsonProducts as $key => $product) {
-            $products[] = Str::after($product, 'product_id=');
+    //     foreach ($jsonProducts as $key => $product) {
+    //         $products[] = Str::after($product, 'product_id=');
 
-            // $article->products()->attach($products[$key]);
-        }
+    //         // $article->products()->attach($products[$key]);
+    //     }
 
-        $products = Arr::sort($products);
+    //     $products = Arr::sort($products);
         
 
-        foreach ($products as $key => $product) {
-            $article->products()->attach($product);
-        }        
-        $products['collection'] = Product::whereIn('id', $products)->get();
-        $products['article'] = $jsonSet;
+    //     foreach ($products as $key => $product) {
+    //         $article->products()->attach($product);
+    //     }        
+    //     $products['collection'] = Product::whereIn('id', $products)->get();
+    //     $products['article'] = $jsonSet;
 
-        echo json_encode($products);
-    }
+    //     echo json_encode($products);
+    // }
 }

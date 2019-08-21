@@ -59,11 +59,9 @@ class Product extends Model
     }
 
     public function setPriceAttribute($value) {
-        // $this->attributes['price'] = number_format($value, 2, '.', '');
         if ($value > 0) {
             $this->attributes['price'] = preg_replace('~,~', '.', $value);
-        }
-        
+        }        
     }
 
     public function getPriceNumberAttribute() {

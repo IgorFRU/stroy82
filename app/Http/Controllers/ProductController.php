@@ -6,6 +6,7 @@ use App\Product;
 use App\Image;
 use App\ImageProduct;
 use App\ArticleProduct;
+use App\ProductSet;
 use App\Category;
 use App\Manufacture;
 use App\Discount;
@@ -303,11 +304,17 @@ class ProductController extends Controller
     public function ajaxSearch(Request $request) {
         $json = array();
 
-        if (isset($request->article)) {
-            $article = $request->article;
-            $articleProducts = ArticleProduct::where('article_id', $article)->pluck('product_id');
+        if (isset($request->object)) {
+            $object = $request->object;
+            if (isset($request->objectType) && $request->objectType == 'article') {
+                $objectProducts = ArticleProduct::where('article_id', $object)->pluck('product_id');
+            } else if (isset($request->objectType) && $request->objectType == 'set') {
+                $objectProducts = ProductSet::where('set_id', $object)->pluck('product_id');
+            }
+            
+            
         } else {
-            $articleProducts[] = 0;
+            $objectProducts[] = 0;
         }        
         
         // if (strlen($request->product) > 3) {
@@ -337,7 +344,7 @@ class ProductController extends Controller
 
         if (isset($request->category) && $request->category != 0) {
             $products = Product::where('category_id', $request->category)
-                                ->whereNotIn('id', $articleProducts)->get();
+                                ->whereNotIn('id', $objectProducts)->get();
             if ($products) {
                 // echo json_encode(array('products' => $product));
                 foreach ($products as $key => $product) {
