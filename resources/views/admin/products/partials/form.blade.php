@@ -364,8 +364,18 @@
     </div>
 </div>
 <div id="properties" class="tab_item">
-    <p>Характеристики</p>
-    
+    <div class="col-lg-12">
+    @forelse ($properties as $property)        
+        <div class="form-group row">
+            <label for="{{ $property->id }}" class="col-sm-2 col-form-label">{{ $property->property }}</label>
+            <div class="col-md-4">
+                <input type="text" name="property_values[]" class="form-control" id="{{ $property->property }}" value=" {{ $propertyvalues[$property->id] ?? '' }} ">
+            </div>                                    
+        </div>
+    @empty
+        <div class="alert alert-warning">Вы еще не добавили ни одного товара!</div>
+    @endforelse
+    </div>    
 </div>
 
 

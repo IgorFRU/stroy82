@@ -23,7 +23,7 @@ class Property extends Model
         }
     }    
 
-    public function categories() {
+    public function category() {
         return $this->belongsToMany(Category::class);
     }
 

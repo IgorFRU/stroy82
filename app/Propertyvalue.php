@@ -11,9 +11,14 @@ class Propertyvalue extends Model
     protected $fillable = [
         'value',
         'property_id',
+        'product_id',
     ];
 
-    public function categories() {
+    public function products() {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function properties() {
         return $this->belongsTo(Property::class);
     }
 }

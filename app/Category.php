@@ -43,7 +43,7 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
     
-    public function properties() {
+    public function property() {
         return $this->belongsToMany(Property::class)->orderBy('property', 'asc');
     }
 }

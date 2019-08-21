@@ -17,10 +17,17 @@ class CreatePropertyvaluesTable extends Migration
             $table->bigIncrements('id');
             $table->string('value', 100);
             $table->bigInteger('property_id')->unsigned();
+            $table->bigInteger('product_id')->unsigned();
 
             $table->foreign('property_id')
                 ->references('id')
                 ->on('properties')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });

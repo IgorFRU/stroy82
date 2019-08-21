@@ -38,7 +38,7 @@ class CategoryController extends Controller
         $data = array (
             'category' => [],
             //коллекция вложенных подкатегорий
-            'categories' => Category::with('children')->where('category_id', '0')->with('properties')->get(),
+            'categories' => Category::with('children')->where('category_id', '0')->with('property')->get(),
             'properties' => Property::orderBy('property', 'asc')->get(),
             //символ, обозначающий вложенность категорий
             'delimiter' => ''
@@ -60,7 +60,7 @@ class CategoryController extends Controller
         
         if (isset($request->property_id) && $request->property_id != 0) {
             $properties = Arr::sort($request->property_id);
-            $category->properties()->sync($properties, true);
+            $category->property()->sync($properties, true);
         }
         return redirect()->route('admin.categories.index')
             ->with('success', 'Категория успешно добавлена.');
@@ -85,14 +85,13 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $property_ids = $category->properties->pluck('id');
+        $property_ids = $category->property->pluck('id');
         $data = array (
             'category' => $category,
-            'categories' => Category::with('children')->where('category_id', '0')->with('properties')->get(),
+            'categories' => Category::with('children')->where('category_id', '0')->with('property')->get(),
             'properties' => Property::whereNotIn('id', $property_ids)->orderBy('property', 'asc')->get(),
             'delimiter' => ''
         );
-        
         return view('admin.categories.edit', $data);
     }
 
@@ -109,7 +108,7 @@ class CategoryController extends Controller
         $category->update($request->except('alias'));
         if (isset($request->property_id)) {
             $properties = Arr::sort($request->property_id);
-            $category->properties()->sync($properties, true);
+            $category->property()->sync($properties, true);
         }
 
         return redirect()->route('admin.categories.index')->with('success', 'Категория успешно Изменена');

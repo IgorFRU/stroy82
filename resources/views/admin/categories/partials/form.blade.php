@@ -115,16 +115,16 @@
             
 
             <div class="hidden_inputs">
-                @isset($category->properties)
-                    @foreach ($category->properties as $property)
+                @isset($category->property)
+                    @foreach ($category->property as $property)
                         <input type='hidden' name='property_id[]' value="{{ $property->id }}">
                     @endforeach
                 @endisset    
             </div>
             <span class="col-lg-12" id="categoryAddPropertyResult">
                     
-                @isset($category->properties)
-                    @foreach ($category->properties as $property)
+                @isset($category->property)
+                    @foreach ($category->property as $property)
                         <button type="button" data-property-id="{{ $property->id }}" class="btn btn-secondary">{{ $property->property }} 
                             <span class="categoryPropertyItemRemove" title="Открепить от категории"><i class="fas fa-window-close"></i></span>
                             <span class="categoryPropertyItemTrash rounded-right" title="Удалить навсегда"  data-toggle="modal" data-target=".confirm-to-trash-property"><i class="fas fa-trash"></i></span>

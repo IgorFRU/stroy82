@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Property;
+use App\Propertyvalue;
 use App\Image;
 use App\ImageProduct;
 use App\ArticleProduct;
@@ -81,7 +83,7 @@ class ProductController extends Controller
         })
         ->when($manufacture, function ($query, $manufacture) {
             return $query->where('manufacture_id', $manufacture);
-        })->with('category')->whereIn('published', $published)->with('manufacture')->paginate($itemsPerPage);
+        })->orderBy('id', 'desc')->with('category')->whereIn('published', $published)->with('manufacture')->paginate($itemsPerPage);
 
         $data = array (
             'products' => $products,
@@ -93,7 +95,7 @@ class ProductController extends Controller
             'itemsPerPage' => $itemsPerPage,
             'productPublished' => $pp,
         ); 
-        // dd($request->p_published);
+        // dd($data['categories']);
         return view('admin.products.index', $data);
     }
 
@@ -200,9 +202,14 @@ class ProductController extends Controller
             'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
             'vendors' => Vendor::get(),
             'units' => Unit::get(),
+            'properties' => $product->category->property,
+            'propertyvalues' => Propertyvalue::where('product_id', $product->id)->pluck('value', 'property_id'),
             'typeRequest' => 'edit',
             'delimiter' => ''
         );
+        // dd($data['propertyvalues']);
+        
+        // dd($rr->category->first()->id);
         
         return view('admin.products.edit', $data);
     }
