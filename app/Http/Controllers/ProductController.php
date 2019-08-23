@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Cookie;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Filesystem\Filesystem;
@@ -242,6 +243,45 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        if (isset($request->property_values)) {
+            $newProperties = $request->property_values;
+            // dd($newProperties);
+            $oldProperties = Propertyvalue::where('product_id', $product->id)->get();
+            $oldPropertiesArray = $oldProperties->pluck('value', 'property_id');
+            $oldKeys = array();
+            foreach ($oldPropertiesArray as $key => $oldProperty) {
+                if (isset($newProperties["$key"])) {
+                    if ($newProperties["$key"] != $oldProperty) {
+                        $toUpdate = $oldProperties->where('property_id', $key)->first();
+                        $toUpdate->value = $newProperties["$key"];
+                        $toUpdate->update();
+                    }
+                } else {
+                    $toDelete = $oldProperties->where('property_id', $key)->first();
+                    $toDelete->delete();
+                }
+                $oldKeys[] = $key;
+                // dd($oldKeys);
+            }
+
+            foreach ($oldKeys as $oldKey) {
+                $newProperties = Arr::except($newProperties, ["$oldKey"]);
+                // dd($oldKey);
+            }
+            // dd($newProperties);
+            foreach ($newProperties as $key => $newProperty) {
+                // dd($key);
+                if($newProperty != null) {
+                    $propertyValue = new Propertyvalue;
+                    $propertyValue->product_id = $product->id;
+                    $propertyValue->property_id = $key;
+                    $propertyValue->value = $newProperty;
+    
+                    $propertyValue->save();
+                }
+                
+            }
+        }
         $product->update($request->except('alias'));
         
         if (isset($request->image_id)) {

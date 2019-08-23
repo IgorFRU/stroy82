@@ -369,7 +369,7 @@
         <div class="form-group row">
             <label for="{{ $property->id }}" class="col-sm-2 col-form-label">{{ $property->property }}</label>
             <div class="col-md-4">
-                <input type="text" name="property_values[]" class="form-control" id="{{ $property->property }}" value=" {{ $propertyvalues[$property->id] ?? '' }} ">
+                <input type="text" name="property_values[{{ $property->id }}]" class="form-control" id="{{ $property->property }}" value=" {{ $propertyvalues[$property->id] ?? '' }} ">
             </div>                                    
         </div>
     @empty
