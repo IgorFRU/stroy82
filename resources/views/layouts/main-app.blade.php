@@ -47,9 +47,10 @@
             </div>
         </section>
         <nav class="">
-            <div class="nav_content d-flex justify-content-space-between">
+            <div class="nav_content d-flex justify-content-between">
                 <div class="logo">
-                    logo
+                    <a href="/"><img src="{{ asset('imgs/Stroy82_logo_200_white.png') }}" alt=""></a>
+                    
                 </div>
                 <div class="main_menu">
                     <a href="#">Категории</a>
@@ -58,8 +59,19 @@
                     <a href="#">Статьи</a>
                 </div>
                 <div class="nav_contacts col-lg-2">
+                    <span class="col-lg-12">Симферополь</span>
                     <a class="col-lg-12" href="tel:+79781234567">8(978) 123 45 67</a>
                     <a class="col-lg-12" href="tel:+79781234567">8(978) 123 45 67</a>
+                </div>
+                <div class="cart col-lg-2">
+                    <div class="cart_img d-flex justify-content-end">
+                        <div>
+                            <a href="#"><i class="fas fa-shopping-cart"></i></a>
+                            <span class="cart_count">0</span>
+                        </div>                        
+                        <span class="cart_sum">35 695 <i class="fas fa-ruble-sign"></i></span>
+                    </div>
+                    
                 </div>
             </div>            
         </nav>
