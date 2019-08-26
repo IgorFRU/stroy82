@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Article extends Model
 {
@@ -26,5 +27,13 @@ class Article extends Model
 
     public function products() {
         return $this->belongsToMany(Product::class);
+    }
+
+    public function getLimitTitleAttribute($value) {
+        return Str::limit($this->article, 50, '... ');
+    }
+
+    public function getStartDateAttribute($value) {
+        return Carbon::parse($this->created_at)->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM');
     }
 }

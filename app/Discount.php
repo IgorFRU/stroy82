@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Carbon\Carbon;
+
 class Discount extends Model
 {
     public $timestamps = false;
@@ -29,5 +31,18 @@ class Discount extends Model
     //перевод процентов число, которое умножается на базовую стоимость
     public function getNumeralAttribute() {
         return (100 - $this->value) / 100;
+    }
+
+    public function getPublishedProductsAttribute($value) {
+        return $this->product->where('published', '=', 1);
+    }
+
+    public function getPricedProductsAttribute($value) {
+        return $this->product->where('price', '>', 1);
+    }
+    
+    public function getActualityAttribute($value) {
+        $today = Carbon::now();
+        return $this->where('discount_end', '>=', $today);
     }
 }

@@ -30,7 +30,7 @@
 </head>
 <body>
     <div id="app">
-        <section class="top_nav navbar sticky-top navbar-expand-lg">
+        <section class="top_nav navbar navbar-expand-lg">
             <div class="col-lg-3 left_nav">
                 <a href="#">О нас</a>
                 <a href="#">Оплата</a>
@@ -76,7 +76,7 @@
             </div>            
         </nav>
 
-        <main class="py-4">
+        <main>
             @yield('content')
         </main>
     </div>
