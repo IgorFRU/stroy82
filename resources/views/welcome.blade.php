@@ -53,11 +53,56 @@
         </div>
         @endisset            
     </div>
-    <div class="sales_products wrap d-flex col-lg-12">
+    <div class="sales_products wrap row d-flex col-lg-12">
+        @isset($discounts)
+        @php
+            $count = 0;
+        @endphp
+            @foreach ($discounts as $discount)        
+                {{-- после третьей итерации выходим из цикла     --}}
+                @break($count == 2)
+                @foreach ($discount->product as $product)
+                    @break($count == 2)
+                    @php $count++; @endphp
+                    <div class="sale_product col-lg-6 d-flex justify-content-lg-start">
+                        <div class="sale_product__img col-lg-5">
+                            <img  class="img-fluid" 
+                            @if(isset($product->images))
+                                src="{{ asset('imgs/products/thumbnails/')}}/{{ $product->main_or_first_image->thumbnail }}"
+                                alt="{{ $product->main_or_first_image->alt }}"
+                            @else 
+                                src="{{ asset('imgs/nopic.png')}}"
+                            @endif >
+                        </div>
+                        <div class="sale_product__info col-lg-7">
+                            <div class="row col-lg-12">
+                                <h3>
+                                    {{ $product->product }}
+                                </h3>
+                                <div class="product_short_description row col-lg-12">
+                                    @isset($product->short_description)
+                                        {{ $product->short_description }}
+                                    @endisset
+                                </div>                                
+                            </div>
+                            <div class="prices row col lg-12">
+                                <div class="old_price">{{ $product->price }}</div>
+                                <div class="new_price col-lg-6">
+                                    @if ($product->discount->type == '%')
+                                        {{ number_format($product->price * $product->discount->numeral, 2, ',', ' ') }}
+                                    @elseif ($product->discount->type == 'rub')
+                                        {{ number_format($product->price - $product->discount->value, 2, ',', ' ') }}
+                                    @endif <i class="fas fa-ruble-sign"></i>
+                                </div>
+                            </div>
+                            <div class="sale_product__count" data-discount="{{ $product->discount->discount_end }}"></div>
+                        </div>
+                    </div>
+                @endforeach
+                
+            @endforeach
+        @endisset
         
-        <div class="sale_product col-lg-4">sefsfsef</div>
-        <div class="sale_product col-lg-4">sefsefsfsfsfsef</div>
-        <div class="sale_product col-lg-4">sefsefsfsfsfsef</div>
     </div>
       
 @endsection

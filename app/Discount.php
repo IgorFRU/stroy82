@@ -38,11 +38,11 @@ class Discount extends Model
     }
 
     public function getPricedProductsAttribute($value) {
-        return $this->product->where('price', '>', 1);
+        return $this->product->where('price', '>', 0);
     }
     
     public function getActualityAttribute($value) {
         $today = Carbon::now();
-        return $this->where('discount_end', '>=', $today);
+        return $this->where('discount_end', '>=', $today)->get();
     }
 }

@@ -15,43 +15,38 @@ class MainController extends Controller
         $today = Carbon::now();
         $discount_ids = array();
         $discount_not_ids = array();
-        // $discounts = Discount::where('discount_end', '>=', $today)->orderBy('discount_end', 'ASC')->limit(1)->pluck('id');
-        $discount_products = Discount::orderBy('discount_end', 'ASC')->actuality->first();
-dd($discount_products);
-        // $priced = $discount_products->priced_products->where('published', 1);
-        // dd($priced->count());
-        // dd($discount_products->priced_products->where('published', 1)->count());
-
-        while ($discount_products->priced_products->where('published', 1)->count() < 3) {
-            if ($discount_products->priced_products->where('published', 1)->count() == 0) {
-                $discount_not_ids[] = $discount_products->id;
+        $discountAllIds = array();
+        $discountProductsCount = 0;
+        
+        $discounts = Discount::orderBy('discount_end', 'ASC')->where('discount_end', '>=', $today)->first();
+        
+        $discountProductsCount = $discounts->priced_products->where('published', 1)->count();
+        // dd($discounts->priced_products->where('published', 1)->count());
+        while ($discountProductsCount <= 2) {
+            if ($discounts->priced_products->where('published', 1)->count() == 0) {
+                $discount_not_ids[] = $discounts->id;
             }
-            $discount_ids[] = $discount_products->id;
-            $discount_products = Discount::whereNotIn('id', $discount_ids)->where('discount_end', '>=', $today)->orderBy('discount_end', 'ASC')->first();
-            if (!isset($discount_products)) {
+            else {
+                $discount_ids[] = $discounts->id;
+            } 
+            $discountAllIds[] = $discounts->id;
+            // dd($discountAllIds);
+            $discounts = Discount::orderBy('discount_end', 'ASC')->whereNotIn('id', $discountAllIds)->where('discount_end', '>=', $today)->first();
+            if (!isset($discounts)) {
                 break;
             }
         }
         // dd(count($discount_not_ids));
-        if (count($discount_ids) > 0) {
-            $discounts = Discount::when(count($discount_not_ids) > 0, function ($query, $discount_not_ids) {
-                return $query->whereNotIn('id', $discount_not_ids);
-            })->whereIn('id', $discount_ids)->where(function ($query) {
-                $query->where('discount_end', '>=', $today);
-            })->orderBy('discount_end', 'ASC')->get();
-        } else {
-            $discounts = Discount::when(count($discount_not_ids) > 0, function ($query, $discount_not_ids) {
-                return $query->whereNotIn('id', $discount_not_ids);
-            })->where('discount_end', '>=', $today)->orderBy('discount_end', 'ASC')->get();
-        }
-        
         // dd($discount_ids);
+        $discounts = Discount::orderBy('discount_end', 'ASC')->whereIn('id', $discount_ids)->where('discount_end', '>=', $today)->get();
+        
+        // dd($discounts);
         $data = array (
             'articles' => Article::orderBy('id', 'DESC')->limit(4)->get(),
             'discounts' => $discounts,
         );
-        dd($data['discounts']);
-        // dd($discount_products->last_products);
+        // dd($data['discounts']);
+        // dd($discounts->last_products);
         return view('welcome', $data);
     }
 }

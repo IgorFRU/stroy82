@@ -99,4 +99,14 @@ class Product extends Model
     public function orders() {
         return $this->belongsToMany(Order::class);
     }
+
+    public function getMainOrFirstImageAttribute($value) {
+        foreach ($this->images as $image) {
+            if ($image->main) {
+                return $this->images->where('main', 1)->first();
+            } else {
+                return $this->images->first();
+            }            
+        }
+    }
 }
