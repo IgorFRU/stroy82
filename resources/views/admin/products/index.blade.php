@@ -81,7 +81,7 @@
                             <td>{{ $product->autoscu }}</td>
                             <td>{{ $product->product }}</td>
                             <td>
-                                @isset($product->discount)
+                                @if(isset($product->discount) && $product->discount->discount_end >= Carbon\Carbon::now())
                                     @if ($product->discount->type == '%')
                                         <div class='btn-group' role="group">
                                             <div class="btn text-light bg-success btn-sm" data-toggle="tooltip" data-placement="top" title="Акция '{{ $product->discount->discount }}' до {{ Carbon\Carbon::parse($product->discount->discount_end)->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM') }}"> 
@@ -96,10 +96,9 @@
                                             </div>
                                             <div class="btn text-light bg-secondary btn-sm">{{ $product->price_number }} руб.</div>
                                     @endif
-                                @endisset
-                                @empty ($product->discount)
-                                    <div class="btn text-light bg-success btn-sm">{{ $product->price_number }} руб.</div>
-                                @endempty
+                                @else
+                                    <div class="btn text-light bg-success btn-sm">{{ $product->price_number }} руб.</div> 
+                                @endif
                                 
                             
                             

@@ -67,7 +67,7 @@
                     <div class="sale_product col-lg-6 d-flex justify-content-lg-start">
                         <div class="sale_product__img col-lg-5">
                             <img  class="img-fluid" 
-                            @if(isset($product->images))
+                            @if(isset($product->images) && count($product->images) > 0)
                                 src="{{ asset('imgs/products/thumbnails/')}}/{{ $product->main_or_first_image->thumbnail }}"
                                 alt="{{ $product->main_or_first_image->alt }}"
                             @else 
@@ -77,7 +77,7 @@
                         <div class="sale_product__info col-lg-7">
                             <div class="row col-lg-12">
                                 <h3>
-                                    {{ $product->product }}
+                                    <a href="#">{{ $product->product }}</a>                                    
                                 </h3>
                                 <div class="product_short_description row col-lg-12">
                                     @isset($product->short_description)
