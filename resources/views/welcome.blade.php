@@ -56,7 +56,7 @@
         </div>
         @endisset            
     </div>
-    <div class="sales_products wrap row d-flex col-lg-12">
+    <section class="sales_products wrap row d-flex col-lg-12">
         @isset($discounts)
         @php
             $count = 0;
@@ -79,9 +79,10 @@
                         </div>
                         <div class="sale_product__info col-lg-7">
                             <div class="row col-lg-12">
-                                <h3>
+                                <h4>
                                     <a href="#">{{ $product->product }}</a>                                    
-                                </h3>
+                                </h4>
+                                <span class="product_inner_scu">артикул: {{ $product->autoscu }}</span>
                                 <div class="product_short_description row col-lg-12">
                                     @isset($product->short_description)
                                         {{ $product->short_description }}
@@ -95,28 +96,24 @@
                                         {{ number_format($product->price * $product->discount->numeral, 2, ',', ' ') }}
                                     @elseif ($product->discount->type == 'rub')
                                         {{ number_format($product->price - $product->discount->value, 2, ',', ' ') }}
-                                    @endif <i class="fas fa-ruble-sign"></i>
+                                    @endif <span><i class="fas fa-ruble-sign"></i></span>
                                 </div>
                             </div>
-                            <div class="sale_product__count" data-discount="{{ $product->discount->discount_end }}">
-                                <div id="countdown" class="countdown">
-                                    <div class="countdown-number">
-                                      <span class="days countdown-time"></span>
-                                      <span class="countdown-text">Days</span>
-                                    </div>
-                                    <div class="countdown-number">
-                                      <span class="hours countdown-time"></span>
-                                      <span class="countdown-text">Hours</span>
-                                    </div>
-                                    <div class="countdown-number">
-                                      <span class="minutes countdown-time"></span>
-                                      <span class="countdown-text">Minutes</span>
-                                    </div>
-                                    <div class="countdown-number">
-                                      <span class="seconds countdown-time"></span>
-                                      <span class="countdown-text">Seconds</span>
-                                    </div>
-                                  </div>
+                            <div id="countdown-{{ $product->id }}" class="sale_product__count d-flex" data-id={{ $product->id }} data-discount="{{ $product->discount->discount_end }}">
+                                
+                                <div class="countdown-number">
+                                    <span class="days countdown-time"></span>
+                                </div>
+                                <div class="countdown-number">
+                                    <span class="hours countdown-time"></span>
+                                </div>
+                                <div class="countdown-number">
+                                    <span class="minutes countdown-time"></span>
+                                </div>
+                                <div class="countdown-number">
+                                    <span class="seconds countdown-time"></span>
+                                </div>
+                                 
                             </div>
                         </div>
                     </div>
@@ -125,6 +122,55 @@
             @endforeach
         @endisset
         
-    </div>
+    </section>
+
+    @isset($lastProducts)  
+    <section class="last_products wrap">
+        <div class="section_title">
+                Последние поступления
+        </div>
+        <div class="product_cards col-lg-12 row">
+            @foreach ($lastProducts as $product)
+                <div class="product_card white_box w23per">
+                    <div class="product_card__img">
+                        <img  class="img-fluid"
+                        @if(isset($product->images) && count($product->images) > 0)
+                            src="{{ asset('imgs/products/thumbnails/')}}/{{ $product->main_or_first_image->thumbnail }}"
+                            alt="{{ $product->main_or_first_image->alt }}"
+                        @else 
+                            src="{{ asset('imgs/nopic.png')}}"
+                        @endif >
+                    </div>                    
+                    <div class="product_card__content p10">
+                        <h5><a href="#">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
+                        <span class="product_inner_scu">артикул: {{ $product->autoscu }}</span>
+                        <div>{{ $product->short_description ?? '' }}</div>
+                        <div class="prices row col lg-12">
+                            
+                                @if(isset($product->discount))
+                                    <div class="old_price">{{ $product->price }}</div>
+                                    <div class="new_price col-lg-6">
+                                    @if ($product->discount->type == '%')
+                                        {{ number_format($product->price * $product->discount->numeral, 2, ',', ' ') }}
+                                    @elseif ($product->discount->type == 'rub')
+                                        {{ number_format($product->price - $product->discount->value, 2, ',', ' ') }}
+                                    @endif
+                                        <span><i class="fas fa-ruble-sign"></i></span>
+                                    </div>
+                                @else
+                                    <div class="new_price">
+                                        {{ $product->price }}
+                                        <span><i class="fas fa-ruble-sign"></i></span>
+                                        <span class="units"></span>
+                                    </div>
+                                @endif
+                                
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+    @endisset
       
 @endsection

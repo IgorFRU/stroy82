@@ -39,6 +39,20 @@ section.top_nav {
     ;
 }
 
+.w30per {
+    width: 30%;
+    margin: 0 1.6666%;
+}
+
+.w23per {
+    width: 23%;
+    margin: 0 1%;
+}
+
+.p10 {
+    padding: 10px;
+}
+
 section.top_nav a,
 nav,
 nav a {
@@ -167,7 +181,7 @@ nav .cart_img .cart_sum {
 
 .wrap {
     width: 95%;
-    margin: 0 auto;
+    margin-left: 2.5%;
 }
 
 main {
@@ -235,20 +249,30 @@ main {
 
 .sale_product__info>.prices {
     font-weight: bold;
-    font-size: 24px;
+    font-size: 20px;
 }
 
-.sale_product__info h3 a {
+.sale_product__info h4 a {
     color: #4a4a4a;
+}
+
+.product_inner_scu {
+    font-size: 12px;
 }
 
 .sale_product__info>.prices>.old_price {
     text-decoration: line-through;
     margin-right: 20px;
+    white-space: nowrap;
 }
 
 .sale_product__info>.prices>.new_price {
     color: #ff6868;
+    white-space: nowrap;
+}
+
+.sale_product__info>.prices>.new_price>span {
+    font-size: 0.75em;
 }
 
 .discount_last_day {
@@ -257,6 +281,89 @@ main {
     width: 100%;
     text-align: center;
     color: #fff;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: bold;
+}
+
+.sale_product__count {
+    position: absolute;
+    bottom: 0;
+}
+
+.countdown-time {
+    border: 5px solid #ff6868;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    display: block;
+    box-sizing: content-box;
+    margin-right: 10px;
+    color: #6b6b6b;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+section {
+    margin-top: 80px;
+}
+
+.section_title {
+    font-size: 30px;
+    color: #6b6b6b;
+    text-transform: uppercase;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.white_box {
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 2px 4px 14px rgba(0, 0, 0, 0.1);
+    /* padding: 10px 20px; */
+}
+
+.section_title {
+    font-size: 20px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #349981;
+    color: #4a4a4a;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.product_cards>.product_card {
+    margin-bottom: 20px;
+}
+
+.product_card__img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 180px;
+    overflow: hidden;
+    border-radius: 2px 2px 0 0;
+}
+
+.product_card__img>img {
+    min-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.product_card>img {
+    margin-bottom: 10px;
+}
+
+.product_card .prices {
+    margin-top: 20px;
+}
+
+.product_card .new_price {
+    font-weight: bold;
+}
+
+.product_card .new_price>span {
+    font-size: 0.75em;
 }

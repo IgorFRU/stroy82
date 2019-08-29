@@ -52,8 +52,9 @@ class MainController extends Controller
         $data = array (
             'articles' => Article::orderBy('id', 'DESC')->limit(4)->get(),
             'discounts' => $discounts,
+            'lastProducts' => Product::orderBy('id', 'DESC')->limit(4)->get(),
         );
-        // dd($data['discounts']);
+        // dd($data['lastProducts']);
         // dd($discounts->last_products);
         return view('welcome', $data);
     }
