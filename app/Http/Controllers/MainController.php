@@ -12,13 +12,16 @@ use Illuminate\Http\Request;
 class MainController extends Controller
 {
     public function index() {
-        $today = Carbon::now();
+        $today = Carbon::now()->toDateString();
         $discount_ids = array();
         $discount_not_ids = array();
         $discountAllIds = array();
         $discountProductsCount = 0;
         
         $discounts = Discount::orderBy('discount_end', 'ASC')->where('discount_end', '>=', $today)->first();
+        // dd($discounts->discount_end, $today->toDateString());
+        // dd($discounts->id);
+        // dd($discounts->discount_end->toDateString());
         
         if (isset($discounts)) {
             $discountProductsCount = $discounts->priced_products->where('published', 1)->count();

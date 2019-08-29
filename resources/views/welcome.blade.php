@@ -1,5 +1,8 @@
 @extends('layouts.main-app')
-
+@section('scripts')
+    @parent
+    <script src="{{ asset('js/discount_countdown.js') }}" defer></script>
+@endsection
 @section('content')
     <div class="header wrap d-flex justify-content-between">
         <div class="header_banners col-lg-9">
@@ -95,7 +98,26 @@
                                     @endif <i class="fas fa-ruble-sign"></i>
                                 </div>
                             </div>
-                            <div class="sale_product__count" data-discount="{{ $product->discount->discount_end }}"></div>
+                            <div class="sale_product__count" data-discount="{{ $product->discount->discount_end }}">
+                                <div id="countdown" class="countdown">
+                                    <div class="countdown-number">
+                                      <span class="days countdown-time"></span>
+                                      <span class="countdown-text">Days</span>
+                                    </div>
+                                    <div class="countdown-number">
+                                      <span class="hours countdown-time"></span>
+                                      <span class="countdown-text">Hours</span>
+                                    </div>
+                                    <div class="countdown-number">
+                                      <span class="minutes countdown-time"></span>
+                                      <span class="countdown-text">Minutes</span>
+                                    </div>
+                                    <div class="countdown-number">
+                                      <span class="seconds countdown-time"></span>
+                                      <span class="countdown-text">Seconds</span>
+                                    </div>
+                                  </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach

@@ -24,9 +24,16 @@ class Discount extends Model
         'discount_end' => 'datetime',
     ];
 
+    // protected $dateFormat = 'U';
+
     public function product() {
         return $this->hasMany(Product::class);
     }
+
+    // public function setDiscountEndAttribute($value) {
+        
+               
+    // }
 
     //перевод процентов число, которое умножается на базовую стоимость
     public function getNumeralAttribute() {
