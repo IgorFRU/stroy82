@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Discount;
 use App\Product;
+use App\Category;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -53,6 +54,7 @@ class MainController extends Controller
             'articles' => Article::orderBy('id', 'DESC')->limit(4)->get(),
             'discounts' => $discounts,
             'lastProducts' => Product::orderBy('id', 'DESC')->limit(4)->get(),
+            'categories' => Category::orderBy('id', 'DESC')->where('category_id', 0)->get(),
         );
         // dd($data['lastProducts']);
         // dd($discounts->last_products);

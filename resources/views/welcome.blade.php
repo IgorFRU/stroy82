@@ -67,7 +67,7 @@
                 @foreach ($discount->product as $product)
                     @break($count == 2)
                     @php $count++; @endphp
-                    <div class="sale_product col-lg-6 d-flex justify-content-lg-start">
+                    <div class="sale_product white_box p10 w47per d-flex justify-content-lg-start">
                         <div class="sale_product__img col-lg-5">
                             <img  class="img-fluid" 
                             @if(isset($product->images) && count($product->images) > 0)
@@ -172,5 +172,30 @@
         </div>
     </section>
     @endisset
+    @isset($categories)
+        <section class="categories wrap">
+            <div class="section_title">
+                    Категории товаров
+            </div>
+            <div class="category_cards col-lg-12 row">
+                @foreach ($categories as $category)
+                    <div class="category_card white_box w23per">
+                        <div class="category_card__img">
+                            <img  class="img-fluid"
+                            @if(isset($category->image))
+                                src="{{ asset('imgs/categories/')}}/{{ $category->image }}"
+                            @else 
+                                src="{{ asset('imgs/nopic.png')}}"
+                            @endif >
+                        </div> 
+                        <div class="category_card__title p10">
+                            <h4>{{ $category->category }}</h4>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+    @endisset
+    
       
 @endsection
