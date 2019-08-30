@@ -24,6 +24,10 @@
     background: #ff6868;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 main {
     color: #6b6b6b;
 }
@@ -136,12 +140,12 @@ nav .main_menu a {
 
 nav .nav_contacts,
 nav .nav_contacts a {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 nav .nav_contacts a {
     display: block;
-    font-weight: bold;
+    line-height: 29px;
 }
 
 nav a:hover {
@@ -262,8 +266,17 @@ main {
     color: #4a4a4a;
 }
 
-.product_inner_scu {
+.product_card__content__info,
+.product_card__content__info a {
     font-size: 12px;
+    color: #999;
+    line-height: 11px;
+    margin-bottom: 8px;
+}
+
+.product_card__content__info>div>span {
+    border-bottom: 1px dotted;
+    margin-bottom: 6px;
 }
 
 .sale_product__info>.prices>.old_price {
@@ -334,13 +347,21 @@ section {
     font-size: 20px;
     text-transform: uppercase;
     border-bottom: 2px solid #349981;
-    color: #4a4a4a;
+    color: #349981;
     font-weight: bold;
     letter-spacing: 1px;
 }
 
 .product_cards>.product_card {
     margin-bottom: 20px;
+}
+
+.category_card {
+    margin-bottom: 20px;
+}
+
+.product_card {
+    position: relative;
 }
 
 .product_card__img,
@@ -354,7 +375,7 @@ section {
 }
 
 .category_card__img {
-    height: 80px;
+    height: 100px;
 }
 
 .product_card__img>img {
@@ -368,14 +389,49 @@ section {
     margin-bottom: 10px;
 }
 
+.product_card .product_card__content .short_description {
+    margin-bottom: 50px;
+}
+
 .product_card .prices {
-    margin-top: 20px;
+    margin: 20px auto 10px;
+    width: 100%;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    padding: 0 10px;
+}
+
+.product_card .old_price {
+    margin-right: 5px;
+    text-decoration: line-through;
 }
 
 .product_card .new_price {
     font-weight: bold;
+    color: #ff6868;
 }
 
-.product_card .new_price>span {
+.product_card .new_price i {
     font-size: 0.75em;
+}
+
+.product_card .new_price::after {
+    content: "\f158";
+    font-family: "Font Awesome 5 Free";
+    font-size: 0.75em;
+    padding-left: 4px;
+}
+
+.product_card .unit_buttons>span {
+    padding: 2px 4px;
+    border-radius: 3px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 12px;
+    background: #7d7d7d;
+}
+
+.product_card .unit_buttons>span.active {
+    background: #ff6868;
 }

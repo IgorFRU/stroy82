@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'MainController@index');
+Route::get('/catalog/{category}', 'MainController@category')->name('category');
 
 
 

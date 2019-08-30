@@ -54,10 +54,22 @@ class MainController extends Controller
             'articles' => Article::orderBy('id', 'DESC')->limit(4)->get(),
             'discounts' => $discounts,
             'lastProducts' => Product::orderBy('id', 'DESC')->limit(4)->get(),
-            'categories' => Category::orderBy('id', 'DESC')->where('category_id', 0)->get(),
+            'categories' => Category::orderBy('category', 'ASC')->where('category_id', 0)->get(),
         );
         // dd($data['lastProducts']);
         // dd($discounts->last_products);
         return view('welcome', $data);
+    }
+
+    public function category($slug) {
+        // dd($slug);
+        $category = Category::where('slug', $slug)->firstOrFail();
+        // dd($category);
+        $data = array (
+            'products' => Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get(),
+            'category' => $category,
+        );
+        // dd($data['products']);
+        return view('category', $data);
     }
 }

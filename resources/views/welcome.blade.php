@@ -82,7 +82,7 @@
                                 <h4>
                                     <a href="#">{{ $product->product }}</a>                                    
                                 </h4>
-                                <span class="product_inner_scu">артикул: {{ $product->autoscu }}</span>
+                                <div class="product_inner_scu row col-lg-12">артикул: {{ $product->autoscu }}</div>
                                 <div class="product_short_description row col-lg-12">
                                     @isset($product->short_description)
                                         {{ $product->short_description }}
@@ -96,7 +96,7 @@
                                         {{ number_format($product->price * $product->discount->numeral, 2, ',', ' ') }}
                                     @elseif ($product->discount->type == 'rub')
                                         {{ number_format($product->price - $product->discount->value, 2, ',', ' ') }}
-                                    @endif <span><i class="fas fa-ruble-sign"></i></span>
+                                    @endif <span><i class="fas fa-ruble-sign"></i>@isset($product->unit) за 1 {{ $product->unit->unit }} @endisset</span>
                                 </div>
                             </div>
                             <div id="countdown-{{ $product->id }}" class="sale_product__count d-flex" data-id={{ $product->id }} data-discount="{{ $product->discount->discount_end }}">
@@ -123,7 +123,30 @@
         @endisset
         
     </section>
-
+    @isset($categories)
+    <section class="categories wrap">
+        <div class="section_title">
+                Категории товаров
+        </div>
+        <div class="category_cards col-lg-12 row">
+            @foreach ($categories as $category)
+                <div class="category_card white_box w23per">
+                    <div class="category_card__img">
+                        <img  class="img-fluid"
+                        @if(isset($category->image))
+                            src="{{ asset('imgs/categories/')}}/{{ $category->image }}"
+                        @else 
+                            src="{{ asset('imgs/nopic.png')}}"
+                        @endif >
+                    </div> 
+                    <div class="category_card__title p10">
+                        <h4><a href="#">{{ $category->category }}</a></h4>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+    @endisset
     @isset($lastProducts)  
     <section class="last_products wrap">
         <div class="section_title">
@@ -141,29 +164,46 @@
                             src="{{ asset('imgs/nopic.png')}}"
                         @endif >
                     </div>                    
-                    <div class="product_card__content p10">
-                        <h5><a href="#">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
-                        <span class="product_inner_scu">артикул: {{ $product->autoscu }}</span>
-                        <div>{{ $product->short_description ?? '' }}</div>
-                        <div class="prices row col lg-12">
+                    <div class="product_card__content p10">      
+                        <div class="product_card__content__info">
+                            <div class="d-flex justify-content-between">
+                                <span class="product_card__content__category"><a href="{{ route('category', $category->slug) }}">{{ $product->category->category ?? '' }}</a></span>                 
+                                <span class="product_card__content__manufacture"><a href="#">{{ $product->manufacture->manufacture ?? '' }}</a></span>             
+                            </div>
+                            {{-- <span class="product_inner_scu">артикул: {{ $product->autoscu }}</span> --}}
+                        </div>
                             
+                        <h5><a href="#">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
+                        
+                        <div class="short_description">{{ $product->short_description ?? '' }}</div>
+                        <div class="prices row lg-12 d-flex justify-content-between">
+                            <div class=" d-flex">
                                 @if(isset($product->discount))
-                                    <div class="old_price">{{ $product->price }}</div>
-                                    <div class="new_price col-lg-6">
+                                    <div class="old_price">{{ number_format($product->price, 2, ',', ' ') }}</div>
+                                    <div class="new_price">
                                     @if ($product->discount->type == '%')
-                                        {{ number_format($product->price * $product->discount->numeral, 2, ',', ' ') }}
+                                        {{ number_format($product->price * $product->discount->numeral, 2, ',', ' ') }} 
                                     @elseif ($product->discount->type == 'rub')
                                         {{ number_format($product->price - $product->discount->value, 2, ',', ' ') }}
                                     @endif
-                                        <span><i class="fas fa-ruble-sign"></i></span>
                                     </div>
                                 @else
                                     <div class="new_price">
-                                        {{ $product->price }}
-                                        <span><i class="fas fa-ruble-sign"></i></span>
-                                        <span class="units"></span>
+                                        {{ number_format($product->price, 2, ',', ' ') }}
+                                        
+                                    </div>
+                                    
+                                @endif
+                            </div>
+                                @if ($product->packaging)
+                                    <div class="unit_buttons">
+                                        @isset($product->unit)
+                                            <span class="unit_buttons__unit active" data-package="{{$product->unit_in_package ?? ''}}">1 {{ $product->unit->unit }}</span>
+                                        @endisset
+                                        <span class="unit_buttons__package" data-package="{{$product->unit_in_package ?? ''}}">1 уп.</span>
                                     </div>
                                 @endif
+                                
                                 
                         </div>
                     </div>
@@ -172,30 +212,7 @@
         </div>
     </section>
     @endisset
-    @isset($categories)
-        <section class="categories wrap">
-            <div class="section_title">
-                    Категории товаров
-            </div>
-            <div class="category_cards col-lg-12 row">
-                @foreach ($categories as $category)
-                    <div class="category_card white_box w23per">
-                        <div class="category_card__img">
-                            <img  class="img-fluid"
-                            @if(isset($category->image))
-                                src="{{ asset('imgs/categories/')}}/{{ $category->image }}"
-                            @else 
-                                src="{{ asset('imgs/nopic.png')}}"
-                            @endif >
-                        </div> 
-                        <div class="category_card__title p10">
-                            <h4>{{ $category->category }}</h4>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </section>
-    @endisset
+    
     
       
 @endsection
