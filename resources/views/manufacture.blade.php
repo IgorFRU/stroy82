@@ -6,24 +6,7 @@
 @section('content')
     
     хлебные крошки
-   инфа о категории
-    <div class="category_cards row wrap">
-    @foreach ($category->children as $subcategory)
-        <div class="category_card white_box w23per">
-            <div class="category_card__img">
-                <img  class="img-fluid"
-                @if(isset($subcategory->image))
-                    src="{{ asset('imgs/categories/')}}/{{ $subcategory->image }}"
-                @else 
-                    src="{{ asset('imgs/nopic.png')}}"
-                @endif >
-            </div> 
-            <div class="category_card__title p10">
-                <h4><a href="{{ route('category', $subcategory->slug) }}">{{ $subcategory->category }}</a></h4>
-            </div>
-        </div>
-    @endforeach
-</div>
+   инфа о производителе
     
     @isset($products)  
     <section class="last_products wrap">
@@ -46,20 +29,16 @@
                         <div class="product_card__content__info">
                             <div class="d-flex justify-content-between">
                                 @isset($product->category->slug)
-                                    <span class="product_card__content__category"><a href="{{ route('category', $product->category->slug) }}">{{ $product->category->category ?? '' }}</a></span>
-                                @endisset
-                                @isset($product->manufacture->slug)
-                                    <span class="product_card__content__manufacture"><a href="{{ route('manufacture', $product->manufacture->slug) }}">{{ $product->manufacture->manufacture ?? '' }}</a></span>             
-                                @endisset             
+                                <span class="product_card__content__category"><a href="{{ route('category', $product->category->slug) }}">{{ $product->category->category ?? '' }}</a></span>
+                            @endisset
+                            @isset($product->manufacture->slug)
+                                <span class="product_card__content__manufacture"><a href="{{ route('manufacture', $product->manufacture->slug) }}">{{ $product->manufacture->manufacture ?? '' }}</a></span>             
+                            @endisset     
                             </div>
                             {{-- <span class="product_inner_scu">артикул: {{ $product->autoscu }}</span> --}}
                         </div>
                             
-                        @if(isset($product->category->slug))
-                            <h5><a href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
-                        @else
-                            <h5><a href="{{ route('product.without_category', $product->slug) }}">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
-                        @endif
+                        <h5><a href="#">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
                         
                         <div class="short_description">{{ $product->short_description ?? '' }}</div>
                         <div class="prices row lg-12 d-flex justify-content-between">

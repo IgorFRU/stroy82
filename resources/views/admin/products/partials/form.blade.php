@@ -373,7 +373,7 @@
             </div>                                    
         </div>
     @empty
-        <div class="alert alert-warning">Вы еще не добавили ни одного товара!</div>
+        <div class="alert alert-warning">Вы еще не добавили ни одной характеристики для данной категории!</div>
     @endforelse
     </div>    
 </div>

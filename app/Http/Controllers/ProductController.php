@@ -196,6 +196,12 @@ class ProductController extends Controller
     public function edit(Product $product, $addImages = null)
     {
         $today = Carbon::now();
+        if (isset($product->category->property)) {
+            $properties = $product->category->property;
+        } else {
+            $properties = array();
+        }
+        
         $data = array (
             'product' => $product,
             'categories' => Category::with('children')->where('category_id', '0')->get(),
@@ -203,7 +209,7 @@ class ProductController extends Controller
             'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
             'vendors' => Vendor::get(),
             'units' => Unit::get(),
-            'properties' => $product->category->property,
+            'properties' => $properties,
             'propertyvalues' => Propertyvalue::where('product_id', $product->id)->pluck('value', 'property_id'),
             'typeRequest' => 'edit',
             'delimiter' => ''

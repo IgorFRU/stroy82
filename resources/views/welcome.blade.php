@@ -80,7 +80,11 @@
                         <div class="sale_product__info col-lg-7">
                             <div class="row col-lg-12">
                                 <h4>
-                                    <a href="#">{{ $product->product }}</a>                                    
+                                    @if(isset($product->category->slug))
+                                        <a href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ Str::limit($product->product, 30, '... ') }}</a>
+                                    @else
+                                        <a href="{{ route('product.without_category', $product->slug) }}">{{ Str::limit($product->product, 30, '... ') }}</a>
+                                    @endif                                   
                                 </h4>
                                 <div class="product_inner_scu row col-lg-12">артикул: {{ $product->autoscu }}</div>
                                 <div class="product_short_description row col-lg-12">
@@ -140,7 +144,7 @@
                         @endif >
                     </div> 
                     <div class="category_card__title p10">
-                        <h4><a href="#">{{ $category->category }}</a></h4>
+                        <h4><a href="{{ route('category', $category->slug) }}">{{ $category->category }}</a></h4>
                     </div>
                 </div>
             @endforeach
@@ -167,18 +171,25 @@
                     <div class="product_card__content p10">      
                         <div class="product_card__content__info">
                             <div class="d-flex justify-content-between">
-                                <span class="product_card__content__category"><a href="{{ route('category', $category->slug) }}">{{ $product->category->category ?? '' }}</a></span>                 
-                                <span class="product_card__content__manufacture"><a href="#">{{ $product->manufacture->manufacture ?? '' }}</a></span>             
+                                @isset($product->category->slug)
+                                    <span class="product_card__content__category"><a href="{{ route('category', $product->category->slug) }}">{{ $product->category->category ?? '' }}</a></span>
+                                @endisset
+                                @isset($product->manufacture->slug)
+                                    <span class="product_card__content__manufacture"><a href="{{ route('manufacture', $product->manufacture->slug) }}">{{ $product->manufacture->manufacture ?? '' }}</a></span>             
+                                @endisset
+                                
                             </div>
                             {{-- <span class="product_inner_scu">артикул: {{ $product->autoscu }}</span> --}}
                         </div>
-                            
-                        <h5><a href="#">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
-                        
+                        @if(isset($product->category->slug))
+                            <h5><a href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
+                        @else
+                            <h5><a href="{{ route('product.without_category', $product->slug) }}">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
+                        @endif
                         <div class="short_description">{{ $product->short_description ?? '' }}</div>
                         <div class="prices row lg-12 d-flex justify-content-between">
                             <div class=" d-flex">
-                                @if(isset($product->discount))
+                                @if(isset($product->discount) && $product->actually_discount)
                                     <div class="old_price">{{ number_format($product->price, 2, ',', ' ') }}</div>
                                     <div class="new_price">
                                     @if ($product->discount->type == '%')
@@ -212,7 +223,11 @@
         </div>
     </section>
     @endisset
-    
+    <section class="main_about wrap">
+        {!! $about->main_text ?? '' !!}
+        <span class="hidding"></span>
+        <button class="btn btn-secondary btn-sm">раскрыть...</button>
+    </section>
     
       
 @endsection

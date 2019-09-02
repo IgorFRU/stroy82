@@ -50,3 +50,58 @@ Number.prototype.format = function(n, x, s, c) {
 //         btn.parentNode.parentNode.parentNode.querySelector('.products__card__buttons').remove();
 //     }
 // });
+
+// show and close main description
+$('.main_about > button').on('click', function() {
+    var parent = $(this).parent();
+    parent.toggleClass('active');
+    if (parent.hasClass('active')) {
+        $(this).html('свернуть...');
+    } else {
+        $(this).html('раскрыть...');
+    }
+});
+
+//Управление миниатюрами и главным изображением в карточке товара на фронет
+var mainProductImage = document.querySelector('.main_product_image > img');
+var otherProductImagesContainer = document.querySelector('.images__container > .column');
+var otherProductImages = document.querySelectorAll('.images__container__item > img');
+var otherProductImagesSize = otherProductImages.length;
+
+var otherProductImageUp = document.querySelector('.images__container span.up');
+var otherProductImageDown = document.querySelector('.images__container span.down');
+// console.log(mainProductImage);
+otherProductImages.forEach(function(img, i) {
+    img.addEventListener('click', () => {
+        const mainThumbnail = img.parentNode.parentNode.querySelector('.main');
+        mainThumbnail.classList.remove('main');
+        img.classList.add('main');
+        mainProductImage.setAttribute('src', img.getAttribute('src'));
+    });
+});
+
+var otherProductImagesPosition = 0;
+var step = 0;
+//if (otherProductImagesContainer.length > 4) {
+otherProductImageDown.addEventListener('click', () => {
+    otherProductImagesPosition -= 75;
+    step++;
+    otherProductImagesContainer.style.top = otherProductImagesPosition + 'px';
+    otherProductImageUp.style.display = 'block';
+    if (otherProductImagesSize - step == 4) {
+        otherProductImageDown.style.display = 'none';
+    }
+});
+otherProductImageUp.addEventListener('click', () => {
+    otherProductImagesPosition += 75;
+    step--;
+    otherProductImagesContainer.style.top = otherProductImagesPosition + 'px';
+    otherProductImageDown.style.display = 'block';
+    if (step == 0) {
+        otherProductImageUp.style.display = 'none';
+    }
+});
+//}
+
+//Конец
+//-----------------------------------------

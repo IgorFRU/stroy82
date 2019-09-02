@@ -14,6 +14,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Filesystem\Filesystem;
 
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -34,6 +37,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191); //NEW: Increase StringLength
+        date_default_timezone_set('Europe/Moscow');
+
+        self::globalData();
+
 
         Category::creating(function(Category $model){
             $model->slug = Str::slug(mb_substr($model->category, 0, 60) . "-", "-");
@@ -170,5 +177,27 @@ class AppServiceProvider extends ServiceProvider
                 
         //     }
         // });
+    }
+
+    public function globalData()
+    {
+        View::composer('layouts.main-app', function ($view){
+
+            $hour = 60;
+
+            $categories = Cache::remember('categories', $hour, function() {
+                return Category::orderBy('category', 'ASC')->where('category_id', 0)->get();
+            });
+            $sets = Cache::remember('sets', $hour, function() {
+                return Set::orderBy('set', 'ASC')->get();
+            });              
+
+            $data = array (
+                'categories'      => $categories,
+                'sets'        => $sets,
+            );
+            
+            $view->with($data);
+        });
     }
 }

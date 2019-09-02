@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Product extends Model
 {
@@ -108,5 +109,15 @@ class Product extends Model
                 return $this->images->first();
             }            
         }
+    }
+
+    public function getActuallyDiscountAttribute($value) {
+        $today = Carbon::now();
+        if ($this->discount->discount_end >= $today) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 }

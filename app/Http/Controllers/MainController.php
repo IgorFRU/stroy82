@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Discount;
 use App\Product;
+use App\Manufacture;
 use App\Category;
+use App\Set;
+use App\Setting;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -54,7 +57,7 @@ class MainController extends Controller
             'articles' => Article::orderBy('id', 'DESC')->limit(4)->get(),
             'discounts' => $discounts,
             'lastProducts' => Product::orderBy('id', 'DESC')->limit(4)->get(),
-            'categories' => Category::orderBy('category', 'ASC')->where('category_id', 0)->get(),
+            'about' => Setting::find(1)->first(),
         );
         // dd($data['lastProducts']);
         // dd($discounts->last_products);
@@ -68,8 +71,39 @@ class MainController extends Controller
         $data = array (
             'products' => Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get(),
             'category' => $category,
+            // 'subcategories' => Category::where('slug', $slug)->firstOrFail()
         );
         // dd($data['products']);
         return view('category', $data);
+    }
+
+    public function manufacture($slug) {
+        // dd($slug);
+        $manufacture = Manufacture::where('slug', $slug)->firstOrFail();
+        // dd($category);
+        $data = array (
+            'products' => Product::orderBy('id', 'DESC')->where('manufacture_id', $manufacture->id)->get(),
+            'manufacture' => $manufacture,
+        );
+        // dd($data['products']);
+        return view('manufacture', $data);
+    }
+
+    public function product($category_slug, $slug) {
+        $data = array (
+            'product' => Product::where('slug', $slug)->firstOrFail(),
+        );
+        // dd($data['product']);
+        return view('product', $data);
+    }
+
+    public function set($slug) {
+        $set = Set::where('slug', $slug)->firstOrFail();
+        $data = array (
+            // 'products' => Product::orderBy('id', 'DESC')->where('set_id', $set->id)->get(),
+            'set' => $set,
+        );
+        // dd($set);
+        return view('set', $data);
     }
 }

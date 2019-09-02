@@ -1,5 +1,15 @@
 @extends('layouts.admin-app')
-
+@section('scripts')
+    @parent
+    <script src="{{ asset('js/ajax_upload_product_image.js') }}" defer></script>
+    <script src="https://cdn.tiny.cloud/1/4ogn001qp1t620kw68fag111as9qnq1nqba3n4ycar2puh9p/tinymce/5/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector:'#description',
+            plugins: "anchor link insertdatetime lists"
+        });
+    </script>
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -79,7 +89,7 @@
                                 <div class="form-group row">
                                     <label for="main_text" class="col-sm-4 col-form-label">Информация о магазине</label>
                                     <div class="col-md-8">
-                                            <textarea class="form-control" name="main_text" id="exampleFormControlTextarea1" rows="10">{{ $settings->main_text ?? '' }}</textarea>
+                                            <textarea class="form-control" name="main_text" id="description" rows="20">{{ $settings->main_text ?? '' }}</textarea>
                                     </div>
                                 </div> 
                                 <button type="submit" class="btn btn-primary">Сохранить</button>                           
