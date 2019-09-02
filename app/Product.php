@@ -113,11 +113,29 @@ class Product extends Model
 
     public function getActuallyDiscountAttribute($value) {
         $today = Carbon::now();
-        if ($this->discount->discount_end >= $today) {
+        if (isset($this->discount) && $this->discount->discount_end >= $today) {
             return true;
         } else {
             return false;
+        }        
+    }
+
+    public function getDiscountPriceAttribute($value) {
+        if ($this->discount->type == '%') {
+            if ($this->price * $this->discount->numeral <= 0) {
+                return number_format(0.01, 2, ',', ' ');
+            } else {
+                return number_format($this->price * $this->discount->numeral, 2, ',', ' ');
+            }            
         }
-        
+        else if ($this->discount->type == 'rub') {
+            if ($this->price - $this->discount->value <= 0) {
+                return number_format(0.01, 2, ',', ' ');
+            } else {
+                return number_format($this->price - $this->discount->value, 2, ',', ' ');
+            }
+            
+            
+        }      
     }
 }

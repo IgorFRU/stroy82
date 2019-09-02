@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Discount;
 use App\Product;
+use App\Property;
+use App\Propertyvalue;
 use App\Manufacture;
 use App\Category;
 use App\Set;
@@ -90,10 +92,21 @@ class MainController extends Controller
     }
 
     public function product($category_slug, $slug) {
+        $product = Product::where('slug', $slug)->firstOrFail();
+        if (isset($category_slug)) {
+            // $id = Product::where('slug', $slug)->pluck('category_id')->first();
+            $properties = $product->category->property;
+            $propertyvalues = Propertyvalue::where('product_id', $product->id)->pluck('value', 'property_id');
+        } else {
+            $properties = array();
+            $propertyvalues = array();
+        }
+
         $data = array (
             'product' => Product::where('slug', $slug)->firstOrFail(),
+            'propertyvalues' => $propertyvalues,
         );
-        // dd($data['product']);
+        // dd($data['product']->images);
         return view('product', $data);
     }
 
