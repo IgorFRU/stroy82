@@ -83,17 +83,49 @@
                         @isset($product->category->property)
                         <div class="product__properties col-lg-6">
                             @foreach ($product->category->property as $property)
-                                <div class="product__property d-flex justify-content-between">
-                                <span class="product__property__title">{{ $property->property }}</span> <span>{{ $propertyvalues[$property->id] ?? '' }}</span>
-                                </div>
+                                @if (isset($property->property) && isset($propertyvalues[$property->id]))
+                                    <div class="product__property d-flex justify-content-between">
+                                        <span class="product__property__title">{{ $property->property }}</span> <span>{{ $propertyvalues[$property->id] ?? '' }}</span>
+                                    </div>
+                                @endif
+                                
                             @endforeach
+                            <p>{{ $product->short_description ?? '' }}</p>
                         </div>
+
+                        
                         @endisset
                         <div class="product__prices col-lg-6">
                             <div class="product__price__value">
                                 Цена: @if ($product->actually_discount)
-                                <span class="product__prices__old">{{ $product->price_number }}</span><span class="product__prices__new"> {{ $product->discount_price }} </span> за 1 {{ $product->unit->unit ?? '' }}
+                                @php
+                                    $new_price_unit = $product->discount_price;
+                                @endphp
+                                    <span class="product__prices__old">{{ $product->price_number }}</span><span class="product__prices__new new_price"> {{ number_format($new_price_unit, 2, ',', ' ') }} </span>
+                                @else
+                                    <span class="product__prices__new  new_price"> {{ $product->price_number }} </span>
                                 @endif
+                                за 1 {{ $product->unit->unit ?? '' }}
+                            </div>
+                            {{-- @php
+                            dd($product->price);
+                        @endphp --}}
+                            @isset($product->packaging)
+                            <div class="product__price__value__package">
+                                Цена: @if ($product->actually_discount)
+                                    <span class="product__prices__old">{{ number_format($product->price * $product->unit_in_package, 2, ',', ' ') }}</span><span class="product__prices__new new_price"> {{ number_format($product->discount_price * $product->unit_in_package, 2, ',', ' ') }} </span>
+                                @else
+                                    <span class="product__prices__new  new_price"> {{ number_format($product->price * $product->unit_in_package, 2, ',', ' ') }} </span>
+                                @endif
+                                за 1 уп. ({{ $product->unit_number ?? '' }} {{ $product->unit->unit ?? '' }})
+                            </div>   
+                            @endisset
+                            <div class="product__input_units">
+                                Кол-во {{ $product->unit->unit ?? '' }}:
+                                <span class="product__input_units_minus"><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
+                                <input type="text" name="product__input_units" id="product__input_units" data-package="{{ $product->unit_in_package ?? '' }}" value="@if ($product->packaging && isset($product->unit_in_package)){{ number_format($product->unit_in_package, 3, ',', ' ') }}@else 1 @endif"> 
+                                <span class="product__input_units_plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>
+                                 (упаковок: <span class="count_package">1</span>)
                             </div>
                             
                         </div>

@@ -450,12 +450,12 @@ section {
 }
 
 .product__properties {
-    border-right: 1px solid rgba(0,0,0,0.1);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .product__property {
     margin-bottom: 5px;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .product__property:last-child {
@@ -476,7 +476,7 @@ section {
     margin-left: 6px;
 }
 
-.product__property > span:last-child {
+.product__property>span:last-child {
     text-align: right;
 }
 
@@ -619,6 +619,13 @@ section.main_about button {
 
 .product__images__many .images__container .images__container__item img.main {
     opacity: 0.7;
+}
+
+.product__input_units input {
+    text-align: center;
+    width: 130px;
+    background: #fff;
+    border: 0;
 }
 
 footer {

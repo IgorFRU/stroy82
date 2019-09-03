@@ -15,6 +15,8 @@ use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Cache;
+
 class MainController extends Controller
 {
     public function index() {
@@ -52,14 +54,17 @@ class MainController extends Controller
         } else {
             $discounts = null;
         }
-        
-        
+        $hour = 60;
+        $categories = Cache::remember('categories', $hour, function() {
+            return Category::orderBy('category', 'ASC')->where('category_id', 0)->get();
+        });
         // dd($discounts);
         $data = array (
             'articles' => Article::orderBy('id', 'DESC')->limit(4)->get(),
             'discounts' => $discounts,
             'lastProducts' => Product::orderBy('id', 'DESC')->limit(4)->get(),
             'about' => Setting::find(1)->first(),
+            'categories' => $categories,
         );
         // dd($data['lastProducts']);
         // dd($discounts->last_products);
@@ -91,7 +96,26 @@ class MainController extends Controller
         return view('manufacture', $data);
     }
 
-    public function product($category_slug, $slug) {
+    public function product($category_slug = NULL, $slug) {
+        $product = Product::where('slug', $slug)->firstOrFail();
+        if (isset($category_slug)) {
+            // $id = Product::where('slug', $slug)->pluck('category_id')->first();
+            $properties = $product->category->property;
+            $propertyvalues = Propertyvalue::where('product_id', $product->id)->pluck('value', 'property_id');
+        } else {
+            $properties = array();
+            $propertyvalues = array();
+        }
+
+        $data = array (
+            'product' => Product::where('slug', $slug)->firstOrFail(),
+            'propertyvalues' => $propertyvalues,
+        );
+        // dd($data['product']->images);
+        return view('product', $data);
+    }
+
+    public function product2($slug) {
         $product = Product::where('slug', $slug)->firstOrFail();
         if (isset($category_slug)) {
             // $id = Product::where('slug', $slug)->pluck('category_id')->first();

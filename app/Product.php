@@ -62,11 +62,17 @@ class Product extends Model
     public function setPriceAttribute($value) {
         if ($value > 0) {
             $this->attributes['price'] = preg_replace('~,~', '.', $value);
-        }        
+        } elseif ($value == 0) {
+            $this->attributes['price'] = 0;
+        }
     }
 
     public function getPriceNumberAttribute() {
         return number_format($this->price, 2, ',', ' ');
+    }
+
+    public function getUnitNumberAttribute() {
+        return number_format($this->unit_in_package, 3, ',', ' ');
     }
 
     public function category() {
@@ -123,19 +129,23 @@ class Product extends Model
     public function getDiscountPriceAttribute($value) {
         if ($this->discount->type == '%') {
             if ($this->price * $this->discount->numeral <= 0) {
-                return number_format(0.01, 2, ',', ' ');
+                return 0.01;
             } else {
-                return number_format($this->price * $this->discount->numeral, 2, ',', ' ');
+                return $this->price * $this->discount->numeral;
             }            
         }
         else if ($this->discount->type == 'rub') {
             if ($this->price - $this->discount->value <= 0) {
-                return number_format(0.01, 2, ',', ' ');
+                return 0.01;
             } else {
-                return number_format($this->price - $this->discount->value, 2, ',', ' ');
+                return $this->price - $this->discount->value;
             }
             
             
         }      
+    }
+
+    public function geNumberAttribute() {
+        return number_format($this, 2, ',', ' ');
     }
 }

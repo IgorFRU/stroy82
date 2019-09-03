@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'MainController@index');
-Route::get('/catalog/product/{product}', 'MainController@product')->name('product.without_category');
+Route::get('/catalog/product/{product}', 'MainController@product2')->name('product.without_category');
 Route::get('/catalog/{category}', 'MainController@category')->name('category');
 Route::get('/catalog/{category}/{product}', 'MainController@product')->name('product');
 Route::get('/set/{set}', 'MainController@set')->name('set');
