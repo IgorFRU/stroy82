@@ -40,6 +40,10 @@ class Discount extends Model
         return (100 - $this->value) / 100;
     }
 
+    public function getDMYAttribute() {
+        return $this->discount_end->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM');
+    }
+
     public function getPublishedProductsAttribute($value) {
         return $this->product->where('published', '=', 1);
     }

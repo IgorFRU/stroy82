@@ -70,7 +70,7 @@ var otherProductImagesSize = otherProductImages.length;
 
 var otherProductImageUp = document.querySelector('.images__container span.up');
 var otherProductImageDown = document.querySelector('.images__container span.down');
-// console.log(mainProductImage);
+// console.log(otherProductImageDown);
 otherProductImages.forEach(function(img, i) {
     img.addEventListener('click', () => {
         const mainThumbnail = img.parentNode.parentNode.querySelector('.main');
@@ -83,24 +83,30 @@ otherProductImages.forEach(function(img, i) {
 var otherProductImagesPosition = 0;
 var step = 0;
 //if (otherProductImagesContainer.length > 4) {
-otherProductImageDown.addEventListener('click', () => {
-    otherProductImagesPosition -= 75;
-    step++;
-    otherProductImagesContainer.style.top = otherProductImagesPosition + 'px';
-    otherProductImageUp.style.display = 'block';
-    if (otherProductImagesSize - step == 4) {
-        otherProductImageDown.style.display = 'none';
-    }
-});
-otherProductImageUp.addEventListener('click', () => {
-    otherProductImagesPosition += 75;
-    step--;
-    otherProductImagesContainer.style.top = otherProductImagesPosition + 'px';
-    otherProductImageDown.style.display = 'block';
-    if (step == 0) {
-        otherProductImageUp.style.display = 'none';
-    }
-});
+if (otherProductImageDown != null) {
+    otherProductImageDown.addEventListener('click', () => {
+        otherProductImagesPosition -= 75;
+        step++;
+        otherProductImagesContainer.style.top = otherProductImagesPosition + 'px';
+        otherProductImageUp.style.display = 'block';
+        if (otherProductImagesSize - step == 4) {
+            otherProductImageDown.style.display = 'none';
+        }
+    });
+}
+
+if (otherProductImageUp != null) {
+    otherProductImageUp.addEventListener('click', () => {
+        otherProductImagesPosition += 75;
+        step--;
+        otherProductImagesContainer.style.top = otherProductImagesPosition + 'px';
+        otherProductImageDown.style.display = 'block';
+        if (step == 0) {
+            otherProductImageUp.style.display = 'none';
+        }
+    });
+}
+
 //}
 
 //Конец

@@ -63,6 +63,29 @@
                     @else
                         
                     @endif
+                    <div class="product_superiorities">
+                        @isset($product->pay_online)
+                            <div class="product_superiority">
+                                <span class="product_superiority__left l-green">
+                                    <i class="fas fa-credit-card"></i>
+                                </span>
+                                <span class="product_superiority__right m-green">
+                                    Этот товар можно оплатить онлайн
+                                </span>
+                            </div>
+                        @endisset
+                        @if($product->actually_discount)
+                            <div class="product_superiority">
+                                <span class="product_superiority__left l-red">
+                                    <i class="fas fa-percentage"></i>
+                                </span>
+                                <span class="product_superiority__right m-red">
+                                    Акция до {{ $product->discount->d_m_y }}
+                                </span>
+                            </div>
+                        @endif
+                        
+                    </div>
                 </div>
                 <div class="col-lg-8">
                     <h1 class="col-lg-12">{{ $product->product }} @isset($product->category->category)  - {{ $product->category->category }} @endisset</h1>
@@ -90,6 +113,7 @@
                                 @endif
                                 
                             @endforeach
+                            
                             <p>{{ $product->short_description ?? '' }}</p>
                         </div>
 
@@ -138,6 +162,13 @@
                 </div>
                 
             </div>
+            @isset($product->description)
+            <hr>
+            <div class="col-lg-12">
+                {!! $product->description ?? '' !!}
+            </div>
+            @endisset
+            
         </div>
     </section>
     

@@ -20,6 +20,10 @@
     opacity: 1;
 }
 
+textarea:focus, input:focus{
+    outline: none;
+}
+
 .bg-light-red {
     background: #ff6868;
 }
@@ -64,6 +68,29 @@ section.top_nav {
 
 .p10 {
     padding: 10px;
+}
+
+.l-green {
+    background: #349981;
+}
+
+.m-green {
+    background: #268b74;
+}
+
+.l-red {
+    background: #ff6868;
+}
+
+.m-red {
+    background: #e74b4b;
+}
+
+.l-green,
+.m-green,
+.l-red,
+.m-red {
+    color: #fff;
 }
 
 section.top_nav a,
@@ -397,6 +424,43 @@ section {
     margin-bottom: 50px;
 }
 
+.product_superiorities {
+    margin: 10px 0;
+    position: absolute;
+    top: 0;
+    left: 24px;
+}
+
+.product_superiorities > div {
+    padding: 2px 0;
+}
+
+.product_superiorities > div span {
+    padding: 0px 5px;
+    display: inline-block;
+    font-size: 0.9em;
+    box-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
+
+.product_superiority__left {
+    border-radius: 3px;
+    margin-right: -5px;
+    text-align: center;
+    width: 28px;
+}
+
+.product_superiority__right {
+    border-radius: 0 3px 3px 0;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: 0.1s;
+}
+
+.product_superiorities > div:hover .product_superiority__right{
+    transform: scaleX(1);
+    transition: 0.1s;
+}
+
 .product_card .prices {
     margin: 20px auto 10px;
     width: 100%;
@@ -438,8 +502,8 @@ section {
 .product__result_price {
     /* text-align: center; */
     margin: 20px 0;
-    border-top: 1px solid #e5e5e5;
-    border-bottom: 1px solid #e5e5e5;
+    /* border-top: 1px solid #e5e5e5; */
+    /* border-bottom: 1px solid #e5e5e5; */
 }
 
 .product__result_price > span {
@@ -580,6 +644,7 @@ section.main_about button {
 
 .product__images {
     /* width: 35%; */
+    position: relative;
 }
 
 .product__images .product__images__many {
@@ -671,7 +736,9 @@ section.main_about button {
 .product__images__many .images__container .images__container__item img.main {
     opacity: 0.7;
 }
-
+.product__input_units > span {
+    cursor: pointer;
+}
 .product__input_units input {
     text-align: center;
     width: 110px;
