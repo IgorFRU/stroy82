@@ -81,7 +81,7 @@
                             dd($product->category->property);
                         @endphp --}}
                         @isset($product->category->property)
-                        <div class="product__properties col-lg-6">
+                        <div class="product__properties col-lg-5">
                             @foreach ($product->category->property as $property)
                                 @if (isset($property->property) && isset($propertyvalues[$property->id]))
                                     <div class="product__property d-flex justify-content-between">
@@ -95,15 +95,15 @@
 
                         
                         @endisset
-                        <div class="product__prices col-lg-6">
+                        <div class="product__prices col-lg-7">
                             <div class="product__price__value">
                                 Цена: @if ($product->actually_discount)
                                 @php
                                     $new_price_unit = $product->discount_price;
                                 @endphp
-                                    <span class="product__prices__old">{{ $product->price_number }}</span><span class="product__prices__new new_price"> {{ number_format($new_price_unit, 2, ',', ' ') }} </span>
+                                    <span id="price" class="product__prices__old">{{ $product->price_number }}</span><span class="product__prices__new new_price"> {{ number_format($new_price_unit, 2, ',', ' ') }} </span><i class="fas fa-ruble-sign"></i>
                                 @else
-                                    <span class="product__prices__new  new_price"> {{ $product->price_number }} </span>
+                                    <span id="price" class="product__prices__new  new_price"> {{ $product->price_number }} </span><i class="fas fa-ruble-sign"></i>
                                 @endif
                                 за 1 {{ $product->unit->unit ?? '' }}
                             </div>
@@ -113,9 +113,9 @@
                             @isset($product->packaging)
                             <div class="product__price__value__package">
                                 Цена: @if ($product->actually_discount)
-                                    <span class="product__prices__old">{{ number_format($product->price * $product->unit_in_package, 2, ',', ' ') }}</span><span class="product__prices__new new_price"> {{ number_format($product->discount_price * $product->unit_in_package, 2, ',', ' ') }} </span>
+                                    <span class="product__prices__old">{{ number_format($product->price * $product->unit_in_package, 2, ',', ' ') }}</span><span class="product__prices__new new_price"> {{ number_format($product->discount_price * $product->unit_in_package, 2, ',', ' ') }} </span><i class="fas fa-ruble-sign"></i>
                                 @else
-                                    <span class="product__prices__new  new_price"> {{ number_format($product->price * $product->unit_in_package, 2, ',', ' ') }} </span>
+                                    <span class="product__prices__new  new_price"> {{ number_format($product->price * $product->unit_in_package, 2, ',', ' ') }} </span><i class="fas fa-ruble-sign"></i>
                                 @endif
                                 за 1 уп. ({{ $product->unit_number ?? '' }} {{ $product->unit->unit ?? '' }})
                             </div>   
@@ -123,11 +123,16 @@
                             <div class="product__input_units">
                                 Кол-во {{ $product->unit->unit ?? '' }}:
                                 <span class="product__input_units_minus"><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
-                                <input type="text" name="product__input_units" id="product__input_units" data-package="{{ $product->unit_in_package ?? '' }}" value="@if ($product->packaging && isset($product->unit_in_package)){{ number_format($product->unit_in_package, 3, ',', ' ') }}@else 1 @endif"> 
+                                <input type="text" name="product__input_units" id="product__input_units" data-package="{{ $product->unit_in_package ?? '' }}" value="@if ($product->packaging && isset($product->unit_in_package)){{ number_format($product->unit_in_package, 3, ',', '') }}@else 1 @endif"> 
                                 <span class="product__input_units_plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>
                                  (упаковок: <span class="count_package">1</span>)
                             </div>
-                            
+                            <div class="product__result_price">
+                                <span>Итого: </span>
+                                <div></div>
+                                <i class="fas fa-ruble-sign"></i>
+                                <span class='to_cart btn btn-primary'><i class="fas fa-shopping-cart"></i> купить</span>
+                            </div>
                         </div>
                     </div>
                 </div>

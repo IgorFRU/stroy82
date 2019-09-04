@@ -427,6 +427,56 @@ section {
     padding-left: 4px;
 }
 
+.product__price__value>i,
+.product__price__value__package>i {
+    color: #ff6868;
+    font-size: 0.75em;
+    margin-left: -10px;
+    margin-right: 10px;
+}
+
+.product__result_price {
+    /* text-align: center; */
+    margin: 20px 0;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.product__result_price > span {
+    text-transform: uppercase;
+    padding: 18px 10px;
+    padding-left: 0;
+    display: inline-block;
+}
+
+.product__result_price > span.to_cart {
+    border-radius: 3px;
+    line-height: 17px;
+    padding: 15px;
+    margin-bottom: 11px;
+}
+
+.product__result_price > span.to_cart>a,
+.product__result_price > span.to_cart>a:hover {
+    color: #fff;
+}
+
+.product__result_price>div {
+    color: #ff6868;
+    font-size: 30px;
+    display: inline-block;
+    padding: 0px 26px 0px 10px;
+    margin-left: -4px;
+    line-height: 68px;
+}
+
+.product__result_price>i {
+    color: #ff6868;
+    font-size: 0.75em;
+    margin-right: 8px;
+    margin-left: -24px;
+}
+
 .product_card .unit_buttons>span {
     padding: 2px 4px;
     border-radius: 3px;
@@ -568,6 +618,7 @@ section.main_about button {
     display: flex;
     flex-direction: column;
     width: 100px;
+    height: 300px;
     overflow: hidden;
     right: 0;
     top: 0;
@@ -623,9 +674,10 @@ section.main_about button {
 
 .product__input_units input {
     text-align: center;
-    width: 130px;
+    width: 110px;
     background: #fff;
     border: 0;
+    font-weight: bold;
 }
 
 footer {

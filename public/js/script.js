@@ -105,3 +105,67 @@ otherProductImageUp.addEventListener('click', () => {
 
 //Конец
 //-----------------------------------------
+
+//сумма в карточке товара
+
+var resultPrice = $('.product__result_price > div');
+var packageInput = $('#product__input_units');
+var package = $('#product__input_units').attr('data-package');
+var price = $('#price').text();
+var packageCountInput = $('.count_package');
+var packageCount = 1;
+var packageInputValue = 0;
+price = parseFloat(price.replace(/\s/g, '').replace(",", "."));
+var resultPriceValue = Math.round((price * package).toFixed(2) * 100) / 100;
+
+packageInput.val(package.replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+resultPrice.text(resultPriceValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ").replace(".", ","));
+$('.product__input_units_minus').on('click', PriceDown);
+$('.product__input_units_plus').on('click', PriceUp);
+
+packageInput.focusout(function() { 
+    var dirtyPackage = $(this).val();
+    var newPackageCount = dirtyPackage / package;
+    if (newPackageCount > packageCount) {
+        PriceUp(Math.ceil(newPackageCount));
+    } else if (newPackageCount < packageCount) {
+        PriceDown(Math.ceil(newPackageCount));
+    }
+});
+
+function PriceDown(step = 1) {    
+    console.log(step);
+    if (step > 1) {
+        packageCount = step;
+    }
+    if (packageCount > 1) {
+        packageCount--;
+        packageInputValue = Math.round((package * packageCount).toFixed(3) * 100) / 100;
+        packageInput.val(packageInputValue);
+        resultPriceValue = Math.round((packageInputValue * price).toFixed(2) * 100) / 100;
+        resultPrice.text(resultPriceValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ").replace(".", ","));
+        packageCountInput.text(packageCount);
+    }
+}
+
+function PriceUp(step = 1) {
+    if (step > 1) {
+        packageCount = step;
+    } else {
+        packageCount++;
+    }
+    
+    packageInputValue = Math.round((package * packageCount).toFixed(3) * 100) / 100;
+    packageInput.val(packageInputValue);
+    resultPriceValue = Math.round((packageInputValue * price).toFixed(2) * 100) / 100;
+    resultPrice.text(resultPriceValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ").replace(".", ","));
+    packageCountInput.text(packageCount);
+}
+
+$('.to_cart').on('click', function () {
+    if ($('.to_cart').html() != 'в корзину') {
+        $('.to_cart').html('<a href="/cart">в корзину</a>');
+    }  
+});
+// console.log(price);
+// console.log(parseFloat($('#product__input_units').val().replace(",", ".")) * 1.22);
