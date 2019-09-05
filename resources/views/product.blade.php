@@ -5,10 +5,20 @@
 @endsection
 @section('content')
     
-    хлебные крошки
+{{-- {{ Breadcrumbs::render('product', $product->category->slug, $product) }} --}}
     {{-- @php
         dd($product->images);
     @endphp --}}
+    @component('components.breadcrumb')
+        @slot('main') <i class="fas fa-home"></i> @endslot
+        @slot('parent') Категории товаров @endslot
+            @slot('parent_route') {{ route('categories') }} @endslot  
+        @slot('parent2') {{ $product->category->category }} @endslot
+            @slot('parent2_route') {{ route('category', $product->category->slug) }} @endslot        
+        @slot('active') {{ $product->product }} @endslot
+    @endcomponent 
+    
+    
     
     <section class="product wrap">
         <div class="white_box p10">
@@ -88,14 +98,16 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <h1 class="col-lg-12">{{ $product->product }} @isset($product->category->category)  - {{ $product->category->category }} @endisset</h1>
+                    <h1 class="col-lg-12">{{ $product->product }} @isset($product->category->category)  - {{ $product->category->category }} @endisset @isset($product->manufacture->manufacture)  {{ $product->manufacture->manufacture }} @endisset</h1>
                     <div class="col-lg-12 product__subtitle d-flex justify-content-start">
-                        @isset($product->category->slug)
-                            <span class="product_card__content__category"><a href="{{ route('category', $product->category->slug) }}">{{ $product->category->category ?? '' }}</a></span>
+                        @isset($product->autoscu)
+                            <span class="product_card__content__category">внутренний артикул: {{ $product->autoscu ?? '' }}</span>
                         @endisset
-                         | 
+                        @isset($product->category->slug)
+                            <span class="product_card__content__category"> | <a href="{{ route('category', $product->category->slug) }}">{{ $product->category->category ?? '' }}</a></span>
+                        @endisset
                         @isset($product->manufacture->slug)
-                            <span class="product_card__content__manufacture"><a href="{{ route('manufacture', $product->manufacture->slug) }}">{{ $product->manufacture->manufacture ?? '' }}</a></span>             
+                            <span class="product_card__content__manufacture"> | <a href="{{ route('manufacture', $product->manufacture->slug) }}">{{ $product->manufacture->manufacture ?? '' }}</a></span>             
                         @endisset
                     </div>
                     <hr>
@@ -103,8 +115,18 @@
                         {{-- @php
                             dd($product->category->property);
                         @endphp --}}
+                        
+                        
+                        
+                        {{-- @php
+                            dd($product->category->property)
+                        @endphp --}}
+                        <div class="product__properties color_l_grey col-lg-5">
+                        @isset($product->delivery_time)
+                            <div class="italic" style="display: block;"><i class="far fa-calendar-alt"></i> срок поставки: {{ $product->delivery_time }}</div>
+                        @endisset
                         @isset($product->category->property)
-                        <div class="product__properties col-lg-5">
+                        <div>
                             @foreach ($product->category->property as $property)
                                 @if (isset($property->property) && isset($propertyvalues[$property->id]))
                                     <div class="product__property d-flex justify-content-between">
@@ -113,19 +135,20 @@
                                 @endif
                                 
                             @endforeach
-                            
+                            </div>
+                            @endisset
                             <p>{{ $product->short_description ?? '' }}</p>
                         </div>
 
                         
-                        @endisset
+                        
                         <div class="product__prices col-lg-7">
                             <div class="product__price__value">
                                 Цена: @if ($product->actually_discount)
                                 @php
                                     $new_price_unit = $product->discount_price;
                                 @endphp
-                                    <span id="price" class="product__prices__old">{{ $product->price_number }}</span><span class="product__prices__new new_price"> {{ number_format($new_price_unit, 2, ',', ' ') }} </span><i class="fas fa-ruble-sign"></i>
+                                    <span class="product__prices__old">{{ $product->price_number }}</span><span id="price" class="product__prices__new new_price"> {{ number_format($new_price_unit, 2, ',', ' ') }} </span><i class="fas fa-ruble-sign"></i>
                                 @else
                                     <span id="price" class="product__prices__new  new_price"> {{ $product->price_number }} </span><i class="fas fa-ruble-sign"></i>
                                 @endif

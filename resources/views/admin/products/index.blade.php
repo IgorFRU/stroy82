@@ -20,7 +20,7 @@
                         <div class="col-md-5">
                             <select class="form-control" id="index_category_id" name="index_category_id">
                                 <option value="0">-- Все категории --</option>
-                                @include('admin.products.partials.categories', ['categories' => $categories])
+                                @include('admin.products.partials.categories', ['categories' => $categories, 'delimiter' => $delimiter])
                             </select>
                         </div>
                         <div class="col-md-5">

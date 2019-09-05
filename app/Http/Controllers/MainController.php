@@ -84,6 +84,19 @@ class MainController extends Controller
         return view('category', $data);
     }
 
+    public function categories() {
+        $hour = 60;
+        $categories = Cache::remember('categories', $hour, function() {
+            return Category::orderBy('category', 'ASC')->where('category_id', 0)->get();
+        });
+        $data = array (
+            'categories' => $categories,
+            // 'subcategories' => Category::where('slug', $slug)->firstOrFail()
+        );
+        // dd($data['products']);
+        return view('categories', $data);
+    }
+
     public function manufacture($slug) {
         // dd($slug);
         $manufacture = Manufacture::where('slug', $slug)->firstOrFail();
@@ -106,6 +119,7 @@ class MainController extends Controller
             $properties = array();
             $propertyvalues = array();
         }
+        // dd($propertyvalues);
 
         $data = array (
             'product' => Product::where('slug', $slug)->firstOrFail(),

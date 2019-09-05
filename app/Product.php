@@ -40,22 +40,27 @@ class Product extends Model
     ];
 
     public function setSlugAttribute($value) {
-        $this->attributes['slug'] = Str::slug(mb_substr($this->product, 0, 60), "-");
-        if (isset($this->attributes['scu'])) {
-            $this->attributes['slug'] .= '-' . Str::slug(mb_substr($this->attributes['scu'], 0, 10), "-");
-        }        
-        $double = Product::where('slug', $this->attributes['slug'])->first();
+        if (!isset($this->id)) {
+            $this->attributes['slug'] = Str::slug(mb_substr($this->product, 0, 60), "-");
+            if (isset($this->attributes['scu'])) {
+                $this->attributes['slug'] .= '-' . Str::slug(mb_substr($this->attributes['scu'], 0, 10), "-");
+            }        
+            $double = Product::where('slug', $this->attributes['slug'])->first();
 
-        if ($double) {
-            $next_id = Product::select('id')->orderby('id', 'desc')->first()['id'];
-            $this->attributes['slug'] .= '-' . ++$next_id;
+            if ($double) {
+                $next_id = Product::select('id')->orderby('id', 'desc')->first()['id'];
+                $this->attributes['slug'] .= '-' . ++$next_id;
+            }
         }
+        
     }
 
     public function setAutoscuAttribute($value) {
-        $this->attributes['autoscu'] = mt_rand(100, 999) . '-' . mt_rand(100, 999) . '-' . mt_rand(1000, 9999);
-        while (Product::where('autoscu', $this->attributes['autoscu'])->count() > 0 ) {
-            $this->attributes['autoscu'] = mt_rand(100, 999) . '-' . mt_rand(100, 999) . '-' . mt_rand(1000, 9999);
+        if (!isset($this->id)) {
+            $this->attributes['autoscu'] = mt_rand(100, 999) . '-' . mt_rand(100, 999);
+            while (Product::where('autoscu', $this->attributes['autoscu'])->count() > 0 ) {
+                $this->attributes['autoscu'] = mt_rand(100, 999) . '-' . mt_rand(100, 999);
+            }
         }
     }
 
@@ -65,6 +70,15 @@ class Product extends Model
         } elseif ($value == 0) {
             $this->attributes['price'] = 0;
         }
+    }
+
+    public function setUnitInPackageAttribute($value) {
+        if ($value > 0) {
+            $this->attributes['unit_in_package'] = preg_replace('~,~', '.', $value);
+        }
+        // } elseif ($value == 0) {
+        //     $this->attributes['unit_in_package'] = 0;
+        // }
     }
 
     public function getPriceNumberAttribute() {

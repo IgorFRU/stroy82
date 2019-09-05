@@ -4,10 +4,27 @@
     <!-- <script src="{{ asset('js/discount_countdown.js') }}" defer></script> -->
 @endsection
 @section('content')
+
+{{-- @php
+    dd($category->parents);
+@endphp --}}
+@component('components.breadcrumb')
+    @slot('main') <i class="fas fa-home"></i> @endslot
+    @slot('parent') Категории товаров @endslot
+        @slot('parent_route') {{ route('categories') }} @endslot 
+    @isset($category->parents)
+        @slot('parent2') {{ $category->parents->category }} @endslot
+            @slot('parent2_route') {{ route('category', $category->parents->slug) }} @endslot        
+    @endisset
     
-    хлебные крошки
-   инфа о категории
-    <div class="category_cards row wrap">
+    @slot('active') {{ $category->category }} @endslot
+@endcomponent 
+   <section class="wrap">
+        <h1>{{ $category->category }}</h1>
+        {!! $category->description !!}
+   </section>
+   @if(count($category->children) > 0)
+      <section class="category_cards row wrap">
     @foreach ($category->children as $subcategory)
         <div class="category_card white_box w23per">
             <div class="category_card__img">
@@ -23,7 +40,9 @@
             </div>
         </div>
     @endforeach
-</div>
+    </section> 
+   @endif
+    
     
     @isset($products)  
     <section class="last_products wrap">

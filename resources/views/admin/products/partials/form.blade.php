@@ -107,7 +107,7 @@
                         <label for="unit_id" class="col-md-4 col-form-label">Ед. изм.</label>
                         <div class="col-md-8">
                             <select class="form-control" id="unit_id" name="unit_id">
-                                <option></option>
+                                <option disabled="disabled" @if (!isset($product->id)) selected @endif></option>
                                 @forelse ($units as $unit)
                                     <option value="{{ $unit->id }}"
                                         @isset($product->unit_id)
@@ -224,7 +224,7 @@
                             @if(isset($product->id))
                                 <input class="form-check-input js_oneclick" type="checkbox" id="packaging" name="packaging" value="{{ $product->packaging }}" @if($product->packaging) checked @endif>
                             @else
-                                <input class="form-check-input js_oneclick" type="checkbox" name="packaging" id="packaging" value="1"  checked >
+                                <input class="form-check-input js_oneclick" type="checkbox" name="packaging" id="packaging" value="1" >
                             @endif
                             {{-- Скрытое поле для отправки на сервер value неотмеченного чекбокса --}}
                             <input type="hidden" name="pay_online" id="pay_online" class="form-check-input js_oneclick_hidden" value="1" >
@@ -365,16 +365,18 @@
 </div>
 <div id="properties" class="tab_item">
     <div class="col-lg-12">
-    @forelse ($properties as $property)        
-        <div class="form-group row">
-            <label for="{{ $property->id }}" class="col-sm-2 col-form-label">{{ $property->property }}</label>
-            <div class="col-md-4">
-                <input type="text" name="property_values[{{ $property->id }}]" class="form-control" id="{{ $property->property }}" value=" {{ $propertyvalues[$property->id] ?? '' }} ">
-            </div>                                    
-        </div>
-    @empty
-        <div class="alert alert-warning">Вы еще не добавили ни одной характеристики для данной категории!</div>
-    @endforelse
+    @isset($properties)    
+        @forelse ($properties as $property)        
+            <div class="form-group row">
+                <label for="{{ $property->id }}" class="col-sm-2 col-form-label">{{ $property->property }}</label>
+                <div class="col-md-4">
+                    <input type="text" name="property_values[{{ $property->id }}]" class="form-control" id="{{ $property->property }}" value=" {{ $propertyvalues[$property->id] ?? '' }} ">
+                </div>                                    
+            </div>
+        @empty
+            <div class="alert alert-warning">Вы еще не добавили ни одной характеристики для данной категории!</div>
+        @endforelse
+    @endisset
     </div>    
 </div>
 

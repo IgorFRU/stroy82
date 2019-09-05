@@ -96,6 +96,7 @@ class ProductController extends Controller
             'itemsPerPage' => $itemsPerPage,
             'productPublished' => $pp,
         ); 
+        // dd($data);
         // dd($data['categories']);
         return view('admin.products.index', $data);
     }

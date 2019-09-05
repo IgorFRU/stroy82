@@ -434,22 +434,32 @@ $(function() {
         var category = $('#index_category_id').val();
         var p_published = $('#p_published').val();
         var pp = $('#pp').val();
-        var manufacture = $('#index_manufacture_id').val(); 
+        var manufacture = $('#index_manufacture_id').val();
         if (manufacture > 0) {
-            window.location.href = '/admin/products/?pp='+pp+'&p_published='+ p_published +'&category=' + category + '&manufacture='+ manufacture; 
+            window.location.href = '/admin/products/?pp=' + pp + '&p_published=' + p_published + '&category=' + category + '&manufacture=' + manufacture;
         } else {
-            window.location.href = '/admin/products/?pp='+pp+'&p_published='+ p_published +'&category='+ category;
-        }            
+            window.location.href = '/admin/products/?pp=' + pp + '&p_published=' + p_published + '&category=' + category;
+        }
     });
     $('#index_manufacture_id').bind('input', function() {
-        var manufacture = $('#index_manufacture_id').val();  
+        var manufacture = $('#index_manufacture_id').val();
         var category = $('#index_category_id').val();
         var p_published = $('#p_published').val();
         var pp = $('#pp').val();
         if (category > 0) {
-            window.location.href = '/admin/products/?pp='+pp+'&p_published='+ p_published +'&category=' + category + '&manufacture='+ manufacture;      
+            window.location.href = '/admin/products/?pp=' + pp + '&p_published=' + p_published + '&category=' + category + '&manufacture=' + manufacture;
         } else {
-            window.location.href = '/admin/products/?pp='+pp+'&p_published='+ p_published +'&manufacture='+ manufacture;
-        }            
+            window.location.href = '/admin/products/?pp=' + pp + '&p_published=' + p_published + '&manufacture=' + manufacture;
+        }
+    });
+
+    $('#packaging').change(function() {
+        if (this.checked) {
+            $('#unit_in_package').prop('required', true);
+            $('#unit_id').prop('required', true);
+        } else {
+            $('#unit_in_package').prop('required', false);
+        }
+
     });
 });
