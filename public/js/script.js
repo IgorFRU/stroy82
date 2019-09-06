@@ -124,12 +124,15 @@ var packageInputValue = 0;
 price = parseFloat(price.replace(/\s/g, '').replace(",", "."));
 var resultPriceValue = Math.round((price * package).toFixed(2) * 100) / 100;
 
-packageInput.val(package.replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+if (package != null) {
+    packageInput.val(package.replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+}
+
 resultPrice.text(resultPriceValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ").replace(".", ","));
 $('.product__input_units_minus').on('click', PriceDown);
 $('.product__input_units_plus').on('click', PriceUp);
 
-packageInput.focusout(function() { 
+packageInput.focusout(function() {
     var dirtyPackage = $(this).val();
     var newPackageCount = dirtyPackage / package;
     if (newPackageCount > packageCount) {
@@ -139,7 +142,7 @@ packageInput.focusout(function() {
     }
 });
 
-function PriceDown(step = 1) {    
+function PriceDown(step = 1) {
     console.log(step);
     if (step > 1) {
         packageCount = step;
@@ -160,7 +163,7 @@ function PriceUp(step = 1) {
     } else {
         packageCount++;
     }
-    
+
     packageInputValue = Math.round((package * packageCount).toFixed(3) * 100) / 100;
     packageInput.val(packageInputValue);
     resultPriceValue = Math.round((packageInputValue * price).toFixed(2) * 100) / 100;
@@ -168,15 +171,14 @@ function PriceUp(step = 1) {
     packageCountInput.text(packageCount);
 }
 
-$('.to_cart').on('click', function () {
+$('.to_cart').on('click', function() {
     if ($('.to_cart').html() != 'в корзину') {
-        var productId = $('#product_id').val();
-        var userId = $('#user_id').val();
+        var productId = $(this).attr('data-product');
         var quantity = $('#product__input_units').val();
         quantity = parseFloat(quantity.replace(/\s/g, '').replace(",", "."))
-        var price = $('#price').text();
-        price = parseFloat(price.replace(/\s/g, '').replace(",", "."))
-        console.log(price * quantity);
+            // var price = $('#price').text();
+            // price = parseFloat(price.replace(/\s/g, '').replace(",", "."))
+            // console.log(productId);
 
         $.ajax({
             type: "POST",
@@ -184,17 +186,49 @@ $('.to_cart').on('click', function () {
             data: {
                 productId: productId,
                 quantity: quantity,
-                price: price,
-                userId: userId
             },
             headers: {
                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(data) {
                 var data = $.parseJSON(data);
-                console.log(data);
+                // console.log(data.sum);
+                // if ($('.cart__content').text() == 'Ваша корзина пока что пуста') {
+                //     $('.cart__content').empty();
+                // }
+                // var currentItems = $('.cart__content__item');
+                var currentItems = document.querySelectorAll('.cart__content__item');
+                // console.log(currentItems);
+                // $.each(currentItems, function(key, value) {
+                //     alert(key + ": " + value);
+                // });
+                var flag = false;
+                currentItems.forEach(function(item, i, arr) {
+                    // alert(i + ": " + item + " (массив:" + arr + ")");
+                    // console.log(item.dataset.product);
+
+                    if (item.dataset.product == data.id) {
+                        flag = true;
+                        console.log(item.dataset.product);
+                        var updateItem = currentItems[i].childNodes[2].childNodes[0];
+                        var position = updateItem.innerText.indexOf(' ');
+                        var updateItemValue = updateItem.innerText.slice(0, position);
+                        updateItemValue = parseFloat(updateItemValue.replace(",", "."));
+                        var updateItemString = updateItem.innerText.slice(position);
+                        updateItem.innerText = data.quantity.toFixed(2) + updateItemString;
+                        var price = currentItems[i].childNodes[2].lastChild;
+                        price.innerText = data.sum + ' РУБ.';
+                    }
+                    //если данного орвара нет еще в корзине
+
+                });
+                if (!flag) {
+                    $('.cart__content').append('<div class="cart__content__item"><img src="/imgs/products/thumbnails/' + data.img.thumbnail + '"></div>');
+                }
+
+
                 // $.session.get("myVar");
-                $('.cart__content').show();
+                // $('.cart__content').show();
                 // $('.cart').append('<div class="cart__content white_box p10"></div>');
                 // $('#property').val('');
                 // var property_id = data.id;
@@ -211,7 +245,18 @@ $('.to_cart').on('click', function () {
 
 
         $('.to_cart').html('<a href="/cart">в корзину</a>');
-    }  
+    }
+
+
 });
 // console.log(price);
 // console.log(parseFloat($('#product__input_units').val().replace(",", ".")) * 1.22);
+
+var cartSum = $('.product_finalsum').text();
+if (cartSum != null) {
+    $('.cart_sum > span').text(cartSum);
+}
+
+var cartCount = $('.cart__content__item').length;
+
+$('.cart_count').text(cartCount);

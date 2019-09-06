@@ -223,16 +223,55 @@ nav .cart {
 
 nav .cart .cart__content {
     position: absolute;
-    bottom: 0;
+    top: 100%;
     right: 0;
     transform: scaleY(0);
     transform-origin: top;
     transition: 0.1s;
+    color: #3d3d3d;
 }
 
 nav .cart:hover .cart__content {
     transform: scaleY(1);
     transition: 0.1s;
+}
+
+.cart__content__item {
+    line-height: 40px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.cart__content__item img {
+    max-width: 40px;
+    max-height: 40px;
+    margin-right: 5px;
+}
+
+.cart__content__item a {
+    color: #3d3d3d;
+}
+
+.cart__content__item .product_title,
+.cart__content__item .product_quantity,
+.cart__content__item .product_sum {
+    white-space: nowrap;
+    margin-right: 20px;
+}
+
+.cart__content .product_sum div {
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+.cart__content .product_sum {
+    line-height: 30px;
+}
+
+.cart__content .product_sum span {
+    line-height: 37px;
+    margin-right: 10px;
+    font-size: 14px;
 }
 
 nav .cart_img>div {
@@ -255,19 +294,26 @@ nav .cart_img .cart_count {
     top: 5px;
     right: -14px;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
     text-align: center;
-    line-height: 30px;
+    line-height: 26px;
     box-shadow: 0px 0px 0px 4px #349981;
     background: #3d3d3d;
 }
 
 nav .cart_img .cart_sum {
     margin-left: 20px;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 18px;
     line-height: 90px;
+}
+
+nav .cart_img .cart_sum>span {
+    margin-right: 5px;
+}
+
+nav .cart_img .cart_sum>i {
+    font-size: 0.75em;
 }
 
 .wrap {
@@ -498,7 +544,7 @@ section {
     margin-right: -5px;
     text-align: center;
     width: 28px;
-    z-index:5;
+    z-index: 5;
 }
 
 .product_superiority__right {
@@ -506,7 +552,7 @@ section {
     transform-origin: left;
     transform: scaleX(0);
     transition: 0.1s;
-    z-index:4;
+    z-index: 4;
 }
 
 .product_superiorities>div:hover .product_superiority__right {
@@ -620,11 +666,11 @@ section {
     border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.product__properties > div {
+.product__properties>div {
     margin-bottom: 10px;
 }
 
-.product__properties > div:last-child {
+.product__properties>div:last-child {
     margin-bottom: 0;
 }
 

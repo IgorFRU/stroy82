@@ -69,9 +69,63 @@
                             <a href="#"><i class="fas fa-shopping-cart"></i></a>
                             <span class="cart_count">0</span>
                         </div>                       
-                        <span class="cart_sum">35 695 <i class="fas fa-ruble-sign"></i></span>
+                        <span class="cart_sum"><span></span><i class="fas fa-ruble-sign"></i></span>
                     </div>
-                    <div class="cart__content white_box p10"></div> 
+                    @isset($cart_products)
+                        <div class="cart__content white_box p10">
+                            @php
+                                $total_price = 0;
+                            @endphp
+                            @foreach ($cart_products as $product)
+                            {{-- @php
+                                dd($product);
+                            @endphp --}}
+                            
+                            <div class="cart__content__item d-flex justify-content-between" data-product="{{$product->id}}">
+                                <div class="cart__content__left d-flex">
+                                    @if (isset($product->main_or_first_image->thumbnail))
+                                        <img src="{{ asset('imgs/products/thumbnails')}}/{{ $product->main_or_first_image->thumbnail ??  '' }}">
+                                    @else
+                                        <img src="{{ asset('imgs/nopic.png') ??  '' }}">
+                                    @endif
+
+                                    @if(isset($product->category->slug))
+                                        <div class="product_title"><a href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ Str::limit($product->product, 30, '... ') }}</a></div>
+                                    @else
+                                        <div class="product_title"><a href="{{ route('product.without_category', $product->slug) }}">{{ Str::limit($product->product, 30, '... ') }}</a></div>
+                                    @endif
+                                </div>
+                                <div class="cart__content__right d-flex">                                    
+                                    <div class="product_quantity">{{ $carts[$product->id] }} @isset($product->unit_id) {{ $product->unit->unit }} @endisset</div>
+
+                                    @if ($product->actually_discount)
+                                        @php
+                                            $price = $product->discount_price * $carts[$product->id];
+                                            $total_price += $price;
+                                        @endphp
+                                        <div class="product_sum btn btn-sm btn-info">{{ number_format($product->discount_price * $carts[$product->id], 2, ',', ' ') }} руб.</div>                                        
+                                    @else
+                                        @php
+                                            $price = $product->price * $carts[$product->id];
+                                            $total_price += $price;
+                                        @endphp
+                                        <div class="product_sum btn btn-sm btn-info">{{ number_format($product->price * $carts[$product->id], 2, ',', ' ') }} руб.</div>
+                                    @endif
+
+                                    
+                                </div>
+                                
+                            </div>
+                            @endforeach
+                            <hr>
+                            <div class="product_sum d-flex justify-content-end">
+                                <span>Общая сумма (руб.): </span>
+                                <div class="btn product_finalsum  btn-info"> {{ number_format($total_price, 2, ',', ' ') }}</div>
+                                <div class="btn m-green">Оформить заказ</div>
+                            </div>
+                        </div> 
+                    @endisset
+                    
                     
                 </div>
             </div>            

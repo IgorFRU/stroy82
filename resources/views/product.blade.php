@@ -12,9 +12,12 @@
     @component('components.breadcrumb')
         @slot('main') <i class="fas fa-home"></i> @endslot
         @slot('parent') Категории товаров @endslot
-            @slot('parent_route') {{ route('categories') }} @endslot  
-        @slot('parent2') {{ $product->category->category }} @endslot
-            @slot('parent2_route') {{ route('category', $product->category->slug) }} @endslot        
+            @slot('parent_route') {{ route('categories') }} @endslot 
+        @isset($product->category)
+            @slot('parent2') {{ $product->category->category }} @endslot
+                @slot('parent2_route') {{ route('category', $product->category->slug) }} @endslot        
+        @endisset 
+        
         @slot('active') {{ $product->product }} @endslot
     @endcomponent 
     
@@ -178,7 +181,7 @@
                                 <span>Итого: </span>
                                 <div></div>
                                 <i class="fas fa-ruble-sign"></i>
-                                <span class='to_cart btn btn-primary'><i class="fas fa-shopping-cart"></i> купить</span>
+                                <span class='to_cart btn btn-primary' data-product="{{ $product->id }}"><i class="fas fa-shopping-cart"></i> купить</span>
                             </div>
                         </div>
                     </div>
@@ -192,12 +195,6 @@
             </div>
             @endisset
             
-        </div>
-        <div class="hidden_inputs">
-            <input type="text" name="product_id" id="product_id" readonly value="{{ $product->id }}">
-            @if (Auth::check())
-                <input type="text" name="user_id" id="user_id" readonly value="{{ Auth::id() }}">
-            @endif
         </div>
     </section>
     

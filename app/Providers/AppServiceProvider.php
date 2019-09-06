@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Schema;
+use App\Cart;
 use App\Category;
 use App\Article;
 use App\Set;
@@ -190,11 +191,29 @@ class AppServiceProvider extends ServiceProvider
             });
             $sets = Cache::remember('sets', $hour, function() {
                 return Set::orderBy('set', 'ASC')->get();
-            });              
+            });       
+            
+            $carts = Cart::where('session_id', session('session_id'))->get();
+            $carts1 = $carts->pluck('quantity', 'product_id');
+            $carts2 = $carts->pluck('product_id');
+            // dd($carts2);
+            $products = Product::whereIn('id', $carts2)->get();
+            // dd($products);
+            // $cart_products = array();
+            // foreach ($carts as $key => $cart) {
+            //     $cart_products[] = [
+            //         'id' => 
+            //     ];
+            // }
+            // $product = Product::where('id', $cart->product_id)->first();
+        
+        
 
             $data = array (
                 'categories'      => $categories,
                 'sets'        => $sets,
+                'carts' => $carts1,
+                'cart_products' => $products,
             );
             
             $view->with($data);
