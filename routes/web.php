@@ -19,6 +19,9 @@ Route::get('/catalog/{category}/{product}', 'MainController@product')->name('pro
 Route::get('/set/{set}', 'MainController@set')->name('set');
 Route::get('/manufacture/{manufacture}', 'MainController@manufacture')->name('manufacture');
 
+Route::post('/cart', 'CartController@addItems');
+Route::get('/cart', 'CartController@showCart');
+
 
 
 Route::prefix('admin')->name('admin.')->group(function(){

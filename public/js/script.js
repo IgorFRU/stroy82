@@ -170,6 +170,46 @@ function PriceUp(step = 1) {
 
 $('.to_cart').on('click', function () {
     if ($('.to_cart').html() != 'в корзину') {
+        var productId = $('#product_id').val();
+        var userId = $('#user_id').val();
+        var quantity = $('#product__input_units').val();
+        quantity = parseFloat(quantity.replace(/\s/g, '').replace(",", "."))
+        var price = $('#price').text();
+        price = parseFloat(price.replace(/\s/g, '').replace(",", "."))
+        console.log(price * quantity);
+
+        $.ajax({
+            type: "POST",
+            url: "/cart",
+            data: {
+                productId: productId,
+                quantity: quantity,
+                price: price,
+                userId: userId
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                var data = $.parseJSON(data);
+                console.log(data);
+                // $.session.get("myVar");
+                $('.cart__content').show();
+                // $('.cart').append('<div class="cart__content white_box p10"></div>');
+                // $('#property').val('');
+                // var property_id = data.id;
+                // var property = data.property;
+                // $('#propertyAddButton').addClass('disabled');
+                // $(".hidden_inputs").append("<input type='hidden' name='property_id[]' value=" + property_id + ">");
+                // // $('#categoryAddPropertyResult').append("<button type='button' data-property-id='" + property_id + "' class='btn btn-success'>" + property + " <span class='categoryPropertyItemRemove' title='Открепить от категории'><i class='fas fa-window-close'></i></span><span class='categoryPropertyItemTrash rounded' title='Удалить навсегда'><i class='fas fa-trash'></i></span></button>");
+                // $('#categoryAddPropertyResult').append("<button type='button' data-property-id='" + property_id + "' class='btn btn-success'>" + property + " </button>");
+            },
+            error: function(errResponse) {
+                console.log(errResponse);
+            }
+        });
+
+
         $('.to_cart').html('<a href="/cart">в корзину</a>');
     }  
 });

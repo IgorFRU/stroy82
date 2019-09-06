@@ -217,6 +217,24 @@ nav a:hover {
     text-decoration: none;
 }
 
+nav .cart {
+    position: relative;
+}
+
+nav .cart .cart__content {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: 0.1s;
+}
+
+nav .cart:hover .cart__content {
+    transform: scaleY(1);
+    transition: 0.1s;
+}
+
 nav .cart_img>div {
     position: relative;
 }
@@ -819,4 +837,8 @@ footer h5 {
 
 footer>div>div {
     padding-left: 0;
+}
+
+.hidden_inputs {
+    display: none;
 }

@@ -193,6 +193,12 @@
             @endisset
             
         </div>
+        <div class="hidden_inputs">
+            <input type="text" name="product_id" id="product_id" readonly value="{{ $product->id }}">
+            @if (Auth::check())
+                <input type="text" name="user_id" id="user_id" readonly value="{{ Auth::id() }}">
+            @endif
+        </div>
     </section>
     
     

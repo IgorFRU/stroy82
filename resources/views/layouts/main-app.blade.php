@@ -68,9 +68,10 @@
                         <div>
                             <a href="#"><i class="fas fa-shopping-cart"></i></a>
                             <span class="cart_count">0</span>
-                        </div>                        
+                        </div>                       
                         <span class="cart_sum">35 695 <i class="fas fa-ruble-sign"></i></span>
                     </div>
+                    <div class="cart__content white_box p10"></div> 
                     
                 </div>
             </div>            
