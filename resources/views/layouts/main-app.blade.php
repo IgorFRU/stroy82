@@ -63,7 +63,7 @@
                     <a class="col-lg-12" href="tel:+79781234567">8(978) 123 45 67</a>
                     <a class="col-lg-12" href="tel:+79781234567">8(978) 123 45 67</a>
                 </div>
-                <div class="cart col-lg-2">
+                <div class="cart col-lg-3">
                     <div class="cart_img d-flex justify-content-end">
                         <div>
                             <a href="#"><i class="fas fa-shopping-cart"></i></a>
@@ -72,7 +72,11 @@
                         <span class="cart_sum"><span></span><i class="fas fa-ruble-sign"></i></span>
                     </div>
                     @isset($cart_products)
-                        <div class="cart__content white_box p10">
+                        <div class="cart__content white_box p10 big_shadow">
+                        @if (count($cart_products))
+                            
+                        
+                        
                             @php
                                 $total_price = 0;
                             @endphp
@@ -81,7 +85,7 @@
                                 dd($product);
                             @endphp --}}
                             
-                            <div class="cart__content__item d-flex justify-content-between" data-product="{{$product->id}}">
+                            <div class="cart__content__item d-flex justify-content-between @if ($loop->last) last @endif" data-product="{{$product->id}}">
                                 <div class="cart__content__left d-flex">
                                     @if (isset($product->main_or_first_image->thumbnail))
                                         <img src="{{ asset('imgs/products/thumbnails')}}/{{ $product->main_or_first_image->thumbnail ??  '' }}">
@@ -124,6 +128,9 @@
                                 <div class="btn m-green">Оформить заказ</div>
                             </div>
                         </div> 
+                        @else
+                            корзина пока пуста
+                        @endif
                     @endisset
                     
                     

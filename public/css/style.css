@@ -229,6 +229,7 @@ nav .cart .cart__content {
     transform-origin: top;
     transition: 0.1s;
     color: #3d3d3d;
+    min-width: 490px;
 }
 
 nav .cart:hover .cart__content {
@@ -469,6 +470,10 @@ section {
     border-radius: 2px;
     box-shadow: 2px 4px 14px rgba(0, 0, 0, 0.1);
     /* padding: 10px 20px; */
+}
+
+.big_shadow {
+    box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.6);
 }
 
 .section_title {

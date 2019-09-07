@@ -194,6 +194,7 @@ class AppServiceProvider extends ServiceProvider
             });       
             
             $carts = Cart::where('session_id', session('session_id'))->get();
+            // dd(session('session_id'));
             $carts1 = $carts->pluck('quantity', 'product_id');
             $carts2 = $carts->pluck('product_id');
             // dd($carts2);

@@ -192,7 +192,7 @@ $('.to_cart').on('click', function() {
             },
             success: function(data) {
                 var data = $.parseJSON(data);
-                // console.log(data.sum);
+                // console.log(data);
                 // if ($('.cart__content').text() == 'Ваша корзина пока что пуста') {
                 //     $('.cart__content').empty();
                 // }
@@ -202,41 +202,57 @@ $('.to_cart').on('click', function() {
                 // $.each(currentItems, function(key, value) {
                 //     alert(key + ": " + value);
                 // });
+                //updating total_sum
+                $('.cart_sum > span').fadeOut(100);
+                $('.cart_sum > span').text(data.total_sum);
+                $('.product_finalsum').text(data.total_sum);
+
+                // numberTo('.cart_sum > span', $('.product_finalsum').text, data.total_sum, 3000);
+
+                $('.cart_sum > span').fadeIn(900);
+
                 var flag = false;
                 currentItems.forEach(function(item, i, arr) {
                     // alert(i + ": " + item + " (массив:" + arr + ")");
                     // console.log(item.dataset.product);
-
+                    //если этот товар уже есть в корзине
                     if (item.dataset.product == data.id) {
                         flag = true;
-                        console.log(item.dataset.product);
+                        // console.log(item.dataset.product);
                         var updateItem = currentItems[i].childNodes[2].childNodes[0];
                         var position = updateItem.innerText.indexOf(' ');
                         var updateItemValue = updateItem.innerText.slice(0, position);
+
+                        // console.log(updateItem.innerText);
                         updateItemValue = parseFloat(updateItemValue.replace(",", "."));
                         var updateItemString = updateItem.innerText.slice(position);
                         updateItem.innerText = data.quantity.toFixed(2) + updateItemString;
                         var price = currentItems[i].childNodes[2].lastChild;
                         price.innerText = data.sum + ' РУБ.';
                     }
-                    //если данного орвара нет еще в корзине
-
                 });
+                //если данного орвара нет еще в корзине
                 if (!flag) {
-                    $('.cart__content').append('<div class="cart__content__item"><img src="/imgs/products/thumbnails/' + data.img.thumbnail + '"></div>');
+                    if (data.categorySlug != '') {
+                        var link = '"/catalog/' + data.categorySlug + '/' + data.productSlug + '"';
+                    } else {
+                        var link = '"/catalog/product/' + data.productSlug + '"';
+                    }
+                    if (data.img != null) {
+                        var image = '"/imgs/products/thumbnails/' + data.img.thumbnail + '"';
+                    } else {
+                        var image = '"/imgs/nopic.png"';
+                    }
+
+                    var elem = $('.cart__content > .last');
+                    if (elem.length > 0) {
+                        $('.cart__content > .last').after('<div class="cart__content__item d-flex justify-content-between" data-product = "' + data.id + '" ><div class = "cart__content__left d-flex"><img src=' + image + '><div class = "product_title" ><a href =' + link + ' >' + data.product + '</a></div></div><div class = "cart__content__right d-flex"><div class = "product_quantity">' + data.quantity + ' ' + data.unit + '</div><div class = "product_sum btn btn-sm btn-info">' + data.sum + ' РУБ.' + '</div></div></div>');
+                    } else {
+                        $('.cart__content').empty();
+                        $('.cart__content').append('<div class="cart__content__item d-flex justify-content-between" data-product = "' + data.id + '" ><div class = "cart__content__left d-flex"><img src=' + image + '><div class = "product_title" ><a href =' + link + ' >' + data.product + '</a></div></div><div class = "cart__content__right d-flex"><div class = "product_quantity">' + data.quantity + ' ' + data.unit + '</div><div class = "product_sum btn btn-sm btn-info">' + data.sum + ' РУБ.' + '</div></div></div>');
+                    }
+
                 }
-
-
-                // $.session.get("myVar");
-                // $('.cart__content').show();
-                // $('.cart').append('<div class="cart__content white_box p10"></div>');
-                // $('#property').val('');
-                // var property_id = data.id;
-                // var property = data.property;
-                // $('#propertyAddButton').addClass('disabled');
-                // $(".hidden_inputs").append("<input type='hidden' name='property_id[]' value=" + property_id + ">");
-                // // $('#categoryAddPropertyResult').append("<button type='button' data-property-id='" + property_id + "' class='btn btn-success'>" + property + " <span class='categoryPropertyItemRemove' title='Открепить от категории'><i class='fas fa-window-close'></i></span><span class='categoryPropertyItemTrash rounded' title='Удалить навсегда'><i class='fas fa-trash'></i></span></button>");
-                // $('#categoryAddPropertyResult').append("<button type='button' data-property-id='" + property_id + "' class='btn btn-success'>" + property + " </button>");
             },
             error: function(errResponse) {
                 console.log(errResponse);
@@ -260,3 +276,15 @@ if (cartSum != null) {
 var cartCount = $('.cart__content__item').length;
 
 $('.cart_count').text(cartCount);
+
+// function numberTo(class_name, from, to, duration) {
+//     var element = document.querySelector(class_name);
+//     var start = new Date().getTime();
+//     setTimeout(function() {
+//         var now = (new Date().getTime()) - start;
+//         var progress = now / duration;
+//         var result = Math.floor((to - from) * progress + from);
+//         element.innerHTML = progress < 1 ? result : to;
+//         if (progress < 1) setTimeout(arguments.callee, 10);
+//     }, 10);
+// }
