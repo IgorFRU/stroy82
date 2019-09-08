@@ -20,9 +20,10 @@ Route::get('/set/{set}', 'MainController@set')->name('set');
 Route::get('/manufacture/{manufacture}', 'MainController@manufacture')->name('manufacture');
 
 Route::post('/cart', 'CartController@addItems');
-Route::get('/cart', 'CartController@showCart');
+Route::delete('/cart/{id}', 'CartController@destroyItem')->name('cart.destroy');
+Route::get('/cart', 'CartController@showCart')->name('cart');
 
-
+Route::get('/home', 'UserController@index')->name('home');
 
 Route::prefix('admin')->name('admin.')->group(function(){
   Route::get('/', 'AdminController@index')->name('index');
@@ -56,7 +57,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::any('/productimg', 'UploadImagesController@product')->name('product.image.upload');
 });
 
-Route::get('/home', 'UserController@index')->name('home');
+
 
 Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 Auth::routes();

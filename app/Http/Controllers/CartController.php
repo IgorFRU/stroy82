@@ -10,10 +10,19 @@ use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class CartController extends Controller
 {
     public function addItems(Request $request) {
+
+        if (Auth::check()) {
+            $user_id = Auth::id();
+        } else {
+            $user_id = 0;
+        }
+
+        $user_ip = $request->ip();
 
         if ($request->session()->has('session_id')) {
             $session_id = session('session_id');
@@ -22,17 +31,12 @@ class CartController extends Controller
             $session_id = session('session_id');
         }
 
-        if (Auth::check()) {
-            $user_id = Auth::id();
-        } else {
-            $user_id = 0;
-        }
-
         if (Cart::where('session_id', $session_id)->count() == 0) {
             $cart_data = [
                 'product_id' => $request->productId,
                 'quantity' => $request->quantity,
                 'user_id' => $user_id,
+                'user_ip' => $user_ip,
                 'session_id' => session('session_id'),
             ];
             
@@ -53,6 +57,7 @@ class CartController extends Controller
                     'product_id' => $request->productId,
                     'quantity' => $request->quantity,
                     'user_id' => $user_id,
+                    'user_ip' => $user_ip,
                     'session_id' => session('session_id'),
                 ];
                 
@@ -106,8 +111,6 @@ class CartController extends Controller
             }
         }
 
-
-        
         $to_cart = [
             'id'            => $request->productId,
             'product'       => $product->product,
@@ -127,6 +130,27 @@ class CartController extends Controller
     }
 
     public function showCart(Request $request) {
-        dd($request->all());
+        
+        if ($request->session()->has('session_id')) {
+            $session_id = session('session_id');
+            $cart = Cart::where('session_id', $session_id)->get();            
+        } else {
+            $cart = [];
+        }
+
+        // $cart->toJson();
+
+        // echo $cart;
+        $data = [
+            'cart' => $cart,
+        ];
+        return view('cart', $data);
+        // dd($cart);
+    }
+
+    public function destroyItem(Cart $id) {
+        $id->delete();
+
+        return redirect()->back();
     }
 }

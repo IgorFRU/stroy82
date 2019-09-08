@@ -121,6 +121,10 @@ class Product extends Model
         return $this->belongsToMany(Order::class);
     }
 
+    public function cartproducts() {
+        return $this->hasMany(Cart::class);
+    }
+
     public function getMainOrFirstImageAttribute($value) {
         foreach ($this->images as $image) {
             if ($image->main) {

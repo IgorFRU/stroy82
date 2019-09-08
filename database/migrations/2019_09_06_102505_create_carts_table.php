@@ -18,6 +18,7 @@ class CreateCartsTable extends Migration
             $table->bigInteger('product_id')->unsigned();
             $table->unsignedDecimal('quantity', 8, 3);
             $table->bigInteger('user_id')->unsigned()->nullable();
+            $table->string('user_ip', 40)->nullable();
             $table->string('session_id', 40);
             $table->timestamps();
         });

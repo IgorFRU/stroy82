@@ -42,8 +42,28 @@
             </div>
             <div class="col-lg-5 right_nav d-flex justify-content-lg-end">
                 <a href="#"><i class="fas fa-check"></i> проверить статус заказа</a>
-                <a href="#"><i class="fas fa-sign-in-alt"></i> вход</a>
-                <a href="#"><i class="fas fa-user-plus"></i> регистрация</a>
+
+
+                @guest
+                    <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> вход</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i> регистрация</a>
+                    @endif
+                @else
+                    <div class="right_nav__user l-red">
+                        <span><i class="far fa-user"></i> {{ Auth::user()->name }} <i class="fas fa-sort-down"></i></span>
+                        <div class="right_nav__user__menu">
+                            <a href="{{ route('home') }}">Личный кабинет</a>
+                            <a href="#">Мои заказы</a>
+                            <a class="" href="@if (Auth::guard('admin')->check()) {{ route('admin.logout') }} @else {{ route('logout') }} @endif"
+                                onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">Выход</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+                    </div>
+                @endguest   
             </div>
         </section>
         <nav class="">
@@ -125,7 +145,7 @@
                             <div class="product_sum d-flex justify-content-end">
                                 <span>Общая сумма (руб.): </span>
                                 <div class="btn product_finalsum  btn-info"> {{ number_format($total_price, 2, ',', ' ') }}</div>
-                                <div class="btn m-green">Оформить заказ</div>
+                                <div class="btn m-green"><a href="{{ route('cart') }}">Перейти в корзину</a></div>
                             </div>
                         </div> 
                         @else

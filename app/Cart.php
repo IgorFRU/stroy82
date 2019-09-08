@@ -10,6 +10,11 @@ class Cart extends Model
         'product_id', 
         'quantity',
         'user_id', 
+        'user_ip', 
         'session_id'
     ];
+
+    public function product() {
+        return $this->belongsTo(Product::class);
+    }
 }

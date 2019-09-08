@@ -251,7 +251,10 @@ $('.to_cart').on('click', function() {
                         $('.cart__content').empty();
                         $('.cart__content').append('<div class="cart__content__item d-flex justify-content-between" data-product = "' + data.id + '" ><div class = "cart__content__left d-flex"><img src=' + image + '><div class = "product_title" ><a href =' + link + ' >' + data.product + '</a></div></div><div class = "cart__content__right d-flex"><div class = "product_quantity">' + data.quantity + ' ' + data.unit + '</div><div class = "product_sum btn btn-sm btn-info">' + data.sum + ' РУБ.' + '</div></div></div>');
                     }
-
+                    // console.log($('.product_finalsum'));
+                    if($('.product_finalsum').length == 0) {
+                        $('.cart__content').append('<hr><div class="product_sum d-flex justify-content-end"><span>Общая сумма (руб.): </span><div class="btn product_finalsum  btn-info">' + data.total_sum + '</div><div class="btn m-green"><a href="/cart">Перейти в корзину</a></div></div>');
+                    }
                 }
             },
             error: function(errResponse) {
@@ -288,3 +291,23 @@ $('.cart_count').text(cartCount);
 //         if (progress < 1) setTimeout(arguments.callee, 10);
 //     }, 10);
 // }
+
+// $('.destroy_cart_item').click(function() {
+//     var id = $(this).attr('data-id');
+//     $.ajax({
+//         type: "POST",
+//         url: "/cart/destroy",
+//         data: {
+//             id: id,
+//         },
+//         headers: {
+//             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+//         },
+//         success: function(data) {
+            
+//         },
+//         error: function(errResponse) {
+//             console.log(errResponse);
+//         }
+//     });
+// });

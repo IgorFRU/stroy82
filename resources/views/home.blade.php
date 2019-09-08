@@ -1,23 +1,27 @@
-@extends('layouts.app')
-
+@extends('layouts.main-app')
+@section('scripts')
+    @parent
+@endsection
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
+    @component('components.breadcrumb')
+        @slot('main') <i class="fas fa-home"></i> @endslot
+               
+        @slot('active') Личный кабинет @endslot
+    @endcomponent 
+    
+    
+    
+    <section class="wrap">
+        <div class="white_box p10">
+                <div class="user_section">
+                    <h2><i class="material-icons"></i> {{ Auth::user()->full_name }}</h2>
                 </div>
-            </div>
+                <div class="user_section">
+                    <h2><i class="material-icons"></i> Личные данные</h2>
+                </div>          
         </div>
-    </div>
-</div>
+    </section>
+    
+    
+      
 @endsection
