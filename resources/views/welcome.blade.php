@@ -246,11 +246,12 @@
         </div>
     </section>
     @endisset
+    @if (isset($about->main_text))
     <section class="main_about wrap">
         {!! $about->main_text ?? '' !!}
         <span class="hidding"></span>
         <button class="btn btn-secondary btn-sm">раскрыть...</button>
-    </section>
-    
+    </section>        
+    @endif   
       
 @endsection

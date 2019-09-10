@@ -1,3 +1,69 @@
+var cartProductQuantity = $('.cart_table__item_quantity');
+// console.log(cartProductQuantity);
+
+$.each(cartProductQuantity, function(key, value) {
+    var minus = $(this).find('.cart_table__item_quantity_minus');
+    var plus = $(this).find('.cart_table__item_quantity_plus');
+    var button = $(this).find('.product__inpunt_accept');
+    var quantity = $(this).find('.product__input_units');
+    quantity.val(Math.round(quantity.val() * 100) / 100);
+    var oldQuantity = parseFloat(quantity.val().replace(",", "."));
+    var newQuantity = oldQuantity;
+    var package = parseFloat(quantity.attr('data-package').replace(",", "."));
+    
+    // var iterMinus = 0;
+    minus.click(function() {
+        if (newQuantity - package > 0.001) {
+            newQuantity = Math.round((newQuantity - package).toFixed(3) * 100) / 100;
+            quantity.val(newQuantity);
+            if (newQuantity != oldQuantity) {
+                button.addClass('active');
+            } else {
+                button.removeClass('active');
+            }
+        }
+    });
+    plus.click(function() {
+        newQuantity = Math.round((newQuantity + package).toFixed(3) * 100) / 100;
+        quantity.val(newQuantity);
+        if (newQuantity != oldQuantity) {
+            button.addClass('active');
+        } else {
+            button.removeClass('active');
+        }
+    });
+
+
+});
+
+// var cartProductQuantity = document.querySelectorAll('.cart_table__item_quantity');
+// console.log(cartProductQuantity);
+// cartProductQuantity.forEach(function(elem, iter) {
+//     for (var i = 0; i < cartProductQuantity.childNodes.length; i++) {
+//         if (cartProductQuantity.childNodes[i].className == "cart_table__item_quantity_minus") {
+//             var minus = doc.childNodes[i];
+//             break;
+//         }
+//     }
+//     for (var i = 0; i < cartProductQuantity.childNodes.length; i++) {
+//         if (cartProductQuantity.childNodes[i].className == "cart_table__item_quantity_plus") {
+//             var plus = doc.childNodes[i];
+//             break;
+//         }
+//     }
+//     for (var i = 0; i < cartProductQuantity.childNodes.length; i++) {
+//         if (cartProductQuantity.childNodes[i].className == "product__input_units") {
+//             var oldQuantity = doc.childNodes[i];
+//             break;
+//         }
+//     }
+    
+
+//     minus.addEventListener('click', () => {
+//         console.log(oldQuantity);
+//     });
+// });
+
 var salePackage = document.querySelectorAll('.unit_buttons > span');
 //На карточках товаров при клике по кнопке "за 1 м.кв.", "за 1 уп" цена На продукт отображается соответствующая
 salePackage.forEach(function(btn, i) {
@@ -143,7 +209,6 @@ packageInput.focusout(function() {
 });
 
 function PriceDown(step = 1) {
-    console.log(step);
     if (step > 1) {
         packageCount = step;
     }
@@ -277,7 +342,7 @@ $('.to_cart').on('click', function() {
 var cartSum = $('.product_finalsum').text();
 
 if (cartSum.length > 0) {
-    console.log(cartSum);
+    // console.log(cartSum);
     $('.cart_sum > span').text(cartSum);
 }
 

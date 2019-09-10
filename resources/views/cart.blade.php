@@ -56,10 +56,14 @@
                                         @endif
                                     </th>
                                     <th>
-                                        {{ $item->quantity }} 
-                                        @isset($item->product->unit)
-                                            {{ $item->product->unit->unit }}
-                                        @endisset
+                                        <div class="cart_table__item_quantity">
+                                            <span class="cart_table__item_quantity_minus"><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
+                                            <input type="text" readonly class="product__input_units" name="product__input_units" id="{{ $item->product->id }}" data-package="{{ $item->product->unit_in_package ?? 1 }}" value="{{ $item->quantity }}"> 
+                                            <span class="cart_table__item_quantity_plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>   
+                                            <span class="btn btn-sm l-green product__inpunt_accept"><i class="far fa-check-circle"></i></span>
+                                        </div>
+                                        {{ $item->product->unit->unit ?? 'ед.' }}
+                                        
                                     </th>
                                     <th>
                                         @if ($item->product->actually_discount)

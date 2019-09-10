@@ -347,6 +347,16 @@ nav .cart:hover .cart__content {
     margin-right: 20px;
 }
 
+.cart_table__item_quantity {
+    display: inline-block;
+    position: relative;
+}
+
+.product__inpunt_accept {
+    position: absolute;    
+    right: -100%;
+}
+
 .cart__content .product_sum div {
     white-space: nowrap;
     margin-right: 10px;
@@ -946,6 +956,22 @@ section.main_about button {
     background: #fff;
     border: 0;
     font-weight: bold;
+}
+
+.product__input_units {
+    text-align: center;
+    border: 0;
+    font-weight: bold;
+    background: transparent;
+    width: 100px;
+}
+
+.product__inpunt_accept {
+    display: none;
+}
+
+.product__inpunt_accept.active {
+    display: inline;
 }
 
 .user_section {
