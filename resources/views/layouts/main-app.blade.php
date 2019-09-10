@@ -89,14 +89,11 @@
                             <a href="#"><i class="fas fa-shopping-cart"></i></a>
                             <span class="cart_count">0</span>
                         </div>                       
-                        <span class="cart_sum"><span></span><i class="fas fa-ruble-sign"></i></span>
+                        <span class="cart_sum"><span>0</span><i class="fas fa-ruble-sign"></i></span>
                     </div>
                     @isset($cart_products)
                         <div class="cart__content white_box p10 big_shadow">
-                        @if (count($cart_products))
-                            
-                        
-                        
+                        @if (count($cart_products))                        
                             @php
                                 $total_price = 0;
                             @endphp

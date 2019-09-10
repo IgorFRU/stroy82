@@ -41,8 +41,23 @@ class User extends Authenticatable
             return (ucfirst($this->surname) . ' ' . ucfirst($this->name));
         } else {
             return ucfirst($this->name);
-        }
-        
+        }        
+    }
+
+    public function getUpNameAttribute() {
+        if (isset($this->name)) {
+            return ucfirst($this->name);
+        } else {
+            return false;
+        }        
+    }
+
+    public function getUpSurnameAttribute() {
+        if (isset($this->surname)) {
+            return ucfirst($this->surname);
+        } else {
+            return false;
+        }        
     }
 
     public function sendPasswordResetNotification($token)

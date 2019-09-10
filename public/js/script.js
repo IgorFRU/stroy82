@@ -203,6 +203,7 @@ $('.to_cart').on('click', function() {
                 //     alert(key + ": " + value);
                 // });
                 //updating total_sum
+                var cartCount = $('.cart_count').text();
                 $('.cart_sum > span').fadeOut(100);
                 $('.cart_sum > span').text(data.total_sum);
                 $('.product_finalsum').text(data.total_sum);
@@ -233,6 +234,8 @@ $('.to_cart').on('click', function() {
                 });
                 //если данного орвара нет еще в корзине
                 if (!flag) {
+                    console.log(cartCount);
+                    $('.cart_count').text(++cartCount);
                     if (data.categorySlug != '') {
                         var link = '"/catalog/' + data.categorySlug + '/' + data.productSlug + '"';
                     } else {
@@ -252,7 +255,7 @@ $('.to_cart').on('click', function() {
                         $('.cart__content').append('<div class="cart__content__item d-flex justify-content-between" data-product = "' + data.id + '" ><div class = "cart__content__left d-flex"><img src=' + image + '><div class = "product_title" ><a href =' + link + ' >' + data.product + '</a></div></div><div class = "cart__content__right d-flex"><div class = "product_quantity">' + data.quantity + ' ' + data.unit + '</div><div class = "product_sum btn btn-sm btn-info">' + data.sum + ' РУБ.' + '</div></div></div>');
                     }
                     // console.log($('.product_finalsum'));
-                    if($('.product_finalsum').length == 0) {
+                    if ($('.product_finalsum').length == 0) {
                         $('.cart__content').append('<hr><div class="product_sum d-flex justify-content-end"><span>Общая сумма (руб.): </span><div class="btn product_finalsum  btn-info">' + data.total_sum + '</div><div class="btn m-green"><a href="/cart">Перейти в корзину</a></div></div>');
                     }
                 }
@@ -272,7 +275,9 @@ $('.to_cart').on('click', function() {
 // console.log(parseFloat($('#product__input_units').val().replace(",", ".")) * 1.22);
 
 var cartSum = $('.product_finalsum').text();
-if (cartSum != null) {
+
+if (cartSum.length > 0) {
+    console.log(cartSum);
     $('.cart_sum > span').text(cartSum);
 }
 
@@ -304,10 +309,45 @@ $('.cart_count').text(cartCount);
 //             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
 //         },
 //         success: function(data) {
-            
+
 //         },
 //         error: function(errResponse) {
 //             console.log(errResponse);
 //         }
 //     });
 // });
+
+$('.user_info_send').click(function(e) {
+    e.preventDefault();
+    var surname = $('#user_info_surname').val();
+    var name = $('#user_info_name').val();
+    var address = $('#user_info_address').val();
+    var email = $('#user_info_email').val();
+    var id = $('#user_info_id').val();
+
+    $.ajax({
+        type: "POST",
+        url: "/user/edit",
+        data: {
+            surname: surname,
+            name: name,
+            address: address,
+            email: email,
+            id: id,
+        },
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(data) {
+            var data = $.parseJSON(data);
+            console.log(data);
+            $('#exampleModal').modal('hide');
+
+            window.location.href = "/home";
+
+        },
+        error: function(errResponse) {
+            console.log(errResponse);
+        }
+    });
+});

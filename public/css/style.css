@@ -20,6 +20,23 @@
     opacity: 1;
 }
 
+.custom_input {
+    position: relative;
+    margin-right: 15px;
+    padding-top: 15px;
+}
+
+.custom_input__top_title {
+    position: absolute;
+    font-size: 0.9em;
+    top: 0;
+    left: 0;
+    text-transform: lowercase;
+    white-space: nowrap;
+}
+
+.custom_input__content {}
+
 .breadcrumb {
     margin-bottom: -30px;
 }
@@ -51,6 +68,14 @@ input:focus {
 .color_l_grey {
     color: #7D7D7D;
     display: block;
+}
+
+.color-ll-grey {
+    color: #9d9d9d;
+}
+
+.color-white {
+    color: #fff;
 }
 
 .italic {
@@ -101,6 +126,14 @@ section.top_nav {
 
 .mb10 {
     margin-bottom: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mr-50 {
+    margin-right: 50px;
 }
 
 .l-green {
@@ -157,7 +190,7 @@ section.top_nav .right_nav a,
     padding-right: 20px;
 }
 
-.right_nav__user > span > i:last-child {
+.right_nav__user>span>i:last-child {
     position: absolute;
     right: 7px;
 }
@@ -178,6 +211,7 @@ section.top_nav .right_nav a,
     transition: 0.3s;
 }
 
+
 /* .right_nav__user__menu a:last-child {
     padding-bottom: 0;
 } */
@@ -197,7 +231,6 @@ section.top_nav .right_nav a,
     text-align: left;
     font-size: 14px;
 }
-
 
 section.top_nav a:hover {
     text-decoration: none;
@@ -281,7 +314,7 @@ nav .cart .cart__content {
     transform-origin: top;
     transition: 0.1s;
     color: #3d3d3d;
-    min-width: 490px;    
+    min-width: 490px;
     z-index: 2;
 }
 
@@ -913,6 +946,23 @@ section.main_about button {
     background: #fff;
     border: 0;
     font-weight: bold;
+}
+
+.user_section {
+    margin-bottom: 40px;
+}
+
+.user_section h2 {
+    margin-bottom: 20px;
+    color: #349981;
+}
+
+.user_section h2>span {
+    text-transform: capitalize;
+}
+
+.user_section__content {
+    margin-left: 40px;
 }
 
 footer {

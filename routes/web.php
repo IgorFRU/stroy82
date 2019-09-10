@@ -60,4 +60,5 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
 
 Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout');
+Route::post('/user/edit', 'UserController@userEdit')->name('user.edit');
 Auth::routes();
