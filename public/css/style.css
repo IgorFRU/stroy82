@@ -353,7 +353,7 @@ nav .cart:hover .cart__content {
 }
 
 .product__inpunt_accept {
-    position: absolute;    
+    position: absolute;
     right: -100%;
 }
 
@@ -958,12 +958,17 @@ section.main_about button {
     font-weight: bold;
 }
 
-.product__input_units {
+.cart__product__input_units {
     text-align: center;
     border: 0;
     font-weight: bold;
     background: transparent;
     width: 100px;
+}
+
+.cart_table_sum {
+    margin-top: 50px;
+    border-top: 1px solid #7D7D7D;
 }
 
 .product__inpunt_accept {

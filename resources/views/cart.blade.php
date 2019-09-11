@@ -58,7 +58,7 @@
                                     <th>
                                         <div class="cart_table__item_quantity">
                                             <span class="cart_table__item_quantity_minus"><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
-                                            <input type="text" readonly class="product__input_units" name="product__input_units" id="{{ $item->product->id }}" data-package="{{ $item->product->unit_in_package ?? 1 }}" value="{{ $item->quantity }}"> 
+                                            <input type="text" readonly class="cart__product__input_units" name="product__input_units" id="{{ $item->product->id }}" data-package="{{ $item->product->unit_in_package ?? 1 }}" value="{{ $item->quantity }}"> 
                                             <span class="cart_table__item_quantity_plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>   
                                             <span class="btn btn-sm l-green product__inpunt_accept"><i class="far fa-check-circle"></i></span>
                                         </div>
@@ -87,7 +87,10 @@
                     Ваша корзина пуста! К покупкам!
                 @endif
                 
-            </div>            
+            </div>
+            <div class="col-lg-12 row d-flex justify-content-end cart_table_sum">
+                <div class="cart_table_sum__title">Итого: </div>
+            </div>          
         </div>
     </section>
     

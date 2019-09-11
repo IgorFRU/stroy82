@@ -5,12 +5,12 @@ $.each(cartProductQuantity, function(key, value) {
     var minus = $(this).find('.cart_table__item_quantity_minus');
     var plus = $(this).find('.cart_table__item_quantity_plus');
     var button = $(this).find('.product__inpunt_accept');
-    var quantity = $(this).find('.product__input_units');
+    var quantity = $(this).find('.cart__product__input_units');
     quantity.val(Math.round(quantity.val() * 100) / 100);
     var oldQuantity = parseFloat(quantity.val().replace(",", "."));
     var newQuantity = oldQuantity;
     var package = parseFloat(quantity.attr('data-package').replace(",", "."));
-    
+
     // var iterMinus = 0;
     minus.click(function() {
         if (newQuantity - package > 0.001) {
@@ -57,7 +57,7 @@ $.each(cartProductQuantity, function(key, value) {
 //             break;
 //         }
 //     }
-    
+
 
 //     minus.addEventListener('click', () => {
 //         console.log(oldQuantity);
@@ -416,3 +416,10 @@ $('.user_info_send').click(function(e) {
         }
     });
 });
+
+// var arr = [];
+// document.addEventListener("click", function(e) {
+//     if (e.target.id != '') {
+//         arr.push(e.target.id);
+//     }
+// });
