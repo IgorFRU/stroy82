@@ -23,6 +23,8 @@ Route::post('/cart', 'CartController@addItems');
 Route::delete('/cart/{id}', 'CartController@destroyItem')->name('cart.destroy');
 Route::get('/cart', 'CartController@showCart')->name('cart');
 
+Route::get('/order', 'OrderController@index')->name('order');
+
 Route::get('/home', 'UserController@index')->name('home');
 
 Route::prefix('admin')->name('admin.')->group(function(){

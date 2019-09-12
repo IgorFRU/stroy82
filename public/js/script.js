@@ -417,6 +417,26 @@ $('.user_info_send').click(function(e) {
     });
 });
 
+//безнал
+$('#payment_method_2').change(function() {
+    if (this.checked) {
+        $('#firm').modal('show');
+        $('#firm_edit').prop('disabled', false);
+    }
+});
+$('#payment_method_1').change(function() {
+    if (this.checked) {
+        $('#firm').modal('hide');
+        $('#firm_edit').prop('disabled', true);
+    }
+});
+
+$('#firm_inn_confirm').click(function() {
+    if ($('#firm_inn').val() != '') {
+        console.log($('#firm_inn').val());
+    }
+});
+
 // var arr = [];
 // document.addEventListener("click", function(e) {
 //     if (e.target.id != '') {

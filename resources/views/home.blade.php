@@ -20,7 +20,7 @@
                 <h2><i class="fas fa-info-circle"></i> Личные данные <button type="button" class="btn btn-sm btn-secondary color-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="fas fa-pencil-alt"></i></button></h2>
                 <div class="user_section__content">                        
                     <div class="d-flex justify-content-start mt-20">
-                        @if(strlen(Auth::user()->up_surname) > 0)
+                        @if(isset(Auth::user()->up_surname) && strlen(Auth::user()->up_surname) > 0)
                         <div class="custom_input mr-50">
                             <div class="custom_input__top_title color-ll-grey">
                                 Фамилия

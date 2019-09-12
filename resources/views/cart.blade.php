@@ -88,9 +88,25 @@
                 @endif
                 
             </div>
-            <div class="col-lg-12 row d-flex justify-content-end cart_table_sum">
-                <div class="cart_table_sum__title">Итого: </div>
-            </div>          
+            <div class="col-lg-12 row d-flex justify-content-end">
+                <div class="cart_table_sum bg-m-grey p10 color-white">
+                    <div class="d-flex justify-content-between">
+                        <div class="cart_table_sum__title">Товаров: </div>
+                        <div class="cart_table_sum__content"> {{ $count-1 ?? '' }}</div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="cart_table_sum__title">Примерная масса: </div>
+                        <div class="cart_table_sum__content"> {{ $mass . ' кг.' ?? '' }}</div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="cart_table_sum__title">Итого: </div>
+                        <div class="cart_table_sum__content"> {{ number_format($sum, 2, ',', ' '). ' руб.' ?? '0 руб.' }}</div>
+                    </div>
+                </div>
+            </div>   
+            <div class="col-lg-12 row d-flex justify-content-end">
+                <a href="{{ route('order') }}" class="btn btn-success">Оформить заказ</a>
+            </div>
         </div>
     </section>
     

@@ -138,14 +138,30 @@ class CartController extends Controller
             $cart = [];
         }
 
+        $cart_sum = 0;
+        $mass = 0;
+        foreach ($cart as $key => $item) {
+            if ($item->product->mass) {
+                $mass += $item->product->mass * $item->quantity;
+            }
+            
+            if ($item->product->actually_discount) {
+                $cart_sum += round($item->product->discount_price * $item->quantity, 2);
+            } else {
+                $cart_sum += round($item->product->price * $item->quantity, 2);
+            }            
+        }
+
         // $cart->toJson();
 
         // echo $cart;
         $data = [
             'cart' => $cart,
+            'sum' => $cart_sum,
+            'mass' => $mass,
         ];
+        // dd($data);
         return view('cart', $data);
-        // dd($cart);
     }
 
     public function destroyItem(Cart $id) {

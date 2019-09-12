@@ -65,6 +65,14 @@ input:focus {
     background: #ff6868;
 }
 
+.bg-d-grey {
+    background: #3d3d3d;
+}
+
+.bg-m-grey {
+    background: #6b6b6b;
+}
+
 .color_l_grey {
     color: #7D7D7D;
     display: block;
@@ -967,8 +975,14 @@ section.main_about button {
 }
 
 .cart_table_sum {
-    margin-top: 50px;
+    margin-top: 10px;
+    margin-bottom: 20px;
     border-top: 1px solid #7D7D7D;
+    border-radius: 5px;
+}
+
+.cart_table_sum__content {
+    margin-left: 20px;
 }
 
 .product__inpunt_accept {
