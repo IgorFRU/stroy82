@@ -993,6 +993,11 @@ section.main_about button {
     display: inline;
 }
 
+#firm_data,
+#firm_data_error {
+    display: none;
+}
+
 .user_section {
     margin-bottom: 40px;
 }

@@ -94,10 +94,12 @@
                         <div class="cart_table_sum__title">Товаров: </div>
                         <div class="cart_table_sum__content"> {{ $count-1 ?? '' }}</div>
                     </div>
+                    @if ($mass > 0)
                     <div class="d-flex justify-content-between">
                         <div class="cart_table_sum__title">Примерная масса: </div>
                         <div class="cart_table_sum__content"> {{ $mass . ' кг.' ?? '' }}</div>
                     </div>
+                    @endif
                     <div class="d-flex justify-content-between">
                         <div class="cart_table_sum__title">Итого: </div>
                         <div class="cart_table_sum__content"> {{ number_format($sum, 2, ',', ' '). ' руб.' ?? '0 руб.' }}</div>

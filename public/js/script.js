@@ -422,21 +422,102 @@ $('#payment_method_2').change(function() {
     if (this.checked) {
         $('#firm').modal('show');
         $('#firm_edit').prop('disabled', false);
+        $('#firm_inn').prop('required', true);
     }
 });
 $('#payment_method_1').change(function() {
     if (this.checked) {
         $('#firm').modal('hide');
         $('#firm_edit').prop('disabled', true);
+        $('#firm_inn').prop('required', false);
     }
 });
 
+$('#firm_inn_check').click(function() {
+    var inn = $('#firm_inn').val();
+    $.ajax({
+        type: "POST",
+        url: "/checkinn",
+        data: {
+            inn: inn,
+        },
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(data) {
+            var data = $.parseJSON(data);
+            data = data.suggestions;
+            if (data.length > 0) {
+                if (data[0].data.state.status == 'ACTIVE') {
+                    $('#firm_data_error').hide();
+                    $('#firm_data').show();
+
+                    var firm_data = {};
+
+                    firm_data['firm_name'] = data[0].data.name.short_with_opf;
+                    firm_data['firm_status'] = data[0].data.state.status;
+                    firm_data['firm_postal_code'] = data[0].data.address.data.postal_code;
+                    firm_data['firm_region'] = data[0].data.address.data.region_with_type;
+                    firm_data['firm_city'] = data[0].data.address.data.city_with_type;
+                    firm_data['firm_street'] = data[0].data.address.data.street_with_type;
+                    firm_data['firm_ogrn'] = data[0].data.ogrn;
+                    firm_data['firm_inn'] = data[0].data.inn;
+                    firm_data['firm_okpo'] = data[0].data.okpo;
+
+                    $.each(firm_data, function(index, value) {
+                        $('#' + index).val(value);
+                    });
+
+
+                } else {
+                    $('#firm_data_error').show();
+                }
+            } else {
+                $('#firm_data_error').show();
+            }
+
+
+
+        },
+        error: function(errResponse) {
+            console.log(errResponse);
+        }
+    });
+});
 $('#firm_inn_confirm').click(function() {
-    if ($('#firm_inn').val() != '') {
-        console.log($('#firm_inn').val());
-    }
-});
+    var firm_data = {};
 
+    firm_data['firm_name'] = $('#firm_name').val();
+    firm_data['firm_status'] = $('#firm_status').val();
+    firm_data['firm_postal_code'] = $('#firm_postal_code').val();
+    firm_data['firm_region'] = $('#firm_region').val();
+    firm_data['firm_city'] = $('#firm_city').val();
+    firm_data['firm_street'] = $('#firm_street').val();
+    firm_data['firm_ogrn'] = $('#firm_ogrn').val();
+    firm_data['firm_inn'] = $('#firm_inn').val();
+    firm_data['firm_okpo'] = $('#firm_okpo').val();
+
+    $.ajax({
+        type: "POST",
+        url: "/firm/store",
+        data: {
+            firm_data: firm_data,
+        },
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            $('#firm').modal('hide');
+            var response = $.parseJSON(response);
+            console.log(response.firm_data);
+
+
+        },
+        error: function(errResponse) {
+            console.log(errResponse);
+        }
+    });
+});
 // var arr = [];
 // document.addEventListener("click", function(e) {
 //     if (e.target.id != '') {

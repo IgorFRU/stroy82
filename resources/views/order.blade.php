@@ -17,13 +17,14 @@
         <div class="white_box p10">
             <div class="col-lg-12 row">
                 <h2>Оформление заказа</h2>
-                <form class="accordion col-lg-12" id="order">
+                <form class="accordion col-lg-12" id="order" action="{{ route('order.store') }}" method="post">
+                    @csrf
                     <div class="card">
                         <div class="card-header" id="headingOne">
                         <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <div class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                             Контактные данные
-                            </button>
+                            </div>
                         </h2>
                         </div>
                     
@@ -33,33 +34,48 @@
                                 <div class="col-lg-5">                                    
                                     <div class="form-group">
                                         <label for="surname">Фамилия</label>
-                                        <input type="text" class="form-control form-control-sm" required id="surname" value="{{ Auth::user()->up_surname ?? '' }}">
+                                        <input type="text" class="form-control form-control-sm" name="surname" required id="surname" value="{{ Auth::user()->up_surname ?? '' }}">
                                     </div>
                                 </div>  
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="name">Имя</label>
-                                        <input type="text" class="form-control form-control-sm" required id="name" value="{{ Auth::user()->up_name ?? '' }}">
+                                        <input type="text" class="form-control form-control-sm" name="name" required id="name" value="{{ Auth::user()->up_name ?? '' }}">
                                     </div>
                                 </div>     
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="address">Адрес</label>
-                                        <input type="text" class="form-control form-control-sm" required id="address" value="{{ Auth::user()->address ?? '' }}">
+                                        <input type="text" class="form-control form-control-sm" name="address" required id="address" value="{{ Auth::user()->address ?? '' }}">
                                     </div>
                                 </div>
                                 @if (Auth::check() && Auth::user()->phone != '' )                                       
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="phone">Номер телефона</label>
-                                        <input type="text" class="form-control form-control-sm" readonly id="phone" value="{{ Auth::user()->phone }}">
+                                        <input type="text" class="form-control form-control-sm" name="phone" readonly id="phone" value="{{ Auth::user()->phone }}">
                                     </div>
                                 </div>
                                 @else
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="phone">Номер телефона</label>
-                                        <input type="text" class="form-control form-control-sm" required id="phone">
+                                        <input type="phone" class="form-control form-control-sm" name="phone" required id="phone">
+                                    </div>
+                                </div>
+                                @endif
+                                @if (Auth::check() && Auth::user()->email != '' )                                       
+                                <div class="col-lg-5">
+                                    <div class="form-group">
+                                        <label for="email">Эл. почта</label>
+                                        <input type="email" class="form-control form-control-sm" name="email" readonly id="email" value="{{ Auth::user()->email }}">
+                                    </div>
+                                </div>
+                                @else
+                                <div class="col-lg-5">
+                                    <div class="form-group">
+                                        <label for="email">Эл. почта</label>
+                                        <input type="email" class="form-control form-control-sm" name="email" id="email">
                                     </div>
                                 </div>
                                 @endif
@@ -69,9 +85,9 @@
                     <div class="card">
                         <div class="card-header" id="headingTwo">
                         <h2 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <div class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                             Способ оплаты
-                            </button>
+                            </div>
                         </h2>
                         </div>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#order">
@@ -92,12 +108,13 @@
                         </div>
                         </div>
                     </div>
+                    <input type="hidden" name="firm_id">
                     <div class="card">
                         <div class="card-header" id="headingThree">
                         <h2 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <div class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                             Collapsible Group Item #3
-                            </button>
+                            </div>
                         </h2>
                         </div>
                         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#order">
@@ -116,12 +133,52 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label for="firm_inn">ИНН</label>
-                                            <input type="text" class="form-control form-control-sm" required id="firm_inn">
+                                    <div class="col-lg-12 row">
+                                        <div class="form-group col-lg-9 row">
+                                            <label for="firm_inn" class="col-lg-3">ИНН</label>
+                                            <input type="text" maxlength="190" class="form-control form-control-sm col-lg-9" name="firm_inn" id="firm_inn">
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <button type="button" class="btn btn-warning btn-sm" id="firm_inn_check">Запросить данные</button>
                                         </div>
                                     </div>
+                                    <div id="firm_data">
+                                    <hr>
+                                    <div class="col-lg-12 row">
+                                        <div class="form-group col-lg-12 row">
+                                            <label for="firm_name" class="col-lg-3">Название</label>
+                                            <input type="text" maxlength="190" class="form-control form-control-sm col-lg-9" name="firm_name" id="firm_name">
+                                        </div>
+                                        <div class="form-group col-lg-12 row">
+                                            <label for="firm_ogrn" class="col-lg-3">ОГРН</label>
+                                            <input type="text" maxlength="190" class="form-control form-control-sm col-lg-9" name="firm_ogrn" id="firm_ogrn">
+                                        </div>
+                                        <div class="form-group col-lg-12 row">
+                                            <label for="firm_okpo" class="col-lg-3">ОКПО</label>
+                                            <input type="text" maxlength="190" class="form-control form-control-sm col-lg-9" name="firm_okpo" id="firm_okpo">
+                                        </div>
+                                        <div class="form-group col-lg-12 row">
+                                            <label for="firm_postal_code" class="col-lg-3">Индекс</label>
+                                            <input type="text" maxlength="190" class="form-control form-control-sm col-lg-9" name="firm_postal_code" id="firm_postal_code">
+                                        </div>
+                                        <div class="form-group col-lg-12 row">
+                                            <label for="firm_region" class="col-lg-3">Регион</label>
+                                            <input type="text" maxlength="190" class="form-control form-control-sm col-lg-9" name="firm_region" id="firm_region">
+                                        </div>
+                                        <div class="form-group col-lg-12 row">
+                                            <label for="firm_city" class="col-lg-3">Город</label>
+                                            <input type="text" maxlength="190" class="form-control form-control-sm col-lg-9" name="firm_city" id="firm_city">
+                                        </div>
+                                        <div class="form-group col-lg-12 row">
+                                            <label for="firm_street" class="col-lg-3">Улица</label>
+                                            <input type="text" maxlength="190" class="form-control form-control-sm col-lg-9" name="firm_street" id="firm_street">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="firm_data_error" class="bg-danger p10 color-white">
+                                    Данная организация не может выступать плательщиком. Введите, пожалуйста, другие данные.
+                                </div>
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn m-green" id="firm_inn_confirm">Сохранить</button>
@@ -129,10 +186,12 @@
                             </div>
                         </div>
                     </div>
-                    </form>
-                <div class="col-lg-12 row d-flex justify-content-end">
-                    <a href="{{ route('order') }}" class="btn btn-success">Оформить заказ</a>
-                </div>
+                    <div class="col-lg-12 row d-flex justify-content-end mt-20">
+                        {{-- <button type="submit" class="btn btn-primary">Сохранить</button> --}}
+                        <input type="submit" class="btn m-green" value="Оформить заказ">
+                    </div>
+                </form>
+                
             </div>
         </div>
     </section>

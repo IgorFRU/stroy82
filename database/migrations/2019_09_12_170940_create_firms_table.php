@@ -15,7 +15,11 @@ class CreateFirmsTable extends Migration
     {
         Schema::create('firms', function (Blueprint $table) {
             $table->bigIncrements('id');
-            
+            $table->bigInteger('inn')->unsigned()->unique();
+            $table->string('name')->nullable();
+            $table->bigInteger('ogrn')->nullable()->unique();
+            $table->bigInteger('okpo')->nullable()->unique();
+            $table->integer('index')->unsigned();
             $table->timestamps();
         });
     }
