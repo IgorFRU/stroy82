@@ -107,7 +107,7 @@
                 </div>
             </div>   
             <div class="col-lg-12 row d-flex justify-content-end">
-                <a href="{{ route('order') }}" class="btn btn-success">Оформить заказ</a>
+                <a href="{{ route('order.index') }}" class="btn btn-success">Оформить заказ</a>
             </div>
         </div>
     </section>

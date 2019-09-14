@@ -141,8 +141,4 @@ class OrderController extends Controller
         echo json_encode($result);
     }
 
-    public function firmStore(Request $request) {
-
-        echo json_encode($request->all());
-    }
 }

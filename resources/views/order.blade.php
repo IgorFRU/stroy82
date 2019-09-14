@@ -101,7 +101,7 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="payment_method" id="payment_method_2" value="2">
                                 <label class="form-check-label" for="payment_method_2">
-                                    По безналу (нужно будет ввести данные плательщика) 
+                                    Безналичный расчёт (нужно будет ввести данные плательщика) 
                                     <button type="button" class="btn btn-sm btn-secondary color-white" data-toggle="modal" id="firm_edit" disabled data-target="#firm"><i class="fas fa-pencil-alt"></i></button>
                                 </label>
                             </div>
@@ -172,6 +172,7 @@
                                         <div class="form-group col-lg-12 row">
                                             <label for="firm_street" class="col-lg-3">Улица</label>
                                             <input type="text" maxlength="190" class="form-control form-control-sm col-lg-9" name="firm_street" id="firm_street">
+                                            <input type="hidden" name="firm_status" id="firm_status">
                                         </div>
                                     </div>
                                 </div>
@@ -188,7 +189,7 @@
                     </div>
                     <div class="col-lg-12 row d-flex justify-content-end mt-20">
                         {{-- <button type="submit" class="btn btn-primary">Сохранить</button> --}}
-                        <input type="submit" class="btn m-green" value="Оформить заказ">
+                        <input type="submit" class="btn m-green" value="Завершить оформление заказа">
                     </div>
                 </form>
                 

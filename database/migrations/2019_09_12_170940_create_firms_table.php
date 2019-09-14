@@ -20,6 +20,10 @@ class CreateFirmsTable extends Migration
             $table->bigInteger('ogrn')->nullable()->unique();
             $table->bigInteger('okpo')->nullable()->unique();
             $table->integer('index')->unsigned();
+            $table->string('region')->nullable();
+            $table->string('city')->nullable();
+            $table->string('street')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

@@ -27,7 +27,7 @@ Route::resource('/order', 'OrderController');
 Route::post('/checkinn', 'OrderController@checkinn'); // ajax
 // Route::post('/order/final', 'OrderController@final')->name('order.final');
 
-Route::post('/firm/store', 'OrderController@firmStore');
+Route::post('/firm/store', 'FirmController@firmStore');
 
 Route::get('/home', 'UserController@index')->name('home');
 
