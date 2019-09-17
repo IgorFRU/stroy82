@@ -9,7 +9,9 @@ $.each(cartProductQuantity, function(key, value) {
     var quantity = $(this).find('.cart__product__input_units');
     var accept_button = $(this).find('.product__inpunt_accept');
     var id = $(this).attr('data-id');
-    //quantity.val(Math.round(quantity.val() * 100) / 100);
+
+    console.log(id);
+    console.log(accept_button);
     var oldQuantity = parseFloat(quantity.val().replace(",", "."));
     var newQuantity = oldQuantity;
     var package = parseFloat(quantity.attr('data-package').replace(",", "."));
@@ -43,7 +45,9 @@ $.each(changeProductQuantity, function(key, value) {
     $(this).click(function() {
         if ($(this).hasClass('active')) {
             var id = $(this).attr('data-id');
+            console.log(id);
             var quantity = $(this).attr('data-quantity');
+            console.log(quantity);
             // console.log(id);
             $.ajax({
                 type: "POST",
@@ -57,6 +61,7 @@ $.each(changeProductQuantity, function(key, value) {
                 },
                 success: function(data) {
                     var data = $.parseJSON(data);
+
                     location.reload();
                 },
                 error: function(errResponse) {
