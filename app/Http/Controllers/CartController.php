@@ -169,4 +169,29 @@ class CartController extends Controller
 
         return redirect()->back();
     }
+
+    //ajax
+    public function changeQuantity(Request $request) {
+        if (Auth::check()) {
+            $user_id = Auth::id();
+            $cart = Cart::where([
+                ['user_id', $user_id],
+                ['product_id', $request->id]
+            ])->first();
+            $cart->quantity = $request->quantity;
+            $cart->update();
+        } elseif ($request->session()->has('session_id')) {
+                $session_id = session('session_id');
+                $cart = Cart::where([
+                    ['session_id', $session_id],
+                    ['product_id', $request->id]
+                ])->first();  
+                $cart->quantity = $request->quantity;
+                $cart->update();
+        } else {
+            $cart = [];
+        }
+        
+        echo json_encode($cart);
+    }
 }

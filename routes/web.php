@@ -20,6 +20,7 @@ Route::get('/set/{set}', 'MainController@set')->name('set');
 Route::get('/manufacture/{manufacture}', 'MainController@manufacture')->name('manufacture');
 
 Route::post('/cart', 'CartController@addItems');
+Route::post('/cart/change', 'CartController@changeQuantity'); // ajax change quantity of item in cart
 Route::delete('/cart/{id}', 'CartController@destroyItem')->name('cart.destroy');
 Route::get('/cart', 'CartController@showCart')->name('cart');
 

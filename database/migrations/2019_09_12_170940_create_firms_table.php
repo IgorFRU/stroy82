@@ -16,6 +16,7 @@ class CreateFirmsTable extends Migration
         Schema::create('firms', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('inn')->unsigned()->unique();
+            $table->bigInteger('user_id')->unsigned();
             $table->string('name')->nullable();
             $table->bigInteger('ogrn')->nullable()->unique();
             $table->bigInteger('okpo')->nullable()->unique();

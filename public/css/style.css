@@ -981,6 +981,12 @@ section.main_about button {
     border-radius: 5px;
 }
 
+.cart_table_sum_sum {
+    border-top: 1px solid #7D7D7D;
+    margin-top: 15px;
+    padding-top: 15px;
+}
+
 .cart_table_sum__content {
     margin-left: 20px;
 }

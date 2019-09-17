@@ -1,3 +1,4 @@
+//change quantity in cart
 var cartProductQuantity = $('.cart_table__item_quantity');
 // console.log(cartProductQuantity);
 
@@ -6,16 +7,18 @@ $.each(cartProductQuantity, function(key, value) {
     var plus = $(this).find('.cart_table__item_quantity_plus');
     var button = $(this).find('.product__inpunt_accept');
     var quantity = $(this).find('.cart__product__input_units');
-    quantity.val(Math.round(quantity.val() * 100) / 100);
+    var accept_button = $(this).find('.product__inpunt_accept');
+    var id = $(this).attr('data-id');
+    //quantity.val(Math.round(quantity.val() * 100) / 100);
     var oldQuantity = parseFloat(quantity.val().replace(",", "."));
     var newQuantity = oldQuantity;
     var package = parseFloat(quantity.attr('data-package').replace(",", "."));
-
     // var iterMinus = 0;
     minus.click(function() {
         if (newQuantity - package > 0.001) {
-            newQuantity = Math.round((newQuantity - package).toFixed(3) * 100) / 100;
+            newQuantity = Math.round((newQuantity - package) * 1000) / 1000;
             quantity.val(newQuantity);
+            accept_button.attr('data-quantity', newQuantity);
             if (newQuantity != oldQuantity) {
                 button.addClass('active');
             } else {
@@ -24,16 +27,44 @@ $.each(cartProductQuantity, function(key, value) {
         }
     });
     plus.click(function() {
-        newQuantity = Math.round((newQuantity + package).toFixed(3) * 100) / 100;
+        newQuantity = Math.round((newQuantity + package) * 1000) / 1000;
         quantity.val(newQuantity);
+        accept_button.attr('data-quantity', newQuantity);
         if (newQuantity != oldQuantity) {
             button.addClass('active');
         } else {
             button.removeClass('active');
         }
     });
+});
 
-
+var changeProductQuantity = $('.product__inpunt_accept'); // ajax
+$.each(changeProductQuantity, function(key, value) {
+    $(this).click(function() {
+        if ($(this).hasClass('active')) {
+            var id = $(this).attr('data-id');
+            var quantity = $(this).attr('data-quantity');
+            // console.log(id);
+            $.ajax({
+                type: "POST",
+                url: "/cart/change",
+                data: {
+                    id: id,
+                    quantity: quantity,
+                },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    var data = $.parseJSON(data);
+                    location.reload();
+                },
+                error: function(errResponse) {
+                    console.log(errResponse);
+                }
+            });
+        }
+    });
 });
 
 // var cartProductQuantity = document.querySelectorAll('.cart_table__item_quantity');
@@ -214,9 +245,9 @@ function PriceDown(step = 1) {
     }
     if (packageCount > 1) {
         packageCount--;
-        packageInputValue = Math.round((package * packageCount).toFixed(3) * 100) / 100;
+        packageInputValue = Math.round((package * packageCount) * 1000) / 1000;
         packageInput.val(packageInputValue);
-        resultPriceValue = Math.round((packageInputValue * price).toFixed(2) * 100) / 100;
+        resultPriceValue = Math.round((packageInputValue * price) * 100) / 100;
         resultPrice.text(resultPriceValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ").replace(".", ","));
         packageCountInput.text(packageCount);
     }
@@ -229,9 +260,9 @@ function PriceUp(step = 1) {
         packageCount++;
     }
 
-    packageInputValue = Math.round((package * packageCount).toFixed(3) * 100) / 100;
+    packageInputValue = Math.round((package * packageCount) * 1000) / 1000;
     packageInput.val(packageInputValue);
-    resultPriceValue = Math.round((packageInputValue * price).toFixed(2) * 100) / 100;
+    resultPriceValue = Math.round((packageInputValue * price) * 100) / 100;
     resultPrice.text(resultPriceValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ").replace(".", ","));
     packageCountInput.text(packageCount);
 }
@@ -240,6 +271,7 @@ $('.to_cart').on('click', function() {
     if ($('.to_cart').html() != 'в корзину') {
         var productId = $(this).attr('data-product');
         var quantity = $('#product__input_units').val();
+
         quantity = parseFloat(quantity.replace(/\s/g, '').replace(",", "."))
             // var price = $('#price').text();
             // price = parseFloat(price.replace(/\s/g, '').replace(",", "."))
@@ -292,7 +324,7 @@ $('.to_cart').on('click', function() {
                         // console.log(updateItem.innerText);
                         updateItemValue = parseFloat(updateItemValue.replace(",", "."));
                         var updateItemString = updateItem.innerText.slice(position);
-                        updateItem.innerText = data.quantity.toFixed(2) + updateItemString;
+                        updateItem.innerText = data.quantity.toFixed(3) + updateItemString;
                         var price = currentItems[i].childNodes[2].lastChild;
                         price.innerText = data.sum + ' РУБ.';
                     }
@@ -509,7 +541,7 @@ $('#firm_inn_confirm').click(function() {
         success: function(response) {
             $('#firm').modal('hide');
             var response = $.parseJSON(response);
-            console.log(response.firm_data);
+            console.log(response);
 
 
         },
