@@ -97,6 +97,13 @@ class MainController extends Controller
         return view('categories', $data);
     }
 
+    public function articles($slug) {
+        $data = array (
+            'article' => Article::where('slug', $slug)->first(),
+        );
+        return view('article', $data);
+    }
+
     public function manufacture($slug) {
         // dd($slug);
         $manufacture = Manufacture::where('slug', $slug)->firstOrFail();
