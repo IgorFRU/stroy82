@@ -16,13 +16,15 @@ class Article extends Model
     ];
 
     public function setSlugAttribute($value) {
-        $this->attributes['slug'] = Str::slug(mb_substr($this->article, 0, 60), "-");
-        $double = Article::where('slug', $this->attributes['slug'])->first();
+        if (!isset($this->attributes['slug'])) {
+            $this->attributes['slug'] = Str::slug(mb_substr($this->article, 0, 60), "-");
+            $double = Article::where('slug', $this->attributes['slug'])->first();
 
-        if ($double) {
-            $next_id = Article::select('id')->orderby('id', 'desc')->first()['id'];
-            $this->attributes['slug'] .= '-' . ++$next_id;
-        }
+            if ($double) {
+                $next_id = Article::select('id')->orderby('id', 'desc')->first()['id'];
+                $this->attributes['slug'] .= '-' . ++$next_id;
+            }
+        }        
     }
 
     public function products() {

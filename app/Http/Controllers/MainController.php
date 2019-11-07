@@ -97,9 +97,16 @@ class MainController extends Controller
         return view('categories', $data);
     }
 
-    public function articles($slug) {
+    public function articles() {
         $data = array (
-            'article' => Article::where('slug', $slug)->first(),
+            'articles' => Article::orderBy('id', 'DESC')->paginate(20),
+        );
+        return view('articles', $data);
+    }
+
+    public function article($slug) {
+        $data = array (
+            'article' => Article::with('products')->where('slug', $slug)->first(),
         );
         return view('article', $data);
     }

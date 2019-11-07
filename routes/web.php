@@ -12,12 +12,17 @@
 */
 
 Route::get('/', 'MainController@index')->name('index');
+
 Route::get('/catalog/product/{product}', 'MainController@product2')->name('product.without_category');
 Route::get('/catalog', 'MainController@categories')->name('categories');
 Route::get('/catalog/{category}', 'MainController@category')->name('category');
-Route::get('/articles/{article}', 'MainController@articles')->name('articles');
 Route::get('/catalog/{category}/{product}', 'MainController@product')->name('product');
+
+Route::get('/articles', 'MainController@articles')->name('articles');
+Route::get('/articles/{article}', 'MainController@article')->name('article');
+
 Route::get('/set/{set}', 'MainController@set')->name('set');
+
 Route::get('/manufacture/{manufacture}', 'MainController@manufacture')->name('manufacture');
 
 Route::post('/cart', 'CartController@addItems');

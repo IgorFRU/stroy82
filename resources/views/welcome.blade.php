@@ -49,7 +49,7 @@
                         <span>
                             {{ $article->start_date }}
                         </span>
-                        <a href="{{ route('articles', $article->slug) }}">далее...</a>
+                        <a href="{{ route('article', $article->slug) }}">далее...</a>
                     </div>
                 </div>
             @endforeach
