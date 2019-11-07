@@ -56,7 +56,7 @@
                                         @endif
                                     </th>
                                     <th>
-                                        <div class="cart_table__item_quantity">
+                                        <div class="cart_table__item_quantity" data-id="{{ $item->product->id }}">
                                             <span class="cart_table__item_quantity_minus"><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
                                             <input type="text" readonly class="cart__product__input_units" name="product__input_units" id="{{ $item->product->id }}" data-package="{{ $item->product->unit_in_package ?? 1 }}" value="{{ $item->quantity }}"> 
                                             <span class="cart_table__item_quantity_plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>   

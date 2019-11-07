@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Order;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -26,7 +27,13 @@ class UserController extends Controller
      */
     public function index()
     {   
-        return view('home');
+        $data = [
+            'orders' => Order::where([
+                ['user_id', Auth::user()->id],
+                ['completed', 0]
+            ])->get(),
+        ];
+        return view('home', $data);
         // echo ('consumer');
     }
 

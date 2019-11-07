@@ -79,7 +79,108 @@
                 <h2><i class="fas fa-shopping-cart"></i> Активные заказы <a href="#" class="btn btn-sm btn-secondary color-white"><i class="fas fa-archive"></i> Архив заказов</a></h2>
                 <div class="user_section__content mt-20">
                     <p class="color-ll-grey">
-                        У вас пока нет активных заказов
+                        @if (isset($orders) && count($orders) > 0)
+                        <div class="accordion" id="accordionExample">
+                            @forelse ($orders as $order)
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ $order->number }}" aria-expanded="true" aria-controls="collapse{{ $order->number }}">
+                                        {{ $order->number }}
+                                    </button>
+                                    </h2>
+                                </div>
+                            
+                                <div id="collapse{{ $order->number }}" class="collapse" aria-labelledby="heading{{ $order->number }}" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                            <div class="user_section__content">                        
+                                                <div class="d-flex justify-content-start mt-20">                                                    
+                                                    <div class="custom_input mr-50">
+                                                        <div class="custom_input__top_title color-ll-grey">
+                                                            № заказ
+                                                        </div>
+                                                        <div class="custom_input__content" id="surname">
+                                                            {{ $order->number }}
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="custom_input mr-50">
+                                                        <div class="custom_input__top_title color-ll-grey">
+                                                            Дата размещения заказа
+                                                        </div>
+                                                        <div class="custom_input__content" id="name">
+                                                                {{ $order->d_m_y }}
+                                                        </div>
+                                                    </div> 
+                                                    <div class="custom_input mr-50">
+                                                        <div class="custom_input__top_title color-ll-grey">
+                                                            Выбранный способ оплаты
+                                                        </div>
+                                                        <div class="custom_input__content" id="name">
+                                                            @if ($order->payment_method == 'on delivery')
+                                                                оплата при получении товара
+                                                            @elseif ($order->payment_method == 'firm')
+                                                                безналичный расчёт
+                                                            @elseif ($order->payment_method == 'online')
+                                                                оплата онлайн
+                                                            @endif
+                                                        </div>
+                                                    </div>  
+                                                    
+                                                    <div class="custom_input mr-50">
+                                                        <div class="custom_input__top_title color-ll-grey">
+                                                            Статус заказа
+                                                        </div>
+                                                        <div class="custom_input__content" id="name">
+                                                                {{ $order }}
+                                                        </div>
+                                                    </div>   
+                                                    
+                                                </div>                       
+                                                <div class="d-flex justify-content-start mt-20">
+                                                    @if(strlen(Auth::user()->email) > 0)
+                                                    <div class="custom_input mr-50">
+                                                        <div class="custom_input__top_title color-ll-grey">
+                                                            эл. почта
+                                                        </div>
+                                                        <div class="custom_input__content" id="email">
+                                                            {{ Auth::user()->email }}
+                                                        </div>
+                                                    </div>   
+                                                    @endif
+                                                    @if(strlen(Auth::user()->phone) > 0)
+                                                    <div class="custom_input mr-50">
+                                                        <div class="custom_input__top_title color-ll-grey">
+                                                            Номер телефона
+                                                        </div>
+                                                        <div class="custom_input__content">
+                                                            {{ Auth::user()->phone }}
+                                                        </div>
+                                                    </div>   
+                                                    @endif
+                                                    @if(strlen(Auth::user()->address) > 0)
+                                                    <div class="custom_input mr-50">
+                                                        <div class="custom_input__top_title color-ll-grey">
+                                                            адрес
+                                                        </div>
+                                                        <div class="custom_input__content" id="address">
+                                                            {{ Auth::user()->address }}
+                                                        </div>
+                                                    </div>   
+                                                    @endif
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @empty
+                                
+                            @endforelse
+                        </div>
+                        @else
+                            У вас пока нет активных заказов
+                        @endif
+                        
                     </p>
                 </div>
             </div>

@@ -36,6 +36,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Order::class);
     }
 
+    public function firms() {
+        return $this->hasMany(Firm::class);
+    }
+
     public function getFullNameAttribute() {
         if (isset($this->surname)) {
             return (ucfirst($this->surname) . ' ' . ucfirst($this->name));

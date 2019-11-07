@@ -15,9 +15,11 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('number')->unsigned();
+            $table->string('number', 20);
             $table->unsignedBigInteger('orderstatus_id')->nullable();
-            $table->enum('payment_method', ['online', 'on delivery']);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('firm_inn')->nullable();
+            $table->enum('payment_method', ['on delivery', 'firm', 'online']);
             $table->boolean('successful_payment')->nullable()->default(false);
             $table->boolean('completed')->nullable()->default(false);
             $table->timestamps();

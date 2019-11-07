@@ -1021,6 +1021,15 @@ section.main_about button {
     margin-left: 40px;
 }
 
+.user_firms_list {
+    margin-left: 50px;
+    margin-top: 4px;
+}
+
+.user_firms_list>li {
+    margin: 4px;
+}
+
 footer {
     background: #349981;
     color: #fff;

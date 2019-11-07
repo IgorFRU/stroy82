@@ -54,7 +54,7 @@
                         <span><i class="far fa-user"></i> {{ Auth::user()->name }} <i class="fas fa-sort-down"></i></span>
                         <div class="right_nav__user__menu">
                             <a href="{{ route('home') }}">Личный кабинет</a>
-                            <a href="#">Мои заказы</a>
+                            <a href="{{ route('usersOrders') }}">Мои заказы</a>
                             <a class="" href="@if (Auth::guard('admin')->check()) {{ route('admin.logout') }} @else {{ route('logout') }} @endif"
                                 onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">Выход</a>

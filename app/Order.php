@@ -9,6 +9,8 @@ class Order extends Model
     protected $fillable = [
         'number',
         'orderstatus_id',
+        'user_id',
+        'firm_inn',
         'payment_method',   // enum('online', 'on delivery')
         'successful_payment',
         'completed'
@@ -28,6 +30,10 @@ class Order extends Model
 
     public function statuschangehistories() {
         return $this->hasMany(Statuschangehistory::class);
+    }
+
+    public function getDMYAttribute() {
+        return $this->created_at->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM');
     }
 
     public function scopeUnread($query)

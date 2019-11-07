@@ -17,6 +17,7 @@ class Setting extends Model
         'viber',
         'whatsapp',
         'vkontakte',
-        'main_text'
+        'main_text',
+        'orderstatus_id'
     ];
 }

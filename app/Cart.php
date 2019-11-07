@@ -11,7 +11,8 @@ class Cart extends Model
         'quantity',
         'user_id', 
         'user_ip', 
-        'session_id'
+        'session_id',
+        'finished'
     ];
 
     public function product() {

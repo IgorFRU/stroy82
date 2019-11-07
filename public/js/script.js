@@ -7,11 +7,11 @@ $.each(cartProductQuantity, function(key, value) {
     var plus = $(this).find('.cart_table__item_quantity_plus');
     var button = $(this).find('.product__inpunt_accept');
     var quantity = $(this).find('.cart__product__input_units');
-    var accept_button = $(this).find('.product__inpunt_accept');
+    // var accept_button = $(this).find('.product__inpunt_accept');
     var id = $(this).attr('data-id');
 
-    console.log(id);
-    console.log(accept_button);
+    // console.log(id);
+    // console.log(accept_button);
     var oldQuantity = parseFloat(quantity.val().replace(",", "."));
     var newQuantity = oldQuantity;
     var package = parseFloat(quantity.attr('data-package').replace(",", "."));
@@ -20,7 +20,7 @@ $.each(cartProductQuantity, function(key, value) {
         if (newQuantity - package > 0.001) {
             newQuantity = Math.round((newQuantity - package) * 1000) / 1000;
             quantity.val(newQuantity);
-            accept_button.attr('data-quantity', newQuantity);
+            button.attr('data-quantity', newQuantity);
             if (newQuantity != oldQuantity) {
                 button.addClass('active');
             } else {
@@ -31,7 +31,7 @@ $.each(cartProductQuantity, function(key, value) {
     plus.click(function() {
         newQuantity = Math.round((newQuantity + package) * 1000) / 1000;
         quantity.val(newQuantity);
-        accept_button.attr('data-quantity', newQuantity);
+        button.attr('data-quantity', newQuantity);
         if (newQuantity != oldQuantity) {
             button.addClass('active');
         } else {
@@ -61,7 +61,7 @@ $.each(changeProductQuantity, function(key, value) {
                 },
                 success: function(data) {
                     var data = $.parseJSON(data);
-
+                    // console.log(data);
                     location.reload();
                 },
                 error: function(errResponse) {
@@ -457,13 +457,37 @@ $('.user_info_send').click(function(e) {
 //безнал
 $('#payment_method_2').change(function() {
     if (this.checked) {
-        $('#firm').modal('show');
+        var firms = $('.user_firms_list');
+        if (firms.children().length == 0) {
+            $('#firm').modal('show');
+        } else {
+            $.each(firms.children(), function(key, value) {
+                $(this).prop('disabled', false);
+                $(this).click(function() {
+                    if ($(this).hasClass('btn-secondary') && !$(this).prop('disabled')) {
+                        $(this).siblings('.btn').removeClass('btn-success');
+                        $(this).addClass('btn-success');
+                        $('#firm_inn').val($(this).attr('data-inn'));
+                    }
+                });
+            });
+        }
         $('#firm_edit').prop('disabled', false);
         $('#firm_inn').prop('required', true);
     }
 });
+
+var user_firms_list = $('.user_firms_list').children();
+
+
 $('#payment_method_1').change(function() {
     if (this.checked) {
+        var firms = $('.user_firms_list');
+        if (firms.children().length != 0) {
+            $.each(firms.children(), function(key, value) {
+                $(this).prop('disabled', true);
+            });
+        }
         $('#firm').modal('hide');
         $('#firm_edit').prop('disabled', true);
         $('#firm_inn').prop('required', false);

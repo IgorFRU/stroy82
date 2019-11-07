@@ -20,6 +20,7 @@ class CreateCartsTable extends Migration
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->string('user_ip', 40)->nullable();
             $table->string('session_id', 40);
+            $table->boolean('finished')->default(0);
             $table->timestamps();
         });
     }

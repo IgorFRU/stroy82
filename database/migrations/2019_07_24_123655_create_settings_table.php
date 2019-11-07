@@ -24,6 +24,8 @@ class CreateSettingsTable extends Migration
             $table->string('whatsapp')->nullable();
             $table->string('vkontakte')->nullable();
             $table->text('main_text')->nullable();
+            $table->bigInteger('orderstatus_id')->nullable()->unsigned();
+            $table->bigInteger('orderstatus_finish_id')->nullable()->unsigned();
             $table->bigInteger('default_orderstatus')->nullable()->unsigned();
         });
     }

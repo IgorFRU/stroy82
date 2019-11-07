@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\OrderProduct;
+use App\Cart;
+use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -18,7 +21,27 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('order');
+        if (Auth::check()) {
+            $user = Auth::user()->with('firms')->first();;
+        } else {
+            $user = '';
+        } 
+        $data = [
+            'user' => $user,
+        ];
+
+        // dd($user);
+        return view('order', $data);
+    }
+
+    public function usersOrders() {
+        $orders = Order::where('user_id', Auth::user()->id)->get();
+
+        $data = [
+            'orders' => $orders,
+        ];
+
+        return view('order_list', $data);
     }
 
     /**
@@ -39,31 +62,60 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         if (Auth::check()) {
             $user_id = Auth::id();
         } else {
             $user_id = 0;
         }
 
-        $today = Carbon::today()->locale('ru')->isoFormat('DD') . Carbon::today()->locale('ru')->isoFormat('MM');
+        $today = Carbon::today()->locale('ru')->isoFormat('DD') . Carbon::today()->locale('ru')->isoFormat('MM') . Carbon::today()->locale('ru')->isoFormat('YY');
         $number = $today . '-' . mt_rand(1000, 9999);
         while (Order::where('number', $number)->count() > 0) {
-            $number = $today . '-' . mt_rand(100, 999);
+            $number = $today . '-' . mt_rand(1000, 9999);
         }
 
-        // dd($number);
+        if ($request->payment_method == 2) { //безнал
+            $firm_inn = $request->firm_inn;
+        } else {
+            $firm_inn = 0;
+        }
 
-        // $order_data = [
-        //     'number' => $today . '-' . mt_rand(100, 999),
-        //     'quantity' => $request->quantity,
-        //     'user_id' => $user_id,
-        //     'user_ip' => $user_ip,
-        //     'session_id' => session('session_id'),
-        // ];
-        // 
-        // $cart = Order::create($order_data);
+        $order_data = [
+            'number' => $number,
+            'orderstatus_id' => Setting::first()->pluck('orderstatus_id')[0],
+            'user_id' => $user_id,
+            'firm_inn' => $firm_inn,
+            'payment_method' => $request->payment_method,
+            'successful_payment' => 0,
+            'completed' => 0,
+        ];
         
+        $order = Order::create($order_data);
+
+        if ($order) {
+            $cart = Cart::where([
+                ['user_id', $user_id],
+                ['session_id', session('session_id')]
+            ])->get();
+
+            foreach ($cart as $item) {
+                if ($item->product->actually_discount) {
+                    $price = $item->product->discount_price;
+                } else {
+                    $price = $item->product->price;
+                }
+                $order->products()->attach($item->product->id, ['amount' => $item->quantity, 'price' => $price]);
+                $item->finished = 1;
+                $item->update();
+            }
+        }
+
+        $data = [
+            'number' => $number,
+        ];
+        
+        return view('order_finish', $data);
     }
 
     /**
@@ -72,9 +124,29 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function showOrder($order)
     {
-        //
+        $order = Order::where('number', $order)->first();
+        $error = '';
+
+        if (Auth::check()) {
+            if ($order->user_id != Auth::user()->id) {
+                $order = '';
+            }
+        } else {
+            $error = 'Для доступа к этому разделу необходимо авторизоваться';
+        }
+        
+        
+        
+        $data = [
+            'order' => $order,
+            'error' => $error,
+        ];
+
+        // dd($data);
+
+        return view('order_show', $data);
     }
 
     /**

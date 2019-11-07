@@ -24,7 +24,8 @@ Route::post('/cart/change', 'CartController@changeQuantity'); // ajax change qua
 Route::delete('/cart/{id}', 'CartController@destroyItem')->name('cart.destroy');
 Route::get('/cart', 'CartController@showCart')->name('cart');
 
-Route::resource('/order', 'OrderController');
+Route::resource('/order', 'OrderController')->except(['show']);
+Route::get('/order/{order}', 'OrderController@showOrder')->name('orderShow');
 Route::post('/checkinn', 'OrderController@checkinn'); // ajax
 // Route::post('/order/final', 'OrderController@final')->name('order.final');
 
@@ -68,4 +69,5 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
 Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 Route::post('/user/edit', 'UserController@userEdit')->name('user.edit');
+Route::get('/user/orders', 'OrderController@usersOrders')->name('usersOrders')->middleware('auth');
 Auth::routes();
