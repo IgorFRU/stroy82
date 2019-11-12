@@ -73,10 +73,25 @@
                     
                 </div>
                 <div class="main_menu">
-                    <a href="#">Категории</a>
-                    <a href="#">Акции</a>
-                    <a href="#">Подборки</a>
-                    <a href="#">Статьи</a>
+                    <div class="main_menu__item">
+                        <a href="#">Категории</a>
+                        @if (count($categories) > 0)
+                            <div class="main_menu__submenu">
+                                @foreach ($categories as $category)
+                                <a href="{{ route('category', $category->slug) }}">{{ $category->category }}</a>
+                                @endforeach
+                            </div>
+                        @endif                        
+                    </div>
+                    <div class="main_menu__item">
+                        <a href="#">Акции</a>
+                    </div>
+                    <div class="main_menu__item">
+                        <a href="#">Подборки</a>
+                    </div>
+                    <div class="main_menu__item">
+                        <a href="#">Статьи</a>
+                    </div>
                 </div>
                 <div class="nav_contacts col-lg-2">
                     <span class="col-lg-12">Симферополь</span>

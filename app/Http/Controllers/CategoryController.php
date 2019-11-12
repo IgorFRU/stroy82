@@ -106,7 +106,7 @@ class CategoryController extends Controller
     {
         // dd($request->all());
         $category->update($request->except('alias'));
-        if (isset($request->property_id)) {
+        if (isset($request->property_id) && $request->property_id != 0) {
             $properties = Arr::sort($request->property_id);
             $category->property()->sync($properties, true);
         }
