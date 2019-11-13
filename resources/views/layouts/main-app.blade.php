@@ -78,7 +78,18 @@
                         @if (count($categories) > 0)
                             <div class="main_menu__submenu">
                                 @foreach ($categories as $category)
-                                <a href="{{ route('category', $category->slug) }}">{{ $category->category }}</a>
+                                <div class="main_menu__submenu__item">
+                                    <a @if (count($category->children) > 0) class="parent_link" @endif href="{{ route('category', $category->slug) }}">{{ $category->category }}</a>
+                                    @if (count($category->children) > 0)
+                                        <div class="main_menu__submenu__right">
+                                            @foreach ($category->children as $children)
+                                                <a href="{{ route('category', $children->slug) }}">{{ $children->category }}</a>
+                                                @if (count($category->children) > 0)
+                                                @endif                            
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>                                
                                 @endforeach
                             </div>
                         @endif                        
