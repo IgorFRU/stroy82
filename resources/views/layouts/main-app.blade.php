@@ -74,7 +74,7 @@
                 </div>
                 <div class="main_menu">
                     <div class="main_menu__item">
-                        <a href="#">Категории</a>
+                        <a href="{{ route('categories') }}">Категории</a>
                         @if (count($categories) > 0)
                             <div class="main_menu__submenu">
                                 @foreach ($categories as $category)

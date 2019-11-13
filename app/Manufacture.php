@@ -21,12 +21,14 @@ class Manufacture extends Model
 
     public function setSlugAttribute($value) 
     {
-        $this->attributes['slug'] = Str::slug(mb_substr($this->manufacture, 0, 60), "-");
-        $double = Manufacture::where('slug', $this->attributes['slug'])->first();
+        if (!isset($this->id)) {
+            $this->attributes['slug'] = Str::slug(mb_substr($this->manufacture, 0, 60), "-");
+            $double = Manufacture::where('slug', $this->attributes['slug'])->first();
 
-        if ($double) {
-            $next_id = Manufacture::select('id')->orderby('id', 'desc')->first()['id'];
-            $this->attributes['slug'] .= '-' . ++$next_id;
+            if ($double) {
+                $next_id = Manufacture::select('id')->orderby('id', 'desc')->first()['id'];
+                $this->attributes['slug'] .= '-' . ++$next_id;
+            }
         }
     }
 

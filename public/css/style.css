@@ -310,13 +310,13 @@ nav .main_menu .main_menu__item>a {
     transition: 0.3s;
     font-size: 16px;
     left: 0px;
-    border-top: 1px solid #4a4a4a;
+    /* border-top: 1px solid #4a4a4a; */
 }
 
 .main_menu__submenu a {
     white-space: nowrap;
     font-size: 16px !important;
-    padding: 20px 30px;
+    padding: 20px 35px;
     line-height: normal !important;
     display: block;
 }
@@ -358,7 +358,21 @@ nav .main_menu .main_menu__item>a {
 }
 
 .parent_link {
-    border-right: 8px solid #268b74;
+    /* border-right: 8px solid #268b74; */
+}
+
+.parent_link::after {
+    content: '\203A';
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    right: 2px;
+    font-size: 30px;
+    line-height: 25px;
+    top: 14px;
+    border-radius: 50%;
+    background: #268b74;
+    text-align: center;
 }
 
 nav .nav_contacts,

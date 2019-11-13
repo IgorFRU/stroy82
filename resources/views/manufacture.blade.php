@@ -4,11 +4,18 @@
     <!-- <script src="{{ asset('js/discount_countdown.js') }}" defer></script> -->
 @endsection
 @section('content')
+@component('components.breadcrumb')
+    @slot('main') <i class="fas fa-home"></i> @endslot
+    @slot('parent') Производители @endslot
+        @slot('parent_route') {{ route('manufactures') }} @endslot     
+    @slot('active') {{ $manufacture->manufacture }} @endslot
+@endcomponent 
+   <section class="wrap">
+        <h1>{{ $manufacture->manufacture }}</h1>
+        {!! $manufacture->description !!}
+   </section>
     
-    хлебные крошки
-   инфа о производителе
-    
-    @isset($products)  
+    @if(isset($products) && count($products) > 0)
     <section class="last_products wrap">
         <div class="section_title">
                 Товары
@@ -80,7 +87,11 @@
             @endforeach
         </div>
     </section>
-    @endisset
+    @else 
+        <div class="wrap">
+            Нет товаров
+        </div>
+    @endif
     
     
       

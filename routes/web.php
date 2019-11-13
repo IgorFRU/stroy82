@@ -23,6 +23,7 @@ Route::get('/articles/{article}', 'MainController@article')->name('article');
 
 Route::get('/set/{set}', 'MainController@set')->name('set');
 
+Route::get('/manufacture', 'MainController@manufactures')->name('manufactures');
 Route::get('/manufacture/{manufacture}', 'MainController@manufacture')->name('manufacture');
 
 Route::post('/cart', 'CartController@addItems');

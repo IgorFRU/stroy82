@@ -44,7 +44,7 @@
    @endif
     
     
-    @isset($products)  
+   @if(isset($products) && count($products) > 0)
     <section class="last_products wrap">
         <div class="section_title">
                 Товары
@@ -116,7 +116,11 @@
             @endforeach
         </div>
     </section>
-    @endisset
+    @else 
+        <div class="wrap">
+            В данной категории нет товаров
+        </div>
+    @endif
     
     
       

@@ -110,6 +110,13 @@ class MainController extends Controller
         );
         return view('article', $data);
     }
+    public function manufactures() {
+        $manufactures = Manufacture::all();
+        $data = array (
+            'manufactures' => $manufactures,
+        );
+        return view('manufactures', $data);
+    }
 
     public function manufacture($slug) {
         // dd($slug);
