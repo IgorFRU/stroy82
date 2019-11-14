@@ -46,6 +46,18 @@
     
    @if(isset($products) && count($products) > 0)
     <section class="last_products wrap">
+        @if (isset($category->property) && count($category->property) > 0)
+            <div class="row">
+                <div class="col-lg-2">
+                    @component('components.propertiesbar')
+                        
+                    @endcomponent
+                </div>
+            </div>
+        @else
+            
+        @endif
+
         <div class="section_title">
                 Товары
         </div>

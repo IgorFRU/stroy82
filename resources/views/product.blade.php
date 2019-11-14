@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <h1 class="col-lg-12">{{ $product->product }} @isset($product->category->category)  - {{ $product->category->category }} @endisset @isset($product->manufacture->manufacture)  {{ $product->manufacture->manufacture }} @endisset</h1>
+                    <h1 class="col-lg-12">{{ $product->product }} @isset($product->scu) (арт.: {{$product->scu}}) @endisset @isset($product->category->category)  - {{ $product->category->category }} @endisset @isset($product->manufacture->manufacture)  {{ $product->manufacture->manufacture }} @endisset</h1>
                     <div class="col-lg-12 product__subtitle d-flex justify-content-start">
                         @isset($product->autoscu)
                             <span class="product_card__content__category">внутренний артикул: {{ $product->autoscu ?? '' }}</span>
@@ -125,19 +125,19 @@
                             dd($product->category->property)
                         @endphp --}}
                         <div class="product__properties color_l_grey col-lg-5">
-                        @isset($product->delivery_time)
-                            <div class="italic" style="display: block;"><i class="far fa-calendar-alt"></i> срок поставки: {{ $product->delivery_time }}</div>
-                        @endisset
-                        @isset($product->category->property)
-                        <div>
-                            @foreach ($product->category->property as $property)
-                                @if (isset($property->property) && isset($propertyvalues[$property->id]))
-                                    <div class="product__property d-flex justify-content-between">
-                                        <span class="product__property__title">{{ $property->property }}</span> <span>{{ $propertyvalues[$property->id] ?? '' }}</span>
-                                    </div>
-                                @endif
-                                
-                            @endforeach
+                            @isset($product->delivery_time)
+                                <div class="italic" style="display: block;"><i class="far fa-calendar-alt"></i> срок поставки: {{ $product->delivery_time }}</div>
+                            @endisset
+                            @isset($product->category->property)
+                            <div>
+                                @foreach ($product->category->property as $property)
+                                    @if (isset($property->property) && isset($propertyvalues[$property->id]))
+                                        <div class="product__property d-flex justify-content-between">
+                                            <span class="product__property__title">{{ $property->property }}</span> <span>{{ $propertyvalues[$property->id] ?? '' }}</span>
+                                        </div>
+                                    @endif
+                                    
+                                @endforeach
                             </div>
                             @endisset
                             <p>{{ $product->short_description ?? '' }}</p>

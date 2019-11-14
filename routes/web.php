@@ -21,7 +21,8 @@ Route::get('/catalog/{category}/{product}', 'MainController@product')->name('pro
 Route::get('/articles', 'MainController@articles')->name('articles');
 Route::get('/articles/{article}', 'MainController@article')->name('article');
 
-Route::get('/set/{set}', 'MainController@set')->name('set');
+Route::get('/sets', 'MainController@sets')->name('sets');
+Route::get('/sets/{set}', 'MainController@set')->name('set');
 
 Route::get('/manufacture', 'MainController@manufactures')->name('manufactures');
 Route::get('/manufacture/{manufacture}', 'MainController@manufacture')->name('manufacture');

@@ -73,7 +73,7 @@ class MainController extends Controller
 
     public function category($slug) {
         // dd($slug);
-        $category = Category::where('slug', $slug)->firstOrFail();
+        $category = Category::where('slug', $slug)->with('property')->firstOrFail();
         // dd($category);
         $data = array (
             'products' => Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get(),
@@ -167,6 +167,15 @@ class MainController extends Controller
         );
         // dd($data['product']->images);
         return view('product', $data);
+    }
+    
+    public function sets() {
+        $set = Set::get();
+        $data = array (
+            'sets' => $set,
+        );
+        // dd($set);
+        return view('sets', $data);
     }
 
     public function set($slug) {

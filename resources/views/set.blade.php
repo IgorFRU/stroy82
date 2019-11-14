@@ -4,9 +4,16 @@
     <!-- <script src="{{ asset('js/discount_countdown.js') }}" defer></script> -->
 @endsection
 @section('content')
-    
-    хлебные крошки
-   инфа о подборке
+@component('components.breadcrumb')
+    @slot('main') <i class="fas fa-home"></i> @endslot
+    @slot('parent') Подборки товаров @endslot
+        @slot('parent_route') {{ route('sets') }} @endslot    
+    @slot('active') {{ $set->set }} @endslot
+@endcomponent 
+   <section class="wrap">
+        <h1>{{ $set->set }}</h1>
+        {!! $set->description !!}
+   </section>
     
     @isset($set->products)  
     <section class="wrap">
@@ -20,6 +27,8 @@
             @endforeach
         </div>
     </section>
+    @else 
+    В данной подборке нет товаров
     @endisset
     
     

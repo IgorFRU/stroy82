@@ -98,10 +98,19 @@
                         <a href="#">Акции</a>
                     </div>
                     <div class="main_menu__item">
-                        <a href="#">Подборки</a>
+                        <a href="{{ route('sets') }}">Подборки</a>
+                        @if (count($sets) > 0)
+                            <div class="main_menu__submenu">
+                                @foreach ($sets as $set)
+                                <div class="main_menu__submenu__item">
+                                    <a href="{{ route('set', $set->slug) }}">{{ $set->set }}</a>
+                                </div>                                
+                                @endforeach
+                            </div>
+                        @endif          
                     </div>
                     <div class="main_menu__item">
-                        <a href="#">Статьи</a>
+                        <a href="{{ route('articles') }}">Статьи</a>
                     </div>
                 </div>
                 <div class="nav_contacts col-lg-2">
