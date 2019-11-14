@@ -358,10 +358,11 @@ nav .main_menu .main_menu__item>a {
 }
 
 .parent_link {
-    /* border-right: 8px solid #268b74; */
+    border-right: 8px solid #268b74;
 }
 
-.parent_link::after {
+
+/* .parent_link::after {
     content: '\203A';
     height: 30px;
     width: 30px;
@@ -373,7 +374,7 @@ nav .main_menu .main_menu__item>a {
     border-radius: 50%;
     background: #268b74;
     text-align: center;
-}
+} */
 
 nav .nav_contacts,
 nav .nav_contacts a {
