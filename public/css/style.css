@@ -1111,6 +1111,10 @@ section.main_about button {
     margin: 4px;
 }
 
+.sidebar {
+    background: #284A7E;
+}
+
 footer {
     background: #349981;
     color: #fff;
