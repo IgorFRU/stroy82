@@ -13,6 +13,7 @@
     @section('scripts')
 
     <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/jquery-ui.min.js') }}" defer></script> --}}
     <script src="{{ asset('js/script.js') }}" defer></script>
     <script src="https://use.fontawesome.com/564e0d687f.js"></script>
     
@@ -25,6 +26,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/jquery-ui.min.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 </head>

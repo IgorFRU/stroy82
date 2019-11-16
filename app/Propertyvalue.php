@@ -19,6 +19,6 @@ class Propertyvalue extends Model
     }
 
     public function properties() {
-        return $this->belongsTo(Property::class);
+        return $this->belongsTo(Property::class, 'property_id', 'id');
     }
 }

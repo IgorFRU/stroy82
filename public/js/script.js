@@ -585,3 +585,15 @@ $('#firm_inn_confirm').click(function() {
 //         arr.push(e.target.id);
 //     }
 // });
+
+// $("#price_slider").slider({
+//     animate: "slow",
+//     min: 200,
+//     max: 300,
+//     range: true,
+//     values: [200, 300],
+//     slide: function(event, ui) {
+//         $("#result-polzunok").text("от " + ui.values[0] + " до " + ui.values[1]);
+//     }
+// });
+// $("#result-polzunok").text("от " + $("#price_slider").slider("values", 0) + " до " + $("#price_slider").slider("values", 1));

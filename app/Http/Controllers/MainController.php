@@ -74,10 +74,26 @@ class MainController extends Controller
     public function category($slug) {
         // dd($slug);
         $category = Category::where('slug', $slug)->with('property')->firstOrFail();
-        // dd($category);
+        $products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get();
+
+        $products_array = $products->pluck('id');
+        $property_values = Propertyvalue::whereIn('product_id', $products_array)->with('properties')->get();
+        
+
+        // $unique_property_values = $property_values->map(function ($property_values) {
+        //     return collect($property_values)->unique('value')->all();
+        // });
+
+        $unique_property_values = $property_values->pluck('value')->unique();
+
+        $properties = $property_values->whereIn('value', $unique_property_values);
+
+
+        // dd($products_array, $property_values, $unique_property_values, $properties);
         $data = array (
-            'products' => Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get(),
+            'products' => $products,
             'category' => $category,
+            'properties' => $properties,
             // 'subcategories' => Category::where('slug', $slug)->firstOrFail()
         );
         // dd($data['products']);

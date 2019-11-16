@@ -48,9 +48,10 @@
     <section class="last_products wrap row">
         @if (isset($category->property) && count($category->property) > 0)
             <div class="col-lg-3">
-                @component('components.propertiesbar')
-                    
-                @endcomponent
+                {{-- @component('components.propertiesbar')
+                    @slot('min_price') {{ $products->min('price') }}
+                @endcomponent --}}
+                @include('components.propertiesbar', ['min_price' =>$products->min('price'), 'category_properties' => $category->property, 'properties' => $properties ])
             </div>
         @else
             

@@ -250,6 +250,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        // dd($request->all());
         if (isset($request->property_values)) {
             $newProperties = $request->property_values;
             // dd($newProperties);
