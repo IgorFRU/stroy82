@@ -86,7 +86,7 @@ class MainController extends Controller
 
         $unique_property_values = $property_values->pluck('value')->unique();
 
-        $properties = $property_values->whereIn('value', $unique_property_values);
+        $properties = $property_values->whereIn('value', $unique_property_values)->unique('value');
 
 
         // dd($products_array, $property_values, $unique_property_values, $properties);

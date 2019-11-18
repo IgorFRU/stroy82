@@ -597,3 +597,17 @@ $('#firm_inn_confirm').click(function() {
 //     }
 // });
 // $("#result-polzunok").text("от " + $("#price_slider").slider("values", 0) + " до " + $("#price_slider").slider("values", 1));
+
+var properties_array = [];
+$('.property__item').change(function() {
+    if (this.checked) {
+        // console.log($(this));
+        properties_array[$(this).attr('data-property_id')] = this.value;
+        // properties_array.push($(this).attr('data-property_id'), $(this).value);
+
+        console.log (properties_array);
+        let old_url = window.location.href;
+        // let new_url = old
+        console.log(old_url);
+    }
+});

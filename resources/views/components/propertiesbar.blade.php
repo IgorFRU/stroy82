@@ -10,9 +10,8 @@
             </div>
             <div class="property__list">
                 @foreach ($properties as $property)
-                    @if ($property->properties->id == $category_property->id)
-                         
-                        <label><input type="checkbox" value="{{ $property->id }}" name="{{ $category_property->property }}"> {{ $property->value }}</label>
+                    @if ($property->properties->id == $category_property->id)                         
+                        <label><input type="checkbox" class="property__item" data-property_id="{{ $property->property_id }}" value="{{ $property->value }}" name="{{ $category_property->property }}"> {{ $property->value }}</label>
                     @endif
                     
                 
@@ -22,6 +21,10 @@
     @empty
         
     @endforelse
+
+    <form action="" method="post" id="properties">
+        <input type="hidden" name="properties[]">
+    </form>
 
 
 </aside>
