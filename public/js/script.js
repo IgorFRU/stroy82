@@ -598,16 +598,31 @@ $('#firm_inn_confirm').click(function() {
 // });
 // $("#result-polzunok").text("от " + $("#price_slider").slider("values", 0) + " до " + $("#price_slider").slider("values", 1));
 
-var properties_array = [];
+var properties_array = {};
 $('.property__item').change(function() {
+    let index = $(this).attr('data-property_id');
     if (this.checked) {
-        // console.log($(this));
-        properties_array[$(this).attr('data-property_id')] = this.value;
-        // properties_array.push($(this).attr('data-property_id'), $(this).value);
+        if (index in properties_array) {
+            properties_array[index].push(this.value);
+        } else {
+            properties_array[index] = {};
+            properties_array[index] = [this.value];
+        }
+        console.log(properties_array);
 
-        console.log (properties_array);
-        let old_url = window.location.href;
+
+        // let old_url = window.location.href;
         // let new_url = old
-        console.log(old_url);
+        // console.log(old_url);
+    } else {
+        if (index in properties_array) {
+            let index_to_delete = properties_array[index].indexOf(this.value);
+            if (index_to_delete != -1) {
+                properties_array[index].splice(index_to_delete, 1);
+                if (properties_array[index].length == 0) {
+                    delete properties_array[index];
+                }
+            }
+        }
     }
 });
