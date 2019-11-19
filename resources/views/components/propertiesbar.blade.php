@@ -16,6 +16,8 @@
                     
                 
                 @endforeach
+
+                <div class="confirm_property_button btn btn-sm btn-info">Применить</div>
             </div>
         </div>
     @empty

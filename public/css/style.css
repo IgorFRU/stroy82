@@ -1115,6 +1115,21 @@ section.main_about button {
     background: #284A7E;
 }
 
+.property__list {
+    position: relative;
+}
+
+.property__list .confirm_property_button {
+    position: absolute;
+    top: -3px;
+    right: 0;
+    display: none;
+}
+
+.property__list .confirm_property_button.active {
+    display: block;
+}
+
 footer {
     background: #349981;
     color: #fff;

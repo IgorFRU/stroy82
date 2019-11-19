@@ -598,31 +598,62 @@ $('#firm_inn_confirm').click(function() {
 // });
 // $("#result-polzunok").text("от " + $("#price_slider").slider("values", 0) + " до " + $("#price_slider").slider("values", 1));
 
-var properties_array = {};
-$('.property__item').change(function() {
-    let index = $(this).attr('data-property_id');
-    if (this.checked) {
-        if (index in properties_array) {
-            properties_array[index].push(this.value);
+
+
+
+(function () {
+    let confirm_property_button_all = document.querySelectorAll('.confirm_property_button');
+    var properties_array = {};
+
+    $('.property__item').change(function() {
+        let index = $(this).attr('data-property_id');
+        if (this.checked) {
+            if (index in properties_array) {
+                properties_array[index].push(this.value);
+            } else {
+                properties_array[index] = {};
+                properties_array[index] = [this.value];
+            }
+    
+            // let old_url = window.location.href;
+            // let new_url = old
+            // console.log(old_url);
         } else {
-            properties_array[index] = {};
-            properties_array[index] = [this.value];
-        }
-        console.log(properties_array);
-
-
-        // let old_url = window.location.href;
-        // let new_url = old
-        // console.log(old_url);
-    } else {
-        if (index in properties_array) {
-            let index_to_delete = properties_array[index].indexOf(this.value);
-            if (index_to_delete != -1) {
-                properties_array[index].splice(index_to_delete, 1);
-                if (properties_array[index].length == 0) {
-                    delete properties_array[index];
+            if (index in properties_array) {
+                let index_to_delete = properties_array[index].indexOf(this.value);
+                if (index_to_delete != -1) {
+                    properties_array[index].splice(index_to_delete, 1);
+                    if (properties_array[index].length == 0) {
+                        delete properties_array[index];
+                    }
                 }
             }
         }
-    }
-});
+    
+        let confirm_property_button = this.parentNode.parentNode.querySelector('.confirm_property_button');
+    
+        $.each(confirm_property_button_all, function(index, value) {
+            if (value.classList.contains('active')) {
+                value.classList.remove('active');
+            }
+        });
+    
+        if (!confirm_property_button.classList.contains('active')) {
+            confirm_property_button.classList.add('active');
+        }
+    
+        
+    });
+
+    confirm_property_button_all.forEach(function(button, i) {
+        button.addEventListener('click', () => {
+            var new_address = '';
+            for (var key in properties_array) {
+                new_address += 'properties[' + key + ']=' + properties_array[key] + '&';
+            }
+            console.log(new_address);
+        });
+    });
+ }());
+
+
