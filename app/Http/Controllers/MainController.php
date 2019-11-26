@@ -71,8 +71,29 @@ class MainController extends Controller
         return view('welcome', $data);
     }
 
-    public function category($slug) {
+    public function category($slug, Request $request) {
         // dd($slug);
+        if (isset($request->prop)) {
+            $prop = $request->prop;
+        } else {
+            $prop = 0;
+        }
+        
+
+        // $products = Product::
+        // when($category, function ($query, $category) {
+        //     return $query->where('category_id', $category);
+        // })
+        // ->when($manufacture, function ($query, $manufacture) {
+        //     return $query->where('manufacture_id', $manufacture);
+        // })->orderBy('id', 'desc')->with('category')->whereIn('published', $published)->with('manufacture')->paginate($itemsPerPage);
+
+        // dd($request->all());
+
+        if ($prop != 0) {
+            dd($prop);
+        }
+        
         $category = Category::where('slug', $slug)->with('property')->firstOrFail();
         $products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get();
 

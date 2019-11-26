@@ -649,11 +649,26 @@ $('#firm_inn_confirm').click(function() {
         button.addEventListener('click', () => {
             var new_address = '';
             for (var key in properties_array) {
-                new_address += 'properties[' + key + ']=' + properties_array[key] + '&';
+                new_address += 'prop[' + key + ']=' + properties_array[key] + '&';
             }
+            new_address = new_address.slice(0, new_address.length-1);
             console.log(new_address);
+            let old_url = window.location.href;
+            let new_url = old_url.slice(0, AddressStringSearch(old_url, '[?]'));
+            console.log(old_url);
+            console.log(new_url);
+            // AddressStringSearch(old_url, "[?]");
+            window.location.replace(new_url + '?' + new_address);
         });
     });
  }());
+
+ function AddressStringSearch(str, symbol) {
+    if (str.search(symbol) != -1) {
+        return str.search(symbol);
+      } else {
+        return str.length;
+      }
+ }
 
 
