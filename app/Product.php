@@ -125,6 +125,10 @@ class Product extends Model
         return $this->hasMany(Cart::class);
     }
 
+    public function propertyvalue() {
+        return $this->hasMany(Propertyvalue::class);
+    }
+
     public function getMainOrFirstImageAttribute($value) {
         foreach ($this->images as $image) {
             if ($image->main) {

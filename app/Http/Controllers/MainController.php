@@ -91,11 +91,41 @@ class MainController extends Controller
         // dd($request->all());
 
         if ($prop != 0) {
-            dd($prop);
+            // dd($prop);
         }
-        
+
         $category = Category::where('slug', $slug)->with('property')->firstOrFail();
-        $products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get();
+
+        if ($prop) {
+            $prop_products_array = [];
+            $prop_array = [];
+            foreach ($prop as $key => $value) {
+                // dd($value);
+                $prop_array[] = $key;
+                if (strpos($value, ',')) {
+                    $values = [];
+                    $values = explode(",", $value);
+                    // dd($values);
+                } else {
+                    
+                }
+            }
+            $prop_array = Propertyvalue::whereIn('property_id', $prop_array)->pluck('product_id');
+            dd($prop_array);
+
+            $products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->whereIn('id', $prop_array)->pluck('id');
+            dd($products);
+            // $props = Propertyvalue::wherein('products', $products)->get();
+            // dd($props);
+            
+        } else {
+            $products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get();
+        }  
+        // dd($products);      
+
+        // выбираем все propertyvalues и кидаем в массив айдишники товаров
+        // выбираем товары с параметром wherein (id товаров из массива)
+        //
 
         $products_array = $products->pluck('id');
         $property_values = Propertyvalue::whereIn('product_id', $products_array)->with('properties')->get();
