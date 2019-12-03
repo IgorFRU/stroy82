@@ -95,8 +95,10 @@ class MainController extends Controller
         }
 
         $category = Category::where('slug', $slug)->with('property')->firstOrFail();
+        $all_products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get();
 
         if ($prop) {
+
             $prop_products_array = [];
             $prop_array = [];
             foreach ($prop as $key => $value) {
@@ -106,10 +108,17 @@ class MainController extends Controller
                     $values = [];
                     $values = explode(",", $value);
                     // dd($values);
+                    
                 } else {
                     
                 }
             }
+
+            dd($prop_array);
+            // 
+
+            $products_array = Propertyvalue::whereIn('property_id', $prop_array)->pluck('id');
+            dd($products_array);
             $prop_array = Propertyvalue::whereIn('property_id', $prop_array)->pluck('product_id');
             dd($prop_array);
 
@@ -119,7 +128,7 @@ class MainController extends Controller
             // dd($props);
             
         } else {
-            $products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get();
+            $products = $all_products;
         }  
         // dd($products);      
 
@@ -147,7 +156,7 @@ class MainController extends Controller
             'properties' => $properties,
             // 'subcategories' => Category::where('slug', $slug)->firstOrFail()
         );
-        // dd($data['products']);
+        // dd($data['properties']);
         return view('category', $data);
     }
 
