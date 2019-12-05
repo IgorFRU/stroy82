@@ -590,7 +590,6 @@ main {
 }
 
 .product_card__content__info>div>span {
-    border-bottom: 1px dotted;
     margin-bottom: 6px;
 }
 
@@ -833,15 +832,19 @@ section {
 
 .product_card .unit_buttons>span {
     padding: 2px 4px;
-    border-radius: 3px;
+    border-radius: 0px;
     cursor: pointer;
-    color: #fff;
     font-size: 12px;
-    background: #7d7d7d;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.product_card .unit_buttons>span:nth-child(2) {
+    margin-left: -5px;
 }
 
 .product_card .unit_buttons>span.active {
-    background: #ff6868;
+    background:#4a4a4a;
+    color:#fff;
 }
 
 .product h1 {

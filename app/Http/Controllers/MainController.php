@@ -95,40 +95,44 @@ class MainController extends Controller
         }
 
         $category = Category::where('slug', $slug)->with('property')->firstOrFail();
-        $all_products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get();
+        $products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get();
 
         if ($prop) {
 
             $prop_products_array = [];
             $prop_array = [];
+
+            $new_array = [];
             foreach ($prop as $key => $value) {
                 // dd($value);
                 $prop_array[] = $key;
                 if (strpos($value, ',')) {
                     $values = [];
                     $values = explode(",", $value);
-                    // dd($values);
                     
+                    // dd($values);                    
                 } else {
-                    
+                    $values = [];
+                    $values = $value;
                 }
+                // $new_array[] = $key;
+                $new_array[$key] = $values;
             }
-
-            dd($prop_array);
+            // dd($new_array);
+            // dd($prop);
             // 
 
             $products_array = Propertyvalue::whereIn('property_id', $prop_array)->pluck('id');
-            dd($products_array);
+            // dd($products_array);
             $prop_array = Propertyvalue::whereIn('property_id', $prop_array)->pluck('product_id');
-            dd($prop_array);
-
-            $products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->whereIn('id', $prop_array)->pluck('id');
-            dd($products);
+            // dd($prop_array);
+            
+            // dd($products);
             // $props = Propertyvalue::wherein('products', $products)->get();
             // dd($props);
             
         } else {
-            $products = $all_products;
+            $new_array = [];
         }  
         // dd($products);      
 
@@ -154,6 +158,7 @@ class MainController extends Controller
             'products' => $products,
             'category' => $category,
             'properties' => $properties,
+            'checked_properties' => $new_array,
             // 'subcategories' => Category::where('slug', $slug)->firstOrFail()
         );
         // dd($data['properties']);

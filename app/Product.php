@@ -129,6 +129,13 @@ class Product extends Model
         return $this->hasMany(Propertyvalue::class);
     }
 
+    //проверяет, отмечен ли товар в боковом меню фильтра товаров
+    public function getPropertyActiveProductAttribute($property) {
+        foreach ($this->propertyvalue as $key => $value) {
+            return $value->property_id;
+        }
+    }
+
     public function getMainOrFirstImageAttribute($value) {
         foreach ($this->images as $image) {
             if ($image->main) {
