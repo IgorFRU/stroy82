@@ -71,6 +71,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::get('/discounts/archive', 'DiscountController@archive')->name('discounts.archive');
   Route::resource('/discounts', 'DiscountController');
   Route::any('/productimg', 'UploadImagesController@product')->name('product.image.upload');
+  Route::resource('/topmenu', 'TopmenuController');
 });
 
 
