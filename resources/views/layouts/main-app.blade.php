@@ -34,10 +34,10 @@
     <div id="app">
         <section class="top_nav navbar navbar-expand-lg">
             <div class="col-lg-3 left_nav">
-                <a href="#">О нас</a>
-                <a href="#">Оплата</a>
-                <a href="#">Доставка</a>
-                <a href="#">Контакты</a>
+                @forelse ($topmenu as $item)
+                    <a href="{{ $item->slug ?? '#' }}">{{ $item->title }}</a>
+                @empty
+                @endforelse
             </div>
             <div class="col-lg-4 search_nav">
                 <input type="search" name="search_nav" id="search_nav" placeholder="поиск...">
@@ -97,7 +97,7 @@
                         @endif                        
                     </div>
                     <div class="main_menu__item">
-                        <a href="#">Акции</a>
+                        <a href="{{ route('sales') }}">Акции</a>
                     </div>
                     <div class="main_menu__item">
                         <a href="{{ route('sets') }}">Подборки</a>

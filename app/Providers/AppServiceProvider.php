@@ -10,6 +10,7 @@ use App\Article;
 use App\Set;
 use App\Product;
 use App\Manufacture;
+use App\Topmenu;
 use App\Http\Services\WorkWithImage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -191,7 +192,12 @@ class AppServiceProvider extends ServiceProvider
             });
             $sets = Cache::remember('sets', $hour, function() {
                 return Set::orderBy('set', 'ASC')->get();
-            });       
+            });  
+            
+            $topmenu = Topmenu::where('published', 1)
+                ->OrderBy('priority', 'ASC')
+                ->OrderBy('title', 'DESC')
+                ->get();
             
             $carts = Cart::where('session_id', session('session_id'))->get();
             // dd(session('session_id'));
@@ -215,6 +221,7 @@ class AppServiceProvider extends ServiceProvider
                 'sets'        => $sets,
                 'carts' => $carts1,
                 'cart_products' => $products,
+                'topmenu' => $topmenu,
             );
             
             $view->with($data);

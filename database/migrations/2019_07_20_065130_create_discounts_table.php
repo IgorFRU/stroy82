@@ -21,6 +21,7 @@ class CreateDiscountsTable extends Migration
             $table->date('discount_end');
             $table->integer('value');
             $table->enum('type', ['%', 'rub']);
+            $table->string('slug')->nullable();
         });
     }
 

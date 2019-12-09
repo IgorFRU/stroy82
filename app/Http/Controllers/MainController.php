@@ -11,6 +11,7 @@ use App\Manufacture;
 use App\Category;
 use App\Set;
 use App\Setting;
+use App\Topmenu;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -69,6 +70,19 @@ class MainController extends Controller
         // dd($data['lastProducts']);
         // dd($discounts->last_products);
         return view('welcome', $data);
+    }
+
+    public function staticpage($slug) {
+        $staticpage = Topmenu::where('slug', $slug)->FirstOrFail();
+        if(isset($staticpage)) {
+            $staticpage->increment('views', 1);
+        }
+        
+        $data = array (
+            'staticpage' => $staticpage,
+        );
+
+        return view('staticpage', $data);
     }
 
     public function category($slug, Request $request) {
@@ -191,6 +205,22 @@ class MainController extends Controller
         );
         return view('article', $data);
     }
+
+    public function sales() {
+        $today = Carbon::now()->toDateString();
+        $data = array (
+            'sales' => Discount::orderBy('discount_end', 'ASC')->where('discount_end', '>=', $today)->get(),
+        );
+        return view('sales', $data);
+    }
+
+    public function sale($slug) {
+        $data = array (
+            'article' => Article::with('products')->where('slug', $slug)->first(),
+        );
+        return view('article', $data);
+    }
+
     public function manufactures() {
         $manufactures = Manufacture::all();
         $data = array (

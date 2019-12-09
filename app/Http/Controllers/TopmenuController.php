@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Unit;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Topmenu;
 
-class UnitController extends Controller
+use Illuminate\Http\Request;
+
+class TopmenuController extends Controller
 {
     public function __construct()
     {
@@ -20,9 +20,9 @@ class UnitController extends Controller
     public function index()
     {
         $data = array (
-            'units' => Unit::orderBy('unit', 'ASC')->get(),
+            'topmenus' => Topmenu::orderBy('title', 'ASC')->get(),
         );
-        return view('admin.units.index', $data);
+        return view('admin.topmenu.index', $data);
     }
 
     /**
@@ -33,11 +33,10 @@ class UnitController extends Controller
     public function create()
     {
         $data = array (
-            'unit' => [],
+            'topmenu' => [],
         );
-        // dd($data['categories']);
         
-        return view('admin.units.create', $data);
+        return view('admin.topmenu.create', $data);
     }
 
     /**
@@ -48,17 +47,18 @@ class UnitController extends Controller
      */
     public function store(Request $request)
     {
-        $manufacture = Unit::create($request->all());        
-        return redirect()->route('admin.units.index');
+        // dd($request->all());
+        $topmenu = Topmenu::create($request->all());        
+        return redirect()->route('admin.topmenu.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Unit  $unit
+     * @param  \App\Topmenu  $topmenu
      * @return \Illuminate\Http\Response
      */
-    public function show(Unit $unit)
+    public function show(Topmenu $topmenu)
     {
         //
     }
@@ -66,41 +66,41 @@ class UnitController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Unit  $unit
+     * @param  \App\Topmenu  $topmenu
      * @return \Illuminate\Http\Response
      */
-    public function edit(Unit $unit)
+    public function edit(Topmenu $topmenu)
     {
         $data = array (
-            'unit' => $unit
+            'topmenu' => $topmenu
         );
         
-        return view('admin.units.edit', $data);
+        return view('admin.topmenu.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Unit  $unit
+     * @param  \App\Topmenu  $topmenu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Unit $unit)
+    public function update(Request $request, Topmenu $topmenu)
     {
-        $unit->update($request->all());
+        // dd($request->all());
+        $topmenu->update($request->all());
 
-        return redirect()->route('admin.units.index');
+        return redirect()->route('admin.topmenu.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Unit  $unit
+     * @param  \App\Topmenu  $topmenu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Unit $unit)
+    public function destroy(Topmenu $topmenu)
     {
-        $unit->delete();
-        return redirect()->route('admin.units.index');
+        
     }
 }
