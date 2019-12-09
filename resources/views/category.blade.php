@@ -63,7 +63,7 @@
         
             <div class="product_cards col-lg-12 row">
                 @foreach ($products as $product)
-                    @if (isset($checked_properties) && $product->property_active_product($checked_properties) )
+                    {{-- @if (isset($checked_properties) && $product->property_active_product($checked_properties) ) --}}
                         <div class="product_card white_box w23per">
                             <div class="product_card__img">
                                 <img  class="img-fluid"
@@ -125,7 +125,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    {{-- @endif --}}
                 @endforeach
             </div>
         </div>

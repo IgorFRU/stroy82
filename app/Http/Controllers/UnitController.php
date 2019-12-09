@@ -48,8 +48,7 @@ class UnitController extends Controller
      */
     public function store(Request $request)
     {
-        $manufacture = Unit::create($request->all());
-        
+        $manufacture = Unit::create($request->all());        
         return redirect()->route('admin.units.index');
     }
 

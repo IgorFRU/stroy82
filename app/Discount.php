@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class Discount extends Model
 {
@@ -16,13 +17,27 @@ class Discount extends Model
         'discount_start',
         'discount_end',
         'value',
-        'type',             // enum('%', 'rub')
+        'type',
+        'slug',             // enum('%', 'rub')
     ];
     
     protected $casts = [
         'discount_start' => 'datetime',
         'discount_end' => 'datetime',
     ];
+
+    public function setSlugAttribute($value) {
+        if (!isset($this->id)) {
+            $this->attributes['slug'] = Str::slug(mb_substr($this->discount, 0, 60), "-");      
+            $double = Discount::where('slug', $this->attributes['slug'])->first();
+
+            if ($double) {
+                $next_id = Discount::select('id')->orderby('id', 'desc')->first()['id'];
+                $this->attributes['slug'] .= '-' . ++$next_id;
+            }
+        }
+        
+    }
 
     // protected $dateFormat = 'U';
 

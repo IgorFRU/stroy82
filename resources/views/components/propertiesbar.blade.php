@@ -10,7 +10,7 @@
             </div>
             <div class="property__list">
                 @php
-                    dd($properties);
+                    // dd($properties);
                 @endphp
                 @foreach ($properties as $property)
                     @if ($property->properties->id == $category_property->id)                         

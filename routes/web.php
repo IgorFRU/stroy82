@@ -24,6 +24,9 @@ Route::get('/articles/{article}', 'MainController@article')->name('article');
 Route::get('/sets', 'MainController@sets')->name('sets');
 Route::get('/sets/{set}', 'MainController@set')->name('set');
 
+Route::get('/sales', 'MainController@sales')->name('sales');
+Route::get('/sales/{sale}', 'MainController@sale')->name('sale');
+
 Route::get('/manufacture', 'MainController@manufactures')->name('manufactures');
 Route::get('/manufacture/{manufacture}', 'MainController@manufacture')->name('manufacture');
 
@@ -80,3 +83,6 @@ Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout
 Route::post('/user/edit', 'UserController@userEdit')->name('user.edit');
 Route::get('/user/orders', 'OrderController@usersOrders')->name('usersOrders')->middleware('auth');
 Auth::routes();
+
+
+Route::get('/{staticpage}', 'MainController@staticpage')->name('staticpage');

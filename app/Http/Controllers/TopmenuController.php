@@ -18,7 +18,10 @@ class TopmenuController extends Controller
      */
     public function index()
     {
-        
+        $data = array (
+            'topmenus' => Topmenu::orderBy('title', 'ASC')->get(),
+        );
+        return view('admin.topmenu.index', $data);
     }
 
     /**
@@ -28,7 +31,11 @@ class TopmenuController extends Controller
      */
     public function create()
     {
+        $data = array (
+            'topmenu' => [],
+        );
         
+        return view('admin.topmenu.create', $data);
     }
 
     /**
@@ -39,16 +46,18 @@ class TopmenuController extends Controller
      */
     public function store(Request $request)
     {
-        
+        // dd($request->all());
+        $topmenu = Topmenu::create($request->all());        
+        return redirect()->route('admin.topmenu.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param  \App\Topmenu  $topmenu
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show(Topmenu $topmenu)
     {
         //
     }
@@ -56,33 +65,40 @@ class TopmenuController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param  \App\Topmenu  $topmenu
      * @return \Illuminate\Http\Response
      */
-    public function edit(Article $article)
+    public function edit(Topmenu $topmenu)
     {
-
+        $data = array (
+            'topmenu' => $topmenu
+        );
+        
+        return view('admin.topmenu.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Article  $article
+     * @param  \App\Topmenu  $topmenu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, Topmenu $topmenu)
     {
-        
+        // dd($request->all());
+        $topmenu->update($request->all());
+
+        return redirect()->route('admin.topmenu.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Article  $article
+     * @param  \App\Topmenu  $topmenu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function destroy(Topmenu $topmenu)
     {
         
     }
