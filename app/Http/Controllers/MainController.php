@@ -209,14 +209,19 @@ class MainController extends Controller
     public function sales() {
         $today = Carbon::now()->toDateString();
         $data = array (
-            'sales' => Discount::orderBy('discount_end', 'ASC')->where('discount_end', '>=', $today)->get(),
+            // 'sales' => Discount::orderBy('discount_end', 'ASC')->where('discount_end', '>=', $today)->get(),
+            'sales' => Discount::orderBy('discount_end', 'DESC')->get(),
         );
         return view('sales', $data);
     }
 
     public function sale($slug) {
+        $sale = Discount::where('slug', $slug)->FirstOrFail();
+        if(isset($sale)) {
+            $sale->increment('views', 1);
+        }
         $data = array (
-            'sale' => Discount::where('slug', $slug)->FirstOrFail(),
+            'sale' => $sale,
         );
         return view('sale', $data);
     }

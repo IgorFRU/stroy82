@@ -18,7 +18,8 @@ class Discount extends Model
         'discount_end',
         'value',
         'type',// enum('%', 'rub')
-        'slug',             
+        'slug',
+        'views',             
     ];
     
     protected $casts = [
@@ -27,7 +28,7 @@ class Discount extends Model
     ];
 
     public function setSlugAttribute($value) {
-        if (!isset($this->id)) {
+        if (!isset($this->id) || $this->attributes['slug'] == '' || $this->attributes['slug'] == NULL) {
             $this->attributes['slug'] = Str::slug(mb_substr($this->discount, 0, 60), "-");      
             $double = Discount::where('slug', $this->attributes['slug'])->first();
 
@@ -83,5 +84,14 @@ class Discount extends Model
         } else {
             return false;
         }
+    }
+
+    public function getRusTypeAttribute($value) {
+        if ($this->type == 'rub') {
+            return 'руб.';
+        } else {
+            return $this->type;
+        }
+        
     }
 }

@@ -61,13 +61,13 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">id</span>
                 </div>
-                <input type="text" class="form-control" name="id" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $manufacture->id ?? '' }}">
+                <input type="text" class="form-control" name="id" disabled aria-label="Username" aria-describedby="basic-addon1" value="{{ $discount->id ?? '' }}">
             </div>
             <div class="input-group mb-3 col-md-8">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">slug</span>
                 </div>
-                <input type="text" class="form-control" name="slug" readonly aria-label="Username" aria-describedby="basic-addon1" value="{{ $manufacture->slug ?? '' }}">
+                <input type="text" class="form-control" name="slug" readonly aria-label="Username" aria-describedby="basic-addon1" value="{{ $discount->slug ?? '' }}">
             </div>
             <div class="mb-3 col-md-2">
                     <button type="submit" class="btn btn-primary">Сохранить</button>

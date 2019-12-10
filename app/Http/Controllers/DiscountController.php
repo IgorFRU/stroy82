@@ -106,7 +106,8 @@ class DiscountController extends Controller
      */
     public function update(Request $request, Discount $discount)
     {
-        $discount->update($request->except('alias'));
+        // $discount->update($request->except('alias'));
+        $discount->update($request->all());
 
         return redirect()->route('admin.discounts.index');
     }

@@ -73,6 +73,18 @@ input:focus {
     background: #6b6b6b;
 }
 
+.bg-l-grey {
+    background: #7D7D7D;
+}
+
+.bg-l-green {
+    background: #57cf83;
+}
+
+.bg-blue {
+    background: #3c78c6;
+}
+
 .color_l_grey {
     color: #7D7D7D;
     display: block;
@@ -149,7 +161,7 @@ section.top_nav {
 }
 
 .l-green {
-    background: #349981;
+    background: #3c78c6;
 }
 
 .m-green {
@@ -259,7 +271,7 @@ section.top_nav .search_nav input {
 }
 
 nav {
-    background: #349981;
+    background: #3c78c6;
     height: 90px;
     width: 100%;
     position: relative;
@@ -489,7 +501,7 @@ nav .cart_img .cart_count {
     height: 26px;
     text-align: center;
     line-height: 26px;
-    box-shadow: 0px 0px 0px 4px #349981;
+    box-shadow: 0px 0px 0px 4px #3c78c6;
     background: #3d3d3d;
 }
 
@@ -567,7 +579,7 @@ main {
 .superiorities {
     margin-top: 20px;
     text-align: center;
-    color: #349981;
+    color: #3c78c6;
     font-size: 15px;
 }
 
@@ -669,8 +681,8 @@ section {
 .section_title {
     font-size: 20px;
     text-transform: uppercase;
-    border-bottom: 2px solid #349981;
-    color: #349981;
+    border-bottom: 2px solid #3c78c6;
+    color: #3c78c6;
     font-weight: bold;
     letter-spacing: 1px;
 }
@@ -681,6 +693,7 @@ section {
 
 .category_card {
     margin-bottom: 20px;
+    position: relative;
 }
 
 .product_card {
@@ -699,6 +712,7 @@ section {
 
 .category_card__img {
     height: 100px;
+    position: relative;
 }
 
 .product_card__img>img {
@@ -710,6 +724,20 @@ section {
 
 .product_card>img {
     margin-bottom: 10px;
+}
+
+.discount_sticker {
+    /* position: absolute; */
+    /* background: #ff6868; */
+    color: #fff;
+    font-size: 18px;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.discount_sticker>span {
+    text-align: center;
 }
 
 .product_card .product_card__content .short_description {
@@ -840,7 +868,7 @@ section {
     border-radius: 0px;
     cursor: pointer;
     font-size: 12px;
-    border: 1px solid rgba(0,0,0,0.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .product_card .unit_buttons>span:nth-child(2) {
@@ -848,8 +876,8 @@ section {
 }
 
 .product_card .unit_buttons>span.active {
-    background:#4a4a4a;
-    color:#fff;
+    background: #4a4a4a;
+    color: #fff;
 }
 
 .product h1 {
@@ -1007,7 +1035,7 @@ section.main_about button {
 
 .product__images .product__images__many .images__container span.up {
     top: 0px;
-    background: #349981;
+    background: #3c78c6;
     height: 27px;
     display: none;
     border-radius: 3px;
@@ -1016,7 +1044,7 @@ section.main_about button {
 
 .product__images .product__images__many .images__container span.down {
     top: 273px;
-    background: #349981;
+    background: #3c78c6;
     height: 27px;
     border-radius: 3px;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
@@ -1099,7 +1127,7 @@ section.main_about button {
 
 .user_section h2 {
     margin-bottom: 20px;
-    color: #349981;
+    color: #3c78c6;
 }
 
 .user_section h2>span {
@@ -1139,7 +1167,7 @@ section.main_about button {
 }
 
 footer {
-    background: #349981;
+    background: #3c78c6;
     color: #fff;
     padding: 45px 0;
 }

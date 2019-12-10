@@ -22,6 +22,7 @@ class CreateDiscountsTable extends Migration
             $table->integer('value');
             $table->enum('type', ['%', 'rub']);
             $table->string('slug')->nullable();
+            $table->integer('views')->default(0)->unsigned();
         });
     }
 
