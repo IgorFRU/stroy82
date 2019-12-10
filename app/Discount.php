@@ -17,8 +17,8 @@ class Discount extends Model
         'discount_start',
         'discount_end',
         'value',
-        'type',
-        'slug',             // enum('%', 'rub')
+        'type',// enum('%', 'rub')
+        'slug',             
     ];
     
     protected $casts = [
@@ -59,6 +59,10 @@ class Discount extends Model
         return $this->discount_end->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM');
     }
 
+    public function getStartDMYAttribute() {
+        return $this->discount_start->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM');
+    }
+
     public function getPublishedProductsAttribute($value) {
         return $this->product->where('published', '=', 1);
     }
@@ -70,5 +74,14 @@ class Discount extends Model
     public function getActualityAttribute($value) {
         $today = Carbon::now();
         return $this->where('discount_end', '>=', $today)->get();
+    }
+
+    public function getItActualityAttribute($value) {
+        $today = Carbon::now();
+        if ($this->discount_start <= $today && $this->discount_end >= $today) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

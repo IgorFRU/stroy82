@@ -86,6 +86,10 @@ input:focus {
     color: #fff;
 }
 
+.color-green {
+    color: rgb(70, 204, 119) !important;
+}
+
 .italic {
     font-style: italic;
 }
@@ -581,6 +585,7 @@ main {
     color: #4a4a4a;
 }
 
+.card_info,
 .product_card__content__info,
 .product_card__content__info a {
     font-size: 12px;

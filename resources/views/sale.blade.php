@@ -7,10 +7,12 @@
     
 @component('components.breadcrumb')
     @slot('main') <i class="fas fa-home"></i> @endslot
-    @slot('active') Акции @endslot    
+    @slot('parent') Акции @endslot
+        @slot('parent_route') {{ route('sales') }} @endslot   
+    @slot('active') {{ $sale->discount }} {{ $sale->value }}{{ $sale->type }} @endslot    
 @endcomponent 
 <section class="category_cards row wrap">
-    @foreach ($sales as $sale)
+    
         <div class="category_card white_box w23per">
             <div class="category_card__img">
                 <img  class="img-fluid"
@@ -26,7 +28,6 @@
                 <p>{{ $sale->description ?? '' }}</p>
             </div>
         </div>
-    @endforeach
 </section>
     
     

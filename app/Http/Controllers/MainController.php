@@ -216,9 +216,9 @@ class MainController extends Controller
 
     public function sale($slug) {
         $data = array (
-            'article' => Article::with('products')->where('slug', $slug)->first(),
+            'sale' => Discount::where('slug', $slug)->FirstOrFail(),
         );
-        return view('article', $data);
+        return view('sale', $data);
     }
 
     public function manufactures() {
