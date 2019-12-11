@@ -12,25 +12,14 @@
     @slot('active') {{ $sale->discount }} {{ $sale->value }}{{ $sale->type }} @endslot    
 @endcomponent 
 <section class="category_cards row wrap">
-    
-        <div class="category_card white_box w23per">
-            <div class="category_card__img">
-                <img  class="img-fluid"
-                @if(isset($sale->image))
-                    src="{{ asset('imgs/sales/')}}/{{ $sale->image }}"
-                @else 
-                    src="{{ asset('imgs/nopic.png')}}"
-                @endif >
-            </div> 
-            <div class="category_card__title p10">
-                <h4><a href="{{ route('sale', $sale->slug) }}">{{ $sale->discount }} {{ $sale->value }}{{ $sale->type }}</a></h4>
-                <div class="card_info @if($sale->it_actuality) color-green  @endif">{{ $sale->start_d_m_y }} - {{ $sale->d_m_y }}</div>
-                <p>{{ $sale->description ?? '' }}</p>
-            </div>
-        </div>
-
+    <h1 class="col-lg-12">{{ $sale->discount }} {{ $sale->value }}{{ $sale->type }}</h1>
+    {{-- <div class="discount_date p10 @if($sale->it_actuality) bg-blue @else bg-l-grey  @endif"><span>-{{ $sale->value }}{{ $sale->rus_type }}</span></div> --}}
+    <div class="card_info col-lg-12 @if($sale->it_actuality) color-green  @endif">{{ $sale->start_d_m_y }} - {{ $sale->d_m_y }} @if(!$sale->it_actuality) <br>(акция закончилась!) @endif</div>
+    <div>
+        {!! $sale->description !!}
+    </div>
         @if($sale->it_actuality && count($sale->product) > 0)
-            <div class="col-lg-12">
+            <section class="col-lg-12">
                 <div class="section_title">
                     Товары, участвующие в акции
                 </div>
@@ -101,7 +90,7 @@
                     @empty
                     @endforelse
                 </div>
-            </div>
+            </section>
         @endif
 </section>
     

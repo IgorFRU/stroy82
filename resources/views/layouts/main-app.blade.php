@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title> @if (isset($local_title)){{ $local_title . ' - ' }}@endif {{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
     @section('scripts')

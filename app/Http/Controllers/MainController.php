@@ -166,13 +166,14 @@ class MainController extends Controller
 
         $properties = $property_values->whereIn('value', $unique_property_values)->unique('value');
 
-
+        $local_title = $category->category;
         // dd($products_array, $property_values, $unique_property_values, $properties);
         $data = array (
             'products' => $products,
             'category' => $category,
             'properties' => $properties,
             'checked_properties' => $new_array,
+            'local_title' => $local_title,
             // 'subcategories' => Category::where('slug', $slug)->firstOrFail()
         );
         // dd($data['properties']);
@@ -186,6 +187,7 @@ class MainController extends Controller
         });
         $data = array (
             'categories' => $categories,
+            'local_title' => 'Категории товаров',
             // 'subcategories' => Category::where('slug', $slug)->firstOrFail()
         );
         // dd($data['products']);
@@ -195,13 +197,17 @@ class MainController extends Controller
     public function articles() {
         $data = array (
             'articles' => Article::orderBy('id', 'DESC')->paginate(20),
+            'local_title' => 'Статьи',
         );
         return view('articles', $data);
     }
 
     public function article($slug) {
+        $article = Article::with('products')->where('slug', $slug)->FirstOrFail();
+        $local_title = $article->article;
         $data = array (
-            'article' => Article::with('products')->where('slug', $slug)->first(),
+            'article' => $article,
+            'local_title' => $local_title,
         );
         return view('article', $data);
     }
@@ -211,6 +217,7 @@ class MainController extends Controller
         $data = array (
             // 'sales' => Discount::orderBy('discount_end', 'ASC')->where('discount_end', '>=', $today)->get(),
             'sales' => Discount::orderBy('discount_end', 'DESC')->get(),
+            'local_title' => 'Акции',
         );
         return view('sales', $data);
     }
@@ -220,8 +227,10 @@ class MainController extends Controller
         if(isset($sale)) {
             $sale->increment('views', 1);
         }
+        $local_title = $sale->discount . ' ' . $sale->value . $sale->rus_type;
         $data = array (
             'sale' => $sale,
+            'local_title' => $local_title,
         );
         return view('sale', $data);
     }
@@ -258,9 +267,11 @@ class MainController extends Controller
         }
         // dd($propertyvalues);
 
+        $local_title = $product->product . ' - ' . $product->category->category;
         $data = array (
-            'product' => Product::where('slug', $slug)->firstOrFail(),
+            'product' => $product,
             'propertyvalues' => $propertyvalues,
+            'local_title' => $local_title,
         );
         // dd($data['product']->images);
         return view('product', $data);
