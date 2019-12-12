@@ -17,7 +17,7 @@
         <div class="white_box p10">
             <div class="col-lg-12 row">
                 <div class="bg-success color-white p10">
-                    Заказ <a href="{{ route('orderShow', $order) }}">№{{ $number }}</a> успешно сформирован. Если у нас появятся вопросы, мы скоро с Вами свяжемся.
+                    Заказ <a href="{{ route('orderShow', $number) }}">№{{ $number }}</a> успешно сформирован. Если у нас появятся вопросы, мы скоро с Вами свяжемся.
                 </div>
             </div>
         </div>

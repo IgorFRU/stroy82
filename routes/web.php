@@ -82,6 +82,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
 Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 Route::post('/user/edit', 'UserController@userEdit')->name('user.edit');
 Route::get('/user/orders', 'OrderController@usersOrders')->name('usersOrders')->middleware('auth');
+Route::get('/user/order/{order}', 'OrderController@usersOrder')->name('usersOrder')->middleware('auth');
 Auth::routes();
 
 

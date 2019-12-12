@@ -71,6 +71,7 @@ class OrderController extends Controller
 
         $today = Carbon::today()->locale('ru')->isoFormat('DD') . Carbon::today()->locale('ru')->isoFormat('MM') . Carbon::today()->locale('ru')->isoFormat('YY');
         $number = $today . '-' . mt_rand(1000, 9999);
+        $request->session()->put('order', $number);
         while (Order::where('number', $number)->count() > 0) {
             $number = $today . '-' . mt_rand(1000, 9999);
         }
@@ -124,18 +125,26 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function showOrder($order)
+    public function showOrder($number, Request $request)
     {
-        $order = Order::where('number', $order)->first();
+        $order = Order::where('number', $number)->FirstOrFail();
         $error = '';
 
         if (Auth::check()) {
             if ($order->user_id != Auth::user()->id) {
                 $order = '';
+                $error = 'У вас нет доступа к информации об этом заказе!';
             }
         } else {
-            $error = 'Для доступа к этому разделу необходимо авторизоваться';
+            if (!$request->session()->has('order') || session('order') != $number) {
+                $order = '';
+            
+                $error = 'У вас нет доступа к информации об этом заказе! Войдите в свою учётную запись и повторите попытку.';
+            }
         }
+
+        
+        
         
         
         
@@ -147,6 +156,29 @@ class OrderController extends Controller
         // dd($data);
 
         return view('order_show', $data);
+    }
+
+    public function usersOrder($order)
+    {
+        $order = Order::where('number', $order)->FirstOrFail();
+        $error = '';
+
+        if (Auth::check()) {
+            if ($order->user_id != Auth::user()->id) {
+                $order = '';
+            }
+        } else {
+            $error = 'Для доступа к этому разделу необходимо авторизоваться';
+        }
+        
+        $data = [
+            'order' => $order,
+            'error' => $error,
+        ];
+
+        // dd($data);
+
+        return view('user_order_show', $data);
     }
 
     /**

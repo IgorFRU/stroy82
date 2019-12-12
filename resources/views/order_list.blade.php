@@ -17,7 +17,7 @@
         <div class="white_box p10">
             <div class="col-lg-12 row">
                 @forelse ($orders as $order)
-                    <div class="col-lg-12">{{ $order->number }}</div>
+                <div class="col-lg-12"><a href="{{ route('usersOrder', $order->number) }}">{{ $order->number }}</a></div>
                 @empty
                     
                 @endforelse
