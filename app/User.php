@@ -31,6 +31,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'phone_verified_at' => 'datetime',
     ];
+
+    public function setPhoneAttribute($value) {
+        if (isset($this->phone) && $this->phone != '') {
+            $this->attributes['phone'] = 1;
+        }        
+    }
     
     public function orders() {
         return $this->belongsToMany(Order::class);

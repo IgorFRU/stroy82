@@ -62,7 +62,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
         if (Auth::check()) {
             $user_id = Auth::id();
         } else {

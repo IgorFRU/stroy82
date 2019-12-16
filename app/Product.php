@@ -51,8 +51,7 @@ class Product extends Model
                 $next_id = Product::select('id')->orderby('id', 'desc')->first()['id'];
                 $this->attributes['slug'] .= '-' . ++$next_id;
             }
-        }
-        
+        }        
     }
 
     public function setAutoscuAttribute($value) {
