@@ -76,7 +76,7 @@ class OrderController extends Controller
                     $phone = substr($phone, 1);
                 }
             }
-            
+
             $user_data = [
                 'quick'     => '1',
                 'name'      => $request->name,
@@ -279,7 +279,14 @@ class OrderController extends Controller
         } else {
             $phone = '';
         }
-        echo json_encode(array('phone' => $phone));
-    }
 
+        $users_count = User::where('phone', $phone)->count();
+        if ($users_count) {
+            // return back()->withInput()
+            // ->withErrors(array('phone_user' => 'Пользователь с таким номером телефона уже существует.'));
+            echo json_encode(array('error' => true));
+        } else {
+            echo json_encode(array('phone' => $phone, 'error' => false));
+        }     
+    }
 }

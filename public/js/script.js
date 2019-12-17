@@ -715,6 +715,7 @@ var phoneMask = IMask(
 // }());
 
 function checkUserPhone() {
+    let user_phone = document.getElementById('user_phone');
     if (user_phone.value.length == 15) {
         console.log(user_phone.value);
         $.ajax({
@@ -728,6 +729,11 @@ function checkUserPhone() {
             },
             success: function(response) {
                 console.log(response);
+                if (response.error) {
+                    
+                } else {
+                    
+                }
             },
             error: function(errResponse) {
                 console.log(errResponse);

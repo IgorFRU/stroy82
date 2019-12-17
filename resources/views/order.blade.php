@@ -61,6 +61,11 @@
                                     <div class="form-group">
                                         <label for="user_phone">Номер телефона</label>
                                         <input type="text" class="form-control form-control-sm" name="phone" required id="user_phone" placeholder="8(978)123-45-67" oninput="checkUserPhone()">
+                                        @error('user_phone')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                                 @endif
