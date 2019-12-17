@@ -269,4 +269,17 @@ class OrderController extends Controller
         echo json_encode($result);
     }
 
+    public function checkUserPhone(Request $request) {
+        if (isset($request->phone) && $request->phone != '') {
+            $phone = $request->phone;
+            $phone = str_replace(array('+','-', '(', ')'), '', $phone);
+            if (strlen($phone) == 11) {
+                $phone = substr($phone, 1);
+            }
+        } else {
+            $phone = '';
+        }
+        echo json_encode(array('phone' => $phone));
+    }
+
 }

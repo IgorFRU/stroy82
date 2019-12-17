@@ -52,15 +52,15 @@
                                 @if (Auth::check() && Auth::user()->phone != '' )                                       
                                 <div class="col-lg-5">
                                     <div class="form-group">
-                                        <label for="phone">Номер телефона</label>
-                                        <input type="text" class="form-control form-control-sm" name="phone" readonly id="phone" placeholder="+7(978)123-45-67"alue="{{ Auth::user()->phone }}">
+                                        <label for="user_phone">Номер телефона</label>
+                                        <input type="text" class="form-control form-control-sm" name="phone" readonly id="user_phone" placeholder="8(978)123-45-67" value="{{ Auth::user()->phone }}"  oninput="checkUserPhone()">
                                     </div>
                                 </div>
                                 @else
                                 <div class="col-lg-5">
                                     <div class="form-group">
-                                        <label for="phone">Номер телефона</label>
-                                        <input type="phone" class="form-control form-control-sm" name="phone" required id="phone" value="7">
+                                        <label for="user_phone">Номер телефона</label>
+                                        <input type="text" class="form-control form-control-sm" name="phone" required id="user_phone" placeholder="8(978)123-45-67" oninput="checkUserPhone()">
                                     </div>
                                 </div>
                                 @endif

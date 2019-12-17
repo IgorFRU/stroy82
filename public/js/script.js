@@ -601,7 +601,7 @@ $('#firm_inn_confirm').click(function() {
 
 
 
-(function () {
+(function() {
     let confirm_property_button_all = document.querySelectorAll('.confirm_property_button');
     var properties_array = {};
 
@@ -614,7 +614,7 @@ $('#firm_inn_confirm').click(function() {
                 properties_array[index] = {};
                 properties_array[index] = [this.value];
             }
-    
+
             // let old_url = window.location.href;
             // let new_url = old
             // console.log(old_url);
@@ -629,20 +629,20 @@ $('#firm_inn_confirm').click(function() {
                 }
             }
         }
-    
+
         let confirm_property_button = this.parentNode.parentNode.querySelector('.confirm_property_button');
-    
+
         $.each(confirm_property_button_all, function(index, value) {
             if (value.classList.contains('active')) {
                 value.classList.remove('active');
             }
         });
-    
+
         if (!confirm_property_button.classList.contains('active')) {
             confirm_property_button.classList.add('active');
         }
-    
-        
+
+
     });
 
     confirm_property_button_all.forEach(function(button, i) {
@@ -651,7 +651,7 @@ $('#firm_inn_confirm').click(function() {
             for (var key in properties_array) {
                 new_address += 'prop[' + key + ']=' + properties_array[key] + '&';
             }
-            new_address = new_address.slice(0, new_address.length-1);
+            new_address = new_address.slice(0, new_address.length - 1);
             console.log(new_address);
             let old_url = window.location.href;
             let new_url = old_url.slice(0, AddressStringSearch(old_url, '[?]'));
@@ -661,19 +661,77 @@ $('#firm_inn_confirm').click(function() {
             window.location.replace(new_url + '?' + new_address);
         });
     });
- }());
+}());
 
- function AddressStringSearch(str, symbol) {
+function AddressStringSearch(str, symbol) {
     if (str.search(symbol) != -1) {
         return str.search(symbol);
-      } else {
+    } else {
         return str.length;
-      }
- }
+    }
+}
 
- var phoneMask = IMask(
-    document.getElementById('phone'), {
-      mask: '+{7}(000)000-00-00'
-    });
+var phoneMask = IMask(
+    document.getElementById('user_phone'), {
+        mask: '{8}(000)000-00-00'
+    }
+);
 
 
+// $('#user_phone').change(function() {
+//     console.log($(this).length);
+// });
+
+
+
+// (function() {
+//     let flag = true;
+//     var user_phone = document.getElementById('user_phone');
+//     user_phone.addEventListener('keyup', () => {
+//         if (user_phone.value.length > 15) {
+//             if (flag) {
+//                 flag = false;
+//                 $.ajax({
+//                     type: "POST",
+//                     url: "/order/checkuserphone",
+//                     data: {
+//                         phone: user_phone.value,
+//                     },
+//                     headers: {
+//                         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+//                     },
+//                     success: function(response) {
+//                         console.log(response);
+//                     },
+//                     error: function(errResponse) {
+//                         console.log(errResponse);
+//                     }
+//                 });
+//             }
+//         } else {
+//             flag = true;
+//         }
+//     });
+// }());
+
+function checkUserPhone() {
+    if (user_phone.value.length == 15) {
+        console.log(user_phone.value);
+        $.ajax({
+            type: "POST",
+            url: "/order/checkuserphone",
+            data: {
+                phone: user_phone.value,
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(errResponse) {
+                console.log(errResponse);
+            }
+        });
+    }
+}

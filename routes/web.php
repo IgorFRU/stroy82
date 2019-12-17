@@ -37,6 +37,7 @@ Route::get('/cart', 'CartController@showCart')->name('cart');
 
 Route::resource('/order', 'OrderController')->except(['show']);
 Route::get('/order/{order}', 'OrderController@showOrder')->name('orderShow');
+Route::post('/order/checkuserphone', 'OrderController@checkUserPhone')->name('checkUserPhone');
 Route::post('/checkinn', 'OrderController@checkinn'); // ajax
 // Route::post('/order/final', 'OrderController@final')->name('order.final');
 
