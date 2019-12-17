@@ -32,11 +32,16 @@ class User extends Authenticatable
         'phone_verified_at' => 'datetime',
     ];
 
-    public function setPhoneAttribute($value) {
-        if (isset($this->phone) && $this->phone != '') {
-            $this->attributes['phone'] = 1;
-        }        
-    }
+    // public function setPhoneAttribute($value) {
+    //     if (isset($value->phone) && $value->phone != '') {
+    //         $phone = $value->phone;
+    //         $phone = str_replace(array('+','-', '(', ')'), '', $phone);
+    //         if (strlen($phone) == 11) {
+    //             $phone = substr($phone, 1);
+    //         }            
+    //         $this->attributes['phone'] = $phone;
+    //     }        
+    // }
     
     public function orders() {
         return $this->belongsToMany(Order::class);

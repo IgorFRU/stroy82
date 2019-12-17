@@ -53,14 +53,14 @@
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="phone">Номер телефона</label>
-                                        <input type="text" class="form-control form-control-sm" name="phone" readonly id="phone" value="{{ Auth::user()->phone }}">
+                                        <input type="text" class="form-control form-control-sm" name="phone" readonly id="phone" placeholder="+7(978)123-45-67"alue="{{ Auth::user()->phone }}">
                                     </div>
                                 </div>
                                 @else
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="phone">Номер телефона</label>
-                                        <input type="phone" class="form-control form-control-sm" name="phone" required id="phone">
+                                        <input type="phone" class="form-control form-control-sm" name="phone" required id="phone" value="7">
                                     </div>
                                 </div>
                                 @endif

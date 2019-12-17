@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Order;
 use App\OrderProduct;
 use App\Cart;
+use App\User;
 use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 use Fomvasss\Dadata\Facades\DadataSuggest;
+use Illuminate\Support\Facades\Hash;
 
 class OrderController extends Controller
 {
@@ -62,11 +64,33 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        
+        // dd($request->all());
         if (Auth::check()) {
             $user_id = Auth::id();
         } else {
-            $user_id = 0;
+            if (isset($request->phone) && $request->phone != '') {
+                $phone = $request->phone;
+                $phone = str_replace(array('+','-', '(', ')'), '', $phone);
+                if (strlen($phone) == 11) {
+                    $phone = substr($phone, 1);
+                }
+            }
+            
+            $user_data = [
+                'quick'     => '1',
+                'name'      => $request->name,
+                'surname'   => $request->surname,
+                'address'   => $request->address,
+                'phone'     => $phone,
+                'password'  => Hash::make('Qq-123456'),
+            ];
+
+            // dd($user_data);
+            
+            $user = User::create($user_data);
+            
+            $user_id = $user->id;
         }
 
         $today = Carbon::today()->locale('ru')->isoFormat('DD') . Carbon::today()->locale('ru')->isoFormat('MM') . Carbon::today()->locale('ru')->isoFormat('YY');
