@@ -106,6 +106,12 @@ input:focus {
     font-style: italic;
 }
 
+.invalid-feedback {
+    display: none;
+    color: #e74b4b;
+    font-size: 0.9em;
+}
+
 li {
     list-style: none;
 }

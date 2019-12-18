@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\OrderProduct;
+
 class Order extends Model
 {
     protected $fillable = [
@@ -34,6 +36,15 @@ class Order extends Model
 
     public function getDMYAttribute() {
         return $this->created_at->locale('ru')->isoFormat('DD MMMM YYYY', 'Do MMMM');
+    }
+
+    public function getTotalSummAttribute() {
+        $order_product = OrderProduct::where('order_id', $this->id)->get();
+        $summ = 0;
+        foreach ($order_product as $item) {
+            $summ += $item->amount * $item->price;
+        }
+        return $summ;
     }
 
     public function scopeUnread($query)

@@ -5,10 +5,10 @@
 @section('content')
     @component('components.breadcrumb')
         @slot('main') <i class="fas fa-home"></i> @endslot
-    @slot('parent') Корзина @endslot
-        @slot('parent_route') {{ route('cart') }} @endslot 
+    {{-- @slot('parent') Корзина @endslot
+        @slot('parent_route') {{ route('cart') }} @endslot  --}}
                
-        @slot('active') Оформление заказа @endslot
+        @slot('active') Детали заказа {{ $order->number }} @endslot
     @endcomponent 
     
     
@@ -24,18 +24,18 @@
                     <h3>Заказ №{{ $order->number }} от {{ $order->d_m_y }}</h3>
                     <div class="col-lg-12 row">
                         <div class="col-lg-4">
-                            товаров: {{ $order->products->count() }}
+                            товаров: <strong>{{ $order->products->count() }}</strong>
                         </div>                        
                         <div class="col-lg-4">
-                            сумма заказа: 
+                            сумма заказа: <strong>{{ $order->total_summ ?? '' }}</strong>  руб.
                         </div>                      
                         <div class="col-lg-4">
                             способ оплаты: @if ($order->payment_method == 'on delivery')
-                                оплата при получении товара
+                                <strong>оплата при получении товара</strong>
                             @elseif ($order->payment_method == 'firm')
-                                безналичный расчёт
+                                <strong>безналичный расчёт</strong>
                             @elseif ($order->payment_method == 'online')
-                                оплата онлайн
+                                <strong>оплата онлайн</strong>
                             @endif
                         </div>
                     </div>

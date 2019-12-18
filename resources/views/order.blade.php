@@ -60,12 +60,12 @@
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="user_phone">Номер телефона</label>
-                                        <input type="text" class="form-control form-control-sm" name="phone" required id="user_phone" placeholder="8(978)123-45-67" oninput="checkUserPhone()">
-                                        @error('user_phone')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                        <input type="text" class="form-control form-control-sm" name="phone" required id="user_phone" placeholder="8(978)123-45-67" oninput="checkUserPhone()">               
+                                        <span class="invalid-feedback" role="alert">
+                                            Пользователь с таким номером телефона уже зарегистрирован.</br>
+                                            Если это ваш номер, войдите в свою учетную запись, чтобы продолжить.</br>
+                                            Пожалуйста, указывайте свой реальный номер телефона.
+                                        </span>
                                     </div>
                                 </div>
                                 @endif
@@ -187,7 +187,7 @@
                     </div>
                     <div class="col-lg-12 row d-flex justify-content-end mt-20">
                         {{-- <button type="submit" class="btn btn-primary">Сохранить</button> --}}
-                        <input type="submit" class="btn m-green" value="Завершить оформление заказа">
+                        <input type="submit" id="submit" class="btn m-green" @if (!Auth::check()) disabled @endif  value="Завершить оформление заказа">
                     </div>
                 </form>
                 

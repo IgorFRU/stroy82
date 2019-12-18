@@ -717,7 +717,6 @@ var phoneMask = IMask(
 function checkUserPhone() {
     let user_phone = document.getElementById('user_phone');
     if (user_phone.value.length == 15) {
-        console.log(user_phone.value);
         $.ajax({
             type: "POST",
             url: "/order/checkuserphone",
@@ -728,11 +727,15 @@ function checkUserPhone() {
                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-                console.log(response);
-                if (response.error) {
-                    
+                let data = $.parseJSON(response);
+                let submit_button = document.getElementById('submit');
+                let error_block = user_phone.parentNode.querySelector('.invalid-feedback');
+                if (data.error) {
+                    error_block.style.display = 'block';
+                    submit_button.disabled = true;
                 } else {
-                    
+                    error_block.style.display = 'none';
+                    submit_button.disabled = false;
                 }
             },
             error: function(errResponse) {

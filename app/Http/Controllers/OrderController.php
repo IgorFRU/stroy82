@@ -75,22 +75,22 @@ class OrderController extends Controller
                 if (strlen($phone) == 11) {
                     $phone = substr($phone, 1);
                 }
-            }
 
-            $user_data = [
-                'quick'     => '1',
-                'name'      => $request->name,
-                'surname'   => $request->surname,
-                'address'   => $request->address,
-                'phone'     => $phone,
-                'password'  => Hash::make('Qq-123456'),
-            ];
+                $user = User::where('phone', $phone)->first();
 
-            // dd($user_data);
-            
-            $user = User::create($user_data);
-            
+                if ($user->count() == 0) {
+                    $user_data = [
+                        'quick'     => '1',
+                        'name'      => $request->name,
+                        'surname'   => $request->surname,
+                        'address'   => $request->address,
+                        'phone'     => $phone,
+                        'password'  => Hash::make('Qq-123456'),
+                    ];                
+                    $user = User::create($user_data);
+                }
             $user_id = $user->id;
+            }            
         }
 
         $today = Carbon::today()->locale('ru')->isoFormat('DD') . Carbon::today()->locale('ru')->isoFormat('MM') . Carbon::today()->locale('ru')->isoFormat('YY');
@@ -120,7 +120,6 @@ class OrderController extends Controller
 
         if ($order) {
             $cart = Cart::where([
-                ['user_id', $user_id],
                 ['session_id', session('session_id')]
             ])->get();
 
@@ -280,7 +279,7 @@ class OrderController extends Controller
             $phone = '';
         }
 
-        $users_count = User::where('phone', $phone)->count();
+        $users_count = User::where('phone', $phone)->where('quick', '0')->count();
         if ($users_count) {
             // return back()->withInput()
             // ->withErrors(array('phone_user' => 'Пользователь с таким номером телефона уже существует.'));

@@ -10,6 +10,8 @@ class OrderProduct extends Model
 
     protected $fillable = ['order_id', 'product_id', 'amount', 'price'];
 
+    public $table = "order_product";
+
     // public function setAmountAttribute($value) {
     //     $cart = Cart::where([
     //         ['session_id', session('session_id')],
