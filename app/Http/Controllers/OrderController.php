@@ -78,7 +78,7 @@ class OrderController extends Controller
 
                 $user = User::where('phone', $phone)->first();
 
-                if ($user->count() == 0) {
+                if ($user == NULL) {
                     $user_data = [
                         'quick'     => '1',
                         'name'      => $request->name,
