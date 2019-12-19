@@ -44,7 +44,11 @@ class Order extends Model
         foreach ($order_product as $item) {
             $summ += $item->amount * $item->price;
         }
-        return $summ;
+        return number_format($summ, 2, ',', ' ');
+    }
+
+    public function getAmountAttribute($product_id) {
+        return OrderProduct::where('order_id', $this->id)->where('product_id', $product_id)->pluck('amount');
     }
 
     public function scopeUnread($query)

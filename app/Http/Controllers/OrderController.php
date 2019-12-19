@@ -150,7 +150,7 @@ class OrderController extends Controller
      */
     public function showOrder($number, Request $request)
     {
-        $order = Order::where('number', $number)->FirstOrFail();
+        $order = Order::where('number', $number)->with('products')->FirstOrFail();
         $error = '';
 
         if (Auth::check()) {
@@ -164,12 +164,7 @@ class OrderController extends Controller
             
                 $error = 'У вас нет доступа к информации об этом заказе! Войдите в свою учётную запись и повторите попытку.';
             }
-        }
-
-        
-        
-        
-        
+        }        
         
         $data = [
             'order' => $order,
