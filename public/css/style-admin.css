@@ -120,6 +120,39 @@ nav {
     margin: 10px 0;
 }
 
+.final_product_price {
+    position: relative;
+}
+
+.profit_calc_result {
+    position: relative;
+}
+
+.final_product_price .final_product_price_backup {
+    position: absolute;
+    bottom: 0;
+    right: -60px;
+    min-width: 60px;
+}
+
+.final_product_price .final_product_price_backup .btn {
+    width: 100%;
+}
+
+.btn_subtitle span.subtitle {
+    position: absolute;
+    color: #fff;
+    font-size: 12px;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    bottom: -2px;
+}
+
+.hide {
+    display: none;
+}
+
 
 /* 
 #ajaxUploadedImages .img_with_footer {

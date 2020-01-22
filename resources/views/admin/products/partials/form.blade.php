@@ -246,15 +246,21 @@
                             <input type="radio" name="profit_type2" id="profit_type2_plus" autocomplete="off" value="+"> Опт +
                         </label>
                     </div>
-                    <div class="btn btn-primary profit_calc" disabled>Считать</div>
-                    <div class="col-lg-4 btn btn-danger profit_calc_result" disabled>19252</div>
+                    <div class="btn btn-primary disabled profit_calc">Считать</div>
+                    <div class="btn col-lg-4 btn-danger disabled profit_calc_result hide"></div>
                 </div>
                 
                 <div class="col col-lg-3">
                     <div class="form-group row">
                         <label for="price" class="col-sm-5 col-form-label">Цена РОЗНИЦА</label>
-                        <div class="col-md-7">
+                        <div class="col-md-7 final_product_price">
                             <input type="text" name="price" class="form-control" id="price" value="{{ $product->price ?? '' }}">
+                            <div class="final_product_price_backup btn_subtitle hide">
+                                <div class="btn btn-info">252
+                                    
+                                </div><span class="subtitle">< вернуть</span>
+                            </div>
+                            
                         </div>                                    
                     </div>    
                 </div>

@@ -470,17 +470,23 @@ $(function() {
     $('#profit_type').on('change', ProfitButton);
     $('#incomin_price').on('keyup', ProfitButton);
     $('#profit').on('keyup', ProfitButton);
+    $('input[name="profit_type2"]').on('change', ProfitButton);
 
     $('.profit_calc').on('click', function() {
-        let incomin_price = parseFloat($('#incomin_price').val());
-        let profit = parseFloat($('#profit').val());
-        let profit_type = $('#profit_type').val();
+        if (!$(this).hasClass('disabled')) {
+            let incomin_price = parseFloat($('#incomin_price').val());
+            let profit = parseFloat($('#profit').val());
+            let profit_type = $('#profit_type').val();
 
-        if (document.getElementById('profit_type2_minus').checked) {
-            ProfitCalcMain('-', incomin_price, profit, profit_type);
-        } else if (document.getElementById('profit_type2_plus').checked) {
-            ProfitCalcMain('+', incomin_price, profit, profit_type);
+            if (document.getElementById('profit_type2_minus').checked) {
+                ProfitCalcMain('-', incomin_price, profit, profit_type);
+            } else if (document.getElementById('profit_type2_plus').checked) {
+                ProfitCalcMain('+', incomin_price, profit, profit_type);
+            }
+            
+        $('.profit_calc_result').removeClass('hide');
         }
+            
     });
 
     function ProfitButton(e) {
@@ -499,6 +505,8 @@ $(function() {
 
     function ProfitCalcMain(type, incomin_price, profit, profit_type) {
         let new_price = 0;
+        let profit_calc_result = $('.profit_calc_result');
+        
         if (profit_type == '%') {
             if (type == '-') {
                 new_price = Math.round(((100 * incomin_price) / (100 - profit)) * 100) / 100;
@@ -510,6 +518,23 @@ $(function() {
 
             new_price = Math.round((incomin_price + profit) * 100) / 100;
         }
+        profit_calc_result.text(new_price);
+        profit_calc_result.removeClass('disabled');
         console.log(new_price);
     }
+
+    $('.profit_calc_result').on('click', function() {
+        if (!$(this).hasClass('disabled')) {
+            let old_price = $('#price').val();
+            $('#price').val($(this).text());
+            $('.final_product_price_backup').removeClass('hide');
+            $('.final_product_price_backup > div').text(old_price);
+        }
+    });
+
+    $('.final_product_price_backup > div').on('click', function() {
+        if (!$(this).hasClass('hide')) {
+            $('#price').val($(this).text());
+        }
+    });
 });
