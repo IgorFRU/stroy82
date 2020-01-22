@@ -36,7 +36,10 @@ class Product extends Model
         'amount_in_package',
         'price',
         'quantity',
-        'quantity_vendor'
+        'quantity_vendor',
+        'profit',
+        'profit_type',
+        'incomin_price'
     ];
 
     public function setSlugAttribute($value) {

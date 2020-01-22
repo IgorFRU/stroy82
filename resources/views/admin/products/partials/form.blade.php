@@ -208,9 +208,9 @@
                         </div>                                    
                     </div>    
                 </div>
-                <div class="col col-lg-3">
+                <div class="col col-lg-2">
                     <div class="form-group row">
-                        <label for="profit" class="col-sm-6 col-form-label">Заработок (Розн - Опт = X)</label>
+                        <label for="profit" class="col-sm-6 col-form-label">Заработок</label>
                         <div class="col-md-6">
                             <input type="text" name="profit" class="form-control" id="profit" value="{{ $product->profit ?? '' }}">
                         </div>                                    
@@ -218,7 +218,7 @@
                 </div>
                 <div class="col col-lg-1">                    
                     <select class="form-control" id="profit_type" name="profit_type">
-                        <option></option>                        
+                        <option @if (!isset($product->profit_type) || $product->profit_type == '') selected = "selected" @endif></option>                        
                         <option value="%"
                             @isset($product->profit_type)
                                 @if ($product->profit_type == '%')
@@ -233,20 +233,30 @@
                                 selected = "selected"
                                 @endif
                             @endisset>
-                            %
+                            руб.
                         </option>
                     </select>                           
                 </div>
-                <div class="col col-lg-2">
+                <div class="col col-lg-3">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-secondary active">
+                            <input type="radio" name="profit_type2" id="profit_type2_minus" autocomplete="off" value="-" checked> Розн. -
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="profit_type2" id="profit_type2_plus" autocomplete="off" value="+"> Опт +
+                        </label>
+                    </div>
+                    <div class="btn btn-primary profit_calc" disabled>Считать</div>
+                    <div class="col-lg-4 btn btn-danger profit_calc_result" disabled>19252</div>
+                </div>
+                
+                <div class="col col-lg-3">
                     <div class="form-group row">
-                        <label for="price" class="col-sm-6 col-form-label">Цена РОЗНИЦА</label>
-                        <div class="col-md-6">
+                        <label for="price" class="col-sm-5 col-form-label">Цена РОЗНИЦА</label>
+                        <div class="col-md-7">
                             <input type="text" name="price" class="form-control" id="price" value="{{ $product->price ?? '' }}">
                         </div>                                    
                     </div>    
-                </div>
-                <div class="col col-lg-1">
-
                 </div>
                 <div class="col col-lg-3">
                     <div class="form-group row">

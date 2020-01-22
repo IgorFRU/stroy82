@@ -177,9 +177,11 @@ $(function() {
         });
     });
 
-    $('#articleAddProductButtonClose').on('click', function (e) {
+    $('#articleAddProductButtonClose').on('click', function(e) {
         if ($('#articleAddProductButtonClose').prop('data-changed')) {
             // window.location.href = '/admin/articles/'+ $('input#article_id').val() +'/edit';
         }
     });
+
+
 });

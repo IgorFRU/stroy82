@@ -462,4 +462,54 @@ $(function() {
         }
 
     });
+
+    // function ProfitCalcMain() {
+    //     console.log(this.value);
+    // }
+
+    $('#profit_type').on('change', ProfitButton);
+    $('#incomin_price').on('keyup', ProfitButton);
+    $('#profit').on('keyup', ProfitButton);
+
+    $('.profit_calc').on('click', function() {
+        let incomin_price = parseFloat($('#incomin_price').val());
+        let profit = parseFloat($('#profit').val());
+        let profit_type = $('#profit_type').val();
+
+        if (document.getElementById('profit_type2_minus').checked) {
+            ProfitCalcMain('-', incomin_price, profit, profit_type);
+        } else if (document.getElementById('profit_type2_plus').checked) {
+            ProfitCalcMain('+', incomin_price, profit, profit_type);
+        }
+    });
+
+    function ProfitButton(e) {
+        if ($(this).val() != '') {
+            let incomin_price = $('#incomin_price').val();
+            let profit = $('#profit').val();
+            if ($('#profit_type').val() != '' && incomin_price != '' && profit != '') {
+                $('.profit_calc').removeClass('disabled');
+            } else {
+                $('.profit_calc').addClass('disabled');
+            }
+        } else {
+            $('.profit_calc').addClass('disabled');
+        }
+    }
+
+    function ProfitCalcMain(type, incomin_price, profit, profit_type) {
+        let new_price = 0;
+        if (profit_type == '%') {
+            if (type == '-') {
+                new_price = Math.round(((100 * incomin_price) / (100 - profit)) * 100) / 100;
+                //100*incom/(100-profit)
+            } else {
+                new_price = Math.round((incomin_price + (incomin_price * profit) / 100) * 100) / 100;
+            }
+        } else {
+
+            new_price = Math.round((incomin_price + profit) * 100) / 100;
+        }
+        console.log(new_price);
+    }
 });
