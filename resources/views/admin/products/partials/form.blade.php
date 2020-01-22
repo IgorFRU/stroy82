@@ -102,7 +102,7 @@
                         </div>                                    
                     </div>    
                 </div>
-                <div class="col">
+                <div class="col col-lg-4">
                     <div class="form-group row">
                         <label for="unit_id" class="col-md-4 col-form-label">Ед. изм.</label>
                         <div class="col-md-8">
@@ -121,6 +121,22 @@
                             </select>
                         </div> 
                     </div>   
+                </div>
+                <div class="col col-lg-2">
+                    <div class="form-group row">
+                        <div class="form-check">
+                            @if(isset($product->id))
+                                <input class="form-check-input js_oneclick" type="checkbox" id="packaging" name="packaging" value="{{ $product->packaging }}" @if($product->packaging) checked @endif>
+                            @else
+                                <input class="form-check-input js_oneclick" type="checkbox" name="packaging" id="packaging" value="1" >
+                            @endif
+                            {{-- Скрытое поле для отправки на сервер value неотмеченного чекбокса --}}
+                            <input type="hidden" name="pay_online" id="pay_online" class="form-check-input js_oneclick_hidden" value="1" >
+                            <label class="form-check-label" for="packaging">
+                                Продажа упаковками
+                            </label>
+                        </div>
+                    </div> 
                 </div>
             </div>                
         </div>
@@ -184,18 +200,58 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="row">
-                <div class="col col-lg-4">
+                <div class="col col-lg-2">
                     <div class="form-group row">
-                        <label for="price" class="col-sm-4 col-form-label">Цена</label>
-                        <div class="col-md-8">
+                        <label for="incomin_price" class="col-sm-5 col-form-label">Цена ВХОД</label>
+                        <div class="col-md-7">
+                            <input type="text" name="incomin_price" class="form-control" id="incomin_price" value="{{ $product->incomin_price ?? '' }}">
+                        </div>                                    
+                    </div>    
+                </div>
+                <div class="col col-lg-3">
+                    <div class="form-group row">
+                        <label for="profit" class="col-sm-6 col-form-label">Заработок (Розн - Опт = X)</label>
+                        <div class="col-md-6">
+                            <input type="text" name="profit" class="form-control" id="profit" value="{{ $product->profit ?? '' }}">
+                        </div>                                    
+                    </div>    
+                </div>
+                <div class="col col-lg-1">                    
+                    <select class="form-control" id="profit_type" name="profit_type">
+                        <option></option>                        
+                        <option value="%"
+                            @isset($product->profit_type)
+                                @if ($product->profit_type == '%')
+                                selected = "selected"
+                                @endif
+                            @endisset>
+                            %
+                        </option>                        
+                        <option value="rub"
+                            @isset($product->profit_type)
+                                @if ($product->profit_type == 'rub')
+                                selected = "selected"
+                                @endif
+                            @endisset>
+                            %
+                        </option>
+                    </select>                           
+                </div>
+                <div class="col col-lg-2">
+                    <div class="form-group row">
+                        <label for="price" class="col-sm-6 col-form-label">Цена РОЗНИЦА</label>
+                        <div class="col-md-6">
                             <input type="text" name="price" class="form-control" id="price" value="{{ $product->price ?? '' }}">
                         </div>                                    
                     </div>    
                 </div>
-                <div class="col col-lg-4">
+                <div class="col col-lg-1">
+
+                </div>
+                <div class="col col-lg-3">
                     <div class="form-group row">
-                        <label for="discount" class="col-sm-4 col-form-label">Акция</label>
-                        <div class="col-md-8">
+                        <label for="discount" class="col-sm-3 col-form-label">Акция</label>
+                        <div class="col-md-9">
                             <select class="form-control" id="discount" name="discount_id">
                                 <option></option>
                                 @forelse ($discounts as $discount)
@@ -217,22 +273,6 @@
                             </select>
                         </div>                                    
                     </div>    
-                </div>
-                <div class="col col-lg-4">
-                    <div class="form-group">
-                        <div class="form-check">
-                            @if(isset($product->id))
-                                <input class="form-check-input js_oneclick" type="checkbox" id="packaging" name="packaging" value="{{ $product->packaging }}" @if($product->packaging) checked @endif>
-                            @else
-                                <input class="form-check-input js_oneclick" type="checkbox" name="packaging" id="packaging" value="1" >
-                            @endif
-                            {{-- Скрытое поле для отправки на сервер value неотмеченного чекбокса --}}
-                            <input type="hidden" name="pay_online" id="pay_online" class="form-check-input js_oneclick_hidden" value="1" >
-                            <label class="form-check-label" for="packaging">
-                                Продажа упаковками
-                            </label>
-                        </div>
-                    </div> 
                 </div>
             </div>                      
         </div>
