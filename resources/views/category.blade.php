@@ -57,9 +57,34 @@
             
         @endif
         <div class="col-lg-9">
-            <div class="section_title">
-                Товары
+            
+        <div class="col-lg-12 row product_sort_bar mb-2 d-flex justify-content-end">
+            <div class="form-group row col-lg-4">
+                <label for="products_sort" class="col-lg-4">Сортировать</label>
+                <div class="col-md-8">
+                    <select class="form-control custom-select custom-select-sm product_sort_bar__select" id="products_sort" data-cookie='products_sort'>
+                        {{-- <option value="discount">Сначала со скидкой</option> --}}
+                        <option @if (isset($_COOKIE['product_sort']) && $_COOKIE['product_sort'] == 'nameAZ') selected='selected' @endif value="nameAZ">По алфавиту (А-Я)</option>
+                        <option @if (isset($_COOKIE['product_sort']) && $_COOKIE['product_sort'] == 'nameZA') selected='selected' @endif value="nameZA">По алфавиту (Я-А)</option>
+                        <option @if (isset($_COOKIE['product_sort']) && $_COOKIE['product_sort'] == 'price_up') selected='selected' @endif value="price_up">От дорогих к дешёвым</option>
+                        <option @if (isset($_COOKIE['product_sort']) && $_COOKIE['product_sort'] == 'price_down') selected='selected' @endif value="price_down">От дешёвых к дорогим</option>
+                        <option @if (isset($_COOKIE['product_sort']) && $_COOKIE['product_sort'] == 'popular') selected='selected' @endif value="popular">По популярности</option>
+                        <option @if (isset($_COOKIE['product_sort']) && $_COOKIE['product_sort'] == 'new_up') selected='selected' @endif value="new_up">Сначала новые</option>
+                        <option @if (isset($_COOKIE['product_sort']) && $_COOKIE['product_sort'] == 'new_down') selected='selected' @endif value="new_down">Сначала старые</option>
+                      </select>
+                </div> 
             </div>
+            <div class="form-group row col-lg-4">
+                <label for="products_per_page" class="col-lg-7">Товаров на странице</label>
+                <div class="col-lg-5">
+                    <select class="form-control custom-select custom-select-sm product_sort_bar__select" id="products_per_page" data-cookie='products_per_page'>
+                        <option @if (isset($_COOKIE['products_per_page']) && $_COOKIE['products_per_page'] == '24') selected='selected' @endif value="24">24</option>
+                        <option @if (isset($_COOKIE['products_per_page']) && $_COOKIE['products_per_page'] == '48' || !isset($_COOKIE['products_per_page'])) selected='selected' @endif value="48">48</option>
+                        <option @if (isset($_COOKIE['products_per_page']) && $_COOKIE['products_per_page'] == '96') selected='selected' @endif value="96">96</option>
+                      </select>
+                </div> 
+            </div> 
+        </div>
         
             <div class="product_cards col-lg-12 row">
                 @foreach ($products as $product)

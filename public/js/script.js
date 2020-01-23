@@ -671,11 +671,11 @@ function AddressStringSearch(str, symbol) {
     }
 }
 
-var phoneMask = IMask(
-    document.getElementById('user_phone'), {
-        mask: '{8}(000)000-00-00'
-    }
-);
+// var phoneMask = IMask(
+//     document.getElementById('user_phone'), {
+//         mask: '{8}(000)000-00-00'
+//     }
+// );
 
 
 // $('#user_phone').change(function() {
@@ -744,3 +744,43 @@ function checkUserPhone() {
         });
     }
 }
+
+$('#products_sort').bind('input', function() {
+    let product_sort = $(this).val();
+    $.ajax({
+        type: "POST",
+        url: "/setcookie",
+        data: {
+            product_sort: product_sort
+        },
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(data) {
+            location.reload(true);
+        },
+        error: function(msg) {
+            console.log(msg);
+        }
+    });
+});
+
+$('#products_per_page').bind('input', function() {
+    let products_per_page = $(this).val();
+    $.ajax({
+        type: "POST",
+        url: "/setcookie",
+        data: {
+            products_per_page: products_per_page
+        },
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(data) {
+            location.reload(true);
+        },
+        error: function(msg) {
+            console.log(msg);
+        }
+    });
+});

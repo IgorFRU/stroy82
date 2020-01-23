@@ -30,6 +30,8 @@ Route::get('/sales/{sale}', 'MainController@sale')->name('sale');
 Route::get('/manufacture', 'MainController@manufactures')->name('manufactures');
 Route::get('/manufacture/{manufacture}', 'MainController@manufacture')->name('manufacture');
 
+Route::post('/setcookie', 'MainController@setCookie');
+
 Route::post('/cart', 'CartController@addItems');
 Route::post('/cart/change', 'CartController@changeQuantity'); // ajax change quantity of item in cart
 Route::delete('/cart/{id}', 'CartController@destroyItem')->name('cart.destroy');

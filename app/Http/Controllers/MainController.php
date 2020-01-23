@@ -108,8 +108,12 @@ class MainController extends Controller
             // dd($prop);
         }
 
+        $itemsPerPage = (isset($_COOKIE['products_per_page'])) ? $itemsPerPage = $_COOKIE['products_per_page'] : $itemsPerPage = 48;
+
         $category = Category::where('slug', $slug)->with('property')->firstOrFail();
-        $products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get();
+        // $products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get();
+
+        $products = Product::where('category_id', $category->id)->published()->order()->with('category')->with('manufacture')->paginate($itemsPerPage);
 
         if ($prop) {
 
@@ -313,5 +317,14 @@ class MainController extends Controller
         );
         // dd($set);
         return view('set', $data);
+    }
+
+    public function setCookie(Request $request) {
+        if (isset($request->product_sort) && $request->product_sort != '') {
+            setcookie('product_sort', $request->product_sort, time()+60*60*24*365);
+        }
+        if (isset($request->products_per_page) && $request->products_per_page != '') {
+            setcookie('products_per_page', $request->products_per_page, time()+60*60*24*365); 
+        }
     }
 }

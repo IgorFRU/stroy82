@@ -203,4 +203,49 @@ class Product extends Model
     public function geNumberAttribute() {
         return number_format($this, 2, ',', ' ');
     }
+
+    public function scopePublished($query) {
+        return $query->where('published', 1);
+    }
+
+    public function scopeOrder($query) {
+        $sort = (isset($_COOKIE['product_sort'])) ? $sort = $_COOKIE['product_sort'] : $sort = 'default';   
+        // dd($sort);
+                
+        switch ($sort) {
+            case 'price_up':
+                $sort_column = 'price';
+                $sort_order = 'DESC';
+                break;
+            case 'price_down':
+                $sort_column = 'price';
+                $sort_order = 'ASC';
+                break;
+            case 'nameAZ':
+                $sort_column = 'product';
+                $sort_order = 'ASC';
+                break;
+            case 'nameZA':
+                $sort_column = 'product';
+                $sort_order = 'DESC';
+                break;
+            case 'popular':
+                $sort_column = 'views';
+                $sort_order = 'DESC';
+                break;
+            case 'new_up':
+                $sort_column = 'id';
+                $sort_order = 'DESC';
+                break;                
+            case 'new_down':
+                $sort_column = 'id';
+                $sort_order = 'ASC';
+                break;
+            default:
+                $sort_column = 'product';
+                $sort_order = 'ASC';
+                break;
+        }
+        return $query->orderBy($sort_column, $sort_order);
+    }
 }

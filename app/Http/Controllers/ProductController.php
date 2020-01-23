@@ -41,7 +41,7 @@ class ProductController extends Controller
         
         $category = (isset($_COOKIE['adm_category_show'])) ? $category = $_COOKIE['adm_category_show'] : $category = 0;
         $manufacture = (isset($_COOKIE['adm_manufacture_show'])) ? $manufacture = $_COOKIE['adm_manufacture_show'] : $manufacture = 0;
-        $itemsPerPage = (isset($_COOKIE['adm_items_per_page'])) ? $itemsPerPage = $_COOKIE['adm_items_per_page'] : $itemsPerPage = 0;
+        $itemsPerPage = (isset($_COOKIE['adm_items_per_page'])) ? $itemsPerPage = $_COOKIE['adm_items_per_page'] : $itemsPerPage = 20;
         $show_published = (isset($_COOKIE['adm_show_published'])) ? $show_published = $_COOKIE['adm_show_published'] : $show_published = 0;
 
         $products = Product::
