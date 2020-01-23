@@ -16,14 +16,38 @@
                         производителя "{{ $parent_manufacture }}"
                     @endisset</p>
                     
-                    <div class="row col-md-6">
-                        <div class="col-md-5">
+                    <div class="row col-md-10">
+                        <div class="col-md-3 row">
+                            <label for="items_per_page" class="col-md-8 col-form-label">Товаров на странице</label>
+                            <div class="col-md-4">
+                                @php
+                                    $perPage = 5;
+                                    $count = 5;
+                                @endphp
+                                <select class="form-control" name="items_per_page" id="items_per_page">
+                                    @for ($i = 1; $i < $count; $i++)
+                                    @php
+                                        $pP = $perPage * pow(2, $i);
+                                    @endphp
+                                        <option @if (isset($_COOKIE['adm_items_per_page']) && $_COOKIE['adm_items_per_page'] == $pP) selected='selected' @endif value="{!! $pP !!}">{!! $pP !!}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <select class="form-control" id="show_published" name="show_published">
+                                <option @if (isset($_COOKIE['adm_show_published']) && $_COOKIE['adm_show_published'] == 0) selected='selected' @endif value="0">Все</option>
+                                <option @if (isset($_COOKIE['adm_show_published']) && $_COOKIE['adm_show_published'] == 1) selected='selected' @endif value="1">Опублик.</option>
+                                <option @if (isset($_COOKIE['adm_show_published']) && $_COOKIE['adm_show_published'] == 2) selected='selected' @endif value="2">Неопублик.</option>
+                            </select>
+                        </div>  
+                        <div class="col-md-3">
                             <select class="form-control" id="index_category_id" name="index_category_id">
                                 <option value="0">-- Все категории --</option>
                                 @include('admin.products.partials.categories', ['categories' => $categories, 'delimiter' => $delimiter])
                             </select>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-3">
                             <select class="form-control" id="index_manufacture_id" name="index_manufacture_id">
                                 <option value="0">-- Все производители --</option>
                                 
@@ -56,30 +80,58 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Арт.</th>
-                            <th scope="col">Товар</th>
-                            <th scope="col">Цена</th>
-                            <th scope="col">Категория</th>
-                            <th scope="col">Наличие</th>
-                            <th scope="col">Срок доставки</th>
-                            <th scope="col">Оплата онлайн</th>
+                            <th scope="col">
+                                <button type="button" class="btn btn-light btn-sm adm_product_sort" data-sort="id">№ <i class="fas fa-sort"></i></button>
+                            </th>
                             <th scope="col"></th>
+                            <th scope="col">
+                                <button type="button" class="btn btn-light btn-sm adm_product_sort" data-sort="product">Товар <i class="fas fa-sort"></i></button>
+                            </th>
+                            <th scope="col">
+                                <button type="button" class="btn btn-light btn-sm adm_product_sort" data-sort="scu">Арт внутр. <i class="fas fa-sort"></i></button>
+                            </th>
+                            <th scope="col">
+                                <button type="button" class="btn btn-light btn-sm adm_product_sort" data-sort="autoscuscu">Арт произв. <i class="fas fa-sort"></i></button>
+                            </th>
+                            <th scope="col">
+                                <button type="button" class="btn btn-light btn-sm adm_product_sort" data-sort="price">Цена <i class="fas fa-sort"></i></button>
+                            </th>
+                            <th scope="col">
+                                <button type="button" class="btn btn-light btn-sm adm_product_sort" data-sort="category">Категория <i class="fas fa-sort"></i></button>
+                            </th>
+                            <th scope="col">
+                                <button type="button" class="btn btn-light btn-sm disabled">Наличие</button>
+                            </th>
+                            <th scope="col">
+                                <button type="button" class="btn btn-light btn-sm disabled">Срок доставки</button>
+                            </th>
+                            <th scope="col">
+                                <button type="button" class="btn btn-light btn-sm disabled">Дополнительно</button>
+                            </th>
+                            <th scope="col">
+                                <button type="button" class="btn btn-light btn-sm disabled"><i class="fas fa-wrench"></i></button>
+                            </th>
                             {{-- <th scope="col">Описание</th> --}}
                             </tr>
                         </thead>
                         <tbody>
                         @php
-                            $count = 1
+                            if (!isset($count)) {
+                                $count = 1;
+                            } 
                         @endphp   
                         @forelse ($products as $product)
                         @php
                             // dd($product)
                         @endphp
                         <tr @if (!$product->published) class='bg-secondary'  @endif>
-                            <th scope="row">{{ $count++ }}</th>
-                            <td>{{ $product->autoscu }}</td>
+                            <th scope="row">{{ ($products->currentpage()-1) * $products->perpage() + $loop->iteration }} ({{ $product->id }})</th>
+                            <td>
+                                <input class="form-check-input product_id"  data-toggle="tooltip" data-placement="top" title="id: {{ $product->id }}" type="checkbox" value="{{ $product->id }}" id="product_id_{{ $product->id }}">
+                            </td>
                             <td>{{ $product->product }}</td>
+                            <td>{{ $product->autoscu }}</td>
+                            <td>{{ ($product->scu) ?? '' }} </td>
                             <td>
                                 @if(isset($product->discount) && $product->actually_discount)
                                     @if ($product->discount->type == '%')
@@ -107,7 +159,16 @@
                             {{-- <td>{{ $product->manufactures->manufacture }}</td> --}}
                             <td>{{ $product->quantity }}</td>
                             <td>{{ $product->delivery_time }}</td>
-                            <td>{{ $product->pay_online }}</td>
+                            <td>
+                                @if ($product->pay_online)
+                                    <span class="p-1"><i class="fas fa-credit-card"></i></span>
+                                @endif
+                                @if ($product->packaging)
+                                    <span class="p-1"><i class="fas fa-box"></i></span>
+                                @endif
+                                
+                            
+                            </td>
                             <td>
                                 <div class='row'>                                
                                     <a href="{{ route('admin.products.edit', ['id' => $product->id]) }}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
@@ -127,34 +188,6 @@
                 </table>
                 <div class="paginate">
                     {{ $products->appends(request()->input())->links('layouts.pagination') }}
-                </div>
-                <div class="items_per_page">
-                    <form  class="form-group row col-lg-6" action="{{ route('admin.products.index') }}" method="get">
-                        <label for="pp" class="col-lg-3 col-form-label">Товаров на странице</label>
-                        <div class="col-lg-2">
-                            @php
-                                $perPage = 5;
-                                $count = 5;
-                            @endphp
-                            <select class="form-control" name="pp" id="pp">
-                                @for ($i = 1; $i < $count; $i++)
-                                @php
-                                    $pP = $perPage * pow(2, $i);
-                                @endphp
-                                    <option @if ($pP == $itemsPerPage) selected='selected' @endif value="{!! $pP !!}">{!! $pP !!}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-2">
-                                <select class="form-control" id="p_published" name="p_published">
-                                    <option @if ($productPublished == 2) selected='selected' @endif value="2">Все</option>
-                                    <option @if ($productPublished == 1) selected='selected' @endif value="1">Опублик.</option>
-                                    <option @if ($productPublished == 0) selected='selected' @endif value="0">Неопублик.</option>
-                                </select>
-                            </div>
-                        <button class="btn button-primary" type="submit">OK</button>        
-                    </form> 
                 </div>                
             </div>
         </div>

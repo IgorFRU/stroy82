@@ -431,27 +431,82 @@ $(function() {
 
     // На старанице всех товаров фильтр по категориям и производителям
     $('#index_category_id').bind('input', function() {
-        var category = $('#index_category_id').val();
-        var p_published = $('#p_published').val();
-        var pp = $('#pp').val();
-        var manufacture = $('#index_manufacture_id').val();
-        if (manufacture > 0) {
-            window.location.href = '/admin/products/?pp=' + pp + '&p_published=' + p_published + '&category=' + category + '&manufacture=' + manufacture;
-        } else {
-            window.location.href = '/admin/products/?pp=' + pp + '&p_published=' + p_published + '&category=' + category;
-        }
+        let category = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "/admin/setcookie",
+            data: {
+                adm_category_show: category
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                location.reload(true);
+            },
+            error: function(msg) {
+                console.log(msg);
+            }
+        });
     });
     $('#index_manufacture_id').bind('input', function() {
-        var manufacture = $('#index_manufacture_id').val();
-        var category = $('#index_category_id').val();
-        var p_published = $('#p_published').val();
-        var pp = $('#pp').val();
-        if (category > 0) {
-            window.location.href = '/admin/products/?pp=' + pp + '&p_published=' + p_published + '&category=' + category + '&manufacture=' + manufacture;
-        } else {
-            window.location.href = '/admin/products/?pp=' + pp + '&p_published=' + p_published + '&manufacture=' + manufacture;
-        }
+        var manufacture = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "/admin/setcookie",
+            data: {
+                adm_manufacture_show: manufacture
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                location.reload(true);
+            },
+            error: function(msg) {
+                console.log(msg);
+            }
+        });
     });
+    $('#items_per_page').bind('input', function() {
+        var items_per_page = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "/admin/setcookie",
+            data: {
+                adm_items_per_page: items_per_page
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                location.reload(true);
+            },
+            error: function(msg) {
+                console.log(msg);
+            }
+        });
+    });
+    $('#show_published').bind('input', function() {
+        var show_published = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "/admin/setcookie",
+            data: {
+                adm_show_published: show_published
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                location.reload(true);
+            },
+            error: function(msg) {
+                console.log(msg);
+            }
+        });
+    });
+
 
     $('#packaging').change(function() {
         if (this.checked) {
@@ -483,10 +538,10 @@ $(function() {
             } else if (document.getElementById('profit_type2_plus').checked) {
                 ProfitCalcMain('+', incomin_price, profit, profit_type);
             }
-            
-        $('.profit_calc_result').removeClass('hide');
+
+            $('.profit_calc_result').removeClass('hide');
         }
-            
+
     });
 
     function ProfitButton(e) {
@@ -506,7 +561,7 @@ $(function() {
     function ProfitCalcMain(type, incomin_price, profit, profit_type) {
         let new_price = 0;
         let profit_calc_result = $('.profit_calc_result');
-        
+
         if (profit_type == '%') {
             if (type == '-') {
                 new_price = Math.round(((100 * incomin_price) / (100 - profit)) * 100) / 100;

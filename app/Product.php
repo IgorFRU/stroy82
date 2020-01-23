@@ -83,6 +83,30 @@ class Product extends Model
         // }
     }
 
+    public function getFullSizeAttribute() {
+        $size = '';
+        if ($this->size_type != '' && $this->size_type != NULL) {
+            $size_type = '(' . $this->size_type . ')';
+        } else {
+            $size_type = '';
+        }        
+        if ($this->size_l != '' && $this->size_w != NULL) {
+            $size .= 'длина: ' . $this->size_l . $size_type . '. ';
+        }
+        if ($this->size_w != '' && $this->size_l != NULL) {
+            $size .= 'ширина: ' . $this->size_w . $size_type . '. ';
+        }
+        if ($this->size_t != '' && $this->size_t != NULL) {
+            $size .= 'толщина: ' . $this->size_t . $size_type . '. ';
+        }
+
+        return $size;
+    }
+
+    public function getMassNumberAttribute() {
+        return number_format($this->mass, 2, ',', ' ');
+    }
+
     public function getPriceNumberAttribute() {
         return number_format($this->price, 2, ',', ' ');
     }

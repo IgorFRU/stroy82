@@ -168,7 +168,7 @@
                                             $price = $product->price * $carts[$product->id];
                                             $total_price += $price;
                                         @endphp
-                                        <div class="product_sum btn btn-sm btn-info">{{ number_format($product->price * $carts[$product->id], 2, ',', ' ') }} руб.</div>
+                                        <div class="product_sum btn btn-sm btn-dark disabled">{{ number_format($product->price * $carts[$product->id], 2, ',', ' ') }} руб.</div>
                                     @endif
 
                                     
@@ -179,7 +179,7 @@
                             <hr>
                             <div class="product_sum d-flex justify-content-end">
                                 <span>Общая сумма (руб.): </span>
-                                <div class="btn product_finalsum  btn-info"> {{ number_format($total_price, 2, ',', ' ') }}</div>
+                                <div class="btn product_finalsum btn-dark disabled"> {{ number_format($total_price, 2, ',', ' ') }}</div>
                                 <div class="btn m-green"><a href="{{ route('cart') }}">Перейти в корзину</a></div>
                             </div>
                         </div> 

@@ -70,6 +70,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::post('/products/store/ajax', 'ProductController@storeAjax')->name('products.storeAjax');
   Route::post('/products/search/ajax', 'ProductController@ajaxSearch'); // поиск товара для добавления к статье
   Route::get('/products/addImages/{product}', 'ProductController@addImages')->name('products.addImages');
+  Route::post('/setcookie', 'ProductController@setCookie');
   Route::resource('/units', 'UnitController');
   Route::resource('/vendors', 'VendorController');
   Route::get('/discounts/archive', 'DiscountController@archive')->name('discounts.archive');

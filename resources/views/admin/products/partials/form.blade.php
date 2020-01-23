@@ -41,11 +41,12 @@
                         <div class="form-check">
                             @if(isset($product->id))
                                 <input class="form-check-input js_oneclick" type="checkbox" id="published" name="published" value="{{ $product->published }}" @if($product->published) checked @endif>
-                            @else
-                                <input class="form-check-input js_oneclick" type="checkbox" name="published" id="published" value="1"  checked >
+                                <input class="js_oneclick_hidden form-control" type="hidden" name="published" id="published" value="{{ $product->published }}" >
+                            @else                            
+                                <input class="form-check-input js_oneclick" type="checkbox" id="published" name="published" value="1" checked>                                
+                                {{-- Скрытое поле для отправки на сервер value неотмеченного чекбокса --}}
+                                <input class="js_oneclick_hidden form-control" type="hidden" name="published" id="published" value="1" >
                             @endif
-                            {{-- Скрытое поле для отправки на сервер value неотмеченного чекбокса --}}
-                            <input type="hidden" name="published" id="published" class="form-check-input js_oneclick_hidden" value="1" >
                             <label class="form-check-label" for="published">
                                 Опубликован
                             </label>
@@ -57,11 +58,13 @@
                         <div class="form-check">
                             @if(isset($product->id))
                                 <input class="form-check-input js_oneclick" type="checkbox" id="pay_online" name="pay_online" value="{{ $product->pay_online }}" @if($product->pay_online) checked @endif>
-                            @else
-                                <input class="form-check-input js_oneclick" type="checkbox" name="pay_online" id="pay_online" value="1"  checked >
+                                <input class="js_oneclick_hidden form-control" type="hidden" name="pay_online" id="pay_online" value="{{ $product->pay_online }}" >
+                            @else                            
+                                <input class="form-check-input js_oneclick" type="checkbox" id="pay_online" name="pay_online" value="0" checked>                                
+                                {{-- Скрытое поле для отправки на сервер value неотмеченного чекбокса --}}
+                                <input class="js_oneclick_hidden form-control" type="hidden" name="pay_online" id="pay_online" value="0" >
                             @endif
-                            {{-- Скрытое поле для отправки на сервер value неотмеченного чекбокса --}}
-                            <input type="hidden" name="pay_online" id="pay_online" class="form-check-input js_oneclick_hidden" value="1" >
+
                             <label class="form-check-label" for="pay_online">
                                 Оплата онлайн
                             </label>
@@ -125,13 +128,15 @@
                 <div class="col col-lg-2">
                     <div class="form-group row">
                         <div class="form-check">
+                            
                             @if(isset($product->id))
                                 <input class="form-check-input js_oneclick" type="checkbox" id="packaging" name="packaging" value="{{ $product->packaging }}" @if($product->packaging) checked @endif>
-                            @else
-                                <input class="form-check-input js_oneclick" type="checkbox" name="packaging" id="packaging" value="1" >
+                                <input class="js_oneclick_hidden form-control" type="hidden" name="packaging" id="packaging" value="{{ $product->packaging }}" >
+                            @else                            
+                                <input class="form-check-input js_oneclick" type="checkbox" id="packaging" name="pay_online" value="0" checked>                                
+                                {{-- Скрытое поле для отправки на сервер value неотмеченного чекбокса --}}
+                                <input class="js_oneclick_hidden form-control" type="hidden" name="packaging" id="packaging" value="0" >
                             @endif
-                            {{-- Скрытое поле для отправки на сервер value неотмеченного чекбокса --}}
-                            <input type="hidden" name="pay_online" id="pay_online" class="form-check-input js_oneclick_hidden" value="1" >
                             <label class="form-check-label" for="packaging">
                                 Продажа упаковками
                             </label>
@@ -349,7 +354,7 @@
                     <div class="form-group row">
                         <label for="size_l" class="col-sm-4 col-form-label">Длина</label>
                         <div class="col-md-8">
-                            <input type="text" name="size_l" class="form-control" id="size_l" value="{{ $product->size_l ?? '' }}">
+                            <input type="text" maxlength="13" name="size_l" class="form-control" id="size_l" value="{{ $product->size_l ?? '' }}">
                         </div>                                    
                     </div>    
                 </div>                
@@ -357,7 +362,7 @@
                     <div class="form-group row">
                         <label for="size_w" class="col-sm-4 col-form-label">Ширина</label>
                         <div class="col-md-8">
-                            <input type="text" name="size_w" class="form-control" id="size_w" value="{{ $product->size_w ?? '' }}">
+                            <input type="text" maxlength="13" name="size_w" class="form-control" id="size_w" value="{{ $product->size_w ?? '' }}">
                         </div>                                    
                     </div>    
                 </div>       
@@ -365,7 +370,7 @@
                     <div class="form-group row">
                         <label for="size_t" class="col-sm-4 col-form-label">Толщина</label>
                         <div class="col-md-8">
-                            <input type="text" name="size_t" class="form-control" id="size_t" value="{{ $product->size_t ?? '' }}">
+                            <input type="text" maxlength="13" name="size_t" class="form-control" id="size_t" value="{{ $product->size_t ?? '' }}">
                         </div>                                    
                     </div>    
                 </div>  

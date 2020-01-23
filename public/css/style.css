@@ -20,6 +20,10 @@
     opacity: 1;
 }
 
+:root {
+    --main-color: #6d839f;
+}
+
 .custom_input {
     position: relative;
     margin-right: 15px;
@@ -270,14 +274,14 @@ section.top_nav .search_nav input {
     background: #7D7D7D;
     border: 0;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 2px;
     padding: 4px 20px;
     width: 100%;
     text-transform: uppercase;
 }
 
 nav {
-    background: #3c78c6;
+    background: var(--main-color);
     height: 90px;
     width: 100%;
     position: relative;
@@ -507,7 +511,7 @@ nav .cart_img .cart_count {
     height: 26px;
     text-align: center;
     line-height: 26px;
-    box-shadow: 0px 0px 0px 4px #3c78c6;
+    box-shadow: 0px 0px 0px 4px var(--main-color);;
     background: #3d3d3d;
 }
 
@@ -1173,7 +1177,7 @@ section.main_about button {
 }
 
 footer {
-    background: #3c78c6;
+    background: var(--main-color);;
     color: #fff;
     padding: 45px 0;
 }

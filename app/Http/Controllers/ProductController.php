@@ -38,53 +38,26 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $minutes = 2;
-        if (isset($request->category)) {
-            $category = $request->category;
-        } else {
-            $category = 0;
-        }
-        if (isset($request->manufacture)) {
-            $manufacture = $request->manufacture;
-        } else {
-            $manufacture = 0;
-        }
-
-        $itemsPerPage = request()->cookie('itemsPerPage');
-
-        if (is_null($itemsPerPage)) {
-            $itemsPerPage = 10;
-        }
-        if (isset($request->pp)) {
-            $itemsPerPage = $request->pp;
-            Cookie::queue(cookie()->forever('itemsPerPage', $itemsPerPage));           
-        }
-
         
-        $pp = request()->cookie('p_published');
-        $published = array();
-        $published = ['0', '1'];
-        if (isset($request->p_published)) {
-            if ($request->p_published == 2) {                
-                $published = ['0', '1'];
-                $pp = 2;
-            } else {
-                $published [] = $request->p_published;
-                $pp = $request->p_published;
-            } 
-            Cookie::queue('p_published', $pp, $minutes);           
-        } else if (is_null($pp)) {
-            $published = ['0', '1'];
-            $pp = 2;
-        }
-        
+        $category = (isset($_COOKIE['adm_category_show'])) ? $category = $_COOKIE['adm_category_show'] : $category = 0;
+        $manufacture = (isset($_COOKIE['adm_manufacture_show'])) ? $manufacture = $_COOKIE['adm_manufacture_show'] : $manufacture = 0;
+        $itemsPerPage = (isset($_COOKIE['adm_items_per_page'])) ? $itemsPerPage = $_COOKIE['adm_items_per_page'] : $itemsPerPage = 0;
+        $show_published = (isset($_COOKIE['adm_show_published'])) ? $show_published = $_COOKIE['adm_show_published'] : $show_published = 0;
 
         $products = Product::
         when($category, function ($query, $category) {
             return $query->where('category_id', $category);
         })
+        ->when($show_published, function ($query, $show_published) {
+            if ($show_published == 1) {
+                return $query->where('published', 1);
+            } elseif($show_published == 2) {
+                return $query->where('published', 0);
+            }
+        })
         ->when($manufacture, function ($query, $manufacture) {
             return $query->where('manufacture_id', $manufacture);
-        })->orderBy('id', 'desc')->with('category')->whereIn('published', $published)->with('manufacture')->paginate($itemsPerPage);
+        })->orderBy('id', 'desc')->with('category')->with('manufacture')->paginate($itemsPerPage);
 
         $data = array (
             'products' => $products,
@@ -93,8 +66,6 @@ class ProductController extends Controller
             'current_category' => $category,
             'current_manufacture' => $manufacture,
             'manufactures' => Manufacture::get(),
-            'itemsPerPage' => $itemsPerPage,
-            'productPublished' => $pp,
         ); 
         // dd($data);
         // dd($data['categories']);
@@ -422,5 +393,24 @@ class ProductController extends Controller
         }
         // echo json_encode(array('response' => $request->product));
         // echo json_encode($request->all());
+    }
+
+    public function setCookie(Request $request) {
+        if (isset($request->adm_category_show) && $request->adm_category_show != '') {
+            setcookie('adm_category_show', $request->adm_category_show, time()+60*60*24*365);
+        }
+        if (isset($request->adm_manufacture_show) && $request->adm_manufacture_show != '') {
+            setcookie('adm_manufacture_show', $request->adm_manufacture_show, time()+60*60*24*365); 
+        }
+        if (isset($request->adm_items_per_page) && $request->adm_items_per_page != '') {
+            setcookie('adm_items_per_page', $request->adm_items_per_page, time()+60*60*24*365); 
+        }
+        if (isset($request->adm_show_published) && $request->adm_show_published != '') {
+            setcookie('adm_show_published', $request->adm_show_published, time()+60*60*24*365); 
+        }
+
+        
+
+        // echo json_encode($name);
     }
 }

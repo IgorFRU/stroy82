@@ -125,9 +125,17 @@
                             dd($product->category->property)
                         @endphp --}}
                         <div class="product__properties color_l_grey col-lg-5">
-                            @isset($product->delivery_time)
-                                <div class="italic" style="display: block;"><i class="far fa-calendar-alt"></i> срок поставки: {{ $product->delivery_time }}</div>
-                            @endisset
+                            <div class="mb-lg-3">                            
+                                @isset($product->delivery_time)
+                                    <span class="italic" style="display: block;"><i class="far fa-calendar-alt"></i> срок поставки: {{ $product->delivery_time }}</span>
+                                @endisset
+                                @if ($product->full_size != '')
+                                    <span class="italic" style="display: block;"><i class="fas fa-ruler-combined"></i> {{ $product->full_size }}</span>
+                                @endif
+                                @if ($product->mass != '')
+                                    <span class="italic" style="display: block;"><i class="fas fa-weight"></i> масса: {{ $product->mass_number }} кг. @if (isset($product->unit->unit)) (1 {{ $product->unit->unit }}) @endif </span>
+                                @endif
+                                </div>
                             @isset($product->category->property)
                             <div>
                                 @foreach ($product->category->property as $property)
@@ -135,8 +143,7 @@
                                         <div class="product__property d-flex justify-content-between">
                                             <span class="product__property__title">{{ $property->property }}</span> <span>{{ $propertyvalues[$property->id] ?? '' }}</span>
                                         </div>
-                                    @endif
-                                    
+                                    @endif                                    
                                 @endforeach
                             </div>
                             @endisset
@@ -146,7 +153,7 @@
                         
                         
                         <div class="product__prices col-lg-7">
-                            <div class="product__price__value">
+                            <div class="product__price__value mb-lg-4">
                                 Цена: @if ($product->actually_discount)
                                 @php
                                     $new_price_unit = $product->discount_price;
@@ -161,14 +168,17 @@
                             dd($product->price);
                         @endphp --}}
                             @if($product->packaging)
-                            <div class="product__price__value__package">
+                                <button type="button" class="btn btn-outline-secondary btn-sm mb-lg-4" disabled>
+                                    Данный товар продаётся только целыми упаковками по {{ $product->unit_in_package ?? 1 }} {{ $product->unit->unit ?? 'ед.' }}
+                                </button>
+                            {{-- <div class="product__price__value__package">
                                 Цена: @if ($product->actually_discount)
                                     <span class="product__prices__old">{{ number_format($product->price * $product->unit_in_package, 2, ',', ' ') }}</span><span class="product__prices__new new_price"> {{ number_format($product->discount_price * $product->unit_in_package, 2, ',', ' ') }} </span><i class="fas fa-ruble-sign"></i>
                                 @else
                                     <span class="product__prices__new  new_price"> {{ number_format($product->price * $product->unit_in_package, 2, ',', ' ') }} </span><i class="fas fa-ruble-sign"></i>
                                 @endif
                                 за 1 уп. ({{ $product->unit_number ?? '' }} {{ $product->unit->unit ?? '' }})
-                            </div>   
+                            </div>    --}}
                             @endif
                             <div class="product__input_units">
                                 Кол-во {{ $product->unit->unit ?? 'ед.' }}:
