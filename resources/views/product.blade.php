@@ -11,7 +11,7 @@
     @endphp --}}
     @component('components.breadcrumb')
         @slot('main') <i class="fas fa-home"></i> @endslot
-        @slot('parent') Категории товаров @endslot
+        @slot('parent') Каталог товаров @endslot
             @slot('parent_route') {{ route('categories') }} @endslot 
         @isset($product->category)
             @slot('parent2') {{ $product->category->category }} @endslot

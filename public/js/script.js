@@ -649,7 +649,7 @@ $('#firm_inn_confirm').click(function() {
         button.addEventListener('click', () => {
             var new_address = '';
             for (var key in properties_array) {
-                new_address += 'prop[' + key + ']=' + properties_array[key] + '&';
+                new_address += 'filter[' + key + ']=' + properties_array[key] + '&';
             }
             new_address = new_address.slice(0, new_address.length - 1);
             console.log(new_address);
@@ -747,11 +747,13 @@ function checkUserPhone() {
 
 $('#products_sort').bind('input', function() {
     let product_sort = $(this).val();
+    let scroll = $(window).scrollTop();
     $.ajax({
         type: "POST",
         url: "/setcookie",
         data: {
-            product_sort: product_sort
+            product_sort: product_sort,
+            scroll: scroll
         },
         headers: {
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -767,11 +769,13 @@ $('#products_sort').bind('input', function() {
 
 $('#products_per_page').bind('input', function() {
     let products_per_page = $(this).val();
+    let scroll = $(window).scrollTop();
     $.ajax({
         type: "POST",
         url: "/setcookie",
         data: {
-            products_per_page: products_per_page
+            products_per_page: products_per_page,
+            scroll: scroll
         },
         headers: {
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -783,4 +787,59 @@ $('#products_per_page').bind('input', function() {
             console.log(msg);
         }
     });
+});
+
+$('.button__toggle').on('click', function() {
+    let element = $(this).attr('data-toopen');
+    element = $('.' + element);
+    if ($(this).hasClass('active')) {
+        element.removeClass('active');
+        $(this).removeClass('active');
+    } else {
+        element.addClass('active');
+        $(this).addClass('active');
+    }
+});
+
+//прокрутка страницы к тому месту, откуда была совершена перезагрузка страницы после изменения сортировки или количества товаров на страницу
+var scroll_after_reload = readCookie('scroll');
+if (scroll_after_reload != 0) {
+    $(window).scrollTop(scroll_after_reload);
+}
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return 0;
+}
+
+$(window).on("scroll", function() {
+    // console.log($('.fix-to-top').offset().top - $(window).scrollTop());
+    let scroll = $(window).scrollTop();
+    let window_hight = $(window).height();
+    let block_to_top = $('.fix-to-top-parent').offset().top
+    let width = $('.fix-to-top-parent').width();
+    let scroll_bar = 0;
+
+    if (block_to_top - scroll < 0) {
+        if (!$('.fix-to-top').hasClass('fixed')) {
+            $('.fix-to-top').addClass('fixed');
+            let block_height = $('.fix-to-top').height();
+            if (window_hight == block_height) {
+                scroll_bar = 18;
+            } else {
+                scroll_bar = 0;
+            }
+            console.log(window_hight, block_height);
+            $('.fix-to-top').css({ 'width': width + scroll_bar + 'px' });
+        }
+    } else {
+        $('.fix-to-top').removeClass('fixed');
+        $('.fix-to-top').css({ 'width': width + 'px' });
+    }
 });

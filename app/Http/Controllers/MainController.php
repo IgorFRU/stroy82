@@ -88,9 +88,9 @@ class MainController extends Controller
     public function category($slug, Request $request) {
         // dd($slug);
         if (isset($request->prop)) {
-            $prop = $request->prop;
+            $filter = $request->prop;
         } else {
-            $prop = 0;
+            $filter = 0;
         }
         
 
@@ -104,24 +104,37 @@ class MainController extends Controller
 
         // dd($request->all());
 
-        if ($prop != 0) {
-            // dd($prop);
+        if ($filter != 0) {
+            // dd($filter);
         }
 
         $itemsPerPage = (isset($_COOKIE['products_per_page'])) ? $itemsPerPage = $_COOKIE['products_per_page'] : $itemsPerPage = 48;
 
         $category = Category::where('slug', $slug)->with('property')->firstOrFail();
+
+        $hour = 60;
+        $categories = Cache::remember('categories', $hour, function() {
+            return Category::orderBy('category', 'ASC')->where('category_id', 0)->with('children')->get();
+        });
         // $products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get();
-
+        
+        
         $products = Product::where('category_id', $category->id)->published()->order()->with('category')->with('manufacture')->paginate($itemsPerPage);
+        $manufactures = Manufacture::whereIn('id', $products->pluck('manufacture_id'))->get();
+        
+        if (isset($request->filter['manufacture'])) {
+            $products_filtered = $products->whereIn('manufacture_id', $request->filter['manufacture']);
+        } else {
+            $products_filtered = $products;
+        }
 
-        if ($prop) {
+        if ($filter) {
 
             $prop_products_array = [];
             $prop_array = [];
 
             $new_array = [];
-            foreach ($prop as $key => $value) {
+            foreach ($filter as $key => $value) {
                 // dd($value);
                 $prop_array[] = $key;
                 if (strpos($value, ',')) {
@@ -137,7 +150,7 @@ class MainController extends Controller
                 $new_array[$key] = $values;
             }
             // dd($new_array);
-            // dd($prop);
+            // dd($filt);
             // 
 
             $products_array = Propertyvalue::whereIn('property_id', $prop_array)->pluck('id');
@@ -174,10 +187,13 @@ class MainController extends Controller
         // dd($products_array, $property_values, $unique_property_values, $properties);
         $data = array (
             'products' => $products,
+            'products_filtered' => $products_filtered,
             'category' => $category,
+            'categories' => $categories,
             'properties' => $properties,
             'checked_properties' => $new_array,
             'local_title' => $local_title,
+            'manufactures' => $manufactures,
             // 'subcategories' => Category::where('slug', $slug)->firstOrFail()
         );
         // dd($data['properties']);
@@ -325,6 +341,9 @@ class MainController extends Controller
         }
         if (isset($request->products_per_page) && $request->products_per_page != '') {
             setcookie('products_per_page', $request->products_per_page, time()+60*60*24*365); 
+        }
+        if (isset($request->scroll) && $request->scroll != '') {
+            setcookie('scroll', $request->scroll, time()+60); 
         }
     }
 }
