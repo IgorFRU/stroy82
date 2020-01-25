@@ -87,11 +87,17 @@ class MainController extends Controller
 
     public function category($slug, Request $request) {
         // dd($slug);
-        if (isset($request->prop)) {
-            $filter = $request->prop;
-        } else {
-            $filter = 0;
+        // dd($request->all());
+        // dd($request->get('1'));
+        // foreach ($request->all() as $key => $value) {
+            // dd($key, $value);
+        // }
+        
+        if ($request->all() != NULL) {
+            dd($request->all());
         }
+
+        $filter = 0;
         
 
         // $products = Product::

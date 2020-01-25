@@ -649,7 +649,8 @@ $('#firm_inn_confirm').click(function() {
         button.addEventListener('click', () => {
             var new_address = '';
             for (var key in properties_array) {
-                new_address += 'filter[' + key + ']=' + properties_array[key] + '&';
+                // new_address += 'filter[' + key + ']=' + properties_array[key] + '&';
+                new_address += key + '=' + properties_array[key] + '&';
             }
             new_address = new_address.slice(0, new_address.length - 1);
             console.log(new_address);
