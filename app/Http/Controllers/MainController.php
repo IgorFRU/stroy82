@@ -86,18 +86,24 @@ class MainController extends Controller
     }
 
     public function category($slug, Request $request) {
-        // dd($slug);
-        // dd($request->all());
-        // dd($request->get('1'));
-        // foreach ($request->all() as $key => $value) {
-            // dd($key, $value);
-        // }
+
+        $filterManufacture = [];
+        $filter = 0;
+        $hour = 60;
         
         if ($request->all() != NULL) {
-            dd($request->all());
+            foreach ($request->all() as $key => $value) {
+                if ($key == 'manufacture') {
+                    $filterManufacture = explode(",", $value);
+                }
+            }
         }
 
-        $filter = 0;
+        // dd($request->all());
+        // dd($filterManufacture);
+       
+
+        
         
 
         // $products = Product::
@@ -108,17 +114,12 @@ class MainController extends Controller
         //     return $query->where('manufacture_id', $manufacture);
         // })->orderBy('id', 'desc')->with('category')->whereIn('published', $published)->with('manufacture')->paginate($itemsPerPage);
 
-        // dd($request->all());
-
-        if ($filter != 0) {
-            // dd($filter);
-        }
 
         $itemsPerPage = (isset($_COOKIE['products_per_page'])) ? $itemsPerPage = $_COOKIE['products_per_page'] : $itemsPerPage = 48;
 
         $category = Category::where('slug', $slug)->with('property')->firstOrFail();
 
-        $hour = 60;
+        
         $categories = Cache::remember('categories', $hour, function() {
             return Category::orderBy('category', 'ASC')->where('category_id', 0)->with('children')->get();
         });
@@ -128,11 +129,12 @@ class MainController extends Controller
         $products = Product::where('category_id', $category->id)->published()->order()->with('category')->with('manufacture')->paginate($itemsPerPage);
         $manufactures = Manufacture::whereIn('id', $products->pluck('manufacture_id'))->get();
         
-        if (isset($request->filter['manufacture'])) {
-            $products_filtered = $products->whereIn('manufacture_id', $request->filter['manufacture']);
+        if (count($filterManufacture) > 0) {
+            $products_filtered = $products->whereIn('manufacture_id', $filterManufacture);
         } else {
             $products_filtered = $products;
         }
+
 
         if ($filter) {
 
@@ -200,6 +202,7 @@ class MainController extends Controller
             'checked_properties' => $new_array,
             'local_title' => $local_title,
             'manufactures' => $manufactures,
+            'filteredManufacture' => $filterManufacture
             // 'subcategories' => Category::where('slug', $slug)->firstOrFail()
         );
         // dd($data['properties']);

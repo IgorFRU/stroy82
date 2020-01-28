@@ -53,7 +53,7 @@
                         {{-- @component('components.propertiesbar')
                             @slot('min_price') {{ $products->min('price') }}
                         @endcomponent --}}
-                @include('components.propertiesbar', ['min_price' =>$products->min('price'), 'category_properties' => $category->property, 'properties' => $properties, 'manufactures' => $manufactures ])
+                @include('components.propertiesbar', ['min_price' =>$products->min('price'), 'category_properties' => $category->property, 'properties' => $properties, 'manufactures' => $manufactures, 'filteredManufacture' => $filteredManufacture ])
                     
                 @else
                     
@@ -168,6 +168,7 @@
             <div class="paginate">
                 {{ $products->appends(request()->input())->links('layouts.pagination') }}
             </div>
+            <div class="wrap">{!! $category->description !!}</div>
         </div>
     </section>
     {{-- @else 
@@ -179,7 +180,7 @@
     
     
     
-    <div class="wrap">{!! $category->description !!}</div>
+    
     
       
 @endsection

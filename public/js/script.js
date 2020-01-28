@@ -606,29 +606,26 @@ $('#firm_inn_confirm').click(function() {
     var properties_array = {};
 
     $('.property__item').change(function() {
-        let index = $(this).attr('data-property_id');
-        if (this.checked) {
-            if (index in properties_array) {
-                properties_array[index].push(this.value);
-            } else {
-                properties_array[index] = {};
-                properties_array[index] = [this.value];
-            }
-
-            // let old_url = window.location.href;
-            // let new_url = old
-            // console.log(old_url);
-        } else {
-            if (index in properties_array) {
-                let index_to_delete = properties_array[index].indexOf(this.value);
-                if (index_to_delete != -1) {
-                    properties_array[index].splice(index_to_delete, 1);
-                    if (properties_array[index].length == 0) {
-                        delete properties_array[index];
-                    }
-                }
-            }
-        }
+        properties_array = propertiesChecked($('input[type=checkbox]:checked'));
+        // let index = $(this).attr('data-property_id');
+        // if (this.checked) {
+        //     if (index in properties_array) {
+        //         properties_array[index].push(this.value);
+        //     } else {
+        //         properties_array[index] = {};
+        //         properties_array[index] = [this.value];
+        //     }
+        // } else {
+        //     if (index in properties_array) {
+        //         let index_to_delete = properties_array[index].indexOf(this.value);
+        //         if (index_to_delete != -1) {
+        //             properties_array[index].splice(index_to_delete, 1);
+        //             if (properties_array[index].length == 0) {
+        //                 delete properties_array[index];
+        //             }
+        //         }
+        //     }
+        // }
 
         let confirm_property_button = this.parentNode.parentNode.querySelector('.confirm_property_button');
 
@@ -646,23 +643,36 @@ $('#firm_inn_confirm').click(function() {
     });
 
     confirm_property_button_all.forEach(function(button, i) {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
             var new_address = '';
             for (var key in properties_array) {
                 // new_address += 'filter[' + key + ']=' + properties_array[key] + '&';
                 new_address += key + '=' + properties_array[key] + '&';
             }
             new_address = new_address.slice(0, new_address.length - 1);
-            console.log(new_address);
             let old_url = window.location.href;
             let new_url = old_url.slice(0, AddressStringSearch(old_url, '[?]'));
-            console.log(old_url);
-            console.log(new_url);
             // AddressStringSearch(old_url, "[?]");
+
             window.location.replace(new_url + '?' + new_address);
         });
     });
 }());
+
+function propertiesChecked(properties) {
+    var properties_array = {};
+    $.each(properties, function(i, element) {
+        let index = '' + $(this).data("property_id");
+        if (index in properties_array) {
+            properties_array[index].push($(this)[0].value);
+        } else {
+            properties_array[index] = {};
+            properties_array[index] = [$(this)[0].value];
+        }
+    });
+    return properties_array;
+}
 
 function AddressStringSearch(str, symbol) {
     if (str.search(symbol) != -1) {
@@ -836,7 +846,7 @@ $(window).on("scroll", function() {
             } else {
                 scroll_bar = 0;
             }
-            console.log(window_hight, block_height);
+            
             $('.fix-to-top').css({ 'width': width + scroll_bar + 'px' });
         }
     } else {
