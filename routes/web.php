@@ -68,6 +68,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::resource('/sets', 'SetController');
   Route::post('/articles/addProducts', 'ArticleController@addProducts');
   Route::resource('/manufactures', 'ManufactureController');
+  Route::resource('/orderstatuses', 'OrderstatusController');
   Route::resource('/products', 'ProductController');
   Route::post('/products/store/ajax', 'ProductController@storeAjax')->name('products.storeAjax');
   Route::post('/products/search/ajax', 'ProductController@ajaxSearch'); // поиск товара для добавления к статье

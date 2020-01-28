@@ -26,6 +26,8 @@ class MainController extends Controller
         $discount_not_ids = array();
         $discountAllIds = array();
         $discountProductsCount = 0;
+
+        
         
         $discounts = Discount::orderBy('discount_end', 'ASC')->where('discount_end', '>=', $today)->first();
         // dd($discounts->discount_end, $today->toDateString());
@@ -90,12 +92,19 @@ class MainController extends Controller
         $filterManufacture = [];
         $filter = 0;
         $hour = 60;
+
+        $itemsPerPage = (isset($_COOKIE['products_per_page'])) ? $itemsPerPage = $_COOKIE['products_per_page'] : $itemsPerPage = 48;
+
+        $category = Category::where('slug', $slug)->with('property')->firstOrFail();
+        $products = Product::where('category_id', $category->id)->published()->order()->with('category')->with('manufacture')->paginate($itemsPerPage);
+        $manufactures = Manufacture::whereIn('id', $products->pluck('manufacture_id'))->get();
         
         if ($request->all() != NULL) {
             foreach ($request->all() as $key => $value) {
                 if ($key == 'manufacture') {
                     $filterManufacture = explode(",", $value);
                 }
+
             }
         }
 
@@ -115,9 +124,7 @@ class MainController extends Controller
         // })->orderBy('id', 'desc')->with('category')->whereIn('published', $published)->with('manufacture')->paginate($itemsPerPage);
 
 
-        $itemsPerPage = (isset($_COOKIE['products_per_page'])) ? $itemsPerPage = $_COOKIE['products_per_page'] : $itemsPerPage = 48;
-
-        $category = Category::where('slug', $slug)->with('property')->firstOrFail();
+        
 
         
         $categories = Cache::remember('categories', $hour, function() {
@@ -126,8 +133,7 @@ class MainController extends Controller
         // $products = Product::orderBy('id', 'DESC')->where('category_id', $category->id)->get();
         
         
-        $products = Product::where('category_id', $category->id)->published()->order()->with('category')->with('manufacture')->paginate($itemsPerPage);
-        $manufactures = Manufacture::whereIn('id', $products->pluck('manufacture_id'))->get();
+       
         
         if (count($filterManufacture) > 0) {
             $products_filtered = $products->whereIn('manufacture_id', $filterManufacture);

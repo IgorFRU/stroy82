@@ -35,7 +35,6 @@ class UnitController extends Controller
         $data = array (
             'unit' => [],
         );
-        // dd($data['categories']);
         
         return view('admin.units.create', $data);
     }
@@ -48,7 +47,7 @@ class UnitController extends Controller
      */
     public function store(Request $request)
     {
-        $manufacture = Unit::create($request->all());        
+        $unit = Unit::create($request->all());        
         return redirect()->route('admin.units.index');
     }
 

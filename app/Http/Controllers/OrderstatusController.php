@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class OrderstatusController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,10 @@ class OrderstatusController extends Controller
      */
     public function index()
     {
-        //
+        $data = array (
+            'orderstatuses' => Orderstatus::orderBy('id', 'ASC')->get(),
+        );
+        return view('admin.orderstatuses.index', $data);
     }
 
     /**
@@ -24,7 +32,11 @@ class OrderstatusController extends Controller
      */
     public function create()
     {
-        //
+        $data = array (
+            'orderstatus' => [],
+        );
+        
+        return view('admin.orderstatuses.create', $data);
     }
 
     /**
@@ -35,7 +47,8 @@ class OrderstatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $orderstatus = Orderstatus::create($request->all());        
+        return redirect()->route('admin.orderstatuses.index');
     }
 
     /**
@@ -57,7 +70,11 @@ class OrderstatusController extends Controller
      */
     public function edit(Orderstatus $orderstatus)
     {
-        //
+        $data = array (
+            'orderstatus' => $orderstatus
+        );
+        
+        return view('admin.orderstatuses.edit', $data);
     }
 
     /**
@@ -69,7 +86,9 @@ class OrderstatusController extends Controller
      */
     public function update(Request $request, Orderstatus $orderstatus)
     {
-        //
+        $orderstatus->update($request->all());
+
+        return redirect()->route('admin.orderstatuses.index');
     }
 
     /**
@@ -80,6 +99,7 @@ class OrderstatusController extends Controller
      */
     public function destroy(Orderstatus $orderstatus)
     {
-        //
+        $orderstatus->delete();
+        return redirect()->route('admin.orderstatuses.index');
     }
 }

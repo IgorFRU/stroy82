@@ -23,8 +23,13 @@
 :root {
     --main-color: #6d839f;
     --main-green: #6d8c9f;
+    --light-grey: #e9ecef;
     --light-green: #719f6d;
     --dark-grey: #4a4a4a;
+}
+
+body {
+    background-color: var(--light-grey);
 }
 
 .custom_input {
