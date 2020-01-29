@@ -19,31 +19,34 @@
                             <th scope="col">Номер телефона</th>
                             <th scope="col">e-mail</th>
                             <th scope="col">дата регистрации</th>
+                            <th scope="col">Кол-во заказов</th>
                           </tr>
                         </thead>
                         <tbody>
-                          @forelse ($consumers as $consumer)
-                          
-                          <tr>
-                              
-                                <th scope="row">1</th>
-                                <th><a href="{{ route('admin.consumer', $consumer->id) }}">{{ $consumer->name ?? '' }}</a></th>
+                            @forelse ($consumers as $consumer)
+                            
+                            <tr>
+                                
+                                <th scope="row">{{ ($consumers->currentpage()-1) * $consumers->perpage() + $loop->iteration }} (id:{{ $consumer->id }})</th>
+                                <th><a href="{{ route('admin.consumer', $consumer->id) }}">{{ $consumer->name ?? '' }}</a> @if ($consumer->is_online) <button class="btn btn-sm btn-success" title="Пользователь сейчас на сайте">online</button> @endif</th>
                                 <th>{{ $consumer->surname ?? '' }}</th>
                                 <th>{{ $consumer->address ?? '' }}</th>
                                 <th>{{ $consumer->phone ?? '' }}</th>
                                 <th>{{ $consumer->email ?? '' }}</th>
                                 <th>{{ $consumer->created_at ?? '' }}</th>
+                                <th>{{ count($consumer->orders) }}</th>
                             
                                 
                             </tr>
                         
-                          @empty
-                              
-                          @endforelse
-                            
-                         
+                            @empty
+                                
+                            @endforelse                         
                         </tbody>
                       </table>
+                      <div class="paginate">
+                        {{ $consumers->appends(request()->input())->links('layouts.pagination') }}
+                      </div>
                     
                 </div>
             </div>

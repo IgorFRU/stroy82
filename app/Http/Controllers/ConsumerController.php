@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Consumer;
+use App\Order;
 use App\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ConsumerController extends Controller
 {
@@ -20,7 +22,7 @@ class ConsumerController extends Controller
      */
     public function index()
     {
-        $consumers = User::paginate(40);
+        $consumers = User::orderBy('id', 'DESC')->paginate(40);
 
         $data = array (
             'consumers' => $consumers,
@@ -97,6 +99,30 @@ class ConsumerController extends Controller
 
     public function consumer($id) 
     {
+        $consumer = User::where('id', $id)->with('orders')->firstOrFail();
 
+        $data = array(
+            'consumer' => $consumer,
+        );
+
+        return view('admin.consumers.consumer', $data);
+    }
+
+    public function order($consumer, $order)
+    {
+        $consumer = User::where('id', $consumer)->firstOrFail();
+        $order = Order::where('number', $order)->with('products')->firstOrFail();
+
+        if ($order->unread) {
+            $order->read_at = Carbon::now();
+            $order->update();
+        }
+
+        $data = array(
+            'consumer' => $consumer,
+            'order' => $order,
+        );
+
+        return view('admin.consumers.order', $data);
     }
 }

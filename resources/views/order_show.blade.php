@@ -23,10 +23,6 @@
                 @else
                     <h3>Заказ №{{ $order->number }} от {{ $order->d_m_y }}</h3>
                     <div class="col-lg-12 row">
-                        
-                        @php
-                            $count = 1;
-                        @endphp
                         <table class="table cart_table table-hover">
                                 <thead>
                                   <tr>
@@ -40,7 +36,7 @@
                                 <tbody>
                                     @foreach ($order->products as $product)
                                         <tr>
-                                            <th scope="row">{{ $count++ }}</th>
+                                            <th scope="row">{{ $loop->iteration }}</th>
                                             <th>
                                                 <div class="cart_table__item d-flex">
                                                     @if (isset($product->main_or_first_image->thumbnail))

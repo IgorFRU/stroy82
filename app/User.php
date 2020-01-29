@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPasswordNotification;
 
+use Carbon\Carbon;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -46,7 +48,7 @@ class User extends Authenticatable
     }
     
     public function orders() {
-        return $this->belongsToMany(Order::class);
+        return $this->hasMany(Order::class);
     }
 
     public function firms() {
@@ -85,5 +87,15 @@ class User extends Authenticatable
     public function scopeLast($query, $count)
     {
         return $query->orderBy('id', 'desc')->take($count);
+    }
+
+    public function getIsOnlineAttribute() {
+        // return Carbon::now()->subMinutes(5)->format('Y-m-d H:i:s');
+        if ($this->last_activity > Carbon::now()->subMinutes(5)->format('Y-m-d H:i:s')) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 }

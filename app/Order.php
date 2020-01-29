@@ -18,16 +18,16 @@ class Order extends Model
         'completed'
     ];
 
-    public function statuses() {
-        return $this->belongsTo(Orderstatus::class);
+    public function status() {
+        return $this->belongsTo(Orderstatus::class, 'orderstatus_id');
     }
 
     public function products() {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot('amount', 'price');
     }
 
     public function consumers() {
-        return $this->belongsToMany(Consumer::class);
+        return $this->belongsTo(User::class);
     }
 
     public function statuschangehistories() {
@@ -56,8 +56,40 @@ class Order extends Model
         return $query->orderBy('id', 'desc')->where('read_at', '');
     }
 
+    public function getUnreadAttribute()
+    {
+        if ($this->read_at) {
+            return false;
+        } else {
+            return true;
+        }        
+    }
+
     public function scopeLast($query, $count)
     {
         return $query->orderBy('id', 'desc')->take($count);
+    }
+
+    public function getSummAttribute()
+    {
+        $products = $this->products;
+        // dd($products);
+        $summ = 0;
+        if ($products) {            
+            foreach ($products as $product) {
+                $summ += $product->pivot->amount * $product->pivot->price;
+            }
+        } 
+        return number_format($summ, 2, ',', ' ') . ' руб.';        
+    }
+
+    public function getReadDMYAttribute()
+    {
+        return $this->updated_at->locale('ru')->isoFormat('DD MMMM YYYY, h:mm');
+    }
+
+    public function getCountProductsAttribute()
+    {
+        return count($this->products);
     }
 }
