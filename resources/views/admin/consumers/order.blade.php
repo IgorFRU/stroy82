@@ -5,10 +5,10 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <p class="h3">Детали заказа №<strong>{{ $order->number }}</strong> от {{ $order->created_at }} (покупатель: {{ $consumer->full_name ?? '' }})</p>
+                    <p class="h3">Детали заказа №<strong>{{ $order->number }}</strong> от {{ $order->create_d_m_y_t }} (покупатель: {{ $consumer->full_name ?? '' }})</p>
                     {{-- <a href="{{ route('admin.consumers.create') }}" class="btn btn-primary">Новый покупатель</a>                 --}}
                 </div>
-                <div class="d-flex flex-wrap">
+                <div class="card-body">
 
                     <table class="table cart_table table-hover">
                         <thead>
@@ -50,7 +50,7 @@
                         </tbody>
                       </table>
                       @if (!$order->unread)
-                        <div class="p-1">Заказ просмотрен администратором: {{ $order->read_d_m_y ?? '' }} (В Order изменить updated_at на read_at)</div>
+                        <div class="p-1">Заказ просмотрен администратором: {{ $order->read_d_m_y_t ?? '' }}</div>
                       @endif
                         
                     

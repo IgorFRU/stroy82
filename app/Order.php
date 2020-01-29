@@ -18,6 +18,10 @@ class Order extends Model
         'completed'
     ];
 
+    protected $casts = [
+        'read_at' => 'datetime',
+    ];
+
     public function status() {
         return $this->belongsTo(Orderstatus::class, 'orderstatus_id');
     }
@@ -83,9 +87,14 @@ class Order extends Model
         return number_format($summ, 2, ',', ' ') . ' руб.';        
     }
 
-    public function getReadDMYAttribute()
+    public function getReadDMYTAttribute()
     {
-        return $this->updated_at->locale('ru')->isoFormat('DD MMMM YYYY, h:mm');
+        return $this->read_at->locale('ru')->isoFormat('DD MMMM YYYY, H:mm');
+    }
+
+    public function getCreateDMYTAttribute()
+    {
+        return $this->created_at->locale('ru')->isoFormat('DD MMMM YYYY, H:mm');
     }
 
     public function getCountProductsAttribute()
