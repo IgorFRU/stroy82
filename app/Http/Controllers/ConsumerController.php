@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Consumer;
+use App\User;
 use Illuminate\Http\Request;
 
 class ConsumerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,13 @@ class ConsumerController extends Controller
      */
     public function index()
     {
-        //
+        $consumers = User::paginate(40);
+
+        $data = array (
+            'consumers' => $consumers,
+        );
+
+        return view('admin.consumers.index', $data);
     }
 
     /**
@@ -81,5 +93,10 @@ class ConsumerController extends Controller
     public function destroy(Consumer $consumer)
     {
         //
+    }
+
+    public function consumer($id) 
+    {
+
     }
 }

@@ -75,6 +75,8 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::get('/products/addImages/{product}', 'ProductController@addImages')->name('products.addImages');
   Route::post('/setcookie', 'ProductController@setCookie');
   Route::resource('/units', 'UnitController');
+  Route::resource('/consumers', 'ConsumerController');
+  Route::get('/consumers/{consumer}', 'ConsumerController@consumer')->name('consumer');
   Route::resource('/vendors', 'VendorController');
   Route::get('/discounts/archive', 'DiscountController@archive')->name('discounts.archive');
   Route::resource('/discounts', 'DiscountController');

@@ -71,7 +71,7 @@
                                     <i class="fas fa-archive"></i>  Покупатели и заказы
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i>  Покупатели</a>
+                                <a class="dropdown-item {{ (Request::is('*consumers*') ? 'active' : '') }}" href="{{ route('admin.consumers.index') }}"><i class="fas fa-user-friends"></i>  Покупатели</a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-map-marked-alt"></i>  Адреса покупателей</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item {{ (Request::is('*orderstatuses*') ? 'active' : '') }}" href="{{ route('admin.orderstatuses.index') }}"><i class="fas fa-check"></i>  Статусы заказов</a>
