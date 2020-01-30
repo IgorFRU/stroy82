@@ -10,6 +10,47 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::prefix('admin')->name('admin.')->group(function(){
+  Route::get('/', 'AdminController@index')->name('index');
+  Route::post('/settings/{id}', 'AdminController@settings')->name('settings');
+  Route::get('/login/{token?}', 'Auth\AdminLoginController@showLoginForm')->name('login')->middleware('check.url.login.token');
+  Route::post('/login', 'Auth\AdminLoginController@login')->name('login.submit');
+  Route::post('/logout', 'Auth\AdminLoginController@adminLogout')->name('logout');
+    
+  Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('password.email');    
+  Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('password.request');    
+  Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset');  
+  Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('password.reset');
+  
+  Route::post('/properties/store',  'PropertyController@store');
+  Route::post('/properties/destroy',  'PropertyController@destroy');
+  Route::post('/uploadimg',  'ImageController@store');
+  // Route::any('/updateimg/{id}',  'ImageController@update');
+  Route::resource('/categories', 'CategoryController');
+  Route::resource('/articles', 'ArticleController');
+  Route::resource('/sets', 'SetController');
+  Route::post('/articles/addProducts', 'ArticleController@addProducts');
+  Route::resource('/manufactures', 'ManufactureController');
+  Route::resource('/orderstatuses', 'OrderstatusController');
+  Route::resource('/products', 'ProductController');
+  Route::post('/products/store/ajax', 'ProductController@storeAjax')->name('products.storeAjax');
+  Route::post('/products/search/ajax', 'ProductController@ajaxSearch'); // поиск товара для добавления к статье
+  Route::get('/products/addImages/{product}', 'ProductController@addImages')->name('products.addImages');
+  Route::post('/setcookie', 'ProductController@setCookie');
+  Route::resource('/units', 'UnitController');
+
+  Route::resource('/consumers', 'ConsumerController');
+  Route::get('/consumers/{consumer}', 'ConsumerController@consumer')->name('consumer');
+  Route::get('/consumers/{consumer}/{order}', 'ConsumerController@order')->name('consumer.order');
+
+  Route::resource('/vendors', 'VendorController');
+  Route::get('/discounts/archive', 'DiscountController@archive')->name('discounts.archive');
+  Route::resource('/discounts', 'DiscountController');
+  Route::any('/productimg', 'UploadImagesController@product')->name('product.image.upload');
+  Route::resource('/topmenu', 'TopmenuController');
+});
+
 Route::group(['middleware' => 'user.online'], function () {
   Route::get('/', 'MainController@index')->name('index');
 
@@ -56,48 +97,3 @@ Route::group(['middleware' => 'user.online'], function () {
   
   Route::get('/{staticpage}', 'MainController@staticpage')->name('staticpage');
 });
-
-
-Route::prefix('admin')->name('admin.')->group(function(){
-  Route::get('/', 'AdminController@index')->name('index');
-  Route::post('/settings/{id}', 'AdminController@settings')->name('settings');
-  Route::get('/login/{token?}', 'Auth\AdminLoginController@showLoginForm')->name('login')->middleware('check.url.login.token');
-  Route::post('/login', 'Auth\AdminLoginController@login')->name('login.submit');
-  Route::post('/logout', 'Auth\AdminLoginController@adminLogout')->name('logout');
-    
-  Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('password.email');    
-  Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('password.request');    
-  Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset');  
-  Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('password.reset');
-  
-  Route::post('/properties/store',  'PropertyController@store');
-  Route::post('/properties/destroy',  'PropertyController@destroy');
-  Route::post('/uploadimg',  'ImageController@store');
-  // Route::any('/updateimg/{id}',  'ImageController@update');
-  Route::resource('/categories', 'CategoryController');
-  Route::resource('/articles', 'ArticleController');
-  Route::resource('/sets', 'SetController');
-  Route::post('/articles/addProducts', 'ArticleController@addProducts');
-  Route::resource('/manufactures', 'ManufactureController');
-  Route::resource('/orderstatuses', 'OrderstatusController');
-  Route::resource('/products', 'ProductController');
-  Route::post('/products/store/ajax', 'ProductController@storeAjax')->name('products.storeAjax');
-  Route::post('/products/search/ajax', 'ProductController@ajaxSearch'); // поиск товара для добавления к статье
-  Route::get('/products/addImages/{product}', 'ProductController@addImages')->name('products.addImages');
-  Route::post('/setcookie', 'ProductController@setCookie');
-  Route::resource('/units', 'UnitController');
-
-  Route::resource('/consumers', 'ConsumerController');
-  Route::get('/consumers/{consumer}', 'ConsumerController@consumer')->name('consumer');
-  Route::get('/consumers/{consumer}/{order}', 'ConsumerController@order')->name('consumer.order');
-
-  Route::resource('/vendors', 'VendorController');
-  Route::get('/discounts/archive', 'DiscountController@archive')->name('discounts.archive');
-  Route::resource('/discounts', 'DiscountController');
-  Route::any('/productimg', 'UploadImagesController@product')->name('product.image.upload');
-  Route::resource('/topmenu', 'TopmenuController');
-});
-
-
-
-

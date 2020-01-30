@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Consumer;
+use App\Orderstatus;
 use App\Order;
 use App\User;
 use Illuminate\Http\Request;
@@ -111,16 +112,19 @@ class ConsumerController extends Controller
     public function order($consumer, $order)
     {
         $consumer = User::where('id', $consumer)->firstOrFail();
-        $order = Order::where('number', $order)->with('products')->firstOrFail();
+        $order = Order::where('number', $order)->with('products', 'status')->firstOrFail();
 
         if ($order->unread) {
             $order->read_at = Carbon::now();
             $order->update();
         }
 
+        $orderstatuses = Orderstatus::orderBy('id', 'ASC')->get();
+
         $data = array(
             'consumer' => $consumer,
             'order' => $order,
+            'statuses' => $orderstatuses,
         );
 
         return view('admin.consumers.order', $data);
