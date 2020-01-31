@@ -196,7 +196,8 @@ class OrderController extends Controller
 
         // dd($data);
 
-        return view('user_order_show', $data);
+        // return view('user_order_show', $data);
+        return view('order_show', $data);
     }
 
     /**

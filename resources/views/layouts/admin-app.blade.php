@@ -75,7 +75,7 @@
                                 <a class="dropdown-item" href="#"><i class="fas fa-map-marked-alt"></i>  Адреса покупателей</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item {{ (Request::is('*orderstatuses*') ? 'active' : '') }}" href="{{ route('admin.orderstatuses.index') }}"><i class="fas fa-check"></i>  Статусы заказов</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-shopping-basket"></i>  Заказы</a>
+                                <a class="dropdown-item {{ (Request::is('*orders*') ? 'active' : '') }}" href="{{ route('admin.orders') }}"><i class="fas fa-shopping-basket"></i>  Заказы</a>
                                 <a class="dropdown-item rounded text-white bg-danger" href="#"><i class="fas fa-fire"></i>  Заказы к исполнению</a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-boxes"></i>  Архив заказов</a>
                             </div>

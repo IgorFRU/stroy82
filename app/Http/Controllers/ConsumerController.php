@@ -100,7 +100,10 @@ class ConsumerController extends Controller
 
     public function consumer($id) 
     {
-        $consumer = User::where('id', $id)->with('orders')->firstOrFail();
+        // $consumer = User::where('id', $id)->with('orders')->firstOrFail();
+        $consumer = User::where('id', $id)->with(['orders' => function($query) {
+            $query->orderBy('completed', 'ASC');
+        }])->firstOrFail();
 
         $data = array(
             'consumer' => $consumer,

@@ -14,14 +14,19 @@
     
     
     <section class="product wrap">
-        <div class="white_box p10">
+        <div class="@if ($error == '') white_box @endif p10">
             <div class="col-lg-12 row">
                 @if ($error != '')
-                    <div class="col-lg-12 color-white bg-danger p10">
-                        {{ $error }}
+                <div class="card text-white bg-danger mb-3" >
+                    <div class="card-header">Ошибка</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Отказано в доступе</h5>
+                        <p class="card-text">{{ $error }}</p>
                     </div>
+                </div>
                 @else
                     <h3>Заказ №{{ $order->number }} от {{ $order->d_m_y }}</h3>
+                    <div class="col-lg-12 row mb-4">Статус заказа: <span class="pl-1"><strong style="color: {!! $order->status->color ?? '' !!}"> {!! $order->status->icon ?? '' !!} {{ $order->status->orderstatus ?? '' }}</strong></span></div>
                     <div class="col-lg-12 row">
                         <table class="table cart_table table-hover">
                                 <thead>
@@ -62,18 +67,14 @@
                                             <th>
                                                 <div class="cart_table__item_quantity" data-id="{{ $product->id }}">
                                                     
-                                                    <input type="text" readonly class="cart__product__input_units" name="product__input_units" id="{{ $product->id }}" data-package="{{ $product->unit_in_package ?? 1 }}" value="{{ $product->pivot->quantity }}" readonly> 
+                                                    <input type="text" readonly class="cart__product__input_units" name="product__input_units" id="{{ $product->id }}" data-package="{{ $product->unit_in_package ?? 1 }}" value="{{ $product->pivot->amount }}" readonly> 
                                                     
                                                 </div>
                                                 {{ $product->unit->unit ?? 'ед.' }}
                                                 
                                             </th>
                                             <th>
-                                                @if ($product->actually_discount)
-                                                    <div class="">{{ number_format($product->discount_price * $order->amount($product->id), 2, ',', ' ') }}</div>                                        
-                                                @else
-                                                    <div class="">{{ number_format($product->price * $order->amount($product->id), 2, ',', ' ') }} <span> руб.</span></div>
-                                                @endif
+                                                {{ number_format($product->pivot->amount * $product->pivot->price, 2, ',', ' ') }} руб.
                                             </th>
                                         </tr>
                                     @endforeach

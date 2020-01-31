@@ -31,7 +31,7 @@ class Order extends Model
     }
 
     public function consumers() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function statuschangehistories() {
@@ -58,6 +58,11 @@ class Order extends Model
     public function scopeUnread($query)
     {
         return $query->orderBy('id', 'desc')->where('read_at', '');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->orderBy('id', 'desc')->where('completed', 0);
     }
 
     public function getUnreadAttribute()

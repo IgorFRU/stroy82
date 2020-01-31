@@ -45,6 +45,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::get('/consumers/{consumer}/{order}', 'ConsumerController@order')->name('consumer.order');
 
   Route::post('/orders/changestatus', 'OrderController@changestatus');
+  Route::get('/orders', 'OrderadminController@adminActiveOrders')->name('orders');
 
   Route::resource('/vendors', 'VendorController');
   Route::get('/discounts/archive', 'DiscountController@archive')->name('discounts.archive');

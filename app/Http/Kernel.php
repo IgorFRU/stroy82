@@ -62,6 +62,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'check.url.login.token' => \App\Http\Middleware\CheckUrlLoginToken::class,
         'user.online' => \App\Http\Middleware\UserOnline::class,
+        'open.order' => \App\Http\Middleware\OpenOrder::class,
     ];
 
     /**
