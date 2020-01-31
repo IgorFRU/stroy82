@@ -153,6 +153,24 @@ nav {
     display: none;
 }
 
+.order_successful_payment {
+    padding: .25rem .5rem;
+    font-size: .7875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    display: inline-block;
+}
+
+.order_successful_payment.false {
+    background: var(--red);
+    color: #fff;
+}
+
+.order_successful_payment.true {
+    background: var(--success);
+    color: #fff;
+}
+
 
 /* 
 #ajaxUploadedImages .img_with_footer {

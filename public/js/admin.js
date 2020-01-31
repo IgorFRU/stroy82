@@ -4,8 +4,6 @@ $(function() {
     var navItems = $('.nav-item.dropdown').find('a.active');
     navItems.parent().parent().addClass('active');
 
-    console.log(navItems);
-
     $('nav.tabs > span').on('click', function() {
         var currentTabData = $('nav.tabs > span.active').data('tab');
 
@@ -591,5 +589,55 @@ $(function() {
         if (!$(this).hasClass('hide')) {
             $('#price').val($(this).text());
         }
+    });
+
+    //Изменение статуса заказа
+    $('.order_change_status').bind('input', function() {
+        let button = $('.order_change_status_button');
+        button.removeClass('disabled');
+    });
+
+    $('.order_change_payment_status').bind('input', function() {
+        let button = $('.order_change_status_button');
+        button.removeClass('disabled');
+    });
+
+    $('input[name="order_change_complete"]').on('change', function() {
+        let button = $('.order_change_status_button');
+        button.removeClass('disabled');
+    });
+
+    $('.order_change_status_button').on('click', function() {
+        if (!$(this).hasClass('disabled')) {
+            let order_change_complete = $('input[name="order_change_complete"]:checked').val();
+            let order_change_status = $('.order_change_status').val();
+            let order_change_payment_status = $('.order_change_payment_status').val();
+            let order_id = $(this).attr('data-order-id');
+
+            $('#change_order_status').modal('hide');
+            $.ajax({
+                type: "POST",
+                url: "/admin/orders/changestatus",
+                data: {
+                    order_change_complete: order_change_complete,
+                    order_change_status: order_change_status,
+                    order_change_payment_status: order_change_payment_status,
+                    order_id: order_id
+                },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    console.log('success');
+                    var data = $.parseJSON(data);
+                    if (data == 'success') {
+                        location.reload(true);
+                    }
+                },
+                error: function(msg) {
+                    console.log(msg);
+                }
+            });
+        }        
     });
 });

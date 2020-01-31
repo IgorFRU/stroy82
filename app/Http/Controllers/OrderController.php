@@ -283,4 +283,23 @@ class OrderController extends Controller
             echo json_encode(array('phone' => $phone, 'error' => false));
         }     
     }
+
+    public function changestatus(Request $request)
+    {
+        $order_id = $request->get('order_id');
+        $order_change_complete = $request->get('order_change_complete');
+        $order_change_status = $request->get('order_change_status');
+        $order_change_payment_status = $request->get('order_change_payment_status');
+
+        $order = Order::where('id', $order_id)->firstOrFail();
+        $order->completed = $order_change_complete;
+        $order->orderstatus_id = $order_change_status;
+        $order->successful_payment = $order_change_payment_status;
+        $order->update();
+        if ($order) {
+            echo json_encode('success');
+        } else {
+            echo json_encode('error');
+        }
+    }
 }

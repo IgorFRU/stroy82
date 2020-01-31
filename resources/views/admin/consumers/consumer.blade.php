@@ -36,6 +36,7 @@
                           <tr>
                             <th scope="col">#</th>
                             <th scope="col">№ заказа</th>
+                            <th scope="col">Статус оплаты</th>
                             <th scope="col">Дата заказа</th>
                             <th scope="col">Сумма заказа</th>
                             <th scope="col">Кол-во товаров</th>
@@ -44,9 +45,10 @@
                         </thead>
                         <tbody>
                             @forelse ($consumer->orders as $order)
-                                <tr>
+                                <tr @if ($order->completed) class="bg-secondary text-light" title='Заказ завершён' @endif>
                                     <th scope="row">{{ $loop->iteration }}</th>
                                     <th><a href="{{ route('admin.consumer.order', ['consumer' => $consumer, 'order' => $order->number]) }}">{{ $order->number ?? '' }}</a>@if ($order->unread) <button class="btn btn-sm btn-danger" title="Новый заказ, требующий реакции!">NEW</button> @endif</th>
+                                    <th>@if ($order->successful_payment) <div class="order_successful_payment true"><span><i class="fas fa-check"></i></span> Оплачен</div> @else <div class="order_successful_payment false"><span><i class="fas fa-times"></i></span> Не оплачен</div> @endif</th>
                                     <th>{{ $order->create_d_m_y_t }}</th>
                                     <th>{{ $order->summ }}</th>
                                     <th>{{ $order->count_products ?? '' }}</th>
