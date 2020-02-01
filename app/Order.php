@@ -57,7 +57,12 @@ class Order extends Model
 
     public function scopeUnread($query)
     {
-        return $query->orderBy('id', 'desc')->where('read_at', '');
+        return $query->orderBy('id', 'desc')->where('read_at', NULL);
+    }
+
+    public function scopeUnreadlast($query, $quantity)
+    {
+        return $query->orderBy('id', 'desc')->where('read_at', NULL)->limit($quantity);
     }
 
     public function scopeActive($query)

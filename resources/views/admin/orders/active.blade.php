@@ -25,7 +25,7 @@
                             @forelse ($orders as $order)
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
-                                    <th><a href="{{ route('admin.consumer.order', ['consumer' => $order->consumers, 'order' => $order->number]) }}">{{ $order->number ?? '' }}</a>@if ($order->unread) <button class="btn btn-sm btn-danger" title="Новый заказ, требующий реакции!">NEW</button> @endif</th>
+                                    <th><a href="{{ route('admin.order', ['order' => $order->number]) }}">{{ $order->number ?? '' }}</a>@if ($order->unread) <button class="btn btn-sm btn-danger" title="Новый заказ, требующий реакции!">NEW</button> @endif</th>
                                     <th>@if ($order->successful_payment) <div class="order_successful_payment true"><span><i class="fas fa-check"></i></span> Оплачен</div> @else <div class="order_successful_payment false"><span><i class="fas fa-times"></i></span> Не оплачен</div> @endif</th>
                                     <th>{{ $order->create_d_m_y_t }}</th>
                                     <th>@if (isset($order->consumers))

@@ -11,7 +11,7 @@
 |
 */
 
-Route::prefix('admin')->name('admin.')->group(function(){
+Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(function(){
   Route::get('/', 'AdminController@index')->name('index');
   Route::post('/settings/{id}', 'AdminController@settings')->name('settings');
   Route::get('/login/{token?}', 'Auth\AdminLoginController@showLoginForm')->name('login')->middleware('check.url.login.token');
@@ -45,7 +45,8 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::get('/consumers/{consumer}/{order}', 'ConsumerController@order')->name('consumer.order');
 
   Route::post('/orders/changestatus', 'OrderController@changestatus');
-  Route::get('/orders', 'OrderadminController@adminActiveOrders')->name('orders');
+  Route::get('/orders', 'OrderadminController@adminActiveOrders')->name('orders');  
+  Route::get('/orders/{order}', 'OrderadminController@order')->name('order');
 
   Route::resource('/vendors', 'VendorController');
   Route::get('/discounts/archive', 'DiscountController@archive')->name('discounts.archive');

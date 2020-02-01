@@ -98,7 +98,7 @@
                         <div class="col-md-7">
                             <div class=" d-flex justify-content-between">
                                 <p class="h3">Список администраторов</p>
-                                <button class="btn btn-sm btn-info">Изменить параметры безопасности</button>
+                                {{-- <button class="btn btn-sm btn-info">Изменить параметры безопасности</button> --}}
                             </div>
                             <table class="table">
                                 <thead>
@@ -107,7 +107,6 @@
                                     <th scope="col">Имя</th>
                                     <th scope="col">e-mail</th>
                                     <th scope="col">Зарегистрирован</th>
-                                    <th scope="col">Изменен</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -120,23 +119,22 @@
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->email }}</td>
                                     <td>{{ $admin->created_at }}</td>
-                                    <td>{{ $admin->updated_at }}</td>
                                 </tr>
                                 @endforeach      
                                 </tbody>
                             </table>
                             <hr>
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between mb-1">
                                 <p class="h3">Последние необработанные заказы</p>
-                                <button type="button" class="btn btn-warning"><a href="#">Все заказы</a></button>
+                                <a class="btn btn-primary" href="{{ route('admin.orders') }}">Все заказы</a>
                             </div>
                             
                             <table class="table table-dark">
                                 <thead>
                                     <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">Дата</th>
                                     <th scope="col">Покупатель</th>
-                                    <th scope="col">Фамилия</th>
                                     <th scope="col">Номер тел.</th>
                                     <th scope="col">Зарегистрирован</th>
                                     </tr>
@@ -147,11 +145,11 @@
                                 @endphp
                                 @forelse ($orders as $order)
                                 <tr>
-                                    <th scope="row"><a href="#">{{ $order->number }}</a></th>
-                                    <td><a href="#"></a> {{ $order->consumers->id }}</td>
-                                    <td>{{ $user->surname }}</td>
-                                    <td><a href="tel: {{ $user->phone }}">{{ $user->phone }}</a> </td>
-                                    <td>{{ $user->created_at }}</td>
+                                    <th scope="row"><a href="{{ route('admin.order', $order->number) }}" target="_blank">{{ $order->number }}</a></th>
+                                    <td>{{ $order->create_d_m_y_t }}</td>
+                                    <td><a href="#"></a> {{ $order->consumers->full_name ?? '' }}</td>
+                                    <td><a href="tel: {{ $order->consumers->phone ?? '' }}">{{ $order->consumers->phone ?? '' }}</a> </td>
+                                    <td>{{ $order->consumers->created_at ?? '' }}</td>
                                 </tr>
                                 @empty
                                 
@@ -159,13 +157,17 @@
                                 </tbody>
                             </table>
                             <hr>
-                            <p class="h3">Последние зарегистрированные покупатели</p>
+                            <div class="d-flex justify-content-between mb-1">
+                                <p class="h3">Последние зарегистрированные покупатели</p>
+                                <a class="btn btn-primary" href="{{ route('admin.consumers.index') }}">Все покупатели</a>
+                            </div>
+                            
                             <table class="table">
                                 <thead>
                                     <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Имя</th>
-                                    <th scope="col">Фамилия</th>
+                                    <th scope="col">Покупатель</th>
+                                    <th scope="col">e-mail</th>
                                     <th scope="col">Номер тел.</th>
                                     <th scope="col">Зарегистрирован</th>
                                     </tr>
@@ -177,9 +179,9 @@
                                 @foreach ($users as $user)
                                 <tr>
                                     <th scope="row">{{ $count++ }}</th>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->surname }}</td>
-                                    <td><a href="tel: {{ $user->phone }}">{{ $user->phone }}</a> </td>
+                                    <td><a href="{{ route('admin.consumer', $user->id) }}" target="_blank">{{ $user->full_name }}</a></td>
+                                    <td>{{ $user->email ?? '' }}</td>
+                                    <td><a href="tel: {{ $user->phone ?? '' }}">{{ $user->phone ?? '' }}</a> </td>
                                     <td>{{ $user->created_at }}</td>
                                 </tr>
                                 @endforeach

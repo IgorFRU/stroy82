@@ -61,9 +61,11 @@ class AdminController extends Controller
             'settings' => $settings,
             'one_admin' => Auth::user(),
             'admins' => Admin::get(),
-            'orders' => Order::unread()->last(5)->get(),
+            'orders' => Order::unreadlast(5)->get(),
             'users' => User::last(5)->get(),
         ];
+
+        // dd(Order::unread()->get()->limit(5));
         // dd($data['settings']);
         return view('admin', $data);
         // echo ('is admin');
