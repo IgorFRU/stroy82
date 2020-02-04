@@ -854,3 +854,17 @@ $(window).on("scroll", function() {
         $('.fix-to-top').css({ 'width': width + 'px' });
     }
 });
+
+// check_order_status__send modal
+$('.check_order_status__send').on('click', function() {
+    var order_number = $('#check_order_status__number').val().replace(/[^\d]/g, '');
+    var phone_last4 = $('#check_order_status__phone').val().replace(/[^\d]/g, '');
+    console.log(order_number, phone_last4);
+    if (phone_last4 != '' && phone_last4 == 4 && order_number != '') {
+        CheckOrderStatusSend(order_number, phone_last4);
+    }
+});
+
+function CheckOrderStatusSend(order_number, phone_last4) {
+    
+}

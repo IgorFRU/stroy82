@@ -44,7 +44,7 @@
                 <input type="search" name="search_nav" id="search_nav" placeholder="поиск...">
             </div>
             <div class="col-lg-5 right_nav d-flex justify-content-lg-end">
-                <a href="#"><i class="fas fa-check"></i> проверить статус заказа</a>
+                <a  data-toggle="modal" data-target=".check_order_status" href="#"><i class="fas fa-check"></i> проверить статус заказа</a>
 
 
                 @guest
@@ -199,6 +199,33 @@
         <footer>
                 @include('layouts.footer')
         </footer>
+    </div>    
+
+    <div class="modal fade check_order_status" tabindex="-1" role="dialog" aria-labelledby="check_order_status" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <label for="check_order_status__number" class="col-form-label">№ заказа</label>
+                            <div class="">
+                                <input type="text" class="form-control" id="check_order_status__number" value="" maxlength="10" placeholder="" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="check_order_status__phone" class="col-form-label">Последние 4 цифры номера телефона, на который был сделан заказ</label>
+                            <div class="">
+                                <input type="text" class="form-control" id="check_order_status__phone" placeholder="" maxlength="4" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary check_order_status__send" >Send message</button>
+            </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

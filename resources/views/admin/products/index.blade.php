@@ -157,8 +157,8 @@
                             </td>
                             <td>{{ $product->category->category ?? '' }}</td>
                             {{-- <td>{{ $product->manufactures->manufacture }}</td> --}}
-                            <td>{{ $product->quantity }}</td>
-                            <td>{{ $product->delivery_time }}</td>
+                            <td>{{ $product->quantity ?? '-' }}</td>
+                            <td>{{ $product->delivery_time ?? '-' }}</td>
                             <td>
                                 @if ($product->pay_online)
                                     <span class="p-1"><i class="fas fa-credit-card"></i></span>

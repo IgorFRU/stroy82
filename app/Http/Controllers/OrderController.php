@@ -303,4 +303,10 @@ class OrderController extends Controller
             echo json_encode('error');
         }
     }
+
+    //ajax
+    public function checkOrderStatus(Request $request) {
+        $order_number = $request->get('order_number');
+        $phone = $request->get('pone_number');
+    }
 }
