@@ -18,4 +18,8 @@ class Cart extends Model
     public function product() {
         return $this->belongsTo(Product::class);
     }
+
+    public function scopeActually($query) {
+        return $query->where('finished', 0);
+    }
 }

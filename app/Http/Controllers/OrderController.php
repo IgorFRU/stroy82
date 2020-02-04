@@ -65,78 +65,81 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         
-        // dd($request->all());
-        if (Auth::check()) {
-            $user_id = Auth::id();
+        // dd($request->session('order'));
+        if ($request->session()->has('order') && session('order') != '') {
+            $order = Order::where('number', session('order'))->firstOrFail();
         } else {
-            if (isset($request->phone) && $request->phone != '') {
-                $phone = $request->phone;
-                $phone = str_replace(array('+','-', '(', ')'), '', $phone);
-                if (strlen($phone) == 11) {
-                    $phone = substr($phone, 1);
-                }
-
-                $user = User::where('phone', $phone)->first();
-
-                if ($user == NULL) {
-                    $user_data = [
-                        'quick'     => '1',
-                        'name'      => $request->name,
-                        'surname'   => $request->surname,
-                        'address'   => $request->address,
-                        'phone'     => $phone,
-                        'password'  => Hash::make('Qq-123456'),
-                    ];                
-                    $user = User::create($user_data);
-                }
-            $user_id = $user->id;
-            }            
-        }
-
-        $today = Carbon::today()->locale('ru')->isoFormat('DD') . Carbon::today()->locale('ru')->isoFormat('MM') . Carbon::today()->locale('ru')->isoFormat('YY');
-        $number = $today . '-' . mt_rand(1000, 9999);
-        $request->session()->put('order', $number);
-        while (Order::where('number', $number)->count() > 0) {
-            $number = $today . '-' . mt_rand(1000, 9999);
-        }
-
-        if ($request->payment_method == 2) { //безнал
-            $firm_inn = $request->firm_inn;
-        } else {
-            $firm_inn = 0;
-        }
-
-        $order_data = [
-            'number' => $number,
-            'orderstatus_id' => Setting::first()->pluck('orderstatus_id')[0],
-            'user_id' => $user_id,
-            'firm_inn' => $firm_inn,
-            'payment_method' => $request->payment_method,
-            'successful_payment' => 0,
-            'completed' => 0,
-        ];
-        
-        $order = Order::create($order_data);
-
-        if ($order) {
-            $cart = Cart::where([
-                ['session_id', session('session_id')]
-            ])->get();
-
-            foreach ($cart as $item) {
-                if ($item->product->actually_discount) {
-                    $price = $item->product->discount_price;
-                } else {
-                    $price = $item->product->price;
-                }
-                $order->products()->attach($item->product->id, ['amount' => $item->quantity, 'price' => $price]);
-                $item->finished = 1;
-                $item->update();
+            if (Auth::check()) {
+                $user_id = Auth::id();
+            } else {
+                if (isset($request->phone) && $request->phone != '') {
+                    $phone = $request->phone;
+                    $phone = str_replace(array('+','-', '(', ')'), '', $phone);
+                    if (strlen($phone) == 11) {
+                        $phone = substr($phone, 1);
+                    }
+    
+                    $user = User::where('phone', $phone)->first();
+    
+                    if ($user == NULL) {
+                        $user_data = [
+                            'quick'     => '1',
+                            'name'      => $request->name,
+                            'surname'   => $request->surname,
+                            'address'   => $request->address,
+                            'phone'     => $phone,
+                            'password'  => Hash::make('Qq-123456'),
+                        ];                
+                        $user = User::create($user_data);
+                    }
+                $user_id = $user->id;
+                }            
             }
-        }
+            $today = Carbon::today()->locale('ru')->isoFormat('DD') . Carbon::today()->locale('ru')->isoFormat('MM') . Carbon::today()->locale('ru')->isoFormat('YY');
+            $number = $today . '-' . mt_rand(1000, 9999);
+            $request->session()->put('order', $number);
+            while (Order::where('number', $number)->count() > 0) {
+                $number = $today . '-' . mt_rand(1000, 9999);
+            }
+    
+            if ($request->payment_method == 2) { //безнал
+                $firm_inn = $request->firm_inn;
+            } else {
+                $firm_inn = 0;
+            }
+    
+            $order_data = [
+                'number' => $number,
+                'orderstatus_id' => $order->status,
+                'user_id' => $user_id,
+                'firm_inn' => $firm_inn,
+                'payment_method' => $request->payment_method,
+                'successful_payment' => 0,
+                'completed' => 0,
+            ];
+            
+            $order = Order::create($order_data);
+
+            if ($order) {
+                $cart = Cart::where([
+                    ['session_id', session('session_id')]
+                ])->get();
+    
+                foreach ($cart as $item) {
+                    if ($item->product->actually_discount) {
+                        $price = $item->product->discount_price;
+                    } else {
+                        $price = $item->product->price;
+                    }
+                    $order->products()->attach($item->product->id, ['amount' => $item->quantity, 'price' => $price]);
+                    $item->finished = 1;
+                    $item->update();
+                }
+            }
+        }        
 
         $data = [
-            'number' => $number,
+            'number' => $order->number,
         ];
         
         return view('order_finish', $data);

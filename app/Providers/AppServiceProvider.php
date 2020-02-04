@@ -199,7 +199,7 @@ class AppServiceProvider extends ServiceProvider
                 ->OrderBy('title', 'DESC')
                 ->get();
             
-            $carts = Cart::where('session_id', session('session_id'))->get();
+            $carts = Cart::where('session_id', session('session_id'))->actually()->get();
             // dd(session('session_id'));
             $carts1 = $carts->pluck('quantity', 'product_id');
             $carts2 = $carts->pluck('product_id');

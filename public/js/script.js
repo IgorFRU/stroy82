@@ -682,48 +682,48 @@ function AddressStringSearch(str, symbol) {
     }
 }
 
-// var phoneMask = IMask(
-//     document.getElementById('user_phone'), {
-//         mask: '{8}(000)000-00-00'
-//     }
-// );
+var phoneMask = IMask(
+    document.getElementById('user_phone'), {
+        mask: '{8}(000)000-00-00'
+    }
+);
 
 
-// $('#user_phone').change(function() {
-//     console.log($(this).length);
-// });
+$('#user_phone').change(function() {
+    console.log($(this).length);
+});
 
 
 
-// (function() {
-//     let flag = true;
-//     var user_phone = document.getElementById('user_phone');
-//     user_phone.addEventListener('keyup', () => {
-//         if (user_phone.value.length > 15) {
-//             if (flag) {
-//                 flag = false;
-//                 $.ajax({
-//                     type: "POST",
-//                     url: "/order/checkuserphone",
-//                     data: {
-//                         phone: user_phone.value,
-//                     },
-//                     headers: {
-//                         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-//                     },
-//                     success: function(response) {
-//                         console.log(response);
-//                     },
-//                     error: function(errResponse) {
-//                         console.log(errResponse);
-//                     }
-//                 });
-//             }
-//         } else {
-//             flag = true;
-//         }
-//     });
-// }());
+(function() {
+    let flag = true;
+    var user_phone = document.getElementById('user_phone');
+    user_phone.addEventListener('keyup', () => {
+        if (user_phone.value.length > 15) {
+            if (flag) {
+                flag = false;
+                $.ajax({
+                    type: "POST",
+                    url: "/order/checkuserphone",
+                    data: {
+                        phone: user_phone.value,
+                    },
+                    headers: {
+                        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(errResponse) {
+                        console.log(errResponse);
+                    }
+                });
+            }
+        } else {
+            flag = true;
+        }
+    });
+}());
 
 function checkUserPhone() {
     let user_phone = document.getElementById('user_phone');
@@ -833,25 +833,28 @@ $(window).on("scroll", function() {
     // console.log($('.fix-to-top').offset().top - $(window).scrollTop());
     let scroll = $(window).scrollTop();
     let window_hight = $(window).height();
-    let block_to_top = $('.fix-to-top-parent').offset().top
-    let width = $('.fix-to-top-parent').width();
-    let scroll_bar = 0;
+    let fix_to_top = $('.fix-to-top-parent');
+    if (fix_to_top.length) {
+        let block_to_top = $('.fix-to-top-parent').offset().top
+        let width = $('.fix-to-top-parent').width();
+        let scroll_bar = 0;
 
-    if (block_to_top - scroll < 0) {
-        if (!$('.fix-to-top').hasClass('fixed')) {
-            $('.fix-to-top').addClass('fixed');
-            let block_height = $('.fix-to-top').height();
-            if (window_hight == block_height) {
-                scroll_bar = 18;
-            } else {
-                scroll_bar = 0;
+        if (block_to_top - scroll < 0) {
+            if (!$('.fix-to-top').hasClass('fixed')) {
+                $('.fix-to-top').addClass('fixed');
+                let block_height = $('.fix-to-top').height();
+                if (window_hight == block_height) {
+                    scroll_bar = 18;
+                } else {
+                    scroll_bar = 0;
+                }
+
+                $('.fix-to-top').css({ 'width': width + scroll_bar + 'px' });
             }
-            
-            $('.fix-to-top').css({ 'width': width + scroll_bar + 'px' });
+        } else {
+            $('.fix-to-top').removeClass('fixed');
+            $('.fix-to-top').css({ 'width': width + 'px' });
         }
-    } else {
-        $('.fix-to-top').removeClass('fixed');
-        $('.fix-to-top').css({ 'width': width + 'px' });
     }
 });
 
@@ -866,5 +869,5 @@ $('.check_order_status__send').on('click', function() {
 });
 
 function CheckOrderStatusSend(order_number, phone_last4) {
-    
+
 }

@@ -16,7 +16,7 @@
     {{-- <script src="{{ asset('js/jquery-ui.min.js') }}" defer></script> --}}
     <script src="{{ asset('js/script.js') }}" defer></script>
     <script src="https://use.fontawesome.com/564e0d687f.js"></script>
-    {{-- <script src="https://unpkg.com/imask"></script> --}}
+    <script src="https://unpkg.com/imask"></script>
     
     @show
 

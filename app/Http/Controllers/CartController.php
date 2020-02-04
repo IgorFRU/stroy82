@@ -133,7 +133,7 @@ class CartController extends Controller
         
         if ($request->session()->has('session_id')) {
             $session_id = session('session_id');
-            $cart = Cart::where('session_id', $session_id)->get();            
+            $cart = Cart::where('session_id', $session_id)->actually()->get();            
         } else {
             $cart = [];
         }
