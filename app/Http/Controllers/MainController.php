@@ -14,9 +14,13 @@ use App\Setting;
 use App\Topmenu;
 use Carbon\Carbon;
 
+use Captcha;
+
 use Illuminate\Http\Request;
+use App\Mail\QuestionMail;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 
 class MainController extends Controller
 {
@@ -348,6 +352,38 @@ class MainController extends Controller
         );
         // dd($set);
         return view('set', $data);
+    }
+
+    public function contacts()
+    {
+        $contacts = Setting::firstOrFail();
+
+        $data = [
+            'contacts' => $contacts,
+            'captcha' => Captcha::create(),
+        ];
+
+        return view('contacts', $data);
+    }
+
+    public function sendQuestion(Request $request) {
+        $rules = ['captcha' => 'required|captcha'];
+        $validator = validator()->make(request()->all(), $rules);
+        if ($validator->fails()) {
+            return redirect('contacts')->with('error', 'Ваше письмо не было отправлено! Проверьте правильность заполнения полей и повторите попытку. Если ошибка повторится, свяжитесь, пожалуйста, с нами по телефону. Приносим свои извинения за временные неудобства.');
+        } else {
+            $mail_body = '
+            <html>
+                <body>
+                    <p>Имя: '.$request->name.'</p>
+                    <p>Телефон: '.$request->phone.'</p>                        
+                    <p>Товар: '.$request->question.'</p>                      
+                </body>
+            </html>';
+            $toEmail = "igor.parketmir@gmail.com";
+            Mail::to($toEmail)->send(new QuestionMail($mail_body));
+            return redirect('contacts')->with('success', 'Ваше письмо успешно отправлено! Мы свяжемся с вами в ближайшее время.');
+        }
     }
 
     public function setCookie(Request $request) {

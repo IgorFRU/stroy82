@@ -9,8 +9,6 @@
         @slot('active') Личный кабинет @endslot
     @endcomponent 
     
-    
-    
     <section class="wrap">
         <div class="white_box p10">
             <div class="user_section">

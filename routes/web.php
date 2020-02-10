@@ -100,5 +100,7 @@ Route::group(['middleware' => 'user.online'], function () {
   Auth::routes();
   
   
+  Route::get('/contacts', 'MainController@contacts')->name('contacts');
+  Route::post('/contacts', 'MainController@sendQuestion')->name('send.question');
   Route::get('/{staticpage}', 'MainController@staticpage')->name('staticpage');
 });

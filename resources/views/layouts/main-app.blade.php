@@ -39,6 +39,7 @@
                     <a href="{{ $item->slug ?? '#' }}">{{ $item->title }}</a>
                 @empty
                 @endforelse
+                <a href="{{ route('contacts') }}">Контакты</a>
             </div>
             <div class="col-lg-4 search_nav">
                 <input type="search" name="search_nav" id="search_nav" placeholder="поиск...">

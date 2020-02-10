@@ -110,7 +110,7 @@ class OrderController extends Controller
     
             $order_data = [
                 'number' => $number,
-                'orderstatus_id' => $order->status,
+                'orderstatus_id' => Setting::firstOrFail()->orderstatus_id,
                 'user_id' => $user_id,
                 'firm_inn' => $firm_inn,
                 'payment_method' => $request->payment_method,
