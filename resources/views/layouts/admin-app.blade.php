@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $title . ' - ' ?? '' }}{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
     @section('scripts')
@@ -63,7 +63,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item {{ (Request::is('*discounts*') ? 'active' : '') }}" href="{{ route('admin.discounts.index') }}"><i class="fas fa-percentage"></i>  Акции</a>
                                 <a class="dropdown-item {{ (Request::is('*articles*') ? 'active' : '') }}" href="{{ route('admin.articles.index') }}"><i class="fas fa-newspaper"></i>  Статьи</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-images"></i>  Баннеры</a>
+                                <a class="dropdown-item {{ (Request::is('*banners*') ? 'active' : '') }}" href="{{ route('admin.banners.index') }}"><i class="fas fa-images"></i>  Баннеры</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

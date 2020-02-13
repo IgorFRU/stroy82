@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Discount;
+use App\Banner;
 use App\Product;
 use App\Property;
 use App\Propertyvalue;
@@ -67,6 +68,7 @@ class MainController extends Controller
         });
         // dd($discounts);
         $data = array (
+            'banners' => Banner::published()->get(),
             'articles' => Article::orderBy('id', 'DESC')->limit(4)->get(),
             'discounts' => $discounts,
             'lastProducts' => Product::orderBy('id', 'DESC')->limit(4)->get(),

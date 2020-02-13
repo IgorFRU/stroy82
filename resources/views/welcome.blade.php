@@ -5,7 +5,59 @@
 @endsection
 @section('content')
     <div class="header wrap d-flex justify-content-between">
-        <div class="header_banners col-lg-9">
+        @if (count($banners) > 0)
+            <div class="col-lg-6">
+                <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        @foreach ($banners as $item)
+                            <li data-target="#carouselExampleCaptions" data-slide-to="{{ $loop->iteration-1 }}" class="@if($loop->iteration == 1) active @endif"></li>
+                        @endforeach
+                    </ol>
+                    <div class="carousel-inner mainpage-banners">
+                        @foreach ($banners as $banner)
+                            <div class="carousel-item @if($loop->iteration == 1) active @endif">
+                                <img src="{{ asset('imgs/banners/')}}/{{ $banner->image }}" class="d-block w-100" alt="{{ $banner->title ?? '' }}">
+                                <div class="carousel-caption d-none d-md-block">
+                                <h5>@if ($banner->link != '' || $banner->link != NULL)
+                                    <a href="{{ $banner->link }}" target="_blank">{{ $banner->title ?? 'Перейти...' }}</a>
+                                @else
+                                    {{ $banner->title ?? '' }}
+                                @endif                                
+                                </h5>
+                                <p>{{ $banner->description ?? '' }}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 mainpage-banners">
+                @forelse ($discounts as $discount)
+                <div class="category_card white_box col d-flex">
+                    <div class="discount_sticker p10 bg-blue">
+                        <span>-{{ $discount->value }}{{ $discount->rus_type }}</span>
+                    </div> 
+                    <div class="category_card__title p10">
+                        <h4><a href="{{ route('sale', $discount->slug) }}">{{ $discount->discount }} {{ $discount->value }}{{ $discount->rus_type }}</a></h4>
+                        <div class="card_info @if($discount->it_actuality) color-green  @endif">{{ $discount->start_d_m_y }} - {{ $discount->d_m_y }} @if(!$discount->it_actuality) <br>(акция закончилась!) @endif</div>
+                        <p>{{ $discount->description ?? '' }}</p>
+                    </div>
+                        
+                </div>
+                @empty
+                    
+                @endforelse
+            </div>
+        @endif
+        {{-- <div class="header_banners col-lg-9">
             <div class="header_banner">
                 <img src="{{ asset('imgs/banners/i8.jpg') }}" alt="" class="img-fluid">
                 <div class="header_banner__control">
@@ -37,8 +89,8 @@
                     <span>Доступность менеджера с 08:00 до 19:00</span>
                 </div>    
             </div>              
-        </div>
-        @isset($articles)
+        </div> --}}
+        {{-- @isset($articles)
         <div class="header_articles col-lg-3">
             @foreach ($articles as $article)
                 <div class="header_article">
@@ -54,7 +106,7 @@
                 </div>
             @endforeach
         </div>
-        @endisset            
+        @endisset             --}}
     </div>
     <section class="sales_products wrap row d-flex col-lg-12">
         @isset($discounts)
@@ -253,5 +305,10 @@
         <button class="btn btn-secondary btn-sm">раскрыть...</button>
     </section>        
     @endif   
-      
+    
+    <div class="flash-messeges">
+        @if (Session::has('success'))
+            <div class="shadow alert alert-success">{!! Session::get('success') !!}</div>
+        @endif
+    </div>
 @endsection

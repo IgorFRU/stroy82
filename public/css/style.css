@@ -1325,3 +1325,14 @@ footer>div>div {
 .hidden_inputs {
     display: none;
 }
+
+.flash-messeges {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}
+
+.mainpage-banners {
+    height: 400px;
+    overflow: hidden;
+}

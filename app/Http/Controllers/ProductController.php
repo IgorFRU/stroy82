@@ -60,6 +60,7 @@ class ProductController extends Controller
         })->orderBy('id', 'desc')->with('category')->with('manufacture')->paginate($itemsPerPage);
 
         $data = array (
+            'title' => 'Товары',
             'products' => $products,
             'categories' => Category::with('children')->where('category_id', '0')->orderBy('category', 'asc')->get(),
             'delimiter' => '',
@@ -81,6 +82,7 @@ class ProductController extends Controller
     {
         $today = Carbon::now();
         $data = array (
+            'title' => 'Новый товар',
             'product' => [],
             //коллекция вложенных подкатегорий
             'categories' => Category::with('children')->where('category_id', '0')->get(),
@@ -175,6 +177,7 @@ class ProductController extends Controller
         }
         
         $data = array (
+            'title' => 'Редактирование товара',
             'product' => $product,
             'categories' => Category::with('children')->where('category_id', '0')->get(),
             'manufactures' => Manufacture::get(),
