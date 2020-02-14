@@ -24,6 +24,7 @@ class ArticleController extends Controller
     public function index()
     {
         $data = array (
+            'title' => 'Статьи',
             'articles' => Article::orderBy('id', 'DESC')->get()
         );
 
@@ -38,6 +39,7 @@ class ArticleController extends Controller
     public function create()
     {
         $data = array (
+            'title' => 'Новая статья',
             'article' => [],
             'categories' => Category::with('children')->where('category_id', '0')->get(),
             'delimiter' => ''
@@ -86,6 +88,7 @@ class ArticleController extends Controller
     public function edit(Article $article)
     {
         $data = array (
+            'title' => 'Редактирование статьи',
             'article' => $article,
             'categories' => Category::with('children')->where('category_id', '0')->get(),
             'delimiter' => ''

@@ -208,6 +208,10 @@ class Product extends Model
         return $query->where('published', 1);
     }
 
+    public function scopePopular($query, $limit) {
+        return $query->orderBy('views', 'DESC')->limit($limit);
+    }
+
     public function scopeOrder($query) {
         $sort = (isset($_COOKIE['product_sort'])) ? $sort = $_COOKIE['product_sort'] : $sort = 'default';   
         // dd($sort);

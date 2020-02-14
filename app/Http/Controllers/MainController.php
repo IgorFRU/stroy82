@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Discount;
+use App\Banner;
 use App\Product;
 use App\Property;
 use App\Propertyvalue;
@@ -67,13 +68,15 @@ class MainController extends Controller
         });
         // dd($discounts);
         $data = array (
+            'banners' => Banner::published()->get(),
             'articles' => Article::orderBy('id', 'DESC')->limit(4)->get(),
             'discounts' => $discounts,
-            'lastProducts' => Product::orderBy('id', 'DESC')->limit(4)->get(),
+            'lastProducts' => Product::published()->orderBy('id', 'DESC')->limit(4)->get(),
+            'popularProducts' => Product::published()->popular('4')->get(),
             'about' => Setting::find(1)->first(),
             'categories' => $categories,
         );
-        // dd($data['lastProducts']);
+        // dd($data['popularProducts']);
         // dd($discounts->last_products);
         return view('welcome', $data);
     }
@@ -100,6 +103,9 @@ class MainController extends Controller
         $itemsPerPage = (isset($_COOKIE['products_per_page'])) ? $itemsPerPage = $_COOKIE['products_per_page'] : $itemsPerPage = 48;
 
         $category = Category::where('slug', $slug)->with('property')->firstOrFail();
+        if(isset($category)) {
+            $category->increment('views', 1);
+        }
         $products = Product::where('category_id', $category->id)->published()->order()->with('category')->with('manufacture')->paginate($itemsPerPage);
         $manufactures = Manufacture::whereIn('id', $products->pluck('manufacture_id'))->get();
         
@@ -296,6 +302,9 @@ class MainController extends Controller
 
     public function product($category_slug = NULL, $slug) {
         $product = Product::where('slug', $slug)->firstOrFail();
+        if(isset($product)) {
+            $product->increment('views', 1);
+        }
         if (isset($category_slug)) {
             // $id = Product::where('slug', $slug)->pluck('category_id')->first();
             $properties = $product->category->property;

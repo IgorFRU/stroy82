@@ -58,6 +58,7 @@ class AdminController extends Controller
         }
 
         $data = [
+            'title' => 'Главная страница административного раздела',
             'settings' => $settings,
             'one_admin' => Auth::user(),
             'admins' => Admin::get(),

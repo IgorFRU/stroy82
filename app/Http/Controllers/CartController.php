@@ -31,7 +31,7 @@ class CartController extends Controller
             $session_id = session('session_id');
         }
 
-        if (Cart::where('session_id', $session_id)->count() == 0) {
+        if (Cart::where('finished', '0')->where('session_id', $session_id)->count() == 0) {
             $cart_data = [
                 'product_id' => $request->productId,
                 'quantity' => $request->quantity,
@@ -42,11 +42,11 @@ class CartController extends Controller
             
             $cart = Cart::create($cart_data);
         } else {
-            if (Cart::where([
+            if (Cart::where('finished', '0')->where([
                     ['product_id', $request->productId],
                     ['session_id', $session_id]
                 ])->count() > 0) {
-                $cart = Cart::where([
+                $cart = Cart::where('finished', '0')->where([
                     ['product_id', $request->productId],
                     ['session_id', $session_id]
                 ])->first();
@@ -96,7 +96,7 @@ class CartController extends Controller
 
         $total_sum = 0;
 
-        $carts = Cart::where('session_id', session('session_id'))->get();
+        $carts = Cart::where('finished', '0')->where('session_id', session('session_id'))->get();
         $carts_array = $carts->pluck('quantity', 'product_id');
         $products_id = $carts->pluck('product_id');
         $products = Product::whereIn('id', $products_id)->with('discount')->get();
@@ -133,7 +133,7 @@ class CartController extends Controller
         
         if ($request->session()->has('session_id')) {
             $session_id = session('session_id');
-            $cart = Cart::where('session_id', $session_id)->actually()->get();            
+            $cart = Cart::where('finished', '0')->where('session_id', $session_id)->actually()->get();            
         } else {
             $cart = [];
         }
@@ -179,7 +179,7 @@ class CartController extends Controller
 
         if (Auth::check()) {
             $user_id = Auth::id();
-            $cart = Cart::where([
+            $cart = Cart::where('finished', '0')->where([
                 ['user_id', $user_id],
                 ['session_id', $session_id],
                 ['product_id', $request->id]
@@ -187,7 +187,7 @@ class CartController extends Controller
             $cart->quantity = $request->quantity;
             $cart->update();
         } else {
-                $cart = Cart::where([
+                $cart = Cart::where('finished', '0')->where([
                     ['session_id', $session_id],
                     ['product_id', $request->id]
                 ])->first();  

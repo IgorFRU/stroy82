@@ -19,6 +19,7 @@ class TopmenuController extends Controller
     public function index()
     {
         $data = array (
+            'title' => 'Верхнее меню',
             'topmenus' => Topmenu::orderBy('title', 'ASC')->get(),
         );
         return view('admin.topmenu.index', $data);
@@ -32,6 +33,7 @@ class TopmenuController extends Controller
     public function create()
     {
         $data = array (
+            'title' => 'Новый пункт верхнего меню',
             'topmenu' => [],
         );
         
@@ -71,6 +73,7 @@ class TopmenuController extends Controller
     public function edit(Topmenu $topmenu)
     {
         $data = array (
+            'title' => 'Редактирование пункта верхнего меню',
             'topmenu' => $topmenu
         );
         

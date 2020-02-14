@@ -204,28 +204,29 @@
 
     <div class="modal fade check_order_status" tabindex="-1" role="dialog" aria-labelledby="check_order_status" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form action="" method="post">
+            <form action="{{ route('checkorderstatus') }}" method="post">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        @csrf
                         <div class="form-group">
                             <label for="check_order_status__number" class="col-form-label">№ заказа</label>
                             <div class="">
-                                <input type="text" class="form-control" id="check_order_status__number" value="" maxlength="10" placeholder="" required>
+                                <input type="text" class="form-control" id="check_order_status__number" name="check_order_status__number" value="" maxlength="10" placeholder="" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="check_order_status__phone" class="col-form-label">Последние 4 цифры номера телефона, на который был сделан заказ</label>
                             <div class="">
-                                <input type="text" class="form-control" id="check_order_status__phone" placeholder="" maxlength="4" required>
+                                <input type="text" class="form-control" id="check_order_status__phone" name="check_order_status__phone" placeholder="" minlength="4" maxlength="4" required>
                             </div>
-                        </div>
-                    </form>
+                        </div>                        
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary check_order_status__send" >Отправить</button>
                 </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary check_order_status__send" >Send message</button>
-            </div>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </body>

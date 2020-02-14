@@ -872,13 +872,13 @@ function CheckOrderStatusSend(order_number, phone_last4) {
 
 }
 
-$('#refresh_captcha').on('click',function(){
+$('#refresh_captcha').on('click', function() {
     var captcha = $('#captcha_img > img');
     var config = captcha.data('refresh-config');
     $.ajax({
         method: 'GET',
         url: '/get_captcha/' + config,
-    }).done(function (response) {
+    }).done(function(response) {
         captcha.prop('src', response);
     });
 });

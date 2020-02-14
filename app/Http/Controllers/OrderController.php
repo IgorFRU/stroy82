@@ -66,9 +66,9 @@ class OrderController extends Controller
     {
         
         // dd($request->session('order'));
-        if ($request->session()->has('order') && session('order') != '') {
-            $order = Order::where('number', session('order'))->firstOrFail();
-        } else {
+        // if ($request->session()->has('order') && session('order') != '') {
+        //     $order = Order::where('number', session('order'))->firstOrFail();
+        // } else {
             if (Auth::check()) {
                 $user_id = Auth::id();
             } else {
@@ -89,7 +89,8 @@ class OrderController extends Controller
                             'address'   => $request->address,
                             'email'   => $request->email,
                             'phone'     => $phone,
-                            'password'  => Hash::make('Qq-123456'),
+                            'password'  => '',
+                            // 'password'  => Hash::make('Qq-123456'),
                         ];                
                         $user = User::create($user_data);
                     }
@@ -122,7 +123,7 @@ class OrderController extends Controller
             $order = Order::create($order_data);
 
             if ($order) {
-                $cart = Cart::where([
+                $cart = Cart::where('finished', '0')->where([
                     ['session_id', session('session_id')]
                 ])->get();
     
@@ -137,13 +138,20 @@ class OrderController extends Controller
                     $item->update();
                 }
             }
-        }        
+        // }        
 
         $data = [
             'number' => $order->number,
         ];
+
+        $messege = 'Заказ <a href="' . route('orderShow', $order->number) .'">№' . $order->number . '</a> успешно сформирован.';
+        if (Auth::check()) {
+            return redirect()->route('home')->with('success', $messege);
+        } else {
+            return redirect()->route('index')->with('success', $messege);
+        }
         
-        return view('order_finish', $data);
+        // return view('order_finish', $data);
     }
 
     /**
@@ -310,7 +318,9 @@ class OrderController extends Controller
 
     //ajax
     public function checkOrderStatus(Request $request) {
-        $order_number = $request->get('order_number');
-        $phone = $request->get('pone_number');
+        $order_number = $request->get('check_order_status__number');
+        $phone = $request->get('check_order_status__phone');
+
+        dd($order_number, $phone);
     }
 }

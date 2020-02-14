@@ -20,6 +20,7 @@ class UnitController extends Controller
     public function index()
     {
         $data = array (
+            'title' => 'Единицы измерения',
             'units' => Unit::orderBy('unit', 'ASC')->get(),
         );
         return view('admin.units.index', $data);
@@ -33,6 +34,7 @@ class UnitController extends Controller
     public function create()
     {
         $data = array (
+            'title' => 'Новая единица измерения',
             'unit' => [],
         );
         
@@ -71,6 +73,7 @@ class UnitController extends Controller
     public function edit(Unit $unit)
     {
         $data = array (
+            'title' => 'Изменение единицы измерения',
             'unit' => $unit
         );
         

@@ -28,17 +28,26 @@ Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(functi
   Route::post('/uploadimg',  'ImageController@store');
   // Route::any('/updateimg/{id}',  'ImageController@update');
   Route::resource('/categories', 'CategoryController');
+  
   Route::resource('/articles', 'ArticleController');
+
   Route::resource('/sets', 'SetController');
+
   Route::post('/articles/addProducts', 'ArticleController@addProducts');
+
   Route::resource('/manufactures', 'ManufactureController');
+
   Route::resource('/orderstatuses', 'OrderstatusController');
+  
   Route::resource('/products', 'ProductController');
   Route::post('/products/store/ajax', 'ProductController@storeAjax')->name('products.storeAjax');
   Route::post('/products/search/ajax', 'ProductController@ajaxSearch'); // поиск товара для добавления к статье
   Route::get('/products/addImages/{product}', 'ProductController@addImages')->name('products.addImages');
+
   Route::post('/setcookie', 'ProductController@setCookie');
+
   Route::resource('/units', 'UnitController');
+  Route::resource('/banners', 'BannerController');
 
   Route::resource('/consumers', 'ConsumerController');
   Route::get('/consumers/{consumer}', 'ConsumerController@consumer')->name('consumer');
@@ -85,7 +94,7 @@ Route::group(['middleware' => 'user.online'], function () {
   Route::resource('/order', 'OrderController')->except(['show']);
   Route::get('/order/{order}', 'OrderController@showOrder')->name('orderShow');
   Route::post('/order/checkuserphone', 'OrderController@checkUserPhone')->name('checkUserPhone');
-  Route::post('/order/checkorderstatus', 'OrderController@checkOrderStatus');
+  Route::post('/order/checkorderstatus', 'OrderController@checkOrderStatus')->name('checkorderstatus');
   Route::post('/checkinn', 'OrderController@checkinn'); // ajax
   // Route::post('/order/final', 'OrderController@final')->name('order.final');
   

@@ -17,7 +17,7 @@ class CreateOrderProductTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id')->nullable();
-            $table->decimal('amount', 6, 3);
+            $table->decimal('amount', 9, 3);
             $table->decimal('price', 10, 2);
 
             $table->foreign('order_id')

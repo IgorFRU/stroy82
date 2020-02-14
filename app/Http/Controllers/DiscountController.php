@@ -21,6 +21,7 @@ class DiscountController extends Controller
     {
         $today = Carbon::now();
         $data = array (
+            'title' => 'Скидки и акции',
             'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
             // 'numeral' => Discount::where([
             //                 'discount_end', '>', $today,
@@ -36,6 +37,7 @@ class DiscountController extends Controller
     {
         $today = Carbon::now();
         $data = array (
+            'title' => 'Архив акций',
             'discounts' => Discount::where('discount_end', '<', $today)->orderBy('discount_start', 'DESC')->get(),
             'today' => $today,
             'actually' => false,
@@ -52,6 +54,7 @@ class DiscountController extends Controller
     public function create()
     {
         $data = array (
+            'title' => 'Новая акция',
             'discount' => [],
         );
         
@@ -91,6 +94,7 @@ class DiscountController extends Controller
     public function edit(Discount $discount)
     {
         $data = array (
+            'title' => 'Редактирование акции',
             'discount' => $discount
         );
         

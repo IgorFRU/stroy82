@@ -705,7 +705,7 @@ section {
 .section_title {
     font-size: 20px;
     text-transform: uppercase;
-    border-bottom: 2px solid #3c78c6;
+    /* border-bottom: 2px solid #3c78c6; */
     color: #3c78c6;
     font-weight: bold;
     letter-spacing: 1px;
@@ -1324,4 +1324,19 @@ footer>div>div {
 
 .hidden_inputs {
     display: none;
+}
+
+.flash-messeges {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}
+
+.mainpage-banners {
+    height: 400px;
+    overflow: hidden;
+}
+
+.mainpage-banners .carousel-item {
+    height: 100%;
 }
