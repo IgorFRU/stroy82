@@ -87,6 +87,7 @@ class OrderController extends Controller
                             'name'      => $request->name,
                             'surname'   => $request->surname,
                             'address'   => $request->address,
+                            'email'   => $request->email,
                             'phone'     => $phone,
                             'password'  => Hash::make('Qq-123456'),
                         ];                
