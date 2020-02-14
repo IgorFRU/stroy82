@@ -317,7 +317,9 @@ class OrderController extends Controller
 
     //ajax
     public function checkOrderStatus(Request $request) {
-        $order_number = $request->get('order_number');
-        $phone = $request->get('pone_number');
+        $order_number = $request->get('check_order_status__number');
+        $phone = $request->get('check_order_status__phone');
+
+        dd($order_number, $phone);
     }
 }

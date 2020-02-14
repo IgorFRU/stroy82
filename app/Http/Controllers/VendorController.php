@@ -19,6 +19,7 @@ class VendorController extends Controller
     public function index()
     {
         $data = array (
+            'title' => 'Поставщики',
             'vendors' => Vendor::orderBy('vendor', 'ASC')->get(),
         );
         return view('admin.vendors.index', $data);
@@ -32,6 +33,7 @@ class VendorController extends Controller
     public function create()
     {
         $data = array (
+            'title' => 'Новый поставщик',
             'vendor' => [],
         );
         // dd($data['categories']);
@@ -72,6 +74,7 @@ class VendorController extends Controller
     public function edit(Vendor $vendor)
     {
         $data = array (
+            'title' => 'Изменение поставщика',
             'vendor' => $vendor
         );
         

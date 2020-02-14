@@ -19,6 +19,7 @@ class ManufactureController extends Controller
     public function index()
     {
         $data = array (
+            'title' => 'Производители',
             'manufactures' => Manufacture::orderBy('id', 'DESC')->get(),
         );
         return view('admin.manufactures.index', $data);
@@ -32,6 +33,7 @@ class ManufactureController extends Controller
     public function create()
     {
         $data = array (
+            'title' => 'Новый производитель',
             'manufacture' => [],
         );
         // dd($data['categories']);
@@ -73,6 +75,7 @@ class ManufactureController extends Controller
     public function edit(Manufacture $manufacture)
     {
         $data = array (
+            'title' => 'Редактирование производителя',
             'manufacture' => $manufacture
         );
         

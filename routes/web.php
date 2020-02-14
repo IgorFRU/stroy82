@@ -94,7 +94,7 @@ Route::group(['middleware' => 'user.online'], function () {
   Route::resource('/order', 'OrderController')->except(['show']);
   Route::get('/order/{order}', 'OrderController@showOrder')->name('orderShow');
   Route::post('/order/checkuserphone', 'OrderController@checkUserPhone')->name('checkUserPhone');
-  Route::post('/order/checkorderstatus', 'OrderController@checkOrderStatus');
+  Route::post('/order/checkorderstatus', 'OrderController@checkOrderStatus')->name('checkorderstatus');
   Route::post('/checkinn', 'OrderController@checkinn'); // ajax
   // Route::post('/order/final', 'OrderController@final')->name('order.final');
   

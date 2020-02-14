@@ -22,6 +22,7 @@ class SetController extends Controller
     public function index()
     {
         $data = array (
+            'title' => 'Группы товаров',
             'sets' => Set::orderBy('id', 'DESC')->get()
         );
 
@@ -36,6 +37,7 @@ class SetController extends Controller
     public function create()
     {
         $data = array (
+            'title' => 'Новая группа товаров',
             'set' => [],
             'categories' => Category::with('children')->where('category_id', '0')->get(),
             'delimiter' => ''
@@ -82,6 +84,7 @@ class SetController extends Controller
     public function edit(Set $set)
     {
         $data = array (
+            'title' => 'Изменение группы товаров',
             'set' => $set,
             'categories' => Category::with('children')->where('category_id', '0')->get(),
             'delimiter' => ''

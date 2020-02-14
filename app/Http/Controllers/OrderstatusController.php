@@ -20,6 +20,7 @@ class OrderstatusController extends Controller
     public function index()
     {
         $data = array (
+            'title' => 'Статусы заказов',
             'orderstatuses' => Orderstatus::orderBy('id', 'ASC')->get(),
         );
         return view('admin.orderstatuses.index', $data);
@@ -33,6 +34,7 @@ class OrderstatusController extends Controller
     public function create()
     {
         $data = array (
+            'title' => 'Новый статус заказов',
             'orderstatus' => [],
         );
         
@@ -71,6 +73,7 @@ class OrderstatusController extends Controller
     public function edit(Orderstatus $orderstatus)
     {
         $data = array (
+            'title' => 'Изменение статуса заказов',
             'orderstatus' => $orderstatus
         );
         

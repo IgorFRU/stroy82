@@ -4,7 +4,7 @@
     <script src="{{ asset('js/discount_countdown.js') }}" defer></script>
 @endsection
 @section('content')
-    <div class="header wrap d-flex justify-content-between">
+    <div class="header wrap row">
         @if (count($banners) > 0)
             <div class="col-lg-6">
                 <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
@@ -41,16 +41,17 @@
             </div>
             <div class="col-lg-6 mainpage-banners">
                 @forelse ($discounts as $discount)
-                <div class="category_card white_box col d-flex">
-                    <div class="discount_sticker p10 bg-blue">
-                        <span>-{{ $discount->value }}{{ $discount->rus_type }}</span>
-                    </div> 
-                    <div class="category_card__title p10">
-                        <h4><a href="{{ route('sale', $discount->slug) }}">{{ $discount->discount }} {{ $discount->value }}{{ $discount->rus_type }}</a></h4>
-                        <div class="card_info @if($discount->it_actuality) color-green  @endif">{{ $discount->start_d_m_y }} - {{ $discount->d_m_y }} @if(!$discount->it_actuality) <br>(акция закончилась!) @endif</div>
-                        <p>{{ $discount->description ?? '' }}</p>
+                <div class="col">
+                    <div class="category_card white_box d-flex">
+                        <div class="discount_sticker p10 bg-blue">
+                            <span>-{{ $discount->value }}{{ $discount->rus_type }}</span>
+                        </div> 
+                        <div class="category_card__title p10">
+                            <h4><a href="{{ route('sale', $discount->slug) }}">{{ $discount->discount }} {{ $discount->value }}{{ $discount->rus_type }}</a></h4>
+                            <div class="card_info @if($discount->it_actuality) color-green  @endif">{{ $discount->start_d_m_y }} - {{ $discount->d_m_y }} @if(!$discount->it_actuality) <br>(акция закончилась!) @endif</div>
+                            <p>{{ $discount->description ?? '' }}</p>
+                        </div>                        
                     </div>
-                        
                 </div>
                 @empty
                     
@@ -107,12 +108,58 @@
             @endforeach
         </div>
         @endisset             --}}
+        <div class="superiorities col-lg-12 d-flex justify-content-between mt-5 mb-4">
+            <div class="superiority col-lg-3">
+                <div class="superiority__icon"><i class="fas fa-truck"></i></div>
+                <span>Быстрая доставка по Симферополю и Крыму</span>
+            </div>
+            <div class="superiority col-lg-3">
+                <div class="superiority__icon"><i class="far fa-credit-card"></i></div>
+                <span>Удобные способы оплаты заказа</span>
+            </div>
+            <div class="superiority col-lg-3">
+                <div class="superiority__icon"><i class="fas fa-money-bill-alt"></i></div>
+                <span>Отличные цены вне конкуренции</span>
+            </div>
+            <div class="superiority col-lg-3">
+                <div class="superiority__icon"><i class="fas fa-phone"></i></div>
+                <span>Доступность менеджера с 08:00 до 19:00</span>
+            </div>    
+        </div>   
     </div>
-    <section class="sales_products wrap row d-flex col-lg-12">
+    @if (count($articles)> 0)
+        <section class="mb-5 wrap">
+            <div class="section_title">
+                Последние статьи
+            </div>
+            <div class="card-group">
+                @forelse ($articles as $article)
+                    <div class="col-lg-3">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="{{ route('article', $article->slug) }}">{{ $article->limit_title }}</a></h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ $article->start_date }}</h6>
+                                <p class="card-text">{!! $article->limit_text !!}</p>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    
+                @endforelse
+            </div>
+        </section>
+    @endif
+    
+
+    <section class="sales_products wrap">
         @isset($discounts)
+        <div class="section_title">
+            Успейте купить
+        </div>
         @php
             $count = 0;
         @endphp
+        <div class=" row d-flex col-lg-12">
             @foreach ($discounts as $discount)        
                 {{-- после третьей итерации выходим из цикла     --}}
                 @break($count == 2)
@@ -176,6 +223,7 @@
                 @endforeach
                 
             @endforeach
+        </div>
         @endisset
         
     </section>
@@ -298,6 +346,103 @@
         </div>
     </section>
     @endisset
+
+    @isset($popularProducts)  
+    <section class="last_products wrap">
+        <div class="section_title">
+            Популярные товары
+        </div>
+        <div class="product_cards col-lg-12 row">
+            @foreach ($popularProducts as $product)
+                <div class="product_card white_box w23per">
+                    <div class="product_card__img">
+                        <img  class="img-fluid"
+                        @if(isset($product->images) && count($product->images) > 0)
+                            src="{{ asset('imgs/products/thumbnails/')}}/{{ $product->main_or_first_image->thumbnail }}"
+                            alt="{{ $product->main_or_first_image->alt }}"
+                        @else 
+                            src="{{ asset('imgs/nopic.png')}}"
+                        @endif >
+                    </div>                    
+                    <div class="product_card__content p10">      
+                        <div class="product_card__content__info">
+                            <div class="d-flex justify-content-between">
+                                @isset($product->category->slug)
+                                    <span class="product_card__content__category"><a href="{{ route('category', $product->category->slug) }}">{{ $product->category->category ?? '' }}</a></span>
+                                @endisset
+                                @isset($product->manufacture->slug)
+                                    <span class="product_card__content__manufacture"><a href="{{ route('manufacture', $product->manufacture->slug) }}">{{ $product->manufacture->manufacture ?? '' }}</a></span>             
+                                @endisset
+                                
+                            </div>
+                            {{-- <span class="product_inner_scu">артикул: {{ $product->autoscu }}</span> --}}
+                        </div>
+                        @if(isset($product->category->slug))
+                            <h5><a href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
+                        @else
+                            <h5><a href="{{ route('product.without_category', $product->slug) }}">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
+                        @endif
+                        <div class="short_description">{{ $product->short_description ?? '' }}</div>
+                        <div class="prices row lg-12 d-flex justify-content-between">
+                            <div class=" d-flex">
+                                @if(isset($product->discount) && $product->actually_discount)
+                                    <div class="old_price">{{ number_format($product->price, 2, ',', ' ') }}</div>
+                                    <div class="new_price">
+                                    @if ($product->discount->type == '%')
+                                        {{ number_format($product->price * $product->discount->numeral, 2, ',', ' ') }} 
+                                    @elseif ($product->discount->type == 'rub')
+                                        {{ number_format($product->price - $product->discount->value, 2, ',', ' ') }}
+                                    @endif
+                                    </div>
+                                @else
+                                    <div class="new_price">
+                                        {{ number_format($product->price, 2, ',', ' ') }}
+                                        
+                                    </div>
+                                    
+                                @endif
+                            </div>
+                                @if ($product->packaging)
+                                    <div class="unit_buttons">
+                                        @isset($product->unit)
+                                            <span class="unit_buttons__unit active" data-package="{{$product->unit_in_package ?? ''}}">1 {{ $product->unit->unit }}</span>
+                                        @endisset
+                                        <span class="unit_buttons__package" data-package="{{$product->unit_in_package ?? ''}}">1 уп.</span>
+                                    </div>
+                                @endif
+                                
+                                
+                        </div>
+                    </div>
+                    <div class="product_superiorities">
+                        @isset($product->pay_online)
+                            <div class="product_superiority">
+                                <span class="product_superiority__left l-green">
+                                    <i class="fas fa-credit-card"></i>
+                                </span>
+                                <span class="product_superiority__right m-green">
+                                    Этот товар можно оплатить онлайн
+                                </span>
+                            </div>
+                        @endisset
+                        @if($product->actually_discount)
+                            <div class="product_superiority">
+                                <span class="product_superiority__left l-red">
+                                    <i class="fas fa-percentage"></i>
+                                </span>
+                                <span class="product_superiority__right m-red">
+                                    Акция до {{ $product->discount->d_m_y }}
+                                </span>
+                            </div>
+                        @endif
+                        
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+    @endisset
+
     @if (isset($about->main_text))
     <section class="main_about wrap">
         {!! $about->main_text ?? '' !!}
