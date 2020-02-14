@@ -11,7 +11,6 @@
 @endsection
 @section('adminmenu')
     @parent
-    @include('admin.partials.adminmenu')
 @endsection
 @section('content')
 <div class="container">

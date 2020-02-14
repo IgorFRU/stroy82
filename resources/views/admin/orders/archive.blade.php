@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <p class="h3">Активные заказы</p>
+                    <p class="h3">Архив заказов</p>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover">
@@ -25,7 +25,7 @@
                             @forelse ($orders as $order)
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
-                                    <th><a href="{{ route('admin.order', ['order' => $order->number]) }}">{{ $order->number ?? '' }}</a>@if ($order->unread) <button class="btn btn-sm btn-danger" title="Новый заказ, требующий реакции!">NEW</button> @endif</th>
+                                    <th><a href="{{ route('admin.order', ['order' => $order->number]) }}">{{ $order->number ?? '' }}</a></th>
                                     <th>@if ($order->successful_payment) <div class="order_successful_payment true"><span><i class="fas fa-check"></i></span> Оплачен</div> @else <div class="order_successful_payment false"><span><i class="fas fa-times"></i></span> Не оплачен</div> @endif</th>
                                     <th>{{ $order->create_d_m_y_t }}</th>
                                     <th>@if (isset($order->consumers))
@@ -41,6 +41,7 @@
                                     @else
                                         <th>- нет статуса -</th>
                                     @endif
+                                    
                                 </tr>
                             @empty
                                 

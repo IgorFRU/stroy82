@@ -72,12 +72,14 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item {{ (Request::is('*consumers*') ? 'active' : '') }}" href="{{ route('admin.consumers.index') }}"><i class="fas fa-user-friends"></i>  Покупатели</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-map-marked-alt"></i>  Адреса покупателей</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item {{ (Request::is('*orders') ? 'active' : '') }}" href="{{ route('admin.orders') }}"><i class="fas fa-shopping-basket"></i>  Заказы</a>
+                                <a class="dropdown-item rounded text-white bg-danger" href="{{ route('admin.hot.orders') }}"><i class="fas fa-fire"></i>  Заказы к исполнению @if ($active_orders_count > 0)
+                                    <span class="badge badge-light">{{ $active_orders_count }}</span>
+                                @endif</a>
+                                <a class="dropdown-item {{ (Request::is('*orders/archive') ? 'active' : '') }}" href="{{ route('admin.archive.orders') }}"><i class="fas fa-boxes"></i>  Архив заказов</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item {{ (Request::is('*orderstatuses*') ? 'active' : '') }}" href="{{ route('admin.orderstatuses.index') }}"><i class="fas fa-check"></i>  Статусы заказов</a>
-                                <a class="dropdown-item {{ (Request::is('*orders*') ? 'active' : '') }}" href="{{ route('admin.orders') }}"><i class="fas fa-shopping-basket"></i>  Заказы</a>
-                                <a class="dropdown-item rounded text-white bg-danger" href="#"><i class="fas fa-fire"></i>  Заказы к исполнению</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-boxes"></i>  Архив заказов</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -114,7 +116,23 @@
                                     </form>
                                 </div>
                             </li>
-                        
+                            <li class="nav-item dropdown">
+                                <a class="nav-link @if ($active_orders_count > 0) text-danger @endif" href="{{ route('admin.categories.index') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-bell"></i> @if ($active_orders_count > 0)
+                                    <span class="badge badge-danger">{{ $active_orders_count }}</span>
+                                @endif
+                                </a>
+                                @if ($active_orders_count > 0)
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item  rounded text-white bg-danger" href="{{ route('admin.hot.orders') }}">Есть новые заказы</a>
+                                    </div>
+                                @else
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <div class="dropdown-item">Уведомлений нет</div>
+                                    </div>
+                                @endif
+                                
+                            </li>
                     </ul>
                 </div>
             </div>

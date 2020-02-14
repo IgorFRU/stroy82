@@ -55,6 +55,8 @@ Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(functi
 
   Route::post('/orders/changestatus', 'OrderController@changestatus');
   Route::get('/orders', 'OrderadminController@adminActiveOrders')->name('orders');  
+  Route::get('/orders/hot', 'OrderadminController@adminHotOrders')->name('hot.orders');  
+  Route::get('/orders/archive', 'OrderadminController@adminArchiveOrders')->name('archive.orders');  
   Route::get('/orders/{order}', 'OrderadminController@order')->name('order');
 
   Route::resource('/vendors', 'VendorController');

@@ -26,6 +26,7 @@ class ConsumerController extends Controller
         $consumers = User::orderBy('id', 'DESC')->paginate(40);
 
         $data = array (
+            'title' => 'Покупатели',
             'consumers' => $consumers,
         );
 
@@ -106,6 +107,7 @@ class ConsumerController extends Controller
         }])->firstOrFail();
 
         $data = array(
+            'title' => 'Покупатель',
             'consumer' => $consumer,
         );
 
@@ -125,6 +127,7 @@ class ConsumerController extends Controller
         $orderstatuses = Orderstatus::orderBy('id', 'ASC')->get();
 
         $data = array(
+            'title' => 'Заказ №' . $order->number . ' покупателя',
             'consumer' => $consumer,
             'order' => $order,
             'statuses' => $orderstatuses,

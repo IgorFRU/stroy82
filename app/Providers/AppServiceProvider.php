@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Schema;
 use App\Cart;
+use App\Order;
 use App\Category;
 use App\Article;
 use App\Set;
@@ -42,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
         date_default_timezone_set('Europe/Moscow');
 
         self::globalData();
+        self::adminGlobalData();
 
 
         Category::creating(function(Category $model){
@@ -224,6 +226,17 @@ class AppServiceProvider extends ServiceProvider
                 'topmenu' => $topmenu,
             );
             
+            $view->with($data);
+        });
+    }
+
+    public function adminGlobalData() {
+        View::composer('layouts.admin-app', function ($view){
+
+            $data = [
+                'active_orders_count' => Order::unread()->count(),
+            ];
+
             $view->with($data);
         });
     }

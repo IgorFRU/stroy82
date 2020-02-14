@@ -70,6 +70,11 @@ class Order extends Model
         return $query->orderBy('id', 'desc')->where('completed', 0);
     }
 
+    public function scopeArchive($query)
+    {
+        return $query->orderBy('id', 'desc')->where('completed', 1);
+    }
+
     public function getUnreadAttribute()
     {
         if ($this->read_at) {

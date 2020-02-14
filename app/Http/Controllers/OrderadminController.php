@@ -22,6 +22,7 @@ class OrderadminController extends Controller
 
         // dd($orders);
         $data = array(
+            'title' => 'Статусы заказов',
             'orders' => $orders,
         );
 
@@ -40,10 +41,34 @@ class OrderadminController extends Controller
         $orderstatuses = Orderstatus::orderBy('id', 'ASC')->get();
 
         $data = array(
+            'title' => 'Статус заказов',
             'order' => $order,
             'statuses' => $orderstatuses,
         );
 
         return view('admin.orders.order', $data);
+    }
+
+    public function adminHotOrders() {
+        $orders = Order::unread()->active()->with('consumers', 'status')->get();
+
+        // dd($orders);
+        $data = array(
+            'title' => 'Новые заказы',
+            'orders' => $orders,
+        );
+
+        return view('admin.orders.hot', $data);
+    }
+
+    public function adminArchiveOrders() {
+        $orders = Order::archive()->with('consumers', 'status')->get();
+
+        $data = array(
+            'title' => 'Архив заказов',
+            'orders' => $orders,
+        );
+
+        return view('admin.orders.archive', $data);
     }
 }
