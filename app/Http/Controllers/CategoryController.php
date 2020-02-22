@@ -21,6 +21,7 @@ class CategoryController extends Controller
     public function index()
     {
         $data = array (
+            'title' => 'Категории товаров',
             'categories' => Category::orderBy('id', 'DESC')
                                     ->paginate(20)
         );
@@ -36,6 +37,7 @@ class CategoryController extends Controller
     public function create()
     {
         $data = array (
+            'title' => 'Новая категория',
             'category' => [],
             //коллекция вложенных подкатегорий
             'categories' => Category::with('children')->where('category_id', '0')->with('property')->get(),
@@ -87,6 +89,7 @@ class CategoryController extends Controller
     {
         $property_ids = $category->property->pluck('id');
         $data = array (
+            'title' => 'Редактирование категории',
             'category' => $category,
             'categories' => Category::with('children')->where('category_id', '0')->with('property')->get(),
             'properties' => Property::whereNotIn('id', $property_ids)->orderBy('property', 'asc')->get(),

@@ -638,6 +638,38 @@ $(function() {
                     console.log(msg);
                 }
             });
-        }        
+        }
     });
+
+    //при изменении категории в форме добавления/редактирования товара подгружаются характеристики из этой категории
+    $('#category_id').bind('input', function() {
+        $.ajax({
+            type: "POST",
+            url: "/admin/products/getcategoryproperties",
+            data: {
+                category_id: $(this).val()
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                var data = $.parseJSON(data);
+                let to_insert = $('#properties div');
+                to_insert.empty();
+                if (data.length > 0) {
+                    console.log(data);
+
+                    data.forEach(element => {
+                        to_insert.append("<div class='form-group row'><label for='" + element.id + "' class='col-sm-2 col-form-label'>" + element.property + "</label><div class='col-md-4'><input type='text' name='property_values[" + element.id + "]' class='form-control' id='" + element.property + "' value=''></div></div>");
+                    });
+                } else {
+                    to_insert.append("<div class='alert alert-warning'>Вы еще не добавили ни одной характеристики для данной категории!</div>");
+                }
+            },
+            error: function(msg) {
+                console.log(msg);
+            }
+        });
+    });
+
 });

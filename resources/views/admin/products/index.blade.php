@@ -161,10 +161,10 @@
                             <td>{{ $product->delivery_time ?? '-' }}</td>
                             <td>
                                 @if ($product->pay_online)
-                                    <span class="p-1"><i class="fas fa-credit-card"></i></span>
+                                    <span class="p-1" title="Оплата товара онлайн"><i class="fas fa-credit-card"></i></span>
                                 @endif
                                 @if ($product->packaging)
-                                    <span class="p-1"><i class="fas fa-box"></i></span>
+                                    <span class="p-1" title="Товар продаётся упаковками"><i class="fas fa-box"></i></span>
                                 @endif
                                 
                             

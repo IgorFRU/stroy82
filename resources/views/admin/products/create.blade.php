@@ -21,13 +21,8 @@
             <div class="card edit_form">
                 <div class="card-header"><p class="h3">Новый товар</p></div>
                 <div class="card-body">
-                    
-                    
-                    
-                        {{-- Forme include --}}
-            
-                        @include('admin.products.partials.form')
-                       
+                        {{-- Forme include --}}            
+                        @include('admin.products.partials.form')                       
                 </div>
             </div>
         </div>

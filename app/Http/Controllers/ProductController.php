@@ -44,6 +44,10 @@ class ProductController extends Controller
         $itemsPerPage = (isset($_COOKIE['adm_items_per_page'])) ? $itemsPerPage = $_COOKIE['adm_items_per_page'] : $itemsPerPage = 20;
         $show_published = (isset($_COOKIE['adm_show_published'])) ? $show_published = $_COOKIE['adm_show_published'] : $show_published = 0;
 
+        if (isset($request->category)) {
+            $category = $request->category;
+        }
+
         $products = Product::
         when($category, function ($query, $category) {
             return $query->where('category_id', $category);
@@ -398,6 +402,12 @@ class ProductController extends Controller
         // echo json_encode($request->all());
     }
 
+    public function getCategoryProperties(Request $request) {
+
+        $category = Category::whereId($request->category_id)->with('property')->firstOrFail();
+        echo json_encode($category->property);
+    }
+
     public function setCookie(Request $request) {
         if (isset($request->adm_category_show) && $request->adm_category_show != '') {
             setcookie('adm_category_show', $request->adm_category_show, time()+60*60*24*365);
@@ -411,9 +421,6 @@ class ProductController extends Controller
         if (isset($request->adm_show_published) && $request->adm_show_published != '') {
             setcookie('adm_show_published', $request->adm_show_published, time()+60*60*24*365); 
         }
-
-        
-
         // echo json_encode($name);
     }
 }
