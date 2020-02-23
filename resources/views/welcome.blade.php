@@ -450,10 +450,4 @@
         <button class="btn btn-secondary btn-sm">раскрыть...</button>
     </section>        
     @endif   
-    
-    <div class="flash-messeges">
-        @if (Session::has('success'))
-            <div class="shadow alert alert-success">{!! Session::get('success') !!}</div>
-        @endif
-    </div>
 @endsection

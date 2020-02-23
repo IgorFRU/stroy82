@@ -41,33 +41,27 @@ class UserController extends Controller
 
         if ($request->id == Auth::user()->id) {
 
-            if (User::where([
-                    ['id', '<>', $request->id],
-                    ['email', $request->email]
-                ])->count() > 0) {
-                $data = 'email_error';
+            $user = Auth::user();
+            if ($request->name == '') {
+                $user->name = $user->name;
             } else {
-                $user = User::where('id', $request->id)->first();
-                if ($request->name == '') {
-                    $user->name = $user->name;
-                } else {
-                    $user->name = $request->name;
-                }
-                if ($request->email == '') {
-                    $user->email = $user[0]->email;
-                } else {
-                    $user->email = $request->email;
-                }
-
-                $user->surname = $request->surname;
-                $user->address = $request->address;
-                
-                $user->update();
-                $data = $user;
+                $user->name = $request->name;
             }
+            if ($request->email == '' || User::where([
+                ['id', '<>', $request->id],
+                ['email', $request->email]
+            ])->count() > 0) {
+                $user->email = $user->email;
+            } else {
+                $user->email = $request->email;
+            }
+
+            $user->surname = $request->surname;
+            $user->address = $request->address;
             
-            
-            echo json_encode($data);
-        }
+            $user->update();
+            $data = $user;            
+        }            
+        echo json_encode($data);        
     }
 }

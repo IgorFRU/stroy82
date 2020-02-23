@@ -41,7 +41,11 @@ class LoginController extends Controller
 
     protected function credentials(Request $request) {
         if(is_numeric($request->email)){
-            return ['phone'=>$request->email,'password'=>$request->password];
+            $phone = str_replace(array('+','-', '(', ')', ' '), '', $request->email);
+            if (strlen($phone) == 11) {
+                $phone = substr($phone, 1);
+            }
+            return ['phone'=>$phone,'password'=>$request->password];
         }
         else {
             return ['email' => $request->email, 'password'=>$request->password];

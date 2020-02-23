@@ -211,7 +211,7 @@
                         <div class="form-group">
                             <label for="check_order_status__number" class="col-form-label">№ заказа</label>
                             <div class="">
-                                <input type="text" class="form-control" id="check_order_status__number" name="check_order_status__number" value="" maxlength="10" placeholder="" required>
+                                <input type="text" class="form-control" id="check_order_status__number" name="check_order_status__number" value="" maxlength="11" placeholder="" required>
                             </div>
                         </div>
                         <div class="form-group">

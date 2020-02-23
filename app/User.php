@@ -73,6 +73,10 @@ class User extends Authenticatable
         }        
     }
 
+    public function getPhoneLastFourAttribute() {
+        return substr($this->phone, -4);
+    }
+
     public function getUpSurnameAttribute() {
         if (isset($this->surname)) {
             return ucfirst($this->surname);

@@ -35,7 +35,7 @@ class Order extends Model
     }
 
     public function statuschangehistories() {
-        return $this->hasMany(Statuschangehistory::class);
+        return $this->belongsToMany(Statuschangehistory::class);
     }
 
     public function getDMYAttribute() {
@@ -55,28 +55,23 @@ class Order extends Model
         return OrderProduct::where('order_id', $this->id)->where('product_id', $product_id)->pluck('amount');
     }
 
-    public function scopeUnread($query)
-    {
+    public function scopeUnread($query) {
         return $query->orderBy('id', 'desc')->where('read_at', NULL);
     }
 
-    public function scopeUnreadlast($query, $quantity)
-    {
+    public function scopeUnreadlast($query, $quantity) {
         return $query->orderBy('id', 'desc')->where('read_at', NULL)->limit($quantity);
     }
 
-    public function scopeActive($query)
-    {
+    public function scopeActive($query) {
         return $query->orderBy('id', 'desc')->where('completed', 0);
     }
 
-    public function scopeArchive($query)
-    {
+    public function scopeArchive($query) {
         return $query->orderBy('id', 'desc')->where('completed', 1);
     }
 
-    public function getUnreadAttribute()
-    {
+    public function getUnreadAttribute() {
         if ($this->read_at) {
             return false;
         } else {
@@ -84,13 +79,11 @@ class Order extends Model
         }        
     }
 
-    public function scopeLast($query, $count)
-    {
+    public function scopeLast($query, $count) {
         return $query->orderBy('id', 'desc')->take($count);
     }
 
-    public function getSummAttribute()
-    {
+    public function getSummAttribute() {
         $products = $this->products;
         // dd($products);
         $summ = 0;
@@ -102,18 +95,19 @@ class Order extends Model
         return number_format($summ, 2, ',', ' ') . ' руб.';        
     }
 
-    public function getReadDMYTAttribute()
-    {
+    public function getReadDMYTAttribute() {
         return $this->read_at->locale('ru')->isoFormat('DD MMMM YYYY, H:mm');
     }
 
-    public function getCreateDMYTAttribute()
-    {
+    public function getCreateDMYTAttribute() {
         return $this->created_at->locale('ru')->isoFormat('DD MMMM YYYY, H:mm');
     }
 
-    public function getCountProductsAttribute()
-    {
+    public function getCountProductsAttribute() {
         return count($this->products);
+    }
+
+    public function getSimpleNubmerAttribute() {
+        return str_replace(array('-'), '', $this->number);
     }
 }

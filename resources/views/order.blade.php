@@ -34,19 +34,19 @@
                                 <div class="col-lg-5">                                    
                                     <div class="form-group">
                                         <label for="surname">Фамилия</label>
-                                        <input type="text" class="form-control form-control-sm" name="surname" required id="surname" value="{{ Auth::user()->up_surname ?? '' }}">
+                                        <input type="text" class="form-control form-control-sm" name="surname" required id="surname" value="{{ old('surname') ?? Auth::user()->up_surname ?? '' }}">
                                     </div>
                                 </div>  
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="name">Имя</label>
-                                        <input type="text" class="form-control form-control-sm" name="name" required id="name" value="{{ Auth::user()->up_name ?? '' }}">
+                                        <input type="text" class="form-control form-control-sm" name="name" required id="name" value="{{ old('name') ?? Auth::user()->up_name ?? '' }}">
                                     </div>
                                 </div>     
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="address">Адрес</label>
-                                        <input type="text" class="form-control form-control-sm" name="address" required id="address" value="{{ Auth::user()->address ?? '' }}">
+                                        <input type="text" class="form-control form-control-sm" name="address" required id="address" value="{{ old('address') ?? Auth::user()->address ?? '' }}">
                                     </div>
                                 </div>
                                 @if (Auth::check() && Auth::user()->phone != '' )                                       
@@ -60,7 +60,7 @@
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="user_phone">Номер телефона</label>
-                                        <input type="text" class="form-control form-control-sm" name="phone" required id="user_phone" placeholder="8(978)123-45-67" oninput="checkUserPhone()">               
+                                        <input type="text" class="form-control form-control-sm" name="phone" required id="user_phone" placeholder="8(978)123-45-67" oninput="checkUserPhone()" value="{{ old('phone') ?? ''}}">               
                                         <span class="invalid-feedback" role="alert">
                                             Пользователь с таким номером телефона уже зарегистрирован.</br>
                                             Если это ваш номер, войдите в свою учетную запись, чтобы продолжить.</br>
@@ -80,7 +80,7 @@
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="email">Эл. почта</label>
-                                        <input type="email" class="form-control form-control-sm" name="email" id="email">
+                                        <input type="email" class="form-control form-control-sm" name="email" id="email" value="{{ old('phone') ?? ''}}">
                                     </div>
                                 </div>
                                 @endif

@@ -78,10 +78,13 @@ class OrderController extends Controller
                     if (strlen($phone) == 11) {
                         $phone = substr($phone, 1);
                     }
+
+                    
     
                     $user = User::where('phone', $phone)->first();
     
                     if ($user == NULL) {
+                        dd($phone);
                         $user_data = [
                             'quick'     => '1',
                             'name'      => $request->name,
@@ -93,6 +96,8 @@ class OrderController extends Controller
                             // 'password'  => Hash::make('Qq-123456'),
                         ];                
                         $user = User::create($user_data);
+                    } else {
+                        return redirect()->back()->withInput()->with('danger', 'Для того, чтобы использовать этот номер телефона, вам необходимо войти в соответствующую учётную запись.');
                     }
                 $user_id = $user->id;
                 }            
@@ -320,7 +325,29 @@ class OrderController extends Controller
     public function checkOrderStatus(Request $request) {
         $order_number = $request->get('check_order_status__number');
         $phone = $request->get('check_order_status__phone');
+        // dd($phone);
+        $order = Order::where('number', $order_number)->with('consumers')->first();
+        if ($order) {
+            $user = User::where('phone', 'like', "______$phone")->first();
+            if ($user) {
+                if ($user->phone_last_four == $phone && $user->id == $order->consumers->id) {
+                    return redirect()->route('orderShow', $order->number)->with('success', 'Информация по вашему зказу доступна');
+                } else {
+                    return redirect()->back()->with('warning', 'Поиск по введённым значениям не дал результатов. Проверьте правильность введённых данных и повторите попытку или свяжитесь с нами.');
+                }
+                
+            } else {
+                return redirect()->back()->with('warning', 'Поиск по введённым значениям не дал результатов. Проверьте правильность введённых данных и повторите попытку или свяжитесь с нами.');
+            }
+            
+        } else {
+            return redirect()->back()->with('warning', 'Поиск по введённым значениям не дал результатов. Проверьте правильность введённых данных и повторите попытку или свяжитесь с нами.');
+        }
+        
+        
 
-        dd($order_number, $phone);
+        
+
+        // dd($order_number, $phone);
     }
 }

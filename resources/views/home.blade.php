@@ -95,7 +95,7 @@
                                                 <div class="d-flex justify-content-start mt-20">                                                    
                                                     <div class="custom_input mr-50">
                                                         <div class="custom_input__top_title color-ll-grey">
-                                                            № заказ
+                                                            № заказа
                                                         </div>
                                                         <div class="custom_input__content" id="surname">
                                                             {{ $order->number }}
@@ -182,14 +182,14 @@
                     </p>
                 </div>
             </div>
-            <div class="user_section">
+            {{-- <div class="user_section">
                 <h2><i class="fas fa-heart"></i> Избранные товары</h2>
                 <div class="user_section__content mt-20">
                     <p class="color-ll-grey">
                         У вас пока нет избранных товаров
                     </p>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </section>
   
@@ -227,7 +227,7 @@
                 <div class="row col-lg-12">
                     <div class="form-group col-lg-12">
                         <label for="user_info_email" class="col-form-label">Эл. почта:</label>
-                        <input type="email" class="form-control" id="user_info_email" maxlength="100" name="user_info_email" required value="{{ Auth::user()->email ?? '' }}">
+                        <input type="email" class="form-control" id="user_info_email" maxlength="100" name="user_info_email" value="{{ Auth::user()->email ?? '' }}">
                     </div>
                 </div>
                 <input type="hidden" name="user_info_id" id="user_info_id" value="{{ Auth::user()->id ?? '' }}">
