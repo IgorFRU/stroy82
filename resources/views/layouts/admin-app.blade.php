@@ -14,7 +14,8 @@
 
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/admin.js') }}" defer></script>
-    <script src="https://use.fontawesome.com/564e0d687f.js"></script>
+    <script src="https://use.fontawesome.com/564e0d687f.js"></script>    
+    <script src="https://unpkg.com/imask"></script>
     
     @show
 
@@ -95,7 +96,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}"><i class="fas fa-link"></i>  На сайт</a>
+                            <a class="nav-link" href="{{ url('/') }}" target="_blank"><i class="fas fa-link"></i>  На сайт</a>
                         </li>
                         
                         <!-- Authentication Links -->
@@ -103,14 +104,14 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         <i class="fas fa-user-shield"></i>  {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@if (Auth::guard('admin')->check()) {{ route('admin.profile') }} @endif">Профиль</a>
+                                     <hr>
                                     <a class="dropdown-item" href="@if (Auth::guard('admin')->check()) {{ route('admin.logout') }} @else {{ route('logout') }} @endif"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         <i class="fas fa-sign-out-alt"></i>  {{ __('Выйти') }}
                                     </a>
-
                                     <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>

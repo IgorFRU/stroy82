@@ -17,8 +17,8 @@ class CreateSettingsTable extends Migration
             $table->bigIncrements('id');
             $table->string('site_name');
             $table->string('address')->nullable();
-            $table->string('phone_1');
-            $table->string('phone_2')->nullable();
+            $table->string('phone_main');
+            $table->string('phone_add')->nullable();
             $table->string('email')->nullable();
             $table->string('viber')->nullable();
             $table->string('whatsapp')->nullable();

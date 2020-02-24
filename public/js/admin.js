@@ -1,4 +1,14 @@
 $(function() {
+    var phone_masks = document.getElementsByClassName('phone-mask');
+
+    Array.prototype.forEach.call(phone_masks, function(element) {
+        var phoneMask = new IMask(element, {
+            mask: '{8}(000)000-00-00',
+            placeholder: {
+                show: 'always'
+            }
+        });
+    });
 
     // добавление класса active к верхним пунктам меню (родительским)
     var navItems = $('.nav-item.dropdown').find('a.active');

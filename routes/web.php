@@ -13,6 +13,8 @@
 
 Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(function(){
   Route::get('/', 'AdminController@index')->name('index');
+  Route::get('/settings/profile', 'AdminController@profile')->name('profile'); // редактирование соего профиля
+  Route::put('/settings/profile', 'AdminController@profileUpdate')->name('profile.update'); // редактирование соего профиля
   Route::post('/settings/{id}', 'AdminController@settings')->name('settings');
   Route::get('/login/{token?}', 'Auth\AdminLoginController@showLoginForm')->name('login')->middleware('check.url.login.token');
   Route::post('/login', 'Auth\AdminLoginController@login')->name('login.submit');

@@ -689,12 +689,6 @@ var phoneMask = IMask(
 );
 
 
-$('#user_phone').change(function() {
-    console.log($(this).length);
-});
-
-
-
 (function() {
     let flag = true;
     var user_phone = document.getElementById('user_phone');

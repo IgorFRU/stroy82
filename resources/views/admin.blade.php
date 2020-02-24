@@ -27,10 +27,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <form method="POST" action="{{ route('admin.settings', $settings->id) }}">         
-                            {{-- <form method="POST" action="admin/settings/{{ $settings->id }}">     --}}
-                                @php
-                                    // dd($settings->id)
-                                @endphp     
+                            {{-- <form method="POST" action="admin/settings/{{ $settings->id }}">     --}}    
                                 @csrf
                                 {{-- <input type="hidden" name="_method" value="put">                    --}}
                                 <input type="hidden" name="id" value="{{ $settings->id }}">                   
@@ -49,13 +46,13 @@
                                 <div class="form-group row">
                                     <label for="phone_1" class="col-sm-4 col-form-label">Основной номер телефона</label>
                                     <div class="col-md-8">
-                                        <input type="text" name="phone_1" class="form-control" id="phone_1" value="{{ $settings->phone_1 ?? '' }}">
+                                        <input type="text" name="phone_main" class="form-control phone-mask" id="phone_1" value="{{ $settings->phone_main ?? '' }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="phone_2" class="col-sm-4 col-form-label">Дополнительный номер телефона</label>
                                     <div class="col-md-8">
-                                        <input type="text" name="phone_2" class="form-control" id="phone_2" value="{{ $settings->phone_2 ?? '' }}">
+                                        <input type="text" name="phone_add" class="form-control phone-mask" id="phone_2" value="{{ $settings->phone_add ?? '' }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
