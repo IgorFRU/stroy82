@@ -5,8 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Setting;
 use App\Admin;
+use App\Article;
 use App\User;
 use App\Order;
+use App\Cart;
+use App\Banner;
+use App\Product;
+use App\Discount;
+use App\Category;
 use App\Orderstatus;
 use Auth;
 
@@ -67,6 +73,14 @@ class AdminController extends Controller
             'admins' => Admin::get(),
             'orders' => Order::unreadlast(5)->get(),
             'users' => User::last(5)->get(),
+            'product_count' => Product::count(),
+            'category_count' => Category::count(),
+            'user_count' => User::count(),
+            'hot_orders' => Order::unread()->count(),
+            'hot_discounts' => Discount::actuality()->count(),
+            'hot_carts' => Cart::actually()->count(),
+            'banners_count' => Banner::count(),
+            'articles_count' => Article::count(),
         ];
 
         // dd(Order::unread()->get()->limit(5));

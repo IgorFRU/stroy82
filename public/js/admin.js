@@ -682,4 +682,20 @@ $(function() {
         });
     });
 
+    $('.js_date_today').text(formatDate(new Date()));
+
+    function formatDate(date) {
+        var monthNames = [
+            "01", "02", "03",
+            "04", "05", "06", "07",
+            "08", "09", "10",
+            "11", "12"
+        ];
+
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+
+        return day + '.' + monthNames[monthIndex] + '.' + year;
+    }
 });

@@ -77,6 +77,11 @@ class Discount extends Model
         return $this->where('discount_end', '>=', $today)->get();
     }
 
+    public function scopeActuality($query) {
+        $today = Carbon::now();
+        return $this->where('discount_end', '>=', $today)->get();
+    }
+
     public function getItActualityAttribute($value) {
         $today = Carbon::now();
         if ($this->discount_start <= $today && $this->discount_end >= $today) {
