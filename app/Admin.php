@@ -46,4 +46,9 @@ class Admin extends Authenticatable
     {
         $this->notify(new AdminResetPasswordNotification($token));
     }
+
+    public function sendOrderCreatedNotification($order, $summ, $user) {
+        $this->notify(new OrderCreated($order, $summ, $user));
+    }
+    
 }

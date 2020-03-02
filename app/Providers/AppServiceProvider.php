@@ -9,6 +9,7 @@ use App\Order;
 use App\Category;
 use App\Article;
 use App\Set;
+use App\Setting;
 use App\Product;
 use App\Manufacture;
 use App\Topmenu;
@@ -195,7 +196,11 @@ class AppServiceProvider extends ServiceProvider
             $sets = Cache::remember('sets', $hour, function() {
                 return Set::orderBy('set', 'ASC')->get();
             });  
-            
+
+            $settings = Cache::remember('settings', $hour, function() {
+                return Setting::find(1)->first();
+            });
+                       
             $topmenu = Topmenu::where('published', 1)
                 ->OrderBy('priority', 'ASC')
                 ->OrderBy('title', 'DESC')
@@ -222,6 +227,7 @@ class AppServiceProvider extends ServiceProvider
                 'categories'      => $categories,
                 'sets'        => $sets,
                 'carts' => $carts1,
+                'settings' =>$settings,
                 'cart_products' => $products,
                 'topmenu' => $topmenu,
             );

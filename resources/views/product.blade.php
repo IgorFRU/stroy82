@@ -168,9 +168,9 @@
                             dd($product->price);
                         @endphp --}}
                             @if($product->packaging)
-                                <button type="button" class="btn btn-outline-secondary btn-sm mb-lg-4" disabled>
-                                    Данный товар продаётся только целыми упаковками по {{ $product->unit_in_package ?? 1 }} {{ $product->unit->unit ?? 'ед.' }}
-                                </button>
+                                <div class="text-info mb-lg-4">
+                                    <i class="fas fa-info-circle"></i> Данный товар продаётся только целыми упаковками по {{ $product->unit_in_package ?? 1 }} {{ $product->unit->unit ?? 'ед.' }}
+                                </div>
                             {{-- <div class="product__price__value__package">
                                 Цена: @if ($product->actually_discount)
                                     <span class="product__prices__old">{{ number_format($product->price * $product->unit_in_package, 2, ',', ' ') }}</span><span class="product__prices__new new_price"> {{ number_format($product->discount_price * $product->unit_in_package, 2, ',', ' ') }} </span><i class="fas fa-ruble-sign"></i>

@@ -2,28 +2,33 @@
 
 namespace App\Notifications;
 
+use App\Setting;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class OrderCreated extends Notification
+class UserOrderCreated extends Notification
 {
     use Queueable;
     protected $order;
-    protected $summ;
+    protected $status;
     protected $user;
+
+    protected $admin_phone;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($order, $summ, $user)
+    public function __construct($order, $status, $user)
     {
         $this->order = $order;
-        $this->summ = $summ;
+        $this->status = $status;
         $this->user = $user;
+        $this->admin_phone = Setting::first()->phone_main;
     }
 
     /**
@@ -47,11 +52,12 @@ class OrderCreated extends Notification
     {
         return (new MailMessage)
                     // ->theme('')                    
-                    ->subject('Новый заказ!')
-                    ->line('Был создан новый заказ.')
-                    ->action('Открыть', url('/admin/orders/'. $this->order))
-                    ->line('На сумму '. $this->summ . 'рублей')
-                    ->line('пользователь ' . url('/admin/consumers/'. $this->user));
+                    ->subject('Заказ в Stroy82.com офрмлен')
+                    ->line('Уважаемый, ' . $this->user . '!')
+                    ->line('Ваш заказ ' . $this->order .' был успешно создан.')
+                    ->action('Открыть', url('/order/'. $this->order))
+                    ->line('Статус заказа: '. $this->status . '.')
+                    ->line('Благодарим за оказанное к нашей компании доверие! Если у вас возникнут вопросы или пожелания, можете связаться с нами но номеру телефона ' . $this->admin_phone . '.');
     }
 
     /**

@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPasswordNotification;
+use App\Notifications\UserOrderCreated;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -90,6 +91,10 @@ class User extends Authenticatable
         $this->notify(new ResetPasswordNotification($token));
     }
 
+    public function sendUserOrderCreatedNotification($order, $status, $user) {
+        $this->notify(new UserOrderCreated($order, $status, $user));
+    }
+
     public function scopeLast($query, $count)
     {
         return $query->orderBy('id', 'desc')->take($count);
@@ -127,7 +132,5 @@ class User extends Authenticatable
         } else {
             return $this->address;
         }
-        
-        
     }
 }

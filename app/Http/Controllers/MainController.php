@@ -73,7 +73,7 @@ class MainController extends Controller
             'discounts' => $discounts,
             'lastProducts' => Product::published()->orderBy('id', 'DESC')->limit(4)->get(),
             'popularProducts' => Product::published()->popular('4')->get(),
-            'settings' => Setting::find(1)->first(),
+            'about' => Setting::first(),
             'categories' => $categories,
         );
         // dd($data['popularProducts']);

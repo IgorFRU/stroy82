@@ -6,6 +6,7 @@ use App\Order;
 use App\OrderProduct;
 use App\Cart;
 use App\User;
+use App\Admin;
 use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -84,7 +85,7 @@ class OrderController extends Controller
                     $user = User::where('phone', $phone)->first();
     
                     if ($user == NULL) {
-                        dd($phone);
+                        // dd($phone);
                         $user_data = [
                             'quick'     => '1',
                             'name'      => $request->name,
@@ -148,6 +149,16 @@ class OrderController extends Controller
         $data = [
             'number' => $order->number,
         ];
+
+        $admins = Admin::get();
+        foreach ($admins as $key => $admin) {
+            $admin->sendOrderCreatedNotification($order->number, $order->summ, $user->id);
+        }
+
+        if (isset($user->email)) {
+            $user->sendUserOrderCreatedNotification($order->number, $order->status->status, $user->full_name);
+        }
+        
 
         $messege = 'Заказ <a href="' . route('orderShow', $order->number) .'">№' . $order->number . '</a> успешно сформирован.';
         if (Auth::check()) {
