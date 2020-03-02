@@ -11,8 +11,6 @@
         @slot('active') Оформление заказа @endslot
     @endcomponent 
     
-    
-    
     <section class="product wrap">
         <div class="white_box p10">
             <div class="col-lg-12 row">
@@ -53,14 +51,14 @@
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="user_phone">Номер телефона</label>
-                                        <input type="text" class="form-control form-control-sm" name="phone" readonly id="user_phone" placeholder="8(978)123-45-67" value="{{ Auth::user()->phone }}"  oninput="checkUserPhone()">
+                                        <input type="phone" class="form-control phone-mask form-control-sm checkUserPhone" name="phone" readonly id="user_phone" placeholder="8(978)123-45-67" value="{{ Auth::user()->phone ?? '' }}">
                                     </div>
                                 </div>
                                 @else
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="user_phone">Номер телефона</label>
-                                        <input type="text" class="form-control form-control-sm" name="phone" required id="user_phone" placeholder="8(978)123-45-67" oninput="checkUserPhone()" value="{{ old('phone') ?? ''}}">               
+                                        <input type="phone" class="form-control phone-mask form-control-sm checkUserPhone" name="phone" required id="user_phone" placeholder="8(978)123-45-67" value="{{ old('phone') ?? ''}}">               
                                         <span class="invalid-feedback" role="alert">
                                             Пользователь с таким номером телефона уже зарегистрирован.</br>
                                             Если это ваш номер, войдите в свою учетную запись, чтобы продолжить.</br>

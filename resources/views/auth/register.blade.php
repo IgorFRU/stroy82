@@ -1,7 +1,7 @@
 {{-- @extends('layouts.app') --}}
 @extends('layouts.main-app')
 @section('scripts')
-    @parent
+    @parent    
 @endsection
 @section('content')
     {{-- @component('components.breadcrumb')
@@ -11,7 +11,6 @@
                
         @slot('active') Оформление заказа @endslot
     @endcomponent  --}}
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -77,7 +76,7 @@
                             <label for="user_phone" class="col-md-4 col-form-label text-md-right">{{ __('Номер телефона') }}</label>
 
                             <div class="col-md-6">
-                                <input id="user_phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
+                                <input id="user_phone" type="phone" class="form-control phone-mask @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
 
                                 @error('phone')
                                     <span class="invalid-feedback" role="alert">
