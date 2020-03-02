@@ -29,6 +29,6 @@ class QuestionMail extends Mailable
      */
     public function build()
     {
-        return $this->view('components.question-mail')->subject('Письмо с сайта parketpro.com');
+        return $this->view('components.question-mail')->subject('Письмо с сайта stroy82.com');
     }
 }
