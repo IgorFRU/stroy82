@@ -58,7 +58,7 @@ class MainController extends Controller
             }
             // dd(count($discount_not_ids));
             // dd($discount_ids);
-            $discounts = Discount::orderBy('discount_end', 'ASC')->whereIn('id', $discount_ids)->where('discount_end', '>=', $today)->get();
+            $discounts = Discount::orderBy('discount_end', 'ASC')->whereIn('id', $discount_ids)->actuality();
         } else {
             $discounts = null;
         }
@@ -73,7 +73,7 @@ class MainController extends Controller
             'discounts' => $discounts,
             'lastProducts' => Product::published()->orderBy('id', 'DESC')->limit(4)->get(),
             'popularProducts' => Product::published()->popular('4')->get(),
-            'about' => Setting::find(1)->first(),
+            'settings' => Setting::find(1)->first(),
             'categories' => $categories,
         );
         // dd($data['popularProducts']);

@@ -117,7 +117,7 @@
                                                 <span class="product_card__content__manufacture"><a href="{{ route('manufacture', $product->manufacture->slug) }}">{{ $product->manufacture->manufacture ?? '' }}</a></span>             
                                             @endisset             
                                         </div>
-                                        {{-- <span class="product_inner_scu">артикул: {{ $product->autoscu }}</span> --}}
+                                        {{-- <span class="product_inner_scu">код: {{ $product->autoscu }}</span> --}}
                                     </div>
                                         
                                     @if(isset($product->category->slug))

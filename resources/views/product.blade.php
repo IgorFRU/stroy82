@@ -104,7 +104,7 @@
                     <h1 class="col-lg-12">{{ $product->product }} @isset($product->scu) (арт.: {{$product->scu}}) @endisset @isset($product->category->category)  - {{ $product->category->category }} @endisset @isset($product->manufacture->manufacture)  {{ $product->manufacture->manufacture }} @endisset</h1>
                     <div class="col-lg-12 product__subtitle d-flex justify-content-start">
                         @isset($product->autoscu)
-                            <span class="product_card__content__category">внутренний артикул: {{ $product->autoscu ?? '' }}</span>
+                            <span class="product_card__content__category">внутренний код: {{ $product->autoscu ?? '' }}</span>
                         @endisset
                         @isset($product->category->slug)
                             <span class="product_card__content__category"> | <a href="{{ route('category', $product->category->slug) }}">{{ $product->category->category ?? '' }}</a></span>

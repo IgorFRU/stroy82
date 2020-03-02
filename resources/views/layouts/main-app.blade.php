@@ -33,7 +33,7 @@
 </head>
 <body>
     <div id="app">
-        <section class="top_nav navbar navbar-expand-lg">
+        <section class="top_nav navbar navbar-expand-lg justify-content-between align-items-center">
             <div class="col-lg-3 left_nav">
                 @forelse ($topmenu as $item)
                     <a href="{{ $item->slug ?? '#' }}">{{ $item->title }}</a>
@@ -41,9 +41,9 @@
                 @endforelse
                 <a href="{{ route('contacts') }}">Контакты</a>
             </div>
-            <div class="col-lg-4 search_nav">
+            {{-- <div class="col-lg-4 search_nav">
                 <input type="search" name="search_nav" id="search_nav" placeholder="поиск...">
-            </div>
+            </div> --}}
             <div class="col-lg-5 right_nav d-flex justify-content-lg-end">
                 <a  data-toggle="modal" data-target=".check_order_status" href="#"><i class="fas fa-check"></i> проверить статус заказа</a>
 
@@ -71,12 +71,12 @@
             </div>
         </section>
         <nav class="">
-            <div class="nav_content d-flex justify-content-between">
+            <div class="nav_content d-flex justify-content-between align-items-center">
                 <div class="logo">
                     <a href="/"><img src="{{ asset('imgs/Stroy82_logo_200_white.png') }}" alt=""></a>
                     
                 </div>
-                <div class="main_menu">
+                <div class="main_menu mr-2">
                     <div class="main_menu__item">
                         <a href="{{ route('categories') }}">Категории</a>
                         @if (count($categories) > 0)
@@ -101,28 +101,33 @@
                     <div class="main_menu__item">
                         <a href="{{ route('sales') }}">Акции</a>
                     </div>
-                    <div class="main_menu__item">
-                        <a href="{{ route('sets') }}">Подборки</a>
-                        @if (count($sets) > 0)
+                    @if (count($sets) > 0)
+                        <div class="main_menu__item">
+                            <a href="{{ route('sets') }}">Подборки</a>                            
                             <div class="main_menu__submenu">
                                 @foreach ($sets as $set)
                                 <div class="main_menu__submenu__item">
                                     <a href="{{ route('set', $set->slug) }}">{{ $set->set }}</a>
                                 </div>                                
                                 @endforeach
-                            </div>
-                        @endif          
-                    </div>
+                            </div>                                  
+                        </div>
+                    @endif
                     <div class="main_menu__item">
                         <a href="{{ route('articles') }}">Статьи</a>
                     </div>
                 </div>
-                <div class="nav_contacts col-lg-2">
-                    <span class="col-lg-12">Симферополь</span>
-                    <a class="col-lg-12" href="tel:+79781234567">8(978) 123 45 67</a>
-                    <a class="col-lg-12" href="tel:+79781234567">8(978) 123 45 67</a>
-                </div>
-                <div class="cart col-lg-3">
+                <div class="nav_contacts mr-2">
+                    @isset($settings->phone_main)
+                        <a class="col-lg-12" href="tel:+7{{ $settings->phone_main }}">{{ $settings->main_phone }}</a>
+                    @endisset
+                    @isset($settings->phone_add)
+                        <a class="col-lg-12" href="tel:+7{{ $settings->phone_add }}">{{ $settings->add_phone }}</a>
+                    @endisset
+                </div>  
+                <div class="nav_contacts col-lg-2 mr-2">{{ $settings->address ?? '' }}</div>                  
+                    
+                <div class="cart">
                     <div class="cart_img d-flex justify-content-end">
                         <div>
                             <a href="#"><i class="fas fa-shopping-cart"></i></a>

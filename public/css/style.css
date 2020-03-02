@@ -143,7 +143,7 @@ section.top_nav {
     font-size: 12px;
     font-family: Roboto;
     text-transform: uppercase;
-    height: 38px;
+    height: 28px;
     z-index: 10;
     margin-top: 0;
 }
@@ -325,7 +325,7 @@ nav .main_menu {
 nav .main_menu .main_menu__item>a {
     color: #fff;
     text-transform: uppercase;
-    font-size: 22px;
+    font-size: 19px;
     line-height: 90px;
 }
 
@@ -413,7 +413,7 @@ nav .main_menu .main_menu__item>a {
 
 nav .nav_contacts,
 nav .nav_contacts a {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 nav .nav_contacts a {
@@ -545,10 +545,11 @@ nav .cart_img .cart_sum>i {
 }
 
 main {
-    margin: 50px 0;
+    margin: 40px 0;
 }
 
 .header {
+    margin-top: 50px;
     margin-bottom: 50px;
 }
 
@@ -597,10 +598,12 @@ main {
 }
 
 .superiorities {
-    margin-top: 20px;
+    margin-top: 80px;
     text-align: center;
     color: #3c78c6;
     font-size: 15px;
+    padding: 80px 0;
+    background: var(--dark-grey);
 }
 
 .superiority__icon {
@@ -680,7 +683,11 @@ main {
 }
 
 section {
-    margin-top: 60px;
+    margin-top: 100px;
+}
+
+section.product {
+    margin-top: 40px;
 }
 
 .section_title {
@@ -703,7 +710,7 @@ section {
 }
 
 .section_title {
-    font-size: 20px;
+    font-size: 30px;
     text-transform: uppercase;
     /* border-bottom: 2px solid #3c78c6; */
     color: #3c78c6;
@@ -1294,7 +1301,6 @@ section.main_about button {
 
 footer {
     background: var(--main-color);
-    ;
     color: #fff;
     padding: 45px 0;
 }

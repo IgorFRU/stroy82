@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('product_pricename')->nullable();
             $table->string('slug')->nullable();
             $table->string('scu')->nullable();
-            $table->string('autoscu', 20)->nullable();      // автоматически генерируемый уникальный артикул
+            $table->string('autoscu', 20)->nullable();      // автоматически генерируемый уникальный код
             $table->bigInteger('category_id')->nullable()->unsigned();
             $table->bigInteger('manufacture_id')->nullable()->unsigned();
             $table->bigInteger('vendor_id')->nullable()->unsigned();
