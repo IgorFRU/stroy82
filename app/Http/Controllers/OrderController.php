@@ -158,7 +158,10 @@ class OrderController extends Controller
         if (isset($user->email)) {
             $user->sendUserOrderCreatedNotification($order->number, $order->status->status, $user->full_name);
         }
+
+        // $sendsms = Request::create('https://smsc.ru/sys/send.php?login=stroy82&psw=qq142857&phones=+7' . $user->phone . '&mes=' . $user->name . ', Ваш заказ успешно создан!&sender=Stroy82&cost=1', 'GET');
         
+        // dd($sendsms);
 
         $messege = 'Заказ <a href="' . route('orderShow', $order->number) .'">№' . $order->number . '</a> успешно сформирован.';
         if (Auth::check()) {

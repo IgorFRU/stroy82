@@ -790,7 +790,7 @@ $(function() {
     //     }
     // }());
 
-    
+
 
     $('#products_sort').bind('input', function() {
         let product_sort = $(this).val();
@@ -917,5 +917,67 @@ $(function() {
         }).done(function(response) {
             captcha.prop('src', response);
         });
+    });
+
+    $('#search_nav').bind('input', function() {
+        let q = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "/search",
+            data: {
+                q: q
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                let data = $.parseJSON(response);
+
+                $.each(data, function(key, value) {
+                    if (value.length > 0) {
+                        $('.search_nav__result').addClass('active');
+                        return false;
+                    } else {
+                        $('.search_nav__result').removeClass('active');
+                    }
+                });
+                if (data.products.length > 0) {
+                    $('.search_nav__products_body').empty();
+                    $('.search_nav__products').addClass('active');
+                    $.each(data.products, function(key, value) {
+                        if (value.category) {
+                            $('.search_nav__products_body').append('<a class="d-block text-info" href="/catalog/' + value.category.slug + '/' + value.slug + '">' + value.product + ' - ' + value.category.category + ' - ' + value.price + ' руб.</a>');
+                        } else {
+                            $('.search_nav__products_body').append('<a class="d-block text-info" href="/catalog/product/' + value.slug + '">' + value.product + ' - ' + value.price + ' руб.</a>');
+                        }
+                    });
+                }
+                if (data.categories.length > 0) {
+                    $('.search_nav__categories_body').empty();
+                    $('.search_nav__categories').addClass('active');
+                    $.each(data.categories, function(key, value) {
+                        $('.search_nav__categories_body').append('<a class="d-block text-info" href="/catalog/' + value.slug + '">' + value.category + '</a>');
+                    });
+                }
+                if (data.manufactures.length > 0) {
+                    $('.search_nav__manufactures_body').empty();
+                    $('.search_nav__manufactures').addClass('active');
+                    $.each(data.manufactures, function(key, value) {
+                        $('.search_nav__manufactures_body').append('<a class="d-block text-info" href="/manufacture/' + value.slug + '">' + value.manufacture + '</a>');
+                    });
+                }
+            },
+            error: function(msg) {
+                console.log(msg);
+            }
+        });
+    });
+
+    $('.close_button').on('click', function() {
+        if ($(this).parent().hasClass('active')) {
+            $(this).parent().removeClass('active');
+        } else {
+            $(this).parent().addClass('hide');
+        }
     });
 });

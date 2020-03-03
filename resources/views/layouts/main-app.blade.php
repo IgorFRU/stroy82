@@ -41,9 +41,27 @@
                 @endforelse
                 <a href="{{ route('contacts') }}">Контакты</a>
             </div>
-            {{-- <div class="col-lg-4 search_nav">
-                <input type="search" name="search_nav" id="search_nav" placeholder="поиск...">
-            </div> --}}
+            <div class="col-lg-4 search_nav">
+                <form action="{{ route('search') }}" method="get">
+                    <input type="search" name="q" id="search_nav" placeholder="поиск...">
+                    <div class="search_nav__result shadow p-3 bg-white rounded text-dark">
+                        <span class="close_button" aria-hidden="true">&times;</span>
+                        <div class="search_nav__products p-2 border-bottom">
+                            <div class="h5">Товары</div>
+                            <div class="search_nav__products_body"></div>
+                        </div>
+                        <div class="search_nav__categories p-2 border-bottom">
+                            <div class="h5">Категории</div>
+                            <div class="search_nav__categories_body"></div>
+                        </div>
+                        <div class="search_nav__manufactures p-2">
+                            <div class="h5">Производители</div>
+                            <div class="search_nav__manufactures_body"></div>
+                        </div>
+                        <button type="submit" class="btn btn-info">Все результаты поиска</button>
+                    </div>
+                </form>
+            </div>
             <div class="col-lg-5 right_nav d-flex justify-content-lg-end">
                 <a  data-toggle="modal" data-target=".check_order_status" href="#"><i class="fas fa-check"></i> проверить статус заказа</a>
 
