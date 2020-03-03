@@ -406,4 +406,9 @@ class MainController extends Controller
             setcookie('scroll', $request->scroll, time()+60); 
         }
     }
+    
+
+    public function comingsoon () {
+        return view('comingsoon');
+    }
 }

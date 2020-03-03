@@ -1,6 +1,7 @@
 <div class="wrap row col-lg-12">
     <div class="col-lg-3">
         <h5>Категории</h5>
+        <hr>
         <ul>
             @forelse ($categories as $category)
                 <li><a href="{{ route('category', $category->slug) }}">{{ $category->category }}</a></li>
@@ -11,6 +12,7 @@
     </div>
     <div class="col-lg-3">
         <h5>Подборки</h5>
+        <hr>
         <ul>
             @forelse ($sets as $set)
                 <li><a href="{{ route('set', $set->slug) }}">{{ $set->set }}</a></li>
@@ -21,9 +23,39 @@
     </div>
     <div class="col-lg-3">
         <h5>Информация</h5>
+        <hr>
+        <ul>
+            @forelse ($topmenu as $item)
+                <li><a href="{{ $item->slug ?? '#' }}">{{ $item->title }}</a></li>
+            @empty
+            @endforelse
+        </ul>
     </div>
     <div class="col-lg-3">
         <h5>Контакты</h5>
+        <hr>
+        @isset($settings->phone_main)
+            <a class="d-block" href="tel:+7{{ $settings->phone_main }}">{{ $settings->main_phone }}</a>
+        @endisset
+        @isset($settings->phone_add)
+            <a class="d-block" href="tel:+7{{ $settings->phone_add }}">{{ $settings->add_phone }}</a>
+            {{-- <hr> --}}
+        @endisset
+        @if (isset($settings->viber) || isset($settings->whatsapp))
+            <div class="social_links d-flex justify-content-start">
+                @isset($settings->viber)
+                    <a href="viber://chat?number=+7{{ $settings->viber }}" class='viber_icon mr-4'><i class="fab fa-viber"></i></a>                
+                @endisset
+                @isset($settings->whatsapp)
+                    <a href=" https://wa.me/7{{ $settings->whatsapp }}" target="_blank" class='whatsapp_icon mr-2'><i class="fab fa-whatsapp"></i></a>
+                    <hr>
+                @endisset
+            </div>
+            {{-- <hr> --}}
+        @endif            
+        <div class="d-block">{{ $settings->address ?? '' }}</div>  
+        </div>  
+        
     </div>
 </div>
 <div class="flash-messeges">

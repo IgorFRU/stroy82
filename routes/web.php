@@ -69,57 +69,57 @@ Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(functi
   Route::resource('/topmenu', 'TopmenuController');
 });
 
-Route::group(['middleware' => 'user.online'], function () {
-  Route::get('/', 'MainController@index')->name('index');
+// Route::group(['middleware' => 'user.online'], function () {
+//   Route::get('/', 'MainController@index')->name('index');
 
-  Route::get('/catalog/product/{product}', 'MainController@product2')->name('product.without_category');
-  Route::get('/catalog', 'MainController@categories')->name('categories');
-  Route::get('/catalog/{category}', 'MainController@category')->name('category');
-  Route::get('/catalog/{category}/{product}', 'MainController@product')->name('product');
+//   Route::get('/catalog/product/{product}', 'MainController@product2')->name('product.without_category');
+//   Route::get('/catalog', 'MainController@categories')->name('categories');
+//   Route::get('/catalog/{category}', 'MainController@category')->name('category');
+//   Route::get('/catalog/{category}/{product}', 'MainController@product')->name('product');
   
-  Route::get('/articles', 'MainController@articles')->name('articles');
-  Route::get('/articles/{article}', 'MainController@article')->name('article');
+//   Route::get('/articles', 'MainController@articles')->name('articles');
+//   Route::get('/articles/{article}', 'MainController@article')->name('article');
   
-  Route::get('/sets', 'MainController@sets')->name('sets');
-  Route::get('/sets/{set}', 'MainController@set')->name('set');
+//   Route::get('/sets', 'MainController@sets')->name('sets');
+//   Route::get('/sets/{set}', 'MainController@set')->name('set');
   
-  Route::get('/sales', 'MainController@sales')->name('sales');
-  Route::get('/sales/{sale}', 'MainController@sale')->name('sale');
+//   Route::get('/sales', 'MainController@sales')->name('sales');
+//   Route::get('/sales/{sale}', 'MainController@sale')->name('sale');
   
-  Route::get('/manufacture', 'MainController@manufactures')->name('manufactures');
-  Route::get('/manufacture/{manufacture}', 'MainController@manufacture')->name('manufacture');
+//   Route::get('/manufacture', 'MainController@manufactures')->name('manufactures');
+//   Route::get('/manufacture/{manufacture}', 'MainController@manufacture')->name('manufacture');
   
-  Route::post('/setcookie', 'MainController@setCookie');
+//   Route::post('/setcookie', 'MainController@setCookie');
   
-  Route::post('/cart', 'CartController@addItems');
-  Route::post('/cart/change', 'CartController@changeQuantity'); // ajax change quantity of item in cart
-  Route::delete('/cart/{id}', 'CartController@destroyItem')->name('cart.destroy');
-  Route::get('/cart', 'CartController@showCart')->name('cart');
+//   Route::post('/cart', 'CartController@addItems');
+//   Route::post('/cart/change', 'CartController@changeQuantity'); // ajax change quantity of item in cart
+//   Route::delete('/cart/{id}', 'CartController@destroyItem')->name('cart.destroy');
+//   Route::get('/cart', 'CartController@showCart')->name('cart');
   
-  Route::resource('/order', 'OrderController')->except(['show']);
-  Route::get('/order/{order}', 'OrderController@showOrder')->name('orderShow');
-  Route::post('/order/checkuserphone', 'OrderController@checkUserPhone')->name('checkUserPhone');
-  Route::post('/order/checkorderstatus', 'OrderController@checkOrderStatus')->name('checkorderstatus');
-  Route::post('/checkinn', 'OrderController@checkinn'); // ajax
-  // Route::post('/order/final', 'OrderController@final')->name('order.final');
+//   Route::resource('/order', 'OrderController')->except(['show']);
+//   Route::get('/order/{order}', 'OrderController@showOrder')->name('orderShow');
+//   Route::post('/order/checkuserphone', 'OrderController@checkUserPhone')->name('checkUserPhone');
+//   Route::post('/order/checkorderstatus', 'OrderController@checkOrderStatus')->name('checkorderstatus');
+//   Route::post('/checkinn', 'OrderController@checkinn'); // ajax
+//   // Route::post('/order/final', 'OrderController@final')->name('order.final');
   
-  Route::post('/firm/store', 'FirmController@firmStore');
+//   Route::post('/firm/store', 'FirmController@firmStore');
   
-  Route::get('/home', 'UserController@index')->name('home');
+//   Route::get('/home', 'UserController@index')->name('home');
 
-  Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout');
-  Route::post('/user/edit', 'UserController@userEdit')->name('user.edit');
-  Route::get('/user/orders', 'OrderController@usersOrders')->name('usersOrders')->middleware('auth');
-  Route::get('/user/order/{order}', 'OrderController@usersOrder')->name('usersOrder')->middleware('auth');
-  Auth::routes();
+//   Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout');
+//   Route::post('/user/edit', 'UserController@userEdit')->name('user.edit');
+//   Route::get('/user/orders', 'OrderController@usersOrders')->name('usersOrders')->middleware('auth');
+//   Route::get('/user/order/{order}', 'OrderController@usersOrder')->name('usersOrder')->middleware('auth');
+//   Auth::routes();
   
   
-  Route::get('/contacts', 'MainController@contacts')->name('contacts');
-  Route::post('/contacts', 'MainController@sendQuestion')->name('send.question');
-  Route::get('/search', 'SearchController@search')->name('search');
-  Route::post('/search', 'SearchController@quickSearch');
+//   Route::get('/contacts', 'MainController@contacts')->name('contacts');
+//   Route::post('/contacts', 'MainController@sendQuestion')->name('send.question');
+//   Route::get('/search', 'SearchController@search')->name('search');
+//   Route::post('/search', 'SearchController@quickSearch');
   
-  Route::get('/{staticpage}', 'MainController@staticpage')->name('staticpage');
-});
+//   Route::get('/{staticpage}', 'MainController@staticpage')->name('staticpage');
+// });
 
-Route::post('/requeststatussms/q1w2e3r4', 'RequeststatusController@getStatus');
+Route::get('/', 'MainController@comingsoon');

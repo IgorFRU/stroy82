@@ -26,6 +26,10 @@
     --light-grey: #e9ecef;
     --light-green: #719f6d;
     --dark-grey: #4a4a4a;
+    --viber-color: #8f5db7;
+    --viber-d-color: #59267c;
+    --whatsapp-color: #128c7e;
+    --whatsapp-d-color: #075e54;
 }
 
 body {
@@ -1326,6 +1330,7 @@ footer {
     background: var(--main-color);
     color: #fff;
     padding: 45px 0;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.55);
 }
 
 footer a {
@@ -1376,4 +1381,16 @@ footer>div>div {
     position: absolute;
     right: 12px;
     top: 5px;
+}
+
+.social_links a {
+    font-size: 44px;
+}
+
+.social_links .viber_icon {
+    color: var(--viber-d-color);
+}
+
+.social_links .whatsapp_icon {
+    color: var(--whatsapp-d-color);
 }
