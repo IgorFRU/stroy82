@@ -110,6 +110,7 @@
 
         </div>
         <div class="tab-pane fade mt-4 mb-4" id="nav-settings" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <a href="{{ route('admin.clearcache') }}" class="card-link">Очистить кеш сайта</a>
             <form method="POST" action="{{ route('admin.settings', $settings->id) }}">  
                 <div class="d-flex">
                     <div class="col-lg-5">

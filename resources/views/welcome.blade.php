@@ -449,6 +449,7 @@
 
     @if (isset($about->main_text))
     <section class="main_about wrap">
+        <h1>{{ $about->site_name }}</h1>
         {!! $about->main_text ?? '' !!}
         <span class="hidding"></span>
         <button class="btn btn-secondary btn-sm">раскрыть...</button>

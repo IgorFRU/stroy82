@@ -207,18 +207,26 @@ class MainController extends Controller
 
         $properties = $property_values->whereIn('value', $unique_property_values)->unique('value');
 
-        $local_title = $category->category;
+        $local_title = $category->category . ' купить по хорошей цене в строительном интернет-магазине Крыма Stroy82.com';
         // dd($products_array, $property_values, $unique_property_values, $properties);
+
+        if ($category->meta_description) {
+            $description = $category->meta_description . '. ' . $category->category;
+        } else {
+            $description = 'Продажа строительных товаров категории ' . $category->category . ' с доставкой по Крыму и Симферополю по лучшей цене';
+        }
+        
         $data = array (
-            'products' => $products,
-            'products_filtered' => $products_filtered,
-            'category' => $category,
-            'categories' => $categories,
-            'properties' => $properties,
-            'checked_properties' => $new_array,
-            'local_title' => $local_title,
-            'manufactures' => $manufactures,
-            'filteredManufacture' => $filterManufacture
+            'products'              => $products,
+            'products_filtered'     => $products_filtered,
+            'category'              => $category,
+            'categories'            => $categories,
+            'properties'            => $properties,
+            'checked_properties'    => $new_array,
+            'local_title'           => $local_title,
+            'manufactures'          => $manufactures,
+            'filteredManufacture'   => $filterManufacture,
+            'description'           => $description,
             // 'subcategories' => Category::where('slug', $slug)->firstOrFail()
         );
         // dd($data['properties']);
@@ -231,28 +239,36 @@ class MainController extends Controller
             return Category::orderBy('category', 'ASC')->where('category_id', 0)->get();
         });
         $data = array (
-            'categories' => $categories,
-            'local_title' => 'Категории товаров',
-            // 'subcategories' => Category::where('slug', $slug)->firstOrFail()
+            'categories'    => $categories,
+            'local_title'   => 'Купить строительные товары и материалы дешево с доставкой по Симферополю и Крыму',
+            'description'   => 'Категории товаров в строительном магазине Stroy82.com. Низкие цены, доставка по Симферополю и Крыму',
         );
-        // dd($data['products']);
+        
         return view('categories', $data);
     }
 
     public function articles() {
         $data = array (
-            'articles' => Article::orderBy('id', 'DESC')->paginate(20),
-            'local_title' => 'Статьи',
+            'articles'      => Article::orderBy('id', 'DESC')->paginate(20),
+            'local_title'   => 'Статьи о строительных материалах и технологиях в строительном интернет-магазине Крыма Stroy82.com',
+            'description'   => 'Подробное изучение тонкостей ремонта, подбора строительных и отделочных материалов, советы по ремонту от профессионального строительного интернет-магазина Stroy82.com',
         );
         return view('articles', $data);
     }
 
     public function article($slug) {
         $article = Article::with('products')->where('slug', $slug)->FirstOrFail();
-        $local_title = $article->article;
+        $local_title = $article->article . ' - статья в строительном интернет-магазине Stroy82.com';
+        if ($article->decription) {
+            $description = $article->limit_text;
+        } else {
+            $description = 'Полезная статья в строительно интернет-магазине Stroy82.com';
+        }
+        
         $data = array (
             'article' => $article,
             'local_title' => $local_title,
+            'description' => $description,
         );
         return view('article', $data);
     }
@@ -262,7 +278,8 @@ class MainController extends Controller
         $data = array (
             // 'sales' => Discount::orderBy('discount_end', 'ASC')->where('discount_end', '>=', $today)->get(),
             'sales' => Discount::orderBy('discount_end', 'DESC')->get(),
-            'local_title' => 'Акции',
+            'local_title' => 'Акции, скидки и лучшие ценовые предложения в строительном магазине Stroy82.com. Доставка по Симферополю и Крыму',
+            'description'   => 'Акционные предложения с выгодными покупками строительных и отделочных материалов дешево в Симферополе - строительный интернет-магазин Stroy82.com',
         );
         return view('sales', $data);
     }
@@ -273,9 +290,15 @@ class MainController extends Controller
             $sale->increment('views', 1);
         }
         $local_title = $sale->discount . ' ' . $sale->value . $sale->rus_type;
+        if ($sale->decription) {
+            $description = $sale->description;
+        } else {
+            $description = 'Скидка на строительные товары в строительном интернет-магазине Stroy82.com';
+        }
         $data = array (
             'sale' => $sale,
             'local_title' => $local_title,
+            'description' => $description,
         );
         return view('sale', $data);
     }
@@ -284,6 +307,8 @@ class MainController extends Controller
         $manufactures = Manufacture::all();
         $data = array (
             'manufactures' => $manufactures,
+            'local_title' => 'Производители строительных и отделочных материалов, представленных в строительном магазине Stroy82.com',
+            'description'   => 'Продажа по низким ценам строительных и отделочных материалов в Симферополе от лучших Российских и мировых производителей',
         );
         return view('manufactures', $data);
     }
@@ -295,6 +320,8 @@ class MainController extends Controller
         $data = array (
             'products' => Product::orderBy('id', 'DESC')->where('manufacture_id', $manufacture->id)->get(),
             'manufacture' => $manufacture,
+            'local_title' => 'Производитель ' . $manufacture->manufacture . '. Товары из всех категорий в строительном магазине Stroy82.com. Продажа и доставка в Симферополе и Крыму',
+            'description'   => 'Продажа по низким ценам строительных и отделочных материалов в Симферополе изготовителя ' . $manufacture->manufacture,
         );
         // dd($data['products']);
         return view('manufacture', $data);
@@ -314,12 +341,20 @@ class MainController extends Controller
             $propertyvalues = array();
         }
         // dd($propertyvalues);
-
-        $local_title = $product->product . ' - ' . $product->category->category;
+        if ($product->meta_description) {
+            $description = $product->meta_description;
+        } elseif($product->description) {
+            $description = $product->description;
+        } else {
+            $description = 'Купить в Симферополе ' . $product->product . ' по лучшей цене с доставкой';
+        }
+        
+        $local_title = $product->product . ' - ' . $product->category->category . '. Цена. Купить дешево в Крыму и Симферополе с доставкой';
         $data = array (
             'product' => $product,
             'propertyvalues' => $propertyvalues,
             'local_title' => $local_title,
+            'description' => $description,
         );
         // dd($data['product']->images);
         return view('product', $data);
@@ -335,10 +370,22 @@ class MainController extends Controller
             $properties = array();
             $propertyvalues = array();
         }
+        
+        if ($product->meta_description) {
+            $description = $product->meta_description;
+        } elseif($product->description) {
+            $description = $product->description;
+        } else {
+            $description = 'Купить в Симферополе ' . $product->product . ' по лучшей цене с доставкой';
+        }
+
+        $local_title = $product->product . '. Цена. Купить дешево в Крыму и Симферополе с доставкой';
 
         $data = array (
             'product' => Product::where('slug', $slug)->firstOrFail(),
             'propertyvalues' => $propertyvalues,
+            'local_title' => $local_title,
+            'description' => $description,
         );
         // dd($data['product']->images);
         return view('product', $data);
@@ -348,6 +395,8 @@ class MainController extends Controller
         $set = Set::get();
         $data = array (
             'sets' => $set,
+            'local_title' => 'Группы строительных товаров по сфере применения и решению задач. Удобная группировка необходимых строительных товаров в одном месте.',
+            'description' => 'Грамотная группировка строительных и отделочных материалов по низкой цене. Все необходимые материалы для тех или иных работ в одном месте',
         );
         // dd($set);
         return view('sets', $data);
@@ -355,9 +404,22 @@ class MainController extends Controller
 
     public function set($slug) {
         $set = Set::where('slug', $slug)->firstOrFail();
+
+        if ($set->meta_description) {
+            $description = $set->meta_description;
+        } elseif($set->description) {
+            $description = $set->description;
+        } else {
+            $description = 'Купить в Симферополе материалы для ' . $set->set . ' по лучшей цене с доставкой';
+        }
+
+        $local_title = $set->set . '. Цена. Группа товаров. Купить дешево в Крыму и Симферополе с доставкой';
+
         $data = array (
             // 'products' => Product::orderBy('id', 'DESC')->where('set_id', $set->id)->get(),
-            'set' => $set,
+            'set'           => $set,
+            'local_title'   => $local_title,
+            'description'   => $description,
         );
         // dd($set);
         return view('set', $data);
@@ -370,6 +432,8 @@ class MainController extends Controller
         $data = [
             'contacts' => $contacts,
             'captcha' => Captcha::create(),
+            'local_title' => 'Контакты строительного интернет-магазина Stroy82.com',
+            'description' => 'Профессиональный интернет-магазин строительных и отделочных товаров в Симферополе. Контакты магазина, в котором можно дешево купить всё для строительства и ремонта',
         ];
 
         return view('contacts', $data);
@@ -389,7 +453,12 @@ class MainController extends Controller
                     <p>Товар: '.$request->question.'</p>                      
                 </body>
             </html>';
-            $toEmail = "igor.parketmir@gmail.com";
+            if (Setting::first()->email) {
+                $toEmail = Setting::first()->email;
+            } else {
+                $toEmail = App\Admin::first()->email;
+            }            
+            
             Mail::to($toEmail)->send(new QuestionMail($mail_body));
             return redirect('contacts')->with('success', 'Ваше письмо успешно отправлено! Мы свяжемся с вами в ближайшее время.');
         }

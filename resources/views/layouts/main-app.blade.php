@@ -6,9 +6,10 @@
     <meta name="yandex-verification" content="65ebcfbce0d79b0b" />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="{!! $description ?? $about->main_text ?? 'Интернет-магазин строительных товаров в Симферополе. Доставка по Крыму.' !!}"> 
 
     <title> @if (isset($local_title)){{ $local_title . ' - ' }}@endif {{ config('app.name', 'Laravel') }}</title>
-
+    
     <!-- Scripts -->
     @section('scripts')
 

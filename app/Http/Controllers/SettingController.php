@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Artisan;
+
 use App\Setting;
 use Illuminate\Http\Request;
 
@@ -81,5 +83,15 @@ class SettingController extends Controller
     public function destroy(Setting $setting)
     {
         //
+    }
+
+    public function clearCache() {
+        Artisan::call('optimize');
+        Artisan::call('cache:clear');
+        Artisan::call('route:cache');
+        Artisan::call('view:clear');
+        Artisan::call('config:cache');
+
+        return redirect()->back()->with('success', 'Кеш успешно очищен!');
     }
 }

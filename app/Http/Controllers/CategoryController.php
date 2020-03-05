@@ -64,6 +64,9 @@ class CategoryController extends Controller
             $properties = Arr::sort($request->property_id);
             $category->property()->sync($properties, true);
         }
+
+        Cache::forget('categories');
+
         return redirect()->route('admin.categories.index')
             ->with('success', 'Категория успешно добавлена.');
     }

@@ -42,20 +42,20 @@ class ImageController extends Controller
         
 
         if ($request->path == 'product') {
-            $path = public_path().'\imgs\products\\';
+            $path = public_path().'/imgs/products/';
             if (!file_exists($path)) {
                 mkdir($path, 0777);
             }
-            $path_thumbnail = public_path().'\imgs\products\thumbnails\\';
+            $path_thumbnail = public_path().'/imgs/products/thumbnails/';
             if (!file_exists($path_thumbnail)) {
                 mkdir($path_thumbnail, 0777);
             }
         } else {
-            $path = public_path().'\imgs\media\\';
+            $path = public_path().'/imgs/media/';
             if (!file_exists($path)) {
                 mkdir($path, 0777);
             }
-            $path_thumbnail = public_path().'\imgs\media\thumbnails\\';
+            $path_thumbnail = public_path().'/imgs/media/thumbnails/';
             if (!file_exists($path_thumbnail)) {
                 mkdir($path_thumbnail, 0777);
             }

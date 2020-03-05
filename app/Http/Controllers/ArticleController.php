@@ -25,7 +25,7 @@ class ArticleController extends Controller
     {
         $data = array (
             'title' => 'Статьи',
-            'articles' => Article::orderBy('id', 'DESC')->get()
+            'articles' => Article::orderBy('id', 'DESC')->get(),
         );
 
         return view('admin.articles.index', $data);
