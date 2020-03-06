@@ -145,6 +145,17 @@
                 
             @show
             @yield('content')
+            <div class="flash-messeges">
+                @if (Session::has('success'))
+                    <div class="shadow alert alert-success">{!! Session::get('success') !!}</div>
+                @endif
+                @if (Session::has('warning'))
+                    <div class="shadow alert alert-warning">{!! Session::get('warning') !!}</div>
+                @endif
+                @if (Session::has('danger'))
+                    <div class="shadow alert alert-danger">{!! Session::get('danger') !!}</div>
+                @endif
+            </div>
         </main>
     </div>
 </body>

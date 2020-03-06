@@ -180,3 +180,9 @@ nav {
 #ajaxUploadedImages .img_with_footer img {
     max-width: 100%;
 } */
+
+.flash-messeges {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}

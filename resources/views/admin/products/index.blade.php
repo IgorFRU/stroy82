@@ -5,7 +5,7 @@
 @endsection
 @section('content')
 <div class="">
-    <div class="row justify-content-center">
+    <div class="justify-content-center">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
@@ -17,22 +17,17 @@
                     @endisset</p>
                     
                     <div class="row col-md-10">
-                        <div class="col-lg-1">
-                            <ul class="nav">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle disabled product_group_action" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-hand-pointer"></i></a>
-                                    <div class="dropdown-menu">
-                                        <form action="{{ route('admin.products.copy') }}" method="post">
-                                            @csrf
-                                            <div class="hidden_inputs">
-                                                <input type="hidden" name="product_group_ids[]">
-                                            </div>
-                                            <button type="submit" class="dropdown-item btn btn-link product_group_copy" href="#"><i class="fas fa-copy"></i> Копировать</button>
-                                        </form>
-                                    <div class="dropdown-item btn bg-warning product_group_delete" data-toggle="modal" data-target=".modalDeleteProduct"><i class="fas fa-trash-alt"></i> Удалить</div>
+                        <div class="col-lg-2 d-flex">
+                            <div>
+                                <form action="{{ route('admin.products.copy') }}" method="post">
+                                    @csrf
+                                    <div class="hidden_inputs">
+                                        <input type="hidden" name="product_group_ids[]">
                                     </div>
-                                </li>
-                            </ul>
+                                    <button type="submit" class="btn btn-link product_group_copy disabled mr-1 bg-success text-white" href="#"><i class="fas fa-copy"></i></button>
+                                </form>
+                            </div>
+                            <button type="button" class="btn bg-warning product_group_delete disabled" disabled data-toggle="modal" data-target=".modalDeleteProduct"><i class="fas fa-trash-alt"></i></button>
                         </div>
                         <div class="col-md-3 row">
                             <label for="items_per_page" class="col-md-8 col-form-label">Товаров на странице</label>
@@ -190,10 +185,10 @@
                                 <div class='row'>                                
                                     <a href="{{ route('admin.products.edit', ['id' => $product->id]) }}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
                                     <form onsubmit="if(confirm('Удалить?')) {return true} else {return false}" action="{{route('admin.products.destroy', $product)}}" method="post">
-                                    @csrf                         
-                                    <input type="hidden" name="_method" value="delete">                         
-                                    <button type="submit" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>                                                 
-                                </form>
+                                        @csrf                         
+                                        <input type="hidden" name="_method" value="delete">                         
+                                        <button type="submit" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>                                                 
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -214,7 +209,6 @@
 <div class="modal fade modalDeleteProduct" tabindex="-1" role="dialog" aria-labelledby="modalDeleteProduct" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <form action="" method="post">
                 <div class="modal-header">
                     <h4>Удаление товаров</h4>
                 </div>
@@ -222,10 +216,15 @@
                     Вы уверены, что хотите удалить выбранные товары? Отменить выбранное действие будет невозможно!
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                    <button type="submit" class="btn btn-warning">Да</button>
+                    <form action="{{ route('admin.products.massdestroy') }}" method="post">
+                        @csrf
+                        <div class="hidden_inputs">
+                            <input type="hidden" name="product_group_ids[]">
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-warning">Да</button>
+                    </form>
                 </div>
-            </form>
         </div>      
     </div>
   </div>
