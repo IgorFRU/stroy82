@@ -144,7 +144,7 @@
                         <a class="col-lg-12" href="tel:+7{{ $settings->phone_add }}">{{ $settings->add_phone }}</a>
                     @endisset
                 </div>  
-                <div class="nav_contacts col-lg-2 mr-2">{{ $settings->address ?? '' }}</div>                  
+                <div class="nav_contacts nav_contacts_address col-lg-2 mr-2">{{ $settings->address ?? '' }}</div>                  
                     
                 <div class="cart">
                     <div class="cart_img d-flex justify-content-end">

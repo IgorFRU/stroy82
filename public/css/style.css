@@ -119,6 +119,10 @@ input:focus {
     color: rgb(70, 204, 119) !important;
 }
 
+.color-main {
+    color: var(--main-color) !important;
+}
+
 .italic {
     font-style: italic;
 }
@@ -181,6 +185,22 @@ section.top_nav {
 
 .mr-50 {
     margin-right: 50px;
+}
+
+.mt--40 {
+    margin-top: -40px;
+}
+
+.mb--40 {
+    margin-bottom: -40px;
+}
+
+.mb--20 {
+    margin-bottom: -20px;
+}
+
+.mt--20 {
+    margin-top: -20px;
 }
 
 .l-green {
@@ -318,7 +338,7 @@ section.top_nav .search_nav input {
 
 nav {
     background: var(--main-color);
-    height: 90px;
+    height: 66px;
     width: 100%;
     position: relative;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.55);
@@ -328,13 +348,14 @@ nav {
 nav .nav_content {
     width: 90%;
     margin: 0 auto;
+    height: 100%;
 }
 
 nav .nav_content .logo {
-    height: 96px;
-    width: 96px;
+    height: 70px;
+    width: 70px;
     background: #3d3d3d;
-    margin-top: -3px;
+    margin-top: -2px;
     box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.9);
     z-index: 11;
     position: absolute;
@@ -352,8 +373,8 @@ nav .main_menu {
 nav .main_menu .main_menu__item>a {
     color: #fff;
     text-transform: uppercase;
-    font-size: 19px;
-    line-height: 90px;
+    font-size: 16px;
+    line-height: 66px;
 }
 
 .main_menu__item {
@@ -378,7 +399,7 @@ nav .main_menu .main_menu__item>a {
 .main_menu__submenu a {
     white-space: nowrap;
     font-size: 16px !important;
-    padding: 20px 35px;
+    padding: 10px 25px;
     line-height: normal !important;
     display: block;
 }
@@ -443,6 +464,10 @@ nav .nav_contacts a {
     font-size: 14px;
 }
 
+.nav_contacts.nav_contacts_address {
+    text-transform: none !important;
+}
+
 nav .nav_contacts a {
     display: block;
     line-height: 29px;
@@ -455,6 +480,7 @@ nav a:hover {
 
 nav .cart {
     position: relative;
+    height: 100%;
 }
 
 nav .cart .cart__content {
@@ -529,7 +555,7 @@ nav .cart_img>div {
 
 nav .cart_img a {
     font-size: 40px;
-    line-height: 90px;
+    line-height: 66px;
     color: #86c4f1 !important;
     position: relative;
 }
@@ -555,7 +581,7 @@ nav .cart_img .cart_count {
 nav .cart_img .cart_sum {
     margin-left: 20px;
     font-size: 18px;
-    line-height: 90px;
+    line-height: 66px;
 }
 
 nav .cart_img .cart_sum>span {
@@ -576,8 +602,20 @@ main {
 }
 
 .header {
-    margin-top: 50px;
-    margin-bottom: 50px;
+    height: 500px;
+    margin-top: -40px;
+}
+
+.carousel_header {
+    height: 100%;
+}
+
+.carousel_header .carousel-indicators {
+    bottom: 50px;
+}
+
+.carousel_header .carousel-caption {
+    bottom: 60px;
 }
 
 .header_banner {
@@ -625,7 +663,7 @@ main {
 }
 
 .superiorities {
-    margin-top: 80px;
+    /* margin-top: 80px; */
     text-align: center;
     color: #3c78c6;
     font-size: 15px;
@@ -639,8 +677,9 @@ main {
 
 .sale_product__info>.prices {
     font-weight: bold;
-    font-size: 20px;
-    margin-bottom: 75px;
+    font-size: 16px;
+    margin-top: 125px;
+    margin-bottom: 20px;
 }
 
 .sale_product__info h4 a {
@@ -692,7 +731,7 @@ main {
 }
 
 .sale_product__count {
-    position: absolute;
+    /* position: absolute; */
     bottom: 0;
 }
 
@@ -705,12 +744,11 @@ main {
     display: block;
     box-sizing: content-box;
     margin-right: 10px;
-    color: #6b6b6b;
     font-size: 17px;
 }
 
 section {
-    margin-top: 100px;
+    /* margin-top: 100px; */
 }
 
 section.product {
@@ -1367,7 +1405,7 @@ footer>div>div {
 }
 
 .mainpage-banners {
-    height: 400px;
+    height: 100%;
     overflow: hidden;
 }
 
@@ -1394,3 +1432,34 @@ footer>div>div {
 .social_links .whatsapp_icon {
     color: var(--whatsapp-d-color);
 }
+
+.welcome_section,
+.discount_products {
+    margin: 0;
+}
+
+.welcome_section {
+    background-color: #fff;
+}
+
+.box {
+    background: var(--light-grey);
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.img_overflow {
+    position: relative;
+}
+
+
+/* .img_overflow::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .2);
+} */

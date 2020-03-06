@@ -6,61 +6,54 @@
 @section('content')
     <div class="header">
         @if (count($banners) > 0)
-            <div class="row wrap">
-                <div class="col-lg-6">
-                    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            @foreach ($banners as $item)
-                                <li data-target="#carouselExampleCaptions" data-slide-to="{{ $loop->iteration-1 }}" class="@if($loop->iteration == 1) active @endif"></li>
-                            @endforeach
-                        </ol>
-                        <div class="carousel-inner mainpage-banners">
-                            @foreach ($banners as $banner)
-                                <div class="carousel-item @if($loop->iteration == 1) active @endif">
-                                    <img src="{{ asset('imgs/banners/')}}/{{ $banner->image }}" class="d-block w-100" alt="{{ $banner->title ?? '' }}">
-                                    <div class="carousel-caption d-none d-md-block">
-                                    <h5>@if ($banner->link != '' || $banner->link != NULL)
-                                        <a href="{{ $banner->link }}" target="_blank">{{ $banner->title ?? 'Перейти...' }}</a>
-                                    @else
-                                        {{ $banner->title ?? '' }}
-                                    @endif                                
-                                    </h5>
-                                    <p>{{ $banner->description ?? '' }}</p>
-                                    </div>
-                                </div>
-                            @endforeach
+            <div id="carouselExampleCaptions" class="carousel slide carousel_header" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    @foreach ($banners as $item)
+                        <li data-target="#carouselExampleCaptions" data-slide-to="{{ $loop->iteration-1 }}" class="@if($loop->iteration == 1) active @endif"></li>
+                    @endforeach
+                </ol>
+                <div class="carousel-inner mainpage-banners">
+                    @foreach ($banners as $banner)
+                        <div class="carousel-item @if($loop->iteration == 1) active @endif">
+                            <img src="{{ asset('imgs/banners/')}}/{{ $banner->image }}" class="d-block w-100" alt="{{ $banner->title ?? '' }}">
+                            <div class="carousel-caption d-none d-md-block">
+                            <h5>@if ($banner->link != '' || $banner->link != NULL)
+                                <a href="{{ $banner->link }}" target="_blank">{{ $banner->title ?? 'Перейти...' }}</a>
+                            @else
+                                {{ $banner->title ?? '' }}
+                            @endif                                
+                            </h5>
+                            <p>{{ $banner->description ?? '' }}</p>
+                            </div>
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
+                    @endforeach
                 </div>
-                <div class="col-lg-6 mainpage-banners">
-                    @forelse ($discounts as $discount)
-                    <div class="col">
-                        <div class="category_card white_box mb-1">
-                            <div class="discount_sticker p10 bg-blue">
-                                <span>-{{ $discount->value }}{{ $discount->rus_type }}</span>
-                            </div> 
-                            <div class="category_card__title p10">
-                                <h4><a href="{{ route('sale', $discount->slug) }}">{{ $discount->discount }} {{ $discount->value }}{{ $discount->rus_type }}</a></h4>
-                                <div class="card_info @if($discount->it_actuality) color-green  @endif">{{ $discount->start_d_m_y }} - {{ $discount->d_m_y }} @if(!$discount->it_actuality) <br>(акция закончилась!) @endif</div>
-                                <p>{{ $discount->description ?? '' }}</p>
-                            </div>                        
-                        </div>
-                    </div>
-                    @empty
-                        
-                    @endforelse
-                </div>
+                <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         @endif
     </div>
+    <section class="welcome_section">
+        <div class="container">
+            <div class="box mt--40 mb--40 d-flex shadow align-self-stretch">
+                <div class="col-lg-7">
+                    <img src="{{ asset('imgs/m_hardhatandtools.jpg')}}" class="img-fluid p-4 bg-white" alt="">
+                </div>
+                <div class="bg-white col-lg-5 p-2">
+                    <div class="p-4 text-center">
+                        <h3 class=" mb-4 mt-4">Добро пожаловать на сайт строительного магазина <span class="h2 text-danger">Stroy82.com</span></h3>
+                        <p class="text-secondary">В нашем интернет-магазине можно купить дёшево практически любой вид стройматериалов с быстрой и удобной доставкой по Симферополю и другим городам Крыма!</p>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </section>
 
         {{-- <div class="header_banners col-lg-9">
             <div class="header_banner">
@@ -112,7 +105,7 @@
             @endforeach
         </div>
         @endisset             --}}
-    <div class="superiorities">
+    <section class="superiorities">
         <div class='wrap col-lg-12 d-flex justify-content-between color-white'>
             <div class="superiority col-lg-3">
                 <div class="superiority__icon"><i class="fas fa-truck"></i></div>
@@ -131,10 +124,71 @@
                 <span>Доступность менеджера с 08:00 до 19:00</span>
             </div>   
         </div>
-    </div>   
+    </section> 
+
+    @isset($discounts)
+    <section class="discount_products">
+        <div class="container">
+            <div class="box mt--40 mb--20 shadow bg-white">                
+                <h3 class="h1 text-center color-main font-weight-bold">Успейте купить</h3>
+                <div class="d-flex align-self-stretch">
+                    @php
+                        $count = 0;
+                    @endphp
+                    @foreach ($discounts as $discount)        
+                        @break($count == 3)
+                        @foreach ($discount->product as $product)
+                            @break($count == 3)
+                            @php $count++; @endphp
+                            <div class="col-lg-4 p-2">
+                                <div class="bg-secondary p-4 img_overflow text-white" style="background-image: url({{ asset('imgs/products/thumbnails/') }}/{{ $product->main_or_first_image->thumbnail ?? '' }}); background-size: cover;">
+                                    <div class="sale_product__info">
+                                        <h3 class="mb-4">
+                                            @if(isset($product->category->slug))
+                                                <a class="text-white" href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ Str::limit($product->product, 30, '... ') }}</a>
+                                            @else
+                                                <a class="text-white" href="{{ route('product.without_category', $product->slug) }}">{{ Str::limit($product->product, 30, '... ') }}</a>
+                                            @endif
+                                        </h3>
+
+                                        <div class="prices d-flex lg-12 p-2 bg-dark color-white rounded shadow justify-content-around">
+                                            <div class="old_price">{{ $product->price }}</div>
+                                            <div class="new_price">
+                                                @if ($product->discount->type == '%')
+                                                    {{ number_format($product->price * $product->discount->numeral, 2, ',', ' ') }}
+                                                @elseif ($product->discount->type == 'rub')
+                                                    {{ number_format($product->price - $product->discount->value, 2, ',', ' ') }}
+                                                @endif <span><i class="fas fa-ruble-sign"></i>@isset($product->unit) за 1 {{ $product->unit->unit }} @endisset</span>
+                                            </div>
+                                        </div>
+                                        <div id="countdown-{{ $product->id }}" class="sale_product__count d-flex mb-4 color-white justify-content-around" data-id={{ $product->id }} data-discount="{{ $product->discount->discount_end }}">                                
+                                            <div class="countdown-number">
+                                                <span class="days countdown-time"></span>
+                                            </div>
+                                            <div class="countdown-number">
+                                                <span class="hours countdown-time"></span>
+                                            </div>
+                                            <div class="countdown-number">
+                                                <span class="minutes countdown-time"></span>
+                                            </div>
+                                            <div class="countdown-number">
+                                                <span class="seconds countdown-time"></span>
+                                            </div>                                             
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                        
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section> 
+    @endisset
     
     @if (count($articles)> 0)
-        <section class="mb-5 wrap">
+        <section class="mb-5 mt-5 wrap">
             <div class="section_title">
             </div>
             <div class="card-group">
@@ -155,86 +209,10 @@
         </section>
     @endif
     
-
-    <section class="sales_products wrap">
-        @isset($discounts)
-        <div class="section_title">
-            Успейте купить
-        </div>
-        @php
-            $count = 0;
-        @endphp
-        <div class=" row d-flex col-lg-12">
-            @foreach ($discounts as $discount)        
-                @break($count == 2)
-                @foreach ($discount->product as $product)
-                    @break($count == 2)
-                    @php $count++; @endphp
-                    <div class="sale_product white_box p10 w47per d-flex justify-content-lg-start">
-                        <div class="sale_product__img col-lg-5">
-                            <img  class="img-fluid" 
-                            @if(isset($product->images) && count($product->images) > 0)
-                                src="{{ asset('imgs/products/thumbnails/')}}/{{ $product->main_or_first_image->thumbnail }}"
-                                alt="{{ $product->main_or_first_image->alt }}"
-                            @else 
-                                src="{{ asset('imgs/nopic.png')}}"
-                            @endif >
-                        </div>
-                        <div class="sale_product__info col-lg-7">
-                            <div class="row col-lg-12">
-                                <h4>
-                                    @if(isset($product->category->slug))
-                                        <a href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ Str::limit($product->product, 30, '... ') }}</a>
-                                    @else
-                                        <a href="{{ route('product.without_category', $product->slug) }}">{{ Str::limit($product->product, 30, '... ') }}</a>
-                                    @endif                                   
-                                </h4>
-                                <div class="product_inner_scu row col-lg-12">код: {{ $product->autoscu }}</div>
-                                <div class="product_short_description row col-lg-12">
-                                    @isset($product->short_description)
-                                        {{ $product->short_description }}
-                                    @endisset
-                                </div>                                
-                            </div>
-                            <div class="prices row col lg-12">
-                                <div class="old_price">{{ $product->price }}</div>
-                                <div class="new_price col-lg-6">
-                                    @if ($product->discount->type == '%')
-                                        {{ number_format($product->price * $product->discount->numeral, 2, ',', ' ') }}
-                                    @elseif ($product->discount->type == 'rub')
-                                        {{ number_format($product->price - $product->discount->value, 2, ',', ' ') }}
-                                    @endif <span><i class="fas fa-ruble-sign"></i>@isset($product->unit) за 1 {{ $product->unit->unit }} @endisset</span>
-                                </div>
-                            </div>
-                            <div id="countdown-{{ $product->id }}" class="sale_product__count d-flex" data-id={{ $product->id }} data-discount="{{ $product->discount->discount_end }}">
-                                
-                                <div class="countdown-number">
-                                    <span class="days countdown-time"></span>
-                                </div>
-                                <div class="countdown-number">
-                                    <span class="hours countdown-time"></span>
-                                </div>
-                                <div class="countdown-number">
-                                    <span class="minutes countdown-time"></span>
-                                </div>
-                                <div class="countdown-number">
-                                    <span class="seconds countdown-time"></span>
-                                </div>
-                                 
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-                
-            @endforeach
-        </div>
-        @endisset
-        
-    </section>
     @isset($categories)
-    <section class="categories wrap">
+    <section class="categories wrap mt-5">
         <div class="section_title">
-            Категории товаров
+            <h3 class="h1 text-center color-main font-weight-bold">Категории товаров</h3>
         </div>
         <div class="category_cards col-lg-12 row">
             @foreach ($categories as $category)
@@ -256,9 +234,9 @@
     </section>
     @endisset
     @isset($lastProducts)  
-    <section class="last_products wrap">
+    <section class="last_products wrap mt-5">
         <div class="section_title">
-            Новые товары
+            <h3 class="h1 text-center color-main font-weight-bold">Новые товары</h3>
         </div>
         <div class="product_cards col-lg-12 row">
             @foreach ($lastProducts as $product)
@@ -352,9 +330,9 @@
     @endisset
 
     @isset($popularProducts)  
-    <section class="last_products wrap">
+    <section class="last_products wrap mt-5">
         <div class="section_title">
-            Популярные товары
+            <h3 class="h1 text-center color-main font-weight-bold">Популярные товары</h3>
         </div>
         <div class="product_cards col-lg-12 row">
             @foreach ($popularProducts as $product)
@@ -448,7 +426,7 @@
     @endisset
 
     @if (isset($about->main_text))
-    <section class="main_about wrap">
+    <section class="main_about wrap mt-5">
         <h1>{{ $about->site_name }}</h1>
         {!! $about->main_text ?? '' !!}
         <span class="hidding"></span>
