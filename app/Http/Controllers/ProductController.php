@@ -111,7 +111,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
         $product = Product::create($request->all());
         
         if (isset($request->image_id)) {
@@ -332,6 +332,78 @@ class ProductController extends Controller
 
     public function showInCategory($categoryId) {
         echo ($categoryId);
+    }
+
+    public function copy(Request $request) {
+
+        $products = Product::whereIn('id', $request->product_group_ids)->with('propertyvalue')->get();
+        
+        $property_values = [];
+        foreach ($products as $key => $product) {
+            foreach ($product->propertyvalue as $key => $value) {
+                $property_values[$value->property_id] = $value->value;
+            }
+
+            $data_to_product = [
+                'product' => $product->product . ' - копия',
+                'scu' => $product->scu,
+                'category_id' => $product->category_id,
+                'manufacture_id' => $product->manufacture_id,
+                'vendor_id' => $product->vendor_id,
+                'product_pricename' => $product->product_pricename,
+                'unit_id' => $product->unit_id,
+                'discount_id' => $product->discount_id,
+                'size_l' => $product->size_l,
+                'size_w' => $product->size_w,
+                'size_t' => $product->size_t,
+                'size_type' => $product->size_type,
+                'mass' => $product->mass,
+                'short_description' => $product->short_description,
+                'description' => $product->description,
+                'delivery_time' => $product->delivery_time,
+                'meta_description' => $product->meta_description,
+                'meta_keywords' => $product->meta_keywords,
+                'published' => $product->published,
+                'pay_online' => $product->pay_online,
+                'packaging' => $product->packaging,
+                'unit_in_package' => $product->unit_in_package,
+                'amount_in_package' => $product->amount_in_package,
+                'price' => $product->price,
+                'quantity' => $product->quantity,
+                'quantity_vendor' => $product->quantity_vendor,
+                'profit' => $product->profit,
+                'profit_type' => $product->profit_type,
+                'incomin_price' => $product->incomin_price,
+                'property_values' => $property_values,
+                'autoscu' => '',
+                'slug' => '',
+            ];
+
+            // dd($data_to_product);
+
+            $product = Product::create($data_to_product);
+        }
+
+        // $product = Product::create($request->all());
+        
+        // if (isset($request->image_id)) {
+        //     $imagesArray = $request->image_id;
+            
+        //     foreach ($imagesArray as $image) {
+        //         $imageCollection = Image::where('id', $image)->first();
+        //         $old_name = $imageCollection->image;
+        //         $new_name = Str::after($old_name, '-noprod-');
+        //         $old_thumbnail = $imageCollection->thumbnail;
+        //         $new_thumbnail = Str::after($old_thumbnail, '-noprod-');
+        //         rename(public_path("imgs/products/". $old_name), public_path("imgs/products/". $new_name));
+        //         rename(public_path("imgs/products/thumbnails/". $old_thumbnail), public_path("imgs/products/thumbnails/". $new_thumbnail));
+        //         $imageCollection->image = $new_name;
+        //         $imageCollection->thumbnail = $new_thumbnail;
+        //         $imageCollection->update();
+        //         $product->images()->attach($image);
+        //     } 
+        // }
+        return redirect()->back()->with('success', 'Товары успешно скопированы');
     }
 
     public function ajaxSearch(Request $request) {

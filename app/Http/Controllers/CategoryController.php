@@ -6,6 +6,7 @@ use App\Category;
 use App\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {

@@ -698,4 +698,26 @@ $(function() {
 
         return day + '.' + monthNames[monthIndex] + '.' + year;
     }
+
+    $('.product_id').bind('input', function() {
+        let product_checked = $('.product_id');
+        
+        let product_checked_ids = [];
+        product_checked.each(function(i, elem) {
+            if ($(elem).prop('checked')) {
+                product_checked_ids.push($(elem).val());
+            }
+        });
+        if (product_checked_ids.length > 0) {
+            $('.product_group_action').removeClass('disabled');
+        } else {
+            if (!$('.product_group_action').hasClass('disabled')) {
+                $('.product_group_action').addClass('disabled');
+            }            
+        }
+        $('.hidden_inputs').empty();
+        for (let i = 0; i < product_checked_ids.length; i++) {
+            $(".hidden_inputs").append("<input type='hidden' name='product_group_ids[]' value=" + product_checked_ids[i] + ">");            
+        }
+    });
 });
