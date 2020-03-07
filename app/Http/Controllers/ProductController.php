@@ -299,31 +299,30 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $images = ImageProduct::where('product_id', $product->id)->get();
-        $imagesIdArray = $images->pluck('image_id');
-        foreach ($images as $image) {
-            if (file_exists(public_path('imgs/products/'.$image->images->image))) {
-                try {
-                    $file = new Filesystem;
-                    $file->delete(public_path('imgs/products/'. $image->images->image));
-                } catch (\Throwable $th) {
-                    echo 'Сообщение: '   . $th->getMessage() . '<br />';
-                }                
-            }
-            if (file_exists(public_path() .'\imgs\products\thumbnails\\' . $image->images->thumbnail)) {
-                try {
-                    $file = new Filesystem;
-                    $file->delete(public_path().'\imgs\products\thumbnails\\' . $image->images->thumbnail);
-                } catch (\Throwable $th) {
-                    echo 'Сообщение: '   . $th->getMessage() . '<br />';
-                }                
-            }
-        }
+        foreach ($product->images as $image) {
+            // удаляем изображение только если оно не принадлежит больше ни одному продукту
+            if ($image->products->count() === 1) {
+                if (file_exists(public_path('imgs/products/'.$image->image))) {
+                    try {
+                        $file = new Filesystem;
+                        $file->delete(public_path('imgs/products/'. $image->image));
+                    } catch (\Throwable $th) {
+                        echo 'Сообщение: '   . $th->getMessage() . '<br />';
+                    }
+                }
+                if (file_exists(public_path() .'\imgs\products\thumbnails\\' . $image->thumbnail)) {
+                    try {
+                        $file = new Filesystem;
+                        $file->delete(public_path().'\imgs\products\thumbnails\\' . $image->thumbnail);
+                    } catch (\Throwable $th) {
+                        echo 'Сообщение: '   . $th->getMessage() . '<br />';
+                    }
+                }
 
-        if ($product->images->count()) {
-            $product->images()->detach($images);   
-            Image::whereIn('id', $imagesIdArray)->delete();     
-        }        
+                $product->images()->detach($image);
+                Image::where('id', $image->id)->delete();
+            }
+        }     
         
         $product->delete();
 
@@ -337,7 +336,7 @@ class ProductController extends Controller
     public function copy(Request $request) {
 
         if (isset($request->product_group_ids) && count($request->product_group_ids) > 0) {
-            $products = Product::whereIn('id', $request->product_group_ids)->with('propertyvalue')->get();
+            $products = Product::whereIn('id', $request->product_group_ids)->with('propertyvalue')->with('images')->get();
         
             $property_values = [];
             foreach ($products as $key => $product) {
@@ -380,35 +379,31 @@ class ProductController extends Controller
                     'profit' => $product->profit,
                     'profit_type' => $product->profit_type,
                     'incomin_price' => $product->incomin_price,
-                    'property_values' => $property_values,
+                    'propertyvalue' => $property_values,
                     'autoscu' => '',
                     'slug' => '',
                 ];
 
-                // dd($data_to_product);
-
-                $product = Product::create($data_to_product);
+                $new_product = Product::create($data_to_product);
+                
+                foreach ($property_values as $key => $value) {
+                    if($value != null) {
+                        $propertyValue = new Propertyvalue;
+                        $propertyValue->product_id = $new_product->id;
+                        $propertyValue->property_id = $key;
+                        $propertyValue->value = $value;        
+                        $propertyValue->save();
+                    }
+                }
+                
+                if ($product->images->count() > 0) {
+                    foreach ($product->images as $key => $image) {
+                        // $product->images()->attach($image->id);
+                        $image->products()->attach($new_product->id);
+                    }
+                }                
             }
 
-            // $product = Product::create($request->all());
-            
-            // if (isset($request->image_id)) {
-            //     $imagesArray = $request->image_id;
-                
-            //     foreach ($imagesArray as $image) {
-            //         $imageCollection = Image::where('id', $image)->first();
-            //         $old_name = $imageCollection->image;
-            //         $new_name = Str::after($old_name, '-noprod-');
-            //         $old_thumbnail = $imageCollection->thumbnail;
-            //         $new_thumbnail = Str::after($old_thumbnail, '-noprod-');
-            //         rename(public_path("imgs/products/". $old_name), public_path("imgs/products/". $new_name));
-            //         rename(public_path("imgs/products/thumbnails/". $old_thumbnail), public_path("imgs/products/thumbnails/". $new_thumbnail));
-            //         $imageCollection->image = $new_name;
-            //         $imageCollection->thumbnail = $new_thumbnail;
-            //         $imageCollection->update();
-            //         $product->images()->attach($image);
-            //     } 
-            // }
             return redirect()->back()->with('success', 'Товары успешно скопированы');
         } else {
             redirect()->back()->with('warning', 'Вы не выбрали товары для копирования');
@@ -420,31 +415,30 @@ class ProductController extends Controller
             $products = Product::whereIn('id', $request->product_group_ids)->with('propertyvalue')->get();
         
             foreach ($products as $key => $product) {
-                $images = ImageProduct::where('product_id', $product->id)->get();
-                $imagesIdArray = $images->pluck('image_id');
-                foreach ($images as $image) {
-                    if (file_exists(public_path('imgs/products/'.$image->images->image))) {
-                        try {
-                            $file = new Filesystem;
-                            $file->delete(public_path('imgs/products/'. $image->images->image));
-                        } catch (\Throwable $th) {
-                            echo 'Сообщение: '   . $th->getMessage() . '<br />';
-                        }                
-                    }
-                    if (file_exists(public_path() .'\imgs\products\thumbnails\\' . $image->images->thumbnail)) {
-                        try {
-                            $file = new Filesystem;
-                            $file->delete(public_path().'\imgs\products\thumbnails\\' . $image->images->thumbnail);
-                        } catch (\Throwable $th) {
-                            echo 'Сообщение: '   . $th->getMessage() . '<br />';
-                        }                
-                    }
-                }
+                foreach ($product->images as $image) {
+                    // удаляем изображение только если оно не принадлежит больше ни одному продукту
+                    if ($image->products->count() === 1) {
+                        if (file_exists(public_path('imgs/products/'.$image->image))) {
+                            try {
+                                $file = new Filesystem;
+                                $file->delete(public_path('imgs/products/'. $image->image));
+                            } catch (\Throwable $th) {
+                                echo 'Сообщение: '   . $th->getMessage() . '<br />';
+                            }
+                        }
+                        if (file_exists(public_path() .'\imgs\products\thumbnails\\' . $image->thumbnail)) {
+                            try {
+                                $file = new Filesystem;
+                                $file->delete(public_path().'\imgs\products\thumbnails\\' . $image->thumbnail);
+                            } catch (\Throwable $th) {
+                                echo 'Сообщение: '   . $th->getMessage() . '<br />';
+                            }
+                        }
         
-                if ($product->images->count()) {
-                    $product->images()->detach($images);   
-                    Image::whereIn('id', $imagesIdArray)->delete();     
-                }        
+                        $product->images()->detach($image);
+                        Image::where('id', $image->id)->delete();
+                    }
+                }     
                 
                 $product->delete();
             }            
