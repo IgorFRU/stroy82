@@ -1,4 +1,10 @@
 $(function() {
+
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+
     var phone_masks = document.getElementsByClassName('phone-mask');
 
     Array.prototype.forEach.call(phone_masks, function(element) {

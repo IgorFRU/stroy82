@@ -20,7 +20,7 @@
     @slot('active') {{ $category->category }} @endslot
 @endcomponent 
    <section>
-        <h1 class="wrap">{{ $category->category }}</h1>        
+        <h1 class="wrap color-main mb-4">{{ $category->category }}</h1>        
    </section>
    @if(count($category->children) > 0)
       <section class="category_cards row wrap">
@@ -53,7 +53,7 @@
                         {{-- @component('components.propertiesbar')
                             @slot('min_price') {{ $products->min('price') }}
                         @endcomponent --}}
-                @include('components.propertiesbar', ['min_price' =>$products->min('price'), 'category_properties' => $category->property, 'properties' => $properties, 'manufactures' => $manufactures, 'filteredManufacture' => $filteredManufacture ])
+                {{-- @include('components.propertiesbar', ['min_price' =>$products->min('price'), 'category_properties' => $category->property, 'properties' => $properties, 'manufactures' => $manufactures, 'filteredManufacture' => $filteredManufacture ]) --}}
                     
                 @else
                     
@@ -64,7 +64,7 @@
         <div class="col-lg-9">
         @if(isset($products) && count($products) > 0)
             <div class="col-lg-12 row product_sort_bar mb-2 d-flex justify-content-end">
-                <div class="form-group row col-lg-4">
+                <div class="form-group row col-lg-6">
                     <label for="products_sort" class="col-lg-4">Сортировать</label>
                     <div class="col-md-8">
                         <select class="form-control custom-select custom-select-sm product_sort_bar__select" id="products_sort" data-cookie='products_sort'>
@@ -96,7 +96,7 @@
                 @forelse ($products_filtered as $product)
                     {{-- @if (isset($checked_properties) && $product->property_active_product($checked_properties) ) --}}
                         {{-- <div class="product_card white_box w23per"> --}}
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
                             <div class="product_card white_box mb-4">
                                 <div class="product_card__img">
                                     <img  class="img-fluid"

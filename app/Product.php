@@ -252,4 +252,8 @@ class Product extends Model
         }
         return $query->orderBy($sort_column, $sort_order);
     }
+
+    public function getClearDescriptionAttribute() {
+        return strip_tags($this->description);
+    }
 }

@@ -20,11 +20,11 @@ class UploadImagesController extends Controller
     public function product(Request $request)
     {
         // dd($request->all());
-        $path = public_path().'\imgs\products\\';
+        $path = public_path().'/imgs/products/';
         if (!file_exists($path)) {
             mkdir($path, 0777);
         }
-        $path_thumbnail = public_path().'\imgs\products\thumbnails\\';
+        $path_thumbnail = public_path().'/imgs/products/thumbnails/';
         if (!file_exists($path_thumbnail)) {
             mkdir($path_thumbnail, 0777);
         }
@@ -36,11 +36,11 @@ class UploadImagesController extends Controller
         $filename = $base_name .'.' . $file->getClientOriginalExtension() ?: 'png';
         $filename_thumbnail = $base_name .'_thumbnail.' . $file->getClientOriginalExtension() ?: 'png';
         $img = ImageManagerStatic::make($file);
-        $img->resize(600, null, function ($constraint) {
+        $img->resize(800, null, function ($constraint) {
                 $constraint->aspectRatio();
             })
             ->save($path . $filename);
-        $thumbnail = $img->resize(250, null, function ($constraint) {
+        $thumbnail = $img->resize(300, null, function ($constraint) {
                 $constraint->aspectRatio();
             })
             ->save($path_thumbnail . $filename_thumbnail);

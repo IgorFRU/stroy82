@@ -1,6 +1,6 @@
 <aside class="white_box p10 mb-4 categories_bar">
     <h4>Категории товаров</h4>
-    <div class="categories_bar__toggle">
+    <div class="categories_bar__toggle active">
         @forelse ($categories as $category)                
             @if (count($category->products) > 0)        
                 <li><a href="{{ route('category', $category->slug) }}" class="{{ (Request::is('catalog/' . $category->slug) ? 'active' : '') }}">{{ $category->category }}</a>
@@ -20,7 +20,7 @@
         @empty                        
         @endforelse
     </div>
-    <div class="button__toggle" data-toopen="categories_bar__toggle">
+    <div class="button__toggle active" data-toopen="categories_bar__toggle">
         <span class="toopen"><i class="fas fa-arrow-circle-down"></i></span>
     </div>
 </aside>

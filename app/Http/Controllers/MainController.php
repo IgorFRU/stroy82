@@ -344,7 +344,7 @@ class MainController extends Controller
         if ($product->meta_description) {
             $description = $product->meta_description;
         } elseif($product->description) {
-            $description = $product->description;
+            $description = $product->clear_description;
         } else {
             $description = 'Купить в Симферополе ' . $product->product . ' по лучшей цене с доставкой';
         }

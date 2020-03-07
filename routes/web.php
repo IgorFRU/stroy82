@@ -28,6 +28,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(functi
   
   Route::post('/properties/store',  'PropertyController@store');
   Route::post('/properties/destroy',  'PropertyController@destroy');
+  
   Route::post('/uploadimg',  'ImageController@store');
   // Route::any('/updateimg/{id}',  'ImageController@update');
   Route::resource('/categories', 'CategoryController');

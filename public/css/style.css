@@ -54,7 +54,7 @@ body {
 .custom_input__content {}
 
 .breadcrumb {
-    margin-bottom: -30px;
+    /* margin-bottom: -30px; */
 }
 
 .breadcrumb>.wrap li {
@@ -752,7 +752,7 @@ section {
 }
 
 section.product {
-    margin-top: 40px;
+    /* margin-top: 40px; */
 }
 
 .section_title {
@@ -1402,6 +1402,7 @@ footer>div>div {
     position: fixed;
     right: 10px;
     bottom: 10px;
+    z-index: 200;
 }
 
 .mainpage-banners {
