@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Image;
+use App\ImageProduct;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic;
 use Illuminate\Support\Str;

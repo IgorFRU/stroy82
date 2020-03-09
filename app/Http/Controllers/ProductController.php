@@ -24,6 +24,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Filesystem\Filesystem;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class ProductController extends Controller
 {
     public function __construct()
@@ -310,10 +313,10 @@ class ProductController extends Controller
                         echo 'Сообщение: '   . $th->getMessage() . '<br />';
                     }
                 }
-                if (file_exists(public_path() .'\imgs\products\thumbnails\\' . $image->thumbnail)) {
+                if (file_exists(public_path() .'/imgs/products/thumbnails/' . $image->thumbnail)) {
                     try {
                         $file = new Filesystem;
-                        $file->delete(public_path().'\imgs\products\thumbnails\\' . $image->thumbnail);
+                        $file->delete(public_path().'/imgs/products/thumbnails/' . $image->thumbnail);
                     } catch (\Throwable $th) {
                         echo 'Сообщение: '   . $th->getMessage() . '<br />';
                     }
@@ -426,10 +429,10 @@ class ProductController extends Controller
                                 echo 'Сообщение: '   . $th->getMessage() . '<br />';
                             }
                         }
-                        if (file_exists(public_path() .'\imgs\products\thumbnails\\' . $image->thumbnail)) {
+                        if (file_exists(public_path() .'/imgs/products/thumbnails/' . $image->thumbnail)) {
                             try {
                                 $file = new Filesystem;
-                                $file->delete(public_path().'\imgs\products\thumbnails\\' . $image->thumbnail);
+                                $file->delete(public_path().'/imgs/products/thumbnails/' . $image->thumbnail);
                             } catch (\Throwable $th) {
                                 echo 'Сообщение: '   . $th->getMessage() . '<br />';
                             }
@@ -516,11 +519,43 @@ class ProductController extends Controller
         // echo json_encode($request->all());
     }
 
+    public function export() {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $products = Product::published()->with(['category', 'manufacture', 'propertyvalue'])->get();
+        $sheet->setCellValue('A1', 'Hello World !');
+        $sheet->setCellValue('A4', '№');
+        $sheet->setCellValue('B4', 'Код товара');
+        $sheet->setCellValue('C4', 'Название, категория');
+        $sheet->setCellValue('D4', 'Производитель');
+
+        $count = 5;
+        $number = 1;
+        foreach ($products as $key => $product) {
+            $sheet->setCellValue('A' . $count++, $number++);
+            $sheet->setCellValue('B' . $count, $product->autoscu);
+            if (isset($product->category)) {
+                $sheet->setCellValue('C' . $count, $product->product . ' ' . $product->category->category);
+            }
+            if (isset($product->manufacture)) {
+                $sheet->setCellValue('D' . $count, $product->manufacture->manufacture);
+            }
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('products.xlsx');
+
+        return 'ok';
+    }
+
     public function getCategoryProperties(Request $request) {
 
         $category = Category::whereId($request->category_id)->with('property')->firstOrFail();
         echo json_encode($category->property);
     }
+
+    
 
     public function setCookie(Request $request) {
         if (isset($request->adm_category_show) && $request->adm_category_show != '') {

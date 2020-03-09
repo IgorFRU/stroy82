@@ -121,9 +121,9 @@
                                     </div>
                                         
                                     @if(isset($product->category->slug))
-                                        <h5><a href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
+                                        <h5><a href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ $product->product }}</a></h5>
                                     @else
-                                        <h5><a href="{{ route('product.without_category', $product->slug) }}">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
+                                        <h5><a href="{{ route('product.without_category', $product->slug) }}">{{ $product->product }}</a></h5>
                                     @endif
 
                                     {{-- {{ $product->property_active_product }} --}}

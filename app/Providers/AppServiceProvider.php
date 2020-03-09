@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
 
             if($model->image) {
                 // dd($model);
-                $path = public_path().'\imgs\categories\\';
+                $path = public_path().'/imgs/categories/';
                 $file = $model->image;
                 $img = new WorkWithImage($file, $path);
                 $model->image = $img->saveImage();
