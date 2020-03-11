@@ -986,4 +986,8 @@ $(function() {
             $(this).parent().addClass('hide');
         }
     });
+
+    $('.burger').on('click', function() {
+        $('nav .main_menu').toggleClass('active');
+    })
 });

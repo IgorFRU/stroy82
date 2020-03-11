@@ -36,15 +36,15 @@
 </head>
 <body>
     <div id="app">
-        <section class="top_nav navbar navbar-expand-lg justify-content-between align-items-center">
-            <div class="col-lg-3 left_nav">
+        <section class="top_nav navbar flex-row flex-nowrap justify-content-between d-flex align-items-center">
+            <div class="left_nav">
                 @forelse ($topmenu as $item)
                     <a href="{{ $item->slug ?? '#' }}">{{ $item->title }}</a>
                 @empty
                 @endforelse
                 <a href="{{ route('contacts') }}">Контакты</a>
             </div>
-            <div class="col-lg-4 search_nav">
+            <div class="search_nav">
                 <form action="{{ route('search') }}" method="get">
                     <input type="search" name="q" id="search_nav" placeholder="поиск...">
                     <div class="search_nav__result shadow p-3 bg-white rounded text-dark">
@@ -65,14 +65,14 @@
                     </div>
                 </form>
             </div>
-            <div class="col-lg-5 right_nav d-flex justify-content-lg-end">
-                <a  data-toggle="modal" data-target=".check_order_status" href="#"><i class="fas fa-check"></i> проверить статус заказа</a>
+            <div class="right_nav d-flex justify-content-lg-end">
+                <a  data-toggle="modal" data-target=".check_order_status" href="#" title="Проверить статус заказа"><i class="fas fa-check"></i> <span class="d-none d-md-inline">проверить статус заказа</span></a>
 
 
                 @guest
-                    <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> вход</a>
+                    <a href="{{ route('login') }}" title="Вход"><i class="fas fa-sign-in-alt"></i> <span class="d-none d-md-inline">вход</span></a>
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i> регистрация</a>
+                        <a href="{{ route('register') }}" title="Регистрация"><i class="fas fa-user-plus"></i> <span class="d-none d-md-inline">регистрация</span></a>
                     @endif
                 @else
                     <div class="right_nav__user l-red">
@@ -97,7 +97,13 @@
                     <a href="/"><img src="{{ asset('imgs/Stroy82_logo_200_white.png') }}" alt=""></a>
                     
                 </div>
-                <div class="main_menu mr-2">
+                <div class="burger d-block ">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="main_menu mr-2 d-flex">
+                    
                     <div class="main_menu__item">
                         <a href="{{ route('categories') }}">Категории</a>
                         @if (count($categories) > 0)
@@ -146,7 +152,7 @@
                         <a class="col-lg-12" href="tel:+7{{ $settings->phone_add }}">{{ $settings->add_phone }}</a>
                     @endisset
                 </div>  
-                <div class="nav_contacts nav_contacts_address col-lg-2 mr-2">{{ $settings->address ?? '' }}</div>                  
+                <div class="nav_contacts nav_contacts_address col-lg-2 mr-2 d-none d-sm-block">{{ $settings->address ?? '' }}</div>                  
                     
                 <div class="cart">
                     <div class="cart_img d-flex justify-content-end">
