@@ -13,6 +13,7 @@
     <!-- Scripts -->
     @section('scripts')
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     {{-- <script src="{{ asset('js/jquery-ui.min.js') }}" defer></script> --}}
     <script src="{{ asset('js/script.js') }}" defer></script>
@@ -97,7 +98,7 @@
                     <a href="/"><img src="{{ asset('imgs/Stroy82_logo_200_white.png') }}" alt=""></a>
                     
                 </div>
-                <div class="burger d-block ">
+                <div class="burger d-lg-none d-block ">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -144,9 +145,9 @@
                         <a href="{{ route('articles') }}">Статьи</a>
                     </div>
                 </div>
-                <div class="nav_contacts mr-2">
+                <div class="nav_contacts col-sm-6 col-md-4 text-center mr-2">
                     @isset($settings->phone_main)
-                        <a class="col-lg-12" href="tel:+7{{ $settings->phone_main }}">{{ $settings->main_phone }}</a>
+                        <a class="col-lg-12" href="tel:+7{{ $settings->phone_main }}"><span class="">{{ $settings->main_phone }}</span></a>
                     @endisset
                 </div>                    
                 <div class="cart">
@@ -155,7 +156,7 @@
                             <a href="#"><i class="fas fa-shopping-cart"></i></a>
                             <span class="cart_count">0</span>
                         </div>                       
-                        <span class="cart_sum"><span>0</span><i class="fas fa-ruble-sign"></i></span>
+                        <span class="cart_sum d-none d-md-inline"><span>0</span><i class="fas fa-ruble-sign"></i></span>
                     </div>
                     @isset($cart_products)
                         <div class="cart__content white_box p10 big_shadow">

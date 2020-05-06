@@ -525,24 +525,24 @@ $(function() {
             },
             success: function(data) {
                 var data = $.parseJSON(data);
-                data = data.suggestions;
-                console.log(data);
-                if (data.length > 0) {
-                    if (data[0].data.state.status == 'ACTIVE') {
+                // console.log(data.data.address.value);
+                // data = data.suggestions;
+                //if (data.length > 0) {
+                    if (data.data.state.status == 'ACTIVE') {
                         $('#firm_data_error').hide();
                         $('#firm_data').show();
 
                         var firm_data = {};
 
-                        firm_data['firm_name'] = data[0].data.name.short_with_opf;
-                        firm_data['firm_status'] = data[0].data.state.status;
-                        firm_data['firm_postal_code'] = data[0].data.address.data.postal_code;
-                        firm_data['firm_region'] = data[0].data.address.data.region_with_type;
-                        firm_data['firm_city'] = data[0].data.address.data.city_with_type;
-                        firm_data['firm_street'] = data[0].data.address.data.street_with_type;
-                        firm_data['firm_ogrn'] = data[0].data.ogrn;
-                        firm_data['firm_inn'] = data[0].data.inn;
-                        firm_data['firm_okpo'] = data[0].data.okpo;
+                        firm_data['firm_name'] = data.data.name.short_with_opf;
+                        firm_data['firm_status'] = data.data.state.status;
+                        firm_data['firm_postal_code'] = data.data.address.data.postal_code;
+                        firm_data['firm_region'] = data.data.address.data.region_with_type;
+                        firm_data['firm_city'] = data.data.address.data.city_with_type;
+                        firm_data['firm_street'] = data.data.address.data.street_with_type;
+                        firm_data['firm_ogrn'] = data.data.ogrn;
+                        firm_data['firm_inn'] = data.data.inn;
+                        firm_data['firm_okpo'] = data.data.okpo;
 
                         $.each(firm_data, function(index, value) {
                             $('#' + index).val(value);
@@ -552,9 +552,9 @@ $(function() {
                     } else {
                         $('#firm_data_error').show();
                     }
-                } else {
-                    $('#firm_data_error').show();
-                }
+                //} else {
+                //    $('#firm_data_error').show();
+                //}
 
 
 
@@ -990,5 +990,5 @@ $(function() {
 
     $('.burger').on('click', function() {
         $('nav .main_menu').toggleClass('active');
-    });
+    })
 });
