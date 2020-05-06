@@ -52,7 +52,7 @@
                             <span class="text-secondary mr-2" style="display: block;"><i class="fas fa-weight"></i> масса: {{ $product->mass_number }} кг. @if (isset($product->unit->unit)) (1 {{ $product->unit->unit }}) @endif </span>
                         @endif
                 </div>                
-                <div class="product__images col-lg-6 row">                   
+                <div class="product__images col-sm-6 col-12 row">                   
                     @forelse ($product->images as $image)
                         <a href="{{ asset('imgs/products')}}/{{ $image->image}}" data-toggle="lightbox" data-gallery="product-gallery" class="@if (count($product->images) == 1) col-sm-12 @elseif(count($product->images) == 2) col-sm-6 @else col-sm-4 @endif mb-1 product_add_image">
                             <img src="{{ asset('imgs/products/thumbnails')}}/{{ $image->thumbnail}}" class="img-fluid"  alt="{{ $image->alt ?? $product->product }}">
@@ -87,7 +87,7 @@
                         
                     </div>
                 </div>
-                <div class="col-lg-6">  
+                <div class="col-sm-6 col-12">  
                     @if($product->actually_discount)
                             <span class="badge badge-danger font-weight-light p-2 mb-2">Акция до {{ $product->discount->d_m_y }}</span>
                         @endif                   

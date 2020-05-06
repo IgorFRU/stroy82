@@ -97,7 +97,7 @@
                     <a href="/"><img src="{{ asset('imgs/Stroy82_logo_200_white.png') }}" alt=""></a>
                     
                 </div>
-                <div class="burger d-block ">
+                <div class="burger d-lg-none d-block ">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -144,7 +144,7 @@
                         <a href="{{ route('articles') }}">Статьи</a>
                     </div>
                 </div>
-                <div class="nav_contacts mr-2">
+                <div class="nav_contacts col-sm-4 col-md-3 text-center mr-2">
                     @isset($settings->phone_main)
                         <a class="col-lg-12" href="tel:+7{{ $settings->phone_main }}">{{ $settings->main_phone }}</a>
                     @endisset
@@ -154,7 +154,7 @@
                 </div>  
                 <div class="nav_contacts nav_contacts_address col-lg-2 mr-2 d-none d-sm-block">{{ $settings->address ?? '' }}</div>                  
                     
-                <div class="cart">
+                <div class="cart col-sm-3 col-md-2">
                     <div class="cart_img d-flex justify-content-end">
                         <div>
                             <a href="#"><i class="fas fa-shopping-cart"></i></a>

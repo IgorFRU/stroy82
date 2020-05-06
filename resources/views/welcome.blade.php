@@ -41,11 +41,11 @@
     </div>
     <section class="welcome_section">
         <div class="container">
-            <div class="box mt--40 mb--40 d-flex shadow align-self-stretch">
-                <div class="col-lg-7">
+            <div class="box mt--40 mb--40 col-md-12 d-flex flex-column shadow align-self-stretch">
+                <div class="col-lg-7 col-12">
                     <img src="{{ asset('imgs/m_hardhatandtools.jpg')}}" class="img-fluid p-4 bg-white" alt="">
                 </div>
-                <div class="bg-white col-lg-5 p-2">
+                <div class="bg-white col-lg-5 col-12 p-2">
                     <div class="p-4 text-center">
                         <h3 class=" mb-4 mt-4">Добро пожаловать на сайт строительного магазина <span class="h2 text-danger">Stroy82.com</span></h3>
                         <p class="text-secondary">В нашем интернет-магазине можно купить дёшево практически любой вид стройматериалов с быстрой и удобной доставкой по Симферополю и другим городам Крыма!</p>
@@ -106,20 +106,20 @@
         </div>
         @endisset             --}}
     <section class="superiorities">
-        <div class='wrap col-lg-12 d-flex justify-content-between color-white'>
-            <div class="superiority col-lg-3">
+        <div class='wrap col-lg-12 d-flex flex-wrap justify-content-between color-white'>
+            <div class="superiority col-md-3 col-sm-6 col-12 mb-4 mb-md-0">
                 <div class="superiority__icon"><i class="fas fa-truck"></i></div>
                 <span>Быстрая доставка по Симферополю и Крыму</span>
             </div>
-            <div class="superiority col-lg-3">
+            <div class="superiority col-md-3 col-sm-6 col-12 mb-4 mb-md-0">
                 <div class="superiority__icon"><i class="far fa-credit-card"></i></div>
                 <span>Удобные способы оплаты заказа</span>
             </div>
-            <div class="superiority col-lg-3">
+            <div class="superiority col-md-3 col-sm-6 col-12 mb-4 mb-md-0">
                 <div class="superiority__icon"><i class="fas fa-money-bill-alt"></i></div>
                 <span>Отличные цены вне конкуренции</span>
             </div>
-            <div class="superiority col-lg-3">
+            <div class="superiority col-md-3 col-sm-6 col-12 mb-4 mb-md-0">
                 <div class="superiority__icon"><i class="fas fa-phone"></i></div>
                 <span>Доступность менеджера с 08:00 до 19:00</span>
             </div>   
@@ -216,7 +216,7 @@
         </div>
         <div class="category_cards col-lg-12 row">
             @foreach ($categories as $category)
-                <div class="category_card white_box w23per">
+                <div class="category_card white_box col-12 col-sm-6 col-md-3">
                     <div class="category_card__img">
                         <img  class="img-fluid"
                         @if(isset($category->image))
@@ -240,7 +240,8 @@
         </div>
         <div class="product_cards col-lg-12 row">
             @foreach ($lastProducts as $product)
-                <div class="product_card white_box w23per">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
+                <div class="product_card white_box">
                     <div class="product_card__img">
                         <img  class="img-fluid"
                         @if(isset($product->images) && count($product->images) > 0)
@@ -301,7 +302,7 @@
                         </div>
                     </div>
                     <div class="product_superiorities">
-                        @isset($product->pay_online)
+                        {{-- @isset($product->pay_online)
                             <div class="product_superiority">
                                 <span class="product_superiority__left l-green">
                                     <i class="fas fa-credit-card"></i>
@@ -310,7 +311,7 @@
                                     Этот товар можно оплатить онлайн
                                 </span>
                             </div>
-                        @endisset
+                        @endisset --}}
                         @if($product->actually_discount)
                             <div class="product_superiority">
                                 <span class="product_superiority__left l-red">
@@ -324,6 +325,8 @@
                         
                     </div>
                 </div>
+
+            </div>
             @endforeach
         </div>
     </section>
@@ -336,7 +339,8 @@
         </div>
         <div class="product_cards col-lg-12 row">
             @foreach ($popularProducts as $product)
-                <div class="product_card white_box w23per">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
+                <div class="product_card white_box">
                     <div class="product_card__img">
                         <img  class="img-fluid"
                         @if(isset($product->images) && count($product->images) > 0)
@@ -397,7 +401,7 @@
                         </div>
                     </div>
                     <div class="product_superiorities">
-                        @isset($product->pay_online)
+                        {{-- @isset($product->pay_online)
                             <div class="product_superiority">
                                 <span class="product_superiority__left l-green">
                                     <i class="fas fa-credit-card"></i>
@@ -406,7 +410,7 @@
                                     Этот товар можно оплатить онлайн
                                 </span>
                             </div>
-                        @endisset
+                        @endisset --}}
                         @if($product->actually_discount)
                             <div class="product_superiority">
                                 <span class="product_superiority__left l-red">
@@ -420,6 +424,7 @@
                         
                     </div>
                 </div>
+            </div>
             @endforeach
         </div>
     </section>
