@@ -526,6 +526,7 @@ $(function() {
             success: function(data) {
                 var data = $.parseJSON(data);
                 data = data.suggestions;
+                console.log(data);
                 if (data.length > 0) {
                     if (data[0].data.state.status == 'ACTIVE') {
                         $('#firm_data_error').hide();

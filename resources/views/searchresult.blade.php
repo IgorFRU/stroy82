@@ -54,9 +54,9 @@
                                 </div>
                                     
                                 @if(isset($product->category->slug))
-                                    <h5><a href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
+                                    <h2 class="h5"><a href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ Str::limit($product->product, 30, '... ') }}</a></h2>
                                 @else
-                                    <h5><a href="{{ route('product.without_category', $product->slug) }}">{{ Str::limit($product->product, 30, '... ') }}</a></h5>
+                                    <h2 class="h5"><a href="{{ route('product.without_category', $product->slug) }}">{{ Str::limit($product->product, 30, '... ') }}</a></h2>
                                 @endif
 
                                 {{-- {{ $product->property_active_product }} --}}
@@ -109,7 +109,7 @@
                             @endif >
                         </div> 
                         <div class="category_card__title p10">
-                            <h4><a href="{{ route('category', $category->slug) }}">{{ $category->category }}</a></h4>
+                            <h2 class="h4"><a href="{{ route('category', $category->slug) }}">{{ $category->category }}</a></h2>
                         </div>
                     </div>
                 @empty
@@ -121,7 +121,7 @@
                 @forelse ($manufactures as $manufacture)
                     <div class="category_card white_box w23per">                        
                         <div class="category_card__title p10">
-                            <h4><a href="{{ route('manufacture', $manufacture->slug) }}">{{ $manufacture->manufacture }}</a></h4>
+                            <h2 class="h4"><a href="{{ route('manufacture', $manufacture->slug) }}">{{ $manufacture->manufacture }}</a></h2>
                         </div>
                     </div>
                 @empty

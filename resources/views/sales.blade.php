@@ -23,7 +23,7 @@
                 @endif >
             </div>  --}}
                 <div class="category_card__title p10">
-                    <h4><a href="{{ route('sale', $sale->slug) }}">{{ $sale->discount }} {{ $sale->value }}{{ $sale->rus_type }}</a></h4>
+                    <h2 class="h4"><a href="{{ route('sale', $sale->slug) }}">{{ $sale->discount }} {{ $sale->value }}{{ $sale->rus_type }}</a></h2>
                     <div class="card_info @if($sale->it_actuality) color-green  @endif">{{ $sale->start_d_m_y }} - {{ $sale->d_m_y }} @if(!$sale->it_actuality) <br>(акция закончилась!) @endif</div>
                     <p>{{ $sale->description ?? '' }}</p>
                 </div>

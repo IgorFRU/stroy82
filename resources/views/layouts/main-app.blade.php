@@ -148,12 +148,7 @@
                     @isset($settings->phone_main)
                         <a class="col-lg-12" href="tel:+7{{ $settings->phone_main }}">{{ $settings->main_phone }}</a>
                     @endisset
-                    @isset($settings->phone_add)
-                        <a class="col-lg-12" href="tel:+7{{ $settings->phone_add }}">{{ $settings->add_phone }}</a>
-                    @endisset
-                </div>  
-                <div class="nav_contacts nav_contacts_address col-lg-2 mr-2 d-none d-sm-block">{{ $settings->address ?? '' }}</div>                  
-                    
+                </div>                    
                 <div class="cart">
                     <div class="cart_img d-flex justify-content-end">
                         <div>

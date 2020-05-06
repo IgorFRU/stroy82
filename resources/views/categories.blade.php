@@ -21,7 +21,7 @@
                 @endif >
             </div> 
             <div class="category_card__title p10">
-                <h4><a href="{{ route('category', $category->slug) }}">{{ $category->category }}</a></h4>
+                <h2 class="h4"><a href="{{ route('category', $category->slug) }}">{{ $category->category }}</a></h2>
             </div>
         </div>
     @endforeach

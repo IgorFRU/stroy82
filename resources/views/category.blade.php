@@ -35,7 +35,7 @@
                 @endif >
             </div> 
             <div class="category_card__title p10">
-                <h4><a href="{{ route('category', $subcategory->slug) }}">{{ $subcategory->category }}</a></h4>
+                <h2 class="h4"><a href="{{ route('category', $subcategory->slug) }}">{{ $subcategory->category }}</a></h2>
             </div>
         </div>
     @endforeach
@@ -121,9 +121,9 @@
                                     </div>
                                         
                                     @if(isset($product->category->slug))
-                                        <h5><a href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ $product->product }}</a></h5>
+                                        <h2 class="h5"><a href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}">{{ $product->product }}</a></h2>
                                     @else
-                                        <h5><a href="{{ route('product.without_category', $product->slug) }}">{{ $product->product }}</a></h5>
+                                        <h2 class="h5"><a href="{{ route('product.without_category', $product->slug) }}">{{ $product->product }}</a></h2>
                                     @endif
 
                                     {{-- {{ $product->property_active_product }} --}}

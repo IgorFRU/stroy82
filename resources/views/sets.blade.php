@@ -22,7 +22,7 @@
                 @endif >
             </div> 
             <div class="category_card__title p10">
-                <h4><a href="{{ route('set', $set->slug) }}">{{ $set->set }}</a></h4>
+                <h2 class="h4"><a href="{{ route('set', $set->slug) }}">{{ $set->set }}</a></h2>
             </div>
         </div>
     @endforeach
