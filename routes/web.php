@@ -51,6 +51,8 @@ Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(functi
   Route::post('/products/search/ajax', 'ProductController@ajaxSearch'); // поиск товара для добавления к статье
   Route::get('/products/addImages/{product}', 'ProductController@addImages')->name('products.addImages');
 
+  Route::get('/importexport', 'ImportexportController@index')->name('importexport.index');
+  Route::get('/importexport/import', 'ImportexportController@import')->name('importexport.import');
   Route::get('/export/products', 'ProductController@export')->name('product.export');
 
   Route::post('/setcookie', 'ProductController@setCookie');
