@@ -39,8 +39,19 @@ class Product extends Model
         'quantity_vendor',
         'profit',
         'profit_type',
-        'incomin_price'
+        'incomin_price',
+        'imported',
     ];
+
+    protected $casts = [
+        'imported' => 'boolean',
+    ];
+
+    public function setImportedAttribute($value) {
+        if ($value === '1') {
+            $this->attributes['imported'] = true;
+        }
+    }
 
     public function setSlugAttribute($value) {
         if (!isset($this->id)) {
@@ -206,6 +217,14 @@ class Product extends Model
 
     public function scopePublished($query) {
         return $query->where('published', 1);
+    }
+
+    public function scopeFinaly($query) {
+        return $query->where('imported', false);
+    }
+
+    public function scopeImported($query) {
+        return $query->where('imported', true);
     }
 
     public function scopePopular($query, $limit) {

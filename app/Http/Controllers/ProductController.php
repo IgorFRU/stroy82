@@ -64,7 +64,7 @@ class ProductController extends Controller
         })
         ->when($manufacture, function ($query, $manufacture) {
             return $query->where('manufacture_id', $manufacture);
-        })->orderBy('id', 'desc')->with('category')->with('manufacture')->paginate($itemsPerPage);
+        })->finaly()->orderBy('id', 'desc')->with('category')->with('manufacture')->paginate($itemsPerPage);
 
         $data = array (
             'title' => 'Товары',

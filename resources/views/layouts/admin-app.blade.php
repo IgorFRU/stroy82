@@ -50,7 +50,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item {{ (Request::is('*products*') ? 'active' : '') }}" href="{{ route('admin.products.index') }}"><i class="fas fa-archive"></i> товары</a>
-                                <a class="dropdown-item {{ (Request::is('*importexport*') ? 'active' : '') }}" href="{{ route('admin.importexport.index') }}"><i class="fas fa-file-excel"></i> импорт/экспорт</a>
+                                <a class="dropdown-item {{ (Request::is('*import-export*') ? 'active' : '') }}" href="{{ route('admin.import-export.index') }}"><i class="fas fa-file-excel"></i> импорт/экспорт</a>
                                 <a class="dropdown-item {{ (Request::is('*categories*') ? 'active' : '') }}" href="{{ route('admin.categories.index') }}"><i class="fas fa-folder"></i> категории</a>
                                 <a class="dropdown-item {{ (Request::is('*manufactures*') ? 'active' : '') }}" href="{{ route('admin.manufactures.index') }}"><i class="fas fa-industry"></i> производители</a>
                                 <a class="dropdown-item {{ (Request::is('*vendors*') ? 'active' : '') }}" href="{{ route('admin.vendors.index') }}"><i class="fas fa-store-alt"></i>  Поставщики</a>
