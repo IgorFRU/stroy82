@@ -34,12 +34,15 @@ class ImportexportController extends Controller
             $request->validate([
                 'file' => 'required|file|max:10000|mimes:xls,xlsx',
             ]);
-            // dd($request->file);
-            Excel::import(new ProductsImport, $request->file);
+            // dd($request->all());
+            
+            $excel = new ProductsImport($request->first_line - 1, $request->all());
+            Excel::import($excel, $request->file);
         } 
 
         $data = array (
             'title' => 'Импорт товаров',
+            'delimiter' => '',
             'vendors' => Vendor::get(),
             'categories' => Category::with('children')->where('category_id', '0')->get(),
         ); 

@@ -12,7 +12,7 @@
         <div class="form-row w-100">
             <div class="col-md-2 mb-3">
                 <label for="first_line">№ первой строки товаров</label>
-                <input type="text" class="form-control" id="first_line" name="first-line" placeholder="введите № первой строки товаров" required>
+                <input type="text" class="form-control" id="first_line" name="first_line" placeholder="введите № первой строки товаров">
                 <div class="valid-tooltip">
                     Looks good!
                 </div>
@@ -47,6 +47,53 @@
                 <div class="valid-tooltip">
                     Looks good!
                 </div>
+            </div>
+        </div>
+        <div class="h4 mt-3">Укажите соответствие колонок</div>
+        <div class="form-row w-100">            
+            <div class="col-md-2 mb-3">
+                <label for="product" class="text-danger">Наименование*</label>
+                <input type="text" class="form-control" id="product" name="column_product" placeholder="Наименование товара" required>
+            </div>
+
+            <div class="col-md-1 mb-3">
+                <label for="scu">Артикул</label>
+                <input type="text" class="form-control" id="scu" name="column_scu" placeholder="Артикул">
+            </div>
+
+            <div class="col-md-2 mb-3">
+                <label for="manufacture_name" class="">Производитель</label>
+                <input type="text" class="form-control" id="manufacture_name" name="column_manufacture_name" placeholder="Производитель" >
+            </div>
+            
+            <div class="col-md-2 mb-3">
+                <label for="category_name" class="">Категория</label>
+                <input type="text" class="form-control" id="category_name" name="column_category_name" placeholder="Категория" >
+            </div>
+
+            <div class="col-md-1 mb-3">
+                <label for="incomin_price">Цена опт</label>
+                <input type="text" class="form-control" id="incomin_price" name="column_incomin_price" placeholder="Цена опт">
+            </div>
+
+            <div class="col-md-1 mb-3">
+                <label for="price">Цена розн.</label>
+                <input type="text" class="form-control" id="incomin_price" name="column_price" placeholder="Цена розн.">
+            </div>
+
+            <div class="col-md-1 mb-3">
+                <label for="unit_name">Ед. изм.</label>
+                <input type="text" class="form-control" id="unit_name" name="column_unit_name" placeholder="Ед. изм.">
+            </div>
+
+            <div class="col-md-1 mb-3">
+                <label for="unit_in_package">Ед. изм. в уп.</label>
+                <input type="text" class="form-control" id="unit_in_package" name="column_unit_in_package" placeholder="в уп.">
+            </div>
+
+            <div class="col-md-1 mb-3 mt-4">
+                <label class="form-check-label" for="packaging">Продается упаковками</label>
+                <input class="form-check-input" type="checkbox" name="column_packaging" id="packaging" value="1">
             </div>
         </div>
         
