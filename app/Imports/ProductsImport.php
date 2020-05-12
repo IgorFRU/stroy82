@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\User;
+use App\Product;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 
@@ -13,6 +13,17 @@ class ProductsImport implements ToCollection
     protected $startLine;
     protected $columns = [];
     protected $collection;
+    protected $rusColumns = [
+        'Наименование',
+        'Артикул',
+        'Производитель',
+        'Категория',
+        'Цена опт',
+        'Цена розн.',
+        'Ед. изм.',
+        'Ед. изм. в уп.',
+        'Продается упаковками',
+    ];
 
     public function __construct($startLine = 1, $columns = ['title' => '1']) {
         $this->startLine = $startLine;
@@ -33,19 +44,27 @@ class ProductsImport implements ToCollection
 
                 $item = [];
                 foreach ($this->columns as $key2 => $column) {
-                    $item[$key2] = $row[$column];
+                    if (isset($row[$column])) {
+                        $item[$key2] = $row[$column];
+                    }                    
                 }
                 // dd($item);
+                $item['imported'] = '1';
+                $item['autoscu'] = '';
+                $item['slug'] = '';
                 if ($item['product'] !== NULL) {
                     $this->collection->push($item);
-                }                
+
+                    // dd($item);
+                    Product::create($item);
+                }  
+                              
             }
             
             // User::create([
             //     'name' => $row[0],
             // ]);
-        }
-
-        dd($this->collection);
+            
+        }        
     }
 }

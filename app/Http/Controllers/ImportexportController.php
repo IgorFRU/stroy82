@@ -38,7 +38,9 @@ class ImportexportController extends Controller
             
             $excel = new ProductsImport($request->first_line - 1, $request->all());
             Excel::import($excel, $request->file);
-        } 
+
+            return redirect()->route('admin.import-export.index');
+        }
 
         $data = array (
             'title' => 'Импорт товаров',
@@ -47,7 +49,6 @@ class ImportexportController extends Controller
             'categories' => Category::with('children')->where('category_id', '0')->get(),
         ); 
 
-        return view('admin.import.index', $data);
-    }
-    
+        return view('admin.import.index', $data);    
+    }    
 }
