@@ -1,5 +1,27 @@
 $(function() {
 
+    () => {
+        if (window.matchMedia("(max-device-width: 480px)").matches) {
+            console.log('ojfifkf');
+            $('.categories_bar__toggle').removeClass('active');
+        }
+    }
+
+    var categoriesBarToggle = function() {
+        var ww = document.body.clientWidth;
+        if (ww <= 990) {
+            $('.categories_bar__toggle').removeClass('active');
+            $('.categories_bar .button__toggle').removeClass('active');
+        } else if (ww >= 991) {
+            $('.categories_bar__toggle').addClass('active');
+            $('.categories_bar .button__toggle').addClass('active');
+        };
+    };
+    $(window).resize(function() {
+        categoriesBarToggle();
+    });
+    categoriesBarToggle();
+
     $(document).on('click', '[data-toggle="lightbox"]', function(event) {
         event.preventDefault();
         $(this).ekkoLightbox();

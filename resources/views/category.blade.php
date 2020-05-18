@@ -25,17 +25,19 @@
    @if(count($category->children) > 0)
       <section class="category_cards row wrap">
     @foreach ($category->children as $subcategory)
-        <div class="category_card white_box w23per">
-            <div class="category_card__img">
-                <img  class="img-fluid"
-                @if(isset($subcategory->image))
-                    src="{{ asset('imgs/categories/')}}/{{ $subcategory->image }}"
-                @else 
-                    src="{{ asset('imgs/nopic.png')}}"
-                @endif >
-            </div> 
-            <div class="category_card__title p10">
-                <h2 class="h4"><a href="{{ route('category', $subcategory->slug) }}">{{ $subcategory->category }}</a></h2>
+        <div class="col-12 col-sm-6 col-md-4 p-1">
+            <div class="category_card white_box">
+                <div class="category_card__img">
+                    <img  class="img-fluid"
+                    @if(isset($subcategory->image))
+                        src="{{ asset('imgs/categories/')}}/{{ $subcategory->image }}"
+                    @else 
+                        src="{{ asset('imgs/nopic.png')}}"
+                    @endif >
+                </div> 
+                <div class="category_card__title p10">
+                    <h2 class="h4"><a href="{{ route('category', $subcategory->slug) }}">{{ $subcategory->category }}</a></h2>
+                </div>
             </div>
         </div>
     @endforeach
@@ -63,10 +65,10 @@
         
         <div class="col-lg-9">
         @if(isset($products) && count($products) > 0)
-            <div class="col-lg-12 row product_sort_bar mb-2 d-flex justify-content-end">
-                <div class="form-group row col-lg-6">
-                    <label for="products_sort" class="col-lg-4">Сортировать</label>
-                    <div class="col-md-8">
+            <div class="col-lg-12 product_sort_bar mb-2 d-flex justify-content-end flex-wrap">
+                <div class="form-group d-flex justify-content-end mr-sm-2">
+                    <label for="products_sort" class="mr-1">Сортировать</label>
+                    <div class="">
                         <select class="form-control custom-select custom-select-sm product_sort_bar__select" id="products_sort" data-cookie='products_sort'>
                             {{-- <option value="discount">Сначала со скидкой</option> --}}
                             <option @if (isset($_COOKIE['product_sort']) && $_COOKIE['product_sort'] == 'nameAZ') selected='selected' @endif value="nameAZ">По алфавиту (А-Я)</option>
@@ -79,7 +81,7 @@
                         </select>
                     </div> 
                 </div>
-                <div class="form-group col col-lg-4 d-flex justify-content-end">
+                <div class="form-group d-flex justify-content-end">
                     <label for="products_per_page" class="mr-1">Товаров на странице</label>
                     <div class="">
                         <select class="form-control custom-select custom-select-sm product_sort_bar__select" id="products_per_page" data-cookie='products_per_page'>
