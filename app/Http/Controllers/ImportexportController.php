@@ -34,9 +34,9 @@ class ImportexportController extends Controller
             $request->validate([
                 'file' => 'required|file|max:10000|mimes:xls,xlsx',
             ]);
-            // dd($request->all());
+            // dd($request->all()); 
             
-            $excel = new ProductsImport($request->first_line - 1, $request->all());
+            $excel = new ProductsImport($request->first_line - 1, $request->all(), $request->last_line, $request->packaging);
             Excel::import($excel, $request->file);
 
             return redirect()->route('admin.import-export.index');

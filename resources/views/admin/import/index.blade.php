@@ -18,6 +18,13 @@
                 </div>
             </div>
             <div class="col-md-2 mb-3">
+                <label for="last_line">№ последней строки товаров</label>
+                <input type="text" class="form-control" id="last_line" name="last_line" placeholder="введите № последней строки товаров">
+                <div class="valid-tooltip">
+                    Looks good!
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
                 <label for="vendor">Поставщик</label>
                 <select class="form-control" id="vendor" name="vendor">
                     <option value="0">Без поставщика</option>
@@ -93,7 +100,7 @@
 
             <div class="col-md-1 mb-3 mt-4">
                 <label class="form-check-label" for="packaging">Продается упаковками</label>
-                <input class="form-check-input" type="checkbox" name="column_packaging" id="packaging" value="1">
+                <input class="form-check-input" type="checkbox" name="packaging" id="packaging" value="1">
             </div>
         </div>
         

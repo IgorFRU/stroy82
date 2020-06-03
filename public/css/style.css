@@ -1549,6 +1549,13 @@ footer>div>div {
     nav .nav_contacts_address {
         font-size: 13px;
     }
+    .product__input_units_minus>i,
+    .product__input_units_plus>i {
+        font-size: 24px;
+    }
+    .product_card__content__scu {
+        width: 100%;
+    }
 }
 
 @media (max-width: 576px) {

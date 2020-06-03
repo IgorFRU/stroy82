@@ -34,23 +34,14 @@
                 <h1 class="col-lg-12 color-main p-3 font-weight-bold">{{ $product->product }} @isset($product->scu) (арт.: {{$product->scu}}) @endisset @isset($product->category->category)  - {{ $product->category->category }} @endisset @isset($product->manufacture->manufacture)  {{ $product->manufacture->manufacture }} @endisset</h1>
                 <div class="w-100 product__subtitle d-flex justify-content-start flex-wrap mb-4">
                     @isset($product->autoscu)
-                        <span class="product_card__content__category">внутренний код: {{ $product->autoscu ?? '' }}</span>
+                        <span class="product_card__content__scu mr-0 mr-md-4 mb-2 mb-md-0">код: {{ $product->autoscu ?? '' }}</span>
                     @endisset
                     @isset($product->category->slug)
-                        <span class="product_card__content__category"> | <a href="{{ route('category', $product->category->slug) }}">{{ $product->category->category ?? '' }}</a></span>
+                        <span class="product_card__content__category"> <a href="{{ route('category', $product->category->slug) }}">{{ $product->category->category ?? '' }}</a></span>
                     @endisset
                     @isset($product->manufacture->slug)
                         <span class="product_card__content__manufacture mr-2">| производитель: <a href="{{ route('manufacture', $product->manufacture->slug) }}">{{ $product->manufacture->manufacture ?? '' }}</a></span>             
                     @endisset
-                    @isset($product->delivery_time)
-                            <span class="text-secondary mr-2" style="display: block;"><i class="far fa-calendar-alt"></i> срок поставки: {{ $product->delivery_time }}</span>
-                        @endisset
-                        @if ($product->full_size != '')
-                            <span class="text-secondary mr-2" style="display: block;"><i class="fas fa-ruler-combined"></i> {{ $product->full_size }}</span>
-                        @endif
-                        @if ($product->mass != '')
-                            <span class="text-secondary mr-2" style="display: block;"><i class="fas fa-weight"></i> масса: {{ $product->mass_number }} кг. @if (isset($product->unit->unit)) (1 {{ $product->unit->unit }}) @endif </span>
-                        @endif
                 </div>                
                 <div class="product__images col-sm-6 col-12 row">                   
                     @forelse ($product->images as $image)
@@ -91,7 +82,7 @@
                     @if($product->actually_discount)
                             <span class="badge badge-danger font-weight-light p-2 mb-2">Акция до {{ $product->discount->d_m_y }}</span>
                         @endif                   
-                    <div class="product__price__value mb-lg-4">
+                    <div class="product__price__value mb-4 mt-4 mt-md-0">
                         
                         Цена: @if ($product->actually_discount)
                         @php
@@ -107,7 +98,7 @@
                     dd($product->price);
                 @endphp --}}
                     @if($product->packaging)
-                        <div class="text-info mb-lg-4">
+                        <div class="text-info mb-4">
                             <i class="fas fa-info-circle"></i> Данный товар продаётся только целыми упаковками по {{ $product->unit_in_package ?? 1 }} {{ $product->unit->unit ?? 'ед.' }}
                         </div>
                     {{-- <div class="product__price__value__package">

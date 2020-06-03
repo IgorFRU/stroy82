@@ -40,7 +40,7 @@
         <section class="top_nav navbar flex-row flex-nowrap justify-content-between d-flex align-items-center">
             <div class="left_nav">
                 @forelse ($topmenu as $item)
-                    <a href="{{ $item->slug ?? '#' }}">{{ $item->title }}</a>
+                    <a href="{{ asset( $item->slug) }}">{{ $item->title }}</a>
                 @empty
                 @endforelse
                 <a href="{{ route('contacts') }}">Контакты</a>

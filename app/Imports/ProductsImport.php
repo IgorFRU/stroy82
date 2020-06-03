@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 class ProductsImport implements ToCollection
 {
     protected $startLine;
+    protected $lastLine;
+    protected $packaging;
     protected $columns = [];
     protected $collection;
     protected $rusColumns = [
@@ -25,8 +27,10 @@ class ProductsImport implements ToCollection
         'Продается упаковками',
     ];
 
-    public function __construct($startLine = 1, $columns = ['title' => '1']) {
+    public function __construct($startLine = 1, $columns = ['title' => '1'], $lastLine = NULL, $packaging = '0') {
         $this->startLine = $startLine;
+        $this->lastLine = $lastLine;
+        $this->packaging = $packaging;
         $this->collection = collect([]);
         foreach ($columns as $key => $column) {     
             if (Str::is('column*', $key) && $column !== NULL) {
@@ -40,6 +44,9 @@ class ProductsImport implements ToCollection
     {
         foreach ($rows as $key => $row) 
         {
+            if ($this->lastLine && $key == $this->lastLine) {
+                break;
+            }
             if ($key >= $this->startLine) {
 
                 $item = [];
@@ -52,6 +59,8 @@ class ProductsImport implements ToCollection
                 $item['imported'] = '1';
                 $item['autoscu'] = '';
                 $item['slug'] = '';
+                $item['published'] = '0';
+                $item['packaging'] = $this->packaging;
                 if ($item['product'] !== NULL) {
                     $this->collection->push($item);
 
