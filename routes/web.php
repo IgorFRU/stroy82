@@ -48,6 +48,8 @@ Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(functi
   Route::post('/products/getcategoryproperties', 'ProductController@getCategoryProperties'); // во время создания товара при изменении категории подтягиваются параметры
   Route::post('/products/store/ajax', 'ProductController@storeAjax')->name('products.storeAjax');
   Route::post('/products/copy', 'ProductController@copy')->name('products.copy');
+  Route::post('/products/published', 'ProductController@published')->name('products.published');
+  Route::post('/products/unimported', 'ProductController@unimported')->name('products.unimported');
   Route::post('/products/search/ajax', 'ProductController@ajaxSearch'); // поиск товара для добавления к статье
   Route::get('/products/addImages/{product}', 'ProductController@addImages')->name('products.addImages');
 

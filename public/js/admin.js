@@ -710,11 +710,15 @@ $(function() {
         });
         if (product_checked_ids.length > 0) {
             $('.product_group_copy').removeClass('disabled');
+            $('.product_group_published').removeClass('disabled');
+            $('.product_group_unimported').removeClass('disabled');
             $('.product_group_delete').removeClass('disabled');
             $('.product_group_delete').prop('disabled', false);
         } else {
             if (!$('.product_group_copy').hasClass('disabled')) {
                 $('.product_group_copy').addClass('disabled');
+                $('.product_group_published').addClass('disabled');
+                $('.product_group_unimported').addClass('disabled');
                 $('.product_group_delete').addClass('disabled');
                 $('.product_group_delete').prop('disabled', true);
             }

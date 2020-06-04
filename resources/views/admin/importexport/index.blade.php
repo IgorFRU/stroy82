@@ -14,8 +14,7 @@
     </nav>
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane mt-4 mb-4 fade show active" id="nav-import" role="tabpanel" aria-labelledby="nav-import-tab">
-            <div class="row mb-4 w-100">
-                
+            <div class="row mb-4 w-100">                
                 <div class="col-4 mb-2">
                     <div class="card mr-1 ml-1 text-center">
                         <div class="card-body">
@@ -27,10 +26,27 @@
                 </div>                
             </div>
             <div class="w-100">
-                <div class="h5">Ранее импортированные товары</div>
+                <div class="h5">Ранее импортированные товары (они не отображаются на сайте и в основном разделе товаров в админке)</div>
                 @if ($products->count() > 0)
-                    <div class="bg-warning rounded p-2 my-2 text-center">Обязательно дополните информацию об этих товарах перед их публикацией на сайте!</div>
-                @endif                
+                    <div class="bg-warning rounded p-2 my-4 text-center h4">Обязательно дополните информацию об этих товарах перед их публикацией на сайте!</div>
+                @endif
+                <div class="w-100 d-flex mb-2">
+                    <button type="button" class="btn bg-warning product_group_delete disabled mr-1" disabled data-toggle="modal" data-target=".modalDeleteProduct" data-toggle="tooltip" data-placement="top" title="Удалить выбранные товары"><i class="fas fa-trash-alt mr-1"></i>Удалить</button>
+                    <form action="{{ route('admin.products.published') }}" method="post">
+                        @csrf
+                        <div class="hidden_inputs">
+                            <input type="hidden" name="product_group_ids[]">
+                        </div>
+                        <button type="submit" class="btn product_group_published disabled mr-1 bg-success text-white" href="#"><i class="fas fa-eye mr-1"></i>Опубликовать</button>
+                    </form>
+                    <form action="{{ route('admin.products.unimported') }}" method="post">
+                        @csrf
+                        <div class="hidden_inputs">
+                            <input type="hidden" name="product_group_ids[]">
+                        </div>
+                        <button type="submit" class="btn product_group_unimported disabled mr-1 bg-danger text-white" title="Перенести товар(ы) в основной раздел"><i class="fas fa-file-upload mr-1"></i>В основной раздел</button>
+                    </form>
+                </div>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -114,13 +130,17 @@
                             @if ($product->packaging)
                                 <span class="p-1" title="Товар продаётся упаковками"><i class="fas fa-box"></i></span>
                             @endif
-                            
+                            @if ($product->published)
+                                <span class="p-1 text-success" title="Товар опубликован"><i class="fas fa-eye"></i></span>
+                            @else
+                                <span class="p-1 text-danger" title="Товар не опубликован"><i class="fas fa-eye-slash"></i></span>
+                            @endif
                         
                         </td>
                         <td>
                             <div class='row'>                                
                                 <a href="{{ route('admin.products.edit', ['id' => $product->id]) }}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
-                                <form onsubmit="if(confirm('Удалить?')) {return true} else {return false}" action="{{route('admin.products.destroy', $product)}}" method="post">
+                                <form onsubmit="if(confirm('Удалить?')) {return true} else {return false}" action="{{ route('admin.products.destroy', ['product' => $product, 'route' => 'import-export.index']) }}" method="post">
                                     @csrf                         
                                     <input type="hidden" name="_method" value="delete">                         
                                     <button type="submit" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>                                                 
@@ -145,4 +165,26 @@
     </div>
 </div>
 
+<div class="modal fade modalDeleteProduct" tabindex="-1" role="dialog" aria-labelledby="modalDeleteProduct" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Удаление товаров</h4>
+                </div>
+                <div class="modal-body">
+                    Вы уверены, что хотите удалить выбранные товары? Отменить выбранное действие будет невозможно!
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('admin.products.massdestroy') }}" method="post">
+                        @csrf
+                        <div class="hidden_inputs">
+                            <input type="hidden" name="product_group_ids[]">
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-warning">Да</button>
+                    </form>
+                </div>
+        </div>      
+    </div>
+</div>
 @endsection

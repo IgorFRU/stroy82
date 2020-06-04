@@ -300,8 +300,10 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product, Request $request)
     {
+        $route = ($request->route) ? 'admin.' . $request->route : 'admin.products.index';
+
         foreach ($product->images as $image) {
             // удаляем изображение только если оно не принадлежит больше ни одному продукту
             if ($image->products->count() === 1) {
@@ -329,7 +331,8 @@ class ProductController extends Controller
         
         $product->delete();
 
-        return redirect()->route('admin.products.index');
+
+        return redirect()->route($route);
     }
 
     public function showInCategory($categoryId) {
@@ -411,6 +414,34 @@ class ProductController extends Controller
         } else {
             redirect()->back()->with('warning', 'Вы не выбрали товары для копирования');
         }        
+    }
+
+    public function published(Request $request) {
+        if (isset($request->product_group_ids) && count($request->product_group_ids) > 0) {
+            $products = Product::whereIn('id', $request->product_group_ids)->get();
+        
+            foreach ($products as $key => $product) {                
+                $product->update(['published' => '1']);
+            }
+
+            return redirect()->back()->with('success', 'Товары успешно опубликованы');
+        } else {
+            redirect()->back()->with('warning', 'Вы не выбрали товары для публикования');
+        }   
+    }
+
+    public function unimported(Request $request) {
+        if (isset($request->product_group_ids) && count($request->product_group_ids) > 0) {
+            $products = Product::whereIn('id', $request->product_group_ids)->get();
+        
+            foreach ($products as $key => $product) {         
+                $product->update(['imported' => 0]);
+            }
+
+            return redirect()->back()->with('success', 'Товары успешно перенесены в основной раздел');
+        } else {
+            redirect()->back()->with('warning', 'Вы не выбрали товары для переноса в основной раздел');
+        }   
     }
 
     public function massDestroy(Request $request) {
