@@ -18,14 +18,15 @@ class ProductsImport implements ToCollection
     protected $rusColumns = [
         'Наименование',
         'Артикул',
-        'Производитель',
-        'Категория',
         'Цена опт',
         'Цена розн.',
-        'Ед. изм.',
         'Ед. изм. в уп.',
-        'Продается упаковками',
     ];
+
+    protected $category;
+    protected $vendor;
+    protected $unit;
+    protected $manufacture;
 
     public function __construct($startLine = 1, $columns = ['title' => '1'], $lastLine = NULL, $packaging = '0') {
         $this->startLine = $startLine;
@@ -37,6 +38,10 @@ class ProductsImport implements ToCollection
                 $this->columns[substr($key, 7)] = $column-1;
             }
         }
+        $this->category     = $columns['category'];
+        $this->vendor       = $columns['vendor'];
+        $this->unit         = $columns['unit'];
+        $this->manufacture  = $columns['manufacture'];
         // $this->columns = $columns;
     }
 
@@ -56,15 +61,17 @@ class ProductsImport implements ToCollection
                     }                    
                 }
                 // dd($item);
-                $item['imported'] = '1';
-                $item['autoscu'] = '';
-                $item['slug'] = '';
-                $item['published'] = '0';
-                $item['packaging'] = $this->packaging;
+                $item['category_id']       = $this->category;
+                $item['vendor_id']         = $this->vendor;
+                $item['unit_id']           = $this->unit;
+                $item['manufacture_id']    = $this->manufacture;
+                $item['imported']       = '1';
+                $item['autoscu']        = '';
+                $item['slug']           = '';
+                $item['published']      = '0';
+                $item['packaging']      = $this->packaging;
                 if ($item['product'] !== NULL) {
                     $this->collection->push($item);
-
-                    // dd($item);
                     Product::create($item);
                 }  
                               

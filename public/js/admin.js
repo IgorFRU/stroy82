@@ -728,4 +728,19 @@ $(function() {
             $(".hidden_inputs").append("<input type='hidden' name='product_group_ids[]' value=" + product_checked_ids[i] + ">");
         }
     });
+
+    // import - check numeric
+
+    $('.check_numeric').on('keyup', function() {
+        let button = $(this).data('success_check');
+        if ($.isNumeric($(this).val()) || $(this).val() == '') {
+            $('.' + button).attr('disabled', false);
+            $(this).parent().find('.invalid-feedback').hide();
+            $(this).addClass(' is-valid').removeClass('is-invalid');
+        } else {
+            $('.' + button).attr('disabled', true);
+            $(this).parent().find('.invalid-feedback').show();
+            $(this).addClass(' is-invalid').removeClass('is-valid');
+        }
+    })
 });

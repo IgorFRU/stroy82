@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use App\Vendor;
+use App\Unit;
 use App\Category;
 
 use Excel;
 use Illuminate\Http\Request;
 use App\Imports\ProductsImport;
+use App\Manufacture;
 
 class ImportexportController extends Controller
 {
@@ -46,6 +48,8 @@ class ImportexportController extends Controller
             'title' => 'Импорт товаров',
             'delimiter' => '',
             'vendors' => Vendor::get(),
+            'units' => Unit::get(),
+            'manufactures' => Manufacture::get(),
             'categories' => Category::with('children')->where('category_id', '0')->get(),
         ); 
 

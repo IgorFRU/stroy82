@@ -7,27 +7,29 @@
         </div>
     @endif 
    
-    <form class="row mb-4 w-100" method="POST" enctype="multipart/form-data">
+    <form class="row mb-1 w-100" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="form-row w-100">
-            <div class="col-md-2 mb-3">
+        <div class="form-row w-100 mb-3">
+            <div class="col-md-2">
                 <label for="first_line">№ первой строки товаров</label>
-                <input type="text" class="form-control" id="first_line" name="first_line" placeholder="введите № первой строки товаров">
-                <div class="valid-tooltip">
-                    Looks good!
+                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="first_line" name="first_line" placeholder="введите № первой строки товаров">
+                <div class="invalid-feedback">
+                    Тут должно быть число!
                 </div>
             </div>
-            <div class="col-md-2 mb-3">
+
+            <div class="col-md-2">
                 <label for="last_line">№ последней строки товаров</label>
-                <input type="text" class="form-control" id="last_line" name="last_line" placeholder="введите № последней строки товаров">
-                <div class="valid-tooltip">
-                    Looks good!
+                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="last_line" name="last_line" placeholder="введите № последней строки товаров">
+                <div class="invalid-feedback">
+                    Тут должно быть число!
                 </div>
             </div>
-            <div class="col-md-2 mb-3">
+
+            <div class="col-md-2">
                 <label for="vendor">Поставщик</label>
                 <select class="form-control" id="vendor" name="vendor">
-                    <option value="0">Без поставщика</option>
+                    <option value="0">Не указывать</option>
                     @forelse ($vendors as $vendor)
                         <option value="{{ $vendor->id }}"
                             @isset($product->vendor_id)
@@ -41,61 +43,100 @@
                         
                     @endforelse
                 </select>
-                <div class="valid-tooltip">
-                    Looks good!
-                </div>
             </div>
-            <div class="col-md-2 mb-3">
+
+            <div class="col-md-2">
                 <label for="category">Категория</label>
                 <select class="form-control" id="category" name="category">
-                    <option value="0">Без категории</option>
+                    <option value="0">Не указывать</option>
                     @include('admin.categories.partials.child-categories', ['categories' => $categories])
                 </select>
-                <div class="valid-tooltip">
-                    Looks good!
-                </div>
+            </div>
+
+            <div class="col-md-2">
+                <label for="unit">Ед. изм.</label>
+                <select class="form-control" id="unit" name="unit">
+                    <option value="0">Не указывать</option>
+                    @forelse ($units as $unit)
+                        <option value="{{ $unit->id }}">
+                            {{ $unit->unit }} 
+                        </option>
+                    @empty
+                        
+                    @endforelse
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label for="manufacture">Производитель</label>
+                <select class="form-control" id="manufacture" name="manufacture">
+                    <option value="0">Не указывать</option>
+                    @forelse ($manufactures as $manufacture)
+                        <option value="{{ $manufacture->id }}">
+                            {{ $manufacture->manufacture }} 
+                        </option>
+                    @empty
+                        
+                    @endforelse
+                </select>
             </div>
         </div>
         <div class="h4 mt-3">Укажите соответствие колонок</div>
         <div class="form-row w-100">            
             <div class="col-md-2 mb-3">
                 <label for="product" class="text-danger">Наименование*</label>
-                <input type="text" class="form-control" id="product" name="column_product" placeholder="Наименование товара" required>
+                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="product" name="column_product" placeholder="Наименование товара" required>
+                <div class="invalid-feedback">
+                    Тут должно быть число!
+                </div>
             </div>
 
             <div class="col-md-1 mb-3">
                 <label for="scu">Артикул</label>
-                <input type="text" class="form-control" id="scu" name="column_scu" placeholder="Артикул">
+                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="scu" name="column_scu" placeholder="Артикул">
+                <div class="invalid-feedback">
+                    Тут должно быть число!
+                </div>
             </div>
 
-            <div class="col-md-2 mb-3">
+            {{-- <div class="col-md-2 mb-3">
                 <label for="manufacture_name" class="">Производитель</label>
                 <input type="text" class="form-control" id="manufacture_name" name="column_manufacture_name" placeholder="Производитель" >
-            </div>
+                <div class="invalid-feedback">
+                    Тут должно быть число!
+                </div>
+            </div> --}}
             
-            <div class="col-md-2 mb-3">
+            {{-- <div class="col-md-2 mb-3">
                 <label for="category_name" class="">Категория</label>
                 <input type="text" class="form-control" id="category_name" name="column_category_name" placeholder="Категория" >
-            </div>
+                <div class="invalid-feedback">
+                    Тут должно быть число!
+                </div>
+            </div> --}}
 
             <div class="col-md-1 mb-3">
                 <label for="incomin_price">Цена опт</label>
-                <input type="text" class="form-control" id="incomin_price" name="column_incomin_price" placeholder="Цена опт">
+                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="incomin_price" name="column_incomin_price" placeholder="Цена опт">
+                <div class="invalid-feedback">
+                    Тут должно быть число!
+                </div>
             </div>
 
             <div class="col-md-1 mb-3">
                 <label for="price">Цена розн.</label>
-                <input type="text" class="form-control" id="incomin_price" name="column_price" placeholder="Цена розн.">
-            </div>
-
-            <div class="col-md-1 mb-3">
-                <label for="unit_name">Ед. изм.</label>
-                <input type="text" class="form-control" id="unit_name" name="column_unit_name" placeholder="Ед. изм.">
+                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="incomin_price" name="column_price" placeholder="Цена розн.">
+                <div class="invalid-feedback">
+                    Тут должно быть число!
+                </div>
             </div>
 
             <div class="col-md-1 mb-3">
                 <label for="unit_in_package">Ед. изм. в уп.</label>
-                <input type="text" class="form-control" id="unit_in_package" name="column_unit_in_package" placeholder="в уп.">
+                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="unit_in_package" name="column_unit_in_package" placeholder="в уп.">
+                <div class="invalid-feedback">
+                    Тут должно быть число!
+                </div>
             </div>
 
             <div class="col-md-1 mb-3 mt-4">
@@ -112,7 +153,8 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Загрузить</button>
+            <button type="submit" class="btn btn-primary success_check">Загрузить</button>
         </div>
-    </form>  
+    </form>
+    <span class="row bg-warning d-inline rounded p-2 my-1">* поля, обозначенные звездочкой, обязательны для заполнения</span>
 @endsection
