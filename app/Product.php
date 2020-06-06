@@ -48,8 +48,10 @@ class Product extends Model
     ];
 
     public function setImportedAttribute($value) {
-        if ($value === '1') {
+        if ($value == 1) {
             $this->attributes['imported'] = true;
+        } else {
+            $this->attributes['imported'] = false;
         }
     }
 

@@ -27,6 +27,13 @@
                                     <button type="submit" class="btn btn-link product_group_copy disabled mr-1 bg-success text-white" href="#"><i class="fas fa-copy"></i></button>
                                 </form>
                             </div>
+                            <form action="{{ route('admin.products.published') }}" method="post">
+                                @csrf
+                                <div class="hidden_inputs">
+                                    <input type="hidden" name="product_group_ids[]">
+                                </div>
+                                <button type="submit" class="btn product_group_published disabled mr-1 bg-success text-white" href="#"><i class="fas fa-eye"></i></button>
+                            </form>
                             <button type="button" class="btn bg-warning product_group_delete disabled" disabled data-toggle="modal" data-target=".modalDeleteProduct"><i class="fas fa-trash-alt"></i></button>
                         </div>
                         <div class="col-md-3 row">

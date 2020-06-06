@@ -272,6 +272,8 @@ class ProductController extends Controller
             }
         }
         $product->update($request->except('alias'));
+        $product->imported = 0;
+        $product->save();
         
         if (isset($request->image_id)) {
             $imagesArray = $request->image_id;
@@ -374,7 +376,8 @@ class ProductController extends Controller
                     'delivery_time' => $product->delivery_time,
                     'meta_description' => $product->meta_description,
                     'meta_keywords' => $product->meta_keywords,
-                    'published' => $product->published,
+                    'published' => 0,
+                    // 'published' => $product->published,
                     'pay_online' => $product->pay_online,
                     'packaging' => $product->packaging,
                     'unit_in_package' => $product->unit_in_package,
@@ -420,7 +423,7 @@ class ProductController extends Controller
         if (isset($request->product_group_ids) && count($request->product_group_ids) > 0) {
             $products = Product::whereIn('id', $request->product_group_ids)->get();
         
-            foreach ($products as $key => $product) {                
+            foreach ($products as $key => $product) {
                 $product->update(['published' => '1']);
             }
 
