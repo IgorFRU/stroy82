@@ -17,14 +17,14 @@
         <div class="form-group row">
             <label for="meta_description" class="col-sm-4 col-form-label">Дополнительное писание (для поисковых машин)</label>
             <div class="col-md-8">
-                    <textarea class="form-control" name="meta_description" id="exampleFormControlTextarea1" rows="4">{{ $category->meta_description ?? '' }}</textarea>
+                    <textarea class="form-control" name="meta_description" id="exampleFormControlTextarea1" rows="4" maxlength="190"{{ $category->meta_description ?? '' }}</textarea>
             </div>
         </div>
         <div class="form-group row">
             <label for="meta_keywords" class="col-sm-4 col-form-label">Ключевые слова (для поисковых машин)</label>
             <div class="col-md-8">
-                    <textarea class="form-control" name="meta_keywords" id="meta_keywords" rows="2">{{ $category->meta_keywords ?? '' }}</textarea>
-            </div>                                    
+                    <textarea class="form-control" name="meta_keywords" id="meta_keywords" rows="2" maxlength="190">{{ $category->meta_keywords ?? '' }}</textarea>
+            </div>
         </div>
         
     </div>

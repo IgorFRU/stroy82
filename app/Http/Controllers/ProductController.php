@@ -12,6 +12,7 @@ use App\ProductSet;
 use App\Category;
 use App\Manufacture;
 use App\Discount;
+use App\Typeoption;
 use App\Vendor;
 use App\Unit;
 use Illuminate\Http\Request;
@@ -188,6 +189,7 @@ class ProductController extends Controller
             'product' => $product,
             'categories' => Category::with('children')->where('category_id', '0')->get(),
             'manufactures' => Manufacture::get(),
+            'typeoptions' => Typeoption::get(),
             'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
             'vendors' => Vendor::get(),
             'units' => Unit::get(),

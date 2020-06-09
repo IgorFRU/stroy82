@@ -20,16 +20,19 @@
         <div class="col-md-12">
             <div class="card edit_form">
                 <div class="card-header">
-                    <p class="h3">Редактирование товара 
-                        <button type="button" class="btn btn-primary disabled">{{ $product->product }}</button>
-                        @isset($product->id)                        
-                            @if(isset($product->category->slug))
-                                <a target="_blank" class="btn btn-link" href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}"><i class="fas fa-external-link-alt"></i> Посмотреть на сайте</a>
-                            @else
-                                <a target="_blank" class="btn btn-link" href="{{ route('product.without_category', $product->slug) }}"><i class="fas fa-external-link-alt"></i> Посмотреть на сайте</a>
-                            @endif
-                        @endisset
-                    </p>
+                    <div class="d-flex justify-content-lg-between">
+                        <span class="h3">Редактирование товара 
+                            <button type="button" class="btn btn-primary disabled">{{ $product->product }}</button>
+                            @isset($product->id)                        
+                                @if(isset($product->category->slug))
+                                    <a target="_blank" class="btn btn-link" href="{{ route('product', ['category' => $product->category->slug, 'product' => $product->slug]) }}"><i class="fas fa-external-link-alt"></i> Посмотреть на сайте</a>
+                                @else
+                                    <a target="_blank" class="btn btn-link" href="{{ route('product.without_category', $product->slug) }}"><i class="fas fa-external-link-alt"></i> Посмотреть на сайте</a>
+                                @endif
+                            @endisset
+                        </span>
+                        <button class="btn btn-secondary" data-toggle="modal" data-target="#productOptions">Опции товара</button>
+                    </div>                    
                 </div>
                 <div class="card-body">
                         {{-- Forme include --}}
