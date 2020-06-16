@@ -569,60 +569,9 @@
             </div>
         </div> 
     </form>
-
-    
-
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="productOptions">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Опции товара</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body product_options_steps">
-
-                <div class="options_step_1 options_step d-flex @if($product->options->count() == 0) active @endif">
-                    <button type="button" class="btn btn-primary mr-4 step_button" data-next="1"  data-name="options_step_1" data-value="1">Основная опция</button>
-                    <button type="button" class="btn btn-secondary step_button" data-next="1"  data-name="options_step_1" data-value="0">Подчиненная опция</button>
-                </div>
-                
-                <div class="options_step_2 options_step @if($product->options->count()) active @endif">
-                    <div class="form-group">
-                        <label for="typeoption_id">Название опции (не обязательно)</label>
-                        <select name="typeoption_id" class="form-control" id="typeoption_id">
-                            <option value="0">Не выбрано</option>
-                            @forelse ($typeoptions as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                            @empty
-                                
-                            @endforelse
-                        </select>
-                      </div>
-                      <button type="button" class="btn btn-primary mr-4 step_button" data-next="1" data-name="options_step_2">Основная опция</button>
-                </div>
-
-                <div class="options_step_3 options_step">
-                    <div class="form-group">
-                        <label for="typeoption_id">Тип опции (обязательно)</label>
-                        <select name="typeoption_id" class="form-control" id="typeoption_id">
-                            <option value="photo">Фотография/цвет</option>
-                            <option value="text">Текст</option>
-                        </select>
-                      </div>
-                      <button type="button" class="btn btn-primary mr-4 step_button" data-next="1" data-name="options_step_3">Основная опция</button>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary">Сохранить</button>
-            </div>
-        </div>
-    </div>
-</div>
+@include('admin.products.partials.options')
 
 <script>
 

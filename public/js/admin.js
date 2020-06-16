@@ -742,5 +742,66 @@ $(function() {
             $(this).parent().find('.invalid-feedback').show();
             $(this).addClass(' is-invalid').removeClass('is-valid');
         }
-    })
+    });
+
+    $('.step_button').on('click', function() {
+        let parent_block = $(this).parent();
+        if ($(this).data('next')) {
+            $('.product_options_steps_title span').text('(шаг ' + parent_block.next().data('step') + ')')
+            parent_block.removeClass('active');
+            parent_block.next().addClass('active');
+        } else if ($(this).data('next') == 0) {
+            $('.product_options_steps_title span').text('(шаг ' + parent_block.prev().data('step') + ')')
+            parent_block.removeClass('active');
+            parent_block.prev().addClass('active');
+        }
+    });
+
+    $('.options_step #typeoption_id').on('change', function() {
+        if ($(this).val() == 'new') {
+            $('#typeoption_id_new').show();
+        } else {
+            $('#typeoption_id_new').hide();
+        }
+    });
+
+    $('input[id="typeoption_id_add"]').on('keyup', function() {
+        let data = $(this);
+        let unique = false;
+        let currents = $('select[name="typeoption_id"] option');
+        currents.each(function() {
+            if (($(this).val() != 0 || $(this).val() != 'new') && data.val().toLowerCase() == $(this).text().toLowerCase()) {
+                unique = false;
+                return false;
+            }
+            unique = true;
+        });
+        if (unique) {
+            $('button.typeoption_id_new_button').removeClass('disabled').attr('disabled', false);
+        } else {
+            $('button.typeoption_id_new_button').addClass('disabled').attr('disabled', true);
+        }
+    });
+
+    $('button.typeoption_id_new_button').on('click', function() {
+        $.ajax({
+            type: "POST",
+            url: "/admin/typeoptions",
+            data: {
+                type: $(this).parent().find('input[id="typeoption_id_add"]').val(),
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                let select = $('select[name="typeoption_id"]');
+                select.append('<option value="' + data.id + '">' + data.name + '</option>');
+                select.val(data.id);
+                $('#typeoption_id_new').hide();
+            },
+            error: function(msg) {
+                console.log(msg);
+            }
+        });
+    });
 });

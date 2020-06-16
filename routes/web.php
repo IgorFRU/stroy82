@@ -77,6 +77,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(functi
   Route::resource('/discounts', 'DiscountController');
   Route::any('/productimg', 'UploadImagesController@product')->name('product.image.upload');
   Route::resource('/topmenu', 'TopmenuController');
+  Route::resource('/typeoptions', 'TypeoptionController');
 });
 
 Route::group(['middleware' => 'user.online'], function () {

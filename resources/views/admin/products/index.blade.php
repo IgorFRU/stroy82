@@ -189,13 +189,16 @@
                             
                             </td>
                             <td>
-                                <div class='row'>                                
-                                    <a href="{{ route('admin.products.edit', ['id' => $product->id]) }}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
+                                <div class='row'>  
+                                    <button class="btn btn-sm btn-success mr-1" title="Добавить опции товара" data-toggle="modal" data-target="#productOptions"><i class="fas fa-sliders-h"></i></button>
+
+                                    <a href="{{ route('admin.products.edit', ['id' => $product->id]) }}" class="btn btn-warning btn-sm mr-1"><i class="fas fa-pen"></i></a>
                                     <form onsubmit="if(confirm('Удалить?')) {return true} else {return false}" action="{{route('admin.products.destroy', $product)}}" method="post">
                                         @csrf                         
                                         <input type="hidden" name="_method" value="delete">                         
                                         <button type="submit" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>                                                 
                                     </form>
+
                                 </div>
                             </td>
                         </tr>
@@ -235,4 +238,7 @@
         </div>      
     </div>
 </div>
+
+@include('admin.products.partials.options')
+
 @endsection

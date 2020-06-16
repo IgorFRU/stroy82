@@ -40,7 +40,9 @@ class TypeoptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $typeoption = Typeoption::create(['name' => $request->type]);
+
+        return ['name' => $typeoption->name, 'id' => $typeoption->id];
     }
 
     /**

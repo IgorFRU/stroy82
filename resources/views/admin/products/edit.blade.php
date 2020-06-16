@@ -31,7 +31,7 @@
                                 @endif
                             @endisset
                         </span>
-                        <button class="btn btn-secondary" data-toggle="modal" data-target="#productOptions">Опции товара</button>
+                        <button class="btn btn-success" data-toggle="modal" data-target="#productOptions">Добавить опции товара</button>
                     </div>                    
                 </div>
                 <div class="card-body">

@@ -70,6 +70,7 @@ class ProductController extends Controller
         $data = array (
             'title' => 'Товары',
             'products' => $products,
+            'typeoptions' => Typeoption::get(),
             'categories' => Category::with('children')->where('category_id', '0')->orderBy('category', 'asc')->get(),
             'delimiter' => '',
             'current_category' => $category,
