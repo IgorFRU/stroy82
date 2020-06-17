@@ -64,7 +64,10 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="option">Значение</label>
-                                <input type="text" class="form-control" id="option" maxlength="190">
+                                <input type="text" class="form-control check_not_empty" data-success_check='option_name_button' id="option" maxlength="190">
+                                <div class="invalid-feedback">
+                                    Это поле должно быть заполнено!
+                                </div>
                             </div>
                         </div>
                         <div class="col-4">
@@ -90,12 +93,11 @@
                     </div>
                     
                     <button type="button" class="btn btn-secondary mr-4 step_button" data-next="0" data-name="options_step_3">Назад</button>
-                    <button type="button" class="btn btn-primary mr-4 step_button" data-next="1" data-name="options_step_3">Далее</button>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary disabled" disabled>Сохранить</button>
+                <button type="button" class="btn btn-primary disabled option_name_button" disabled>Сохранить</button>
             </div>
         </div>
     </div>

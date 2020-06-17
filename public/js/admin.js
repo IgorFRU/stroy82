@@ -744,6 +744,19 @@ $(function() {
         }
     });
 
+    $('.check_not_empty').on('keyup', function() {
+        let button = $(this).data('success_check');
+        if ($(this).val() != '') {
+            $('.' + button).attr('disabled', false).removeClass('disabled');
+            $(this).parent().find('.invalid-feedback').hide();
+            $(this).addClass(' is-valid').removeClass('is-invalid');
+        } else {
+            $('.' + button).attr('disabled', true);
+            $(this).parent().find('.invalid-feedback').show();
+            $(this).addClass(' is-invalid').removeClass('is-valid');
+        }
+    });
+
     $('.step_button').on('click', function() {
         let parent_block = $(this).parent();
         if ($(this).data('next')) {
