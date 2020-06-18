@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Product;
+use App\Propertyvalue;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 
@@ -27,6 +28,8 @@ class ProductsImport implements ToCollection
     protected $vendor;
     protected $unit;
     protected $manufacture;
+    protected $size_type;
+    protected $properties;
 
     public function __construct($startLine = 1, $columns = ['title' => '1'], $lastLine = NULL, $packaging = '0') {
         $this->startLine = $startLine;
@@ -38,11 +41,19 @@ class ProductsImport implements ToCollection
                 $this->columns[substr($key, 7)] = $column-1;
             }
         }
-        $this->category     = $columns['category'];
-        $this->vendor       = $columns['vendor'];
-        $this->unit         = $columns['unit'];
-        $this->manufacture  = $columns['manufacture'];
-        // $this->columns = $columns;
+        $this->category     = ($columns['category']) ? $columns['category'] : NULL ;
+        $this->vendor     = ($columns['vendor']) ? $columns['vendor'] : NULL ;
+        $this->unit     = ($columns['unit']) ? $columns['unit'] : NULL ;
+        $this->manufacture     = ($columns['manufacture']) ? $columns['manufacture'] : NULL ;
+        $this->size_type     = ($columns['size_type']) ? $columns['size_type'] : NULL ;
+
+        if (isset($columns['property_values'])) {
+            foreach ($columns['property_values'] as $key => $value) {
+                if (!empty($value)) {
+                    $this->properties[$key] = $value-1;
+                }                
+            }
+        }
     }
 
     public function collection(Collection $rows)
@@ -58,23 +69,37 @@ class ProductsImport implements ToCollection
                 foreach ($this->columns as $key2 => $column) {
                     if (isset($row[$column])) {
                         $item[$key2] = $row[$column];
-                    }                    
+                    }
                 }
                 // dd($item);
-                $item['category_id']       = $this->category;
-                $item['vendor_id']         = $this->vendor;
-                $item['unit_id']           = $this->unit;
-                $item['manufacture_id']    = $this->manufacture;
-                $item['imported']       = '1';
-                $item['autoscu']        = '';
-                $item['slug']           = '';
-                $item['published']      = '0';
-                $item['packaging']      = $this->packaging;
+                $item['category_id']        = $this->category;
+                $item['vendor_id']          = $this->vendor;
+                $item['unit_id']            = $this->unit;
+                $item['manufacture_id']     = $this->manufacture;
+                $item['size_type']          = $this->size_type;
+                $item['imported']           = '1';
+                $item['autoscu']            = '';
+                $item['slug']               = '';
+                $item['published']          = '0';
+                $item['packaging']          = $this->packaging;
+
                 if ($item['product'] !== NULL) {
                     $this->collection->push($item);
-                    Product::create($item);
-                }  
-                              
+                    $product = Product::create($item);
+
+                    if (!empty($this->properties)) {
+                        foreach ($this->properties as $prop => $prop_column) {
+                            if (isset($row[$prop_column])) {
+                                $propertyValue = new Propertyvalue;
+                                $propertyValue->product_id = $product->id;
+                                $propertyValue->property_id = $prop;
+                                $propertyValue->value = $row[$prop_column];
+                
+                                $propertyValue->save();
+                            }                            
+                        }
+                    }
+                }                              
             }
             
             // User::create([

@@ -46,8 +46,8 @@
             </div>
 
             <div class="col-md-2">
-                <label for="category">Категория</label>
-                <select class="form-control" id="category" name="category">
+                <label for="category_id">Категория</label>
+                <select class="form-control" id="category_id" data-import='true' name="category">
                     <option value="0">Не указывать</option>
                     @include('admin.categories.partials.child-categories', ['categories' => $categories])
                 </select>
@@ -142,6 +142,55 @@
             <div class="col-md-1 mb-3 mt-4">
                 <label class="form-check-label" for="packaging">Продается упаковками</label>
                 <input class="form-check-input" type="checkbox" name="packaging" id="packaging" value="1">
+            </div>
+
+            <div class="col-md-1 mb-3">
+                <label for="size_l">Длина</label>
+                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="size_l" name="column_size_l" placeholder="Длина">
+                <div class="invalid-feedback">
+                    Тут должно быть число!
+                </div>
+            </div>
+
+            <div class="col-md-1 mb-3">
+                <label for="size_w">Ширина</label>
+                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="size_w" name="column_size_w" placeholder="Ширина">
+                <div class="invalid-feedback">
+                    Тут должно быть число!
+                </div>
+            </div>
+            
+            <div class="col-md-1 mb-3">
+                <label for="size_t">Толщина</label>
+                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="size_t" name="column_size_t" placeholder="Толщина">
+                <div class="invalid-feedback">
+                    Тут должно быть число!
+                </div>
+            </div>
+
+            <div class="col-md-1 mb-3">
+                <label for="size_type">Ед.разм.</label>
+                <select class="form-control" id="size_type" name="size_type">
+                    <option value="0">Не указывать</option>                    
+                    <option value="mm">мм.</option>
+                    <option value="cm">см.</option>
+                    <option value="m">м.</option>
+                </select>
+            </div>
+            
+            <div class="col-md-1 mb-3">
+                <label for="mass">Масса, кг.</label>
+                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="mass" name="column_mass" placeholder="Масса, кг.">
+                <div class="invalid-feedback">
+                    Тут должно быть число!
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row w-100 border rounded border-secondary p-3">
+        <div class="h5 mt-3 w-100">Характеристики</div>
+            <div class="import_products_properties w-100 row col">
+                
             </div>
         </div>
         

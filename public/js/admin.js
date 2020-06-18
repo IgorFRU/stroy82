@@ -653,6 +653,12 @@ $(function() {
 
     //при изменении категории в форме добавления/редактирования товара подгружаются характеристики из этой категории
     $('#category_id').bind('input', function() {
+
+        let import_flag = false;
+        if ($(this).data('import') == true) {
+            import_flag = true;
+        }
+
         $.ajax({
             type: "POST",
             url: "/admin/products/getcategoryproperties",
@@ -663,17 +669,29 @@ $(function() {
                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(data) {
-                var data = $.parseJSON(data);
-                let to_insert = $('#properties div');
-                to_insert.empty();
-                if (data.length > 0) {
-                    console.log(data);
 
-                    data.forEach(element => {
-                        to_insert.append("<div class='form-group row'><label for='" + element.id + "' class='col-sm-2 col-form-label'>" + element.property + "</label><div class='col-md-4'><input type='text' name='property_values[" + element.id + "]' class='form-control' id='" + element.property + "' value=''></div></div>");
-                    });
+                var data = $.parseJSON(data);
+                if (import_flag) {
+                    // copy()
+                    let to_insert = $('.import_products_properties');
+                    to_insert.empty();
+                    if (data.length > 0) {
+                        data.forEach(element => {
+                            to_insert.append("<div class='col-md-3 mb-3'><label for='" + element.id + "'>" + element.property + "</label><input type='text' class='form-control check_numeric' data-success_check='success_check' id='" + element.property + "' name='property_values[" + element.id + "]' pattern='^[ 0-9]+$'><div class='invalid-feedback'>Тут должно быть число!</div></div>");
+                        });
+                    } else {
+                        to_insert.append("<div class='alert alert-warning'>Вы еще не добавили ни одной характеристики для данной категории!</div>");
+                    }
                 } else {
-                    to_insert.append("<div class='alert alert-warning'>Вы еще не добавили ни одной характеристики для данной категории!</div>");
+                    let to_insert = $('#properties div');
+                    to_insert.empty();
+                    if (data.length > 0) {
+                        data.forEach(element => {
+                            to_insert.append("<div class='form-group row'><label for='" + element.id + "' class='col-sm-2 col-form-label'>" + element.property + "</label><div class='col-md-4'><input type='text' name='property_values[" + element.id + "]' class='form-control' id='" + element.property + "' value=''></div></div>");
+                        });
+                    } else {
+                        to_insert.append("<div class='alert alert-warning'>Вы еще не добавили ни одной характеристики для данной категории!</div>");
+                    }
                 }
             },
             error: function(msg) {

@@ -14,7 +14,11 @@
 Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(function(){
   Route::get('/', 'AdminController@index')->name('index');
   Route::get('/settings/profile', 'AdminController@profile')->name('profile'); // редактирование соего профиля
+
   Route::get('/settings/clearcache', 'SettingController@clearCache')->name('clearcache'); // очистка всего кеша
+  Route::get('/settings/migrate', 'SettingController@migrate')->name('migrate');
+  Route::get('/settings/composer_install', 'SettingController@composerInstall')->name('composer_install');
+
   Route::put('/settings/profile', 'AdminController@profileUpdate')->name('profile.update'); // редактирование соего профиля
   Route::post('/settings/{id}', 'AdminController@settings')->name('settings');
   Route::get('/login/{token?}', 'Auth\AdminLoginController@showLoginForm')->name('login')->middleware('check.url.login.token');

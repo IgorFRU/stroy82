@@ -99,6 +99,7 @@ class ProductController extends Controller
             'discounts' => Discount::where('discount_end', '>', $today)->orderBy('discount_start', 'DESC')->get(),
             'vendors' => Vendor::get(),
             'units' => Unit::get(),
+            'typeoptions' => Typeoption::get(),
             'typeRequest' => 'create',       //тип запроса - создание или редактирование, чтобы можно было менять action формы
             //символ, обозначающий вложенность категорий
             'delimiter' => ''
@@ -118,6 +119,20 @@ class ProductController extends Controller
     {
         // dd($request->all());
         $product = Product::create($request->all());
+
+        if (isset($request->property_values)) {
+            
+            foreach ($request->property_values as $key => $newProperty) {
+                if($newProperty != null) {
+                    $propertyValue = new Propertyvalue;
+                    $propertyValue->product_id = $product->id;
+                    $propertyValue->property_id = $key;
+                    $propertyValue->value = $newProperty;
+    
+                    $propertyValue->save();
+                }                
+            }
+        }
         
         if (isset($request->image_id)) {
             $imagesArray = $request->image_id;

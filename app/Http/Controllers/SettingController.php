@@ -94,4 +94,16 @@ class SettingController extends Controller
 
         return redirect()->back()->with('success', 'Кеш успешно очищен!');
     }
+
+    public function migrate() {
+        Artisan::call('migrate');
+
+        return redirect()->back()->with('success', 'Миграция выполнена!');
+    }
+
+    public function composerInstall() {
+        Artisan::call('composer install');
+
+        return redirect()->back()->with('success', 'Composer install successfull!');
+    }
 }

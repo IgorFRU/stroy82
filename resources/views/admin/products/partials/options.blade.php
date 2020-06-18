@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body product_options_steps">
 
-                <div data-step='1' class="options_step_1 options_step @if($product->options->count() == 0) active @endif">
+                <div data-step='1' class="options_step_1 options_step active">
                     <div class="form-group">
                         <label for="main">Основная/дочерняя опция</label>                        
                         <select name="main" class="form-control" id="main">
@@ -20,7 +20,7 @@
                     <button type="button" class="btn btn-primary mr-4 step_button" data-next="1" data-name="options_step_1">Далее</button>
                 </div>
                 
-                <div data-step='2' class="options_step_2 options_step @if($product->options->count()) active @endif">
+                <div data-step='2' class="options_step_2 options_step">
                     <div class="form-group">
                         <label for="typeoption_id">Название опции (не обязательно)</label>                        
                         <select name="typeoption_id" class="form-control" id="typeoption_id">
