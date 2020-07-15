@@ -603,8 +603,9 @@ main {
 }
 
 .header {
-    height: 500px;
+    max-height: 550px;
     margin-top: -40px;
+    height: 90vh;
 }
 
 .carousel_header {
@@ -612,11 +613,11 @@ main {
 }
 
 .carousel_header .carousel-indicators {
-    bottom: 50px;
+    bottom: 70px;
 }
 
 .carousel_header .carousel-caption {
-    bottom: 60px;
+    bottom: 80px;
 }
 
 .header_banner {
@@ -1495,12 +1496,30 @@ footer>div>div {
 } */
 
 @media (max-width: 1200px) {
+    .header {
+        max-height: 500px;
+    }
+    .carousel_header .carousel-indicators {
+        bottom: 100px;
+    }
+    .carousel_header .carousel-caption {
+        bottom: 110px;
+    }
     nav .nav_content {
         width: 98%;
     }
 }
 
 @media (max-width: 992px) {
+    .header {
+        max-height: 400px;
+    }
+    .carousel_header .carousel-indicators {
+        bottom: 110px;
+    }
+    .carousel_header .carousel-caption {
+        bottom: 120px;
+    }
     .cart {}
     nav .main_menu {
         flex-direction: column;
@@ -1539,6 +1558,16 @@ footer>div>div {
 }
 
 @media (max-width: 768px) {
+    .header {
+        max-height: 300px;
+        margin-top: -40px;
+    }
+    .carousel_header .carousel-indicators {
+        bottom: 120px;
+    }
+    .carousel_header .carousel-caption {
+        bottom: 130px;
+    }
     nav .main_menu {
         width: 98%;
     }
@@ -1559,6 +1588,9 @@ footer>div>div {
 }
 
 @media (max-width: 576px) {
+    .header {
+        max-height: 250px;
+    }
     nav .nav_contacts {
         margin-left: 110px;
     }

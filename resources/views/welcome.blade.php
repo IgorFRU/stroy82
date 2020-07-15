@@ -16,7 +16,7 @@
                     @foreach ($banners as $banner)
                         <div class="carousel-item @if($loop->iteration == 1) active @endif">
                             <img src="{{ asset('imgs/banners/')}}/{{ $banner->image }}" class="d-block w-100" alt="{{ $banner->title ?? '' }}">
-                            <div class="carousel-caption d-none d-md-block">
+                            <div class="carousel-caption">
                             <h5>@if ($banner->link != '' || $banner->link != NULL)
                                 <a href="{{ $banner->link }}" target="_blank">{{ $banner->title ?? 'Перейти...' }}</a>
                             @else

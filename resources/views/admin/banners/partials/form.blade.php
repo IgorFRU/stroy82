@@ -3,11 +3,13 @@
     <div class="form-group row">
         <label for="image" class="col-sm-2 col-form-label">Изображение</label>
         <div class="custom-file col-md-10">
-            <input type="file" class="custom-file-input" id="customFile" name="image" required>
+            <input type="file" class="custom-file-input" id="customFile" name="image" @if (!isset($banner->image))
+            required
+            @endif >
             <label class="custom-file-label" for="customFile">Выберите файл</label>
         </div>                                    
     </div>
-    @isset($article->image)
+    @isset($banner->image)
     <div class="category_edit_img">
         <div class="p-3 mb-2 bg-danger text-white rounded">При загрузке нового изображения старое будет удалено навсегда!</div>
         <div class="form-group row">

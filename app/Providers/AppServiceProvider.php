@@ -8,6 +8,7 @@ use App\Cart;
 use App\Order;
 use App\Category;
 use App\Article;
+use App\Banner;
 use App\Set;
 use App\Setting;
 use App\Product;
@@ -76,6 +77,25 @@ class AppServiceProvider extends ServiceProvider
                         $file->delete(public_path().'/imgs/categories/' . $old_image->image);
                     }
                     $path = public_path().'/imgs/categories/';
+                    $file = $model->image;
+                    $img = new WorkWithImage($file, $path);
+                    $model->image = $img->saveImage();
+                }
+                
+            }
+        });
+
+        Banner::updating(function(Banner $model) {
+            if($model->image) {
+                // dd($model->image);
+                $old_image = Banner::select('image')->find($model->id);
+                if($model->image != $old_image->image) {
+
+                    if (file_exists(public_path().'/imgs/banners/' . $old_image->image)) {                        
+                        $file = new Filesystem;
+                        $file->delete(public_path().'/imgs/banners/' . $old_image->image);
+                    }
+                    $path = public_path().'/imgs/banners/';
                     $file = $model->image;
                     $img = new WorkWithImage($file, $path);
                     $model->image = $img->saveImage();

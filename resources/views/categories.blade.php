@@ -11,17 +11,19 @@
 
     <section class="category_cards row wrap">
     @foreach ($categories as $category)
-        <div class="category_card white_box w23per">
-            <div class="category_card__img">
-                <img  class="img-fluid"
-                @if(isset($category->image))
-                    src="{{ asset('imgs/categories/')}}/{{ $category->image }}"
-                @else 
-                    src="{{ asset('imgs/nopic.png')}}"
-                @endif >
-            </div> 
-            <div class="category_card__title p10">
-                <h2 class="h4"><a href="{{ route('category', $category->slug) }}">{{ $category->category }}</a></h2>
+        <div class="col-12 col-sm-6 col-md-4 p-1">
+            <div class="category_card white_box">
+                <div class="category_card__img">
+                    <img  class="img-fluid"
+                    @if(isset($category->image))
+                        src="{{ asset('imgs/categories/')}}/{{ $category->image }}"
+                    @else 
+                        src="{{ asset('imgs/nopic.png')}}"
+                    @endif >
+                </div> 
+                <div class="category_card__title p10">
+                    <h2 class="h4"><a href="{{ route('category', $category->slug) }}">{{ $category->category }}</a></h2>
+                </div>
             </div>
         </div>
     @endforeach
