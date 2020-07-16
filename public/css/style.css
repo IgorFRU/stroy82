@@ -809,7 +809,7 @@ section.product {
 }
 
 .category_card__img {
-    height: 100px;
+    height: 300px;
     position: relative;
 }
 
@@ -1520,6 +1520,10 @@ footer>div>div {
     nav .nav_content {
         width: 98%;
     }
+    .category_card__img {
+        height: 280px;
+        position: relative;
+    }
 }
 
 @media (max-width: 992px) {
@@ -1571,6 +1575,10 @@ footer>div>div {
     }
     nav .nav_contacts.nav_contacts_address {
         margin-left: 10px;
+    }
+    .category_card__img {
+        height: 250px;
+        position: relative;
     }
 }
 
