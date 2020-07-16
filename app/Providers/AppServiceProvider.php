@@ -85,24 +85,24 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-        Banner::updating(function(Banner $model) {
-            if($model->image) {
-                // dd($model->image);
-                $old_image = Banner::select('image')->find($model->id);
-                if($model->image != $old_image->image) {
+        // Banner::updating(function(Banner $model) {
+        //     if($model->image) {
+        //         // dd($model->image);
+        //         $old_image = Banner::select('image')->find($model->id);
+        //         if($model->image != $old_image->image) {
 
-                    if (file_exists(public_path().'/imgs/banners/' . $old_image->image)) {                        
-                        $file = new Filesystem;
-                        $file->delete(public_path().'/imgs/banners/' . $old_image->image);
-                    }
-                    $path = public_path().'/imgs/banners/';
-                    $file = $model->image;
-                    $img = new WorkWithImage($file, $path);
-                    $model->image = $img->saveImage();
-                }
+        //             if (file_exists(public_path().'/imgs/banners/' . $old_image->image)) {                        
+        //                 $file = new Filesystem;
+        //                 $file->delete(public_path().'/imgs/banners/' . $old_image->image);
+        //             }
+        //             $path = public_path().'/imgs/banners/';
+        //             $file = $model->image;
+        //             $img = new WorkWithImage($file, $path);
+        //             $model->image = $img->saveImage();
+        //         }
                 
-            }
-        });
+        //     }
+        // });
 
         Article::creating(function(Article $model){
             if($model->image) {

@@ -13,15 +13,15 @@ class WorkWithImage
     protected $path;
 
     public function __construct($file, $path) {
-        // dd($file);
         $this->file = $file;
+        // dd($this->file->getClientOriginalExtension());
         if (!file_exists($path)) {
             mkdir($path, 0777);
         }
         $this->path = $path;
         
         $this->randomString = str_random(20);
-        $this->filename = $this->randomString .'.' . $file->getClientOriginalExtension() ?: 'png';
+        $this->filename = $this->randomString .'.' . $this->file->getClientOriginalExtension() ?: 'png';
         
     }
 
