@@ -835,4 +835,94 @@ $(function() {
             }
         });
     });
+
+    $('input[name="tag_text"]').on('keyup', function() {
+        let tag_preview = $('.bannertag_preview > .banner_tag');
+        let tag_text = $(this).val();
+
+        tag_preview.text(tag_text);
+
+        if (tag_text == '') {
+            $('.bannertag_button_add').addClass('disabled').attr('disabled', true);
+        } else {
+            $('.bannertag_button_add').removeClass('disabled').attr('disabled', false);
+        }
+    });
+
+    $('input[name="tag_background"]').on('change', function() {
+        let tag_preview = $('.bannertag_preview > .banner_tag');
+        let tag_background = $(this).val();
+        tag_preview.css('background', tag_background);
+    });
+
+    $('input[name="tag_color"]').on('change', function() {
+        let tag_preview = $('.bannertag_preview > .banner_tag');
+        let tag_color = $(this).val();
+        tag_preview.css('color', tag_color);
+    });
+
+    $('input[name="tag_padding"]').on('change', function() {
+        let tag_preview = $('.bannertag_preview > .banner_tag');
+        let tag_padding = $(this).val();
+        tag_preview.css('padding', tag_padding);
+    });
+
+    $('input[name="tag_rounded"]').on('change', function() {
+        let tag_preview = $('.bannertag_preview > .banner_tag');
+        if ($(this).is(':checked')) {
+            tag_preview.css('border-radius', '0.25rem');
+        } else {
+            tag_preview.css('border-radius', '0rem');
+        }
+    });
+
+    $('input[name="tag_shadow"]').on('change', function() {
+        let tag_preview = $('.bannertag_preview > .banner_tag');
+        if ($(this).is(':checked')) {
+            tag_preview.css('box-shadow', '0 .5rem 1rem rgba(0,0,0,.15)');
+        } else {
+            tag_preview.css('box-shadow', '');
+        }
+    });
+
+    $('.bannertag_button_add').on('click', function() {
+        if ($('input[name="tag_text"]').val() != '' && $('input[name="id"]').val() != '') {
+            let rounded = '';
+            if ($('input[name="tag_rounded"]').is(':checked')) {
+                rounded = 'rounded';
+            }
+            let shadow = '';
+            if ($('input[name="tag_shadow"]').is(':checked')) {
+                shadow = 'shadow';
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/bannertag_add",
+                data: {
+                    text: $('input[name="tag_text"]').val(),
+                    background: $('input[name="tag_background"]').val(),
+                    color: $('input[name="tag_color"]').val(),
+                    priority: $('input[name="tag_priority"]').val(),
+                    padding: $('input[name="tag_padding"]').val(),
+                    rounded: rounded,
+                    shadow: shadow,
+                    banner_id: name = $('input[name="id"]').val(),
+                },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    // let select = $('select[name="typeoption_id"]');
+                    // select.append('<option value="' + data.id + '">' + data.name + '</option>');
+                    // select.val(data.id);
+                    // $('#typeoption_id_new').hide();
+                    console.log(data);
+                },
+                error: function(msg) {
+                    console.log(msg);
+                }
+            });
+        }
+    });
 });

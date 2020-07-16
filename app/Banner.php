@@ -14,6 +14,10 @@ class Banner extends Model
         'published',
     ];
 
+    public function tags() {
+        return $this->hasMany(Bannertag::class)->orderBy('priority', 'ASC');
+    }
+
     public function scopePublished($query) {
         return $query->where('published', 1);
     }

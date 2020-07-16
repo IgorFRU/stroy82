@@ -66,6 +66,8 @@ Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(functi
   Route::resource('/units', 'UnitController');
   Route::resource('/banners', 'BannerController');
 
+  Route::post('/bannertag_add', 'BannertagController@store');
+
   Route::resource('/consumers', 'ConsumerController');
   Route::get('/consumers/{consumer}', 'ConsumerController@consumer')->name('consumer');
   Route::get('/consumers/{consumer}/{order}', 'ConsumerController@order')->name('consumer.order');

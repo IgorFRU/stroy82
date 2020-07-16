@@ -1416,6 +1416,13 @@ footer>div>div {
     height: 100%;
 }
 
+.carousel-item .banner_tags {
+    position: absolute;
+    left: 110px;
+    top: 20px;
+    font-size: 22px;
+}
+
 .close_button {
     cursor: pointer;
     font-size: 16px;
@@ -1505,6 +1512,11 @@ footer>div>div {
     .carousel_header .carousel-caption {
         bottom: 110px;
     }
+    .carousel-item .banner_tags {
+        left: 90px;
+        top: 20px;
+        font-size: 20px;
+    }
     nav .nav_content {
         width: 98%;
     }
@@ -1519,6 +1531,11 @@ footer>div>div {
     }
     .carousel_header .carousel-caption {
         bottom: 120px;
+    }
+    .carousel-item .banner_tags {
+        left: 70px;
+        top: 10px;
+        font-size: 18px;
     }
     .cart {}
     nav .main_menu {
@@ -1568,6 +1585,11 @@ footer>div>div {
     .carousel_header .carousel-caption {
         bottom: 130px;
     }
+    .carousel-item .banner_tags {
+        left: 60px;
+        top: 10px;
+        font-size: 16px;
+    }
     nav .main_menu {
         width: 98%;
     }
@@ -1590,6 +1612,9 @@ footer>div>div {
 @media (max-width: 576px) {
     .header {
         max-height: 250px;
+    }
+    .carousel-item .banner_tags {
+        display: none;
     }
     nav .nav_contacts {
         margin-left: 110px;

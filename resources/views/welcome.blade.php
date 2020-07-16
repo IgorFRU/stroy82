@@ -15,6 +15,17 @@
                 <div class="carousel-inner mainpage-banners">
                     @foreach ($banners as $banner)
                         <div class="carousel-item @if($loop->iteration == 1) active @endif">
+                            @if ($banner->tags->count())
+                                <div class="banner_tags">
+                                    @forelse ($banner->tags as $tag)
+                                        <div class="mb-4">
+                                            <div class="banner_tag mr-2 {{ $tag->shadow }} {{ $tag->rounded }}" style="padding: {{ $tag->padding }}px; background: {{ $tag->background }}; color: {{ $tag->color }}; box-shadow: ;">{{ $tag->text }}</div>
+                                        </div>
+                                    @empty
+                                        
+                                    @endforelse
+                                </div>
+                            @endif
                             <img src="{{ asset('imgs/banners/')}}/{{ $banner->image }}" class="d-block w-100" alt="{{ $banner->title ?? '' }}">
                             <div class="carousel-caption">
                             <h5>@if ($banner->link != '' || $banner->link != NULL)
