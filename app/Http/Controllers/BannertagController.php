@@ -70,7 +70,7 @@ class BannertagController extends Controller
      */
     public function update(Request $request, Bannertag $bannertag)
     {
-        //
+        return $request->all();
     }
 
     /**
@@ -82,5 +82,16 @@ class BannertagController extends Controller
     public function destroy(Bannertag $bannertag)
     {
         //
+    }
+
+    public function getTag(Request $request) {
+        
+        $tag = Bannertag::where('id', $request->id)->first();
+        
+        if ($tag) {
+            return $tag;
+        } else {
+            return 0;
+        }        
     }
 }

@@ -1,3 +1,5 @@
+// const { data } = require("jquery");
+
 $(function() {
     var phone_masks = document.getElementsByClassName('phone-mask');
 
@@ -886,7 +888,12 @@ $(function() {
     });
 
     $('.bannertag_button_add').on('click', function() {
-        if ($('input[name="tag_text"]').val() != '' && $('input[name="id"]').val() != '') {
+        bannertag_button_add('POST', $('input[name="tag_text"]').val(), $('input[name="id"]').val());
+    });
+
+    function bannertag_button_add(type, text, id) {
+        if (text != '' && id != '') {
+            console.log(type);
             let rounded = '';
             if ($('input[name="tag_rounded"]').is(':checked')) {
                 rounded = 'rounded';
@@ -896,18 +903,25 @@ $(function() {
                 shadow = 'shadow';
             }
 
+            let typeRequest, typeUrl;
+            if (type == 'POST') {
+                typeUrl = "/admin/bannertag_add";
+            } else {
+                typeUrl = "/admin/bannertag_update";
+            }
+
             $.ajax({
-                type: "POST",
-                url: "/admin/bannertag_add",
+                type: type,
+                url: typeUrl,
                 data: {
-                    text: $('input[name="tag_text"]').val(),
+                    text: text,
                     background: $('input[name="tag_background"]').val(),
                     color: $('input[name="tag_color"]').val(),
                     priority: $('input[name="tag_priority"]').val(),
                     padding: $('input[name="tag_padding"]').val(),
                     rounded: rounded,
                     shadow: shadow,
-                    banner_id: name = $('input[name="id"]').val(),
+                    banner_id: id,
                 },
                 headers: {
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -918,11 +932,82 @@ $(function() {
                     // select.val(data.id);
                     // $('#typeoption_id_new').hide();
                     console.log(data);
+                    return data;
                 },
                 error: function(msg) {
                     console.log(msg);
+                    return data;
                 }
             });
         }
+    }
+
+    $('.bannertag_button_edit').on('click', function() {
+        let id = $(this).parent().data('id');
+
+        $.ajax({
+            type: "GET",
+            url: "/admin/bannertag_get",
+            data: {
+                id: id,
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                let modal = $('#banner_tag_edit');
+                if (data.id) {
+
+                    modal.find('.modal-body > .error').addClass('hide');
+                    modal.find('.modal-body > .row').removeClass('hide');
+
+                    modal.find('input[name="tag_text"]').val(data.text);
+                    modal.find('input[name="tag_background"]').val(data.background);
+                    modal.find('input[name="tag_color"]').val(data.color);
+                    modal.find('input[name="tag_priority"]').val(data.priority);
+                    modal.find('input[name="tag_padding"]').val(data.padding);
+                    modal.find('input[name="tag_background"]').val(data.background);
+
+                    let tag_preview = modal.find('.bannertag_preview > .banner_tag');
+
+                    tag_preview.text(data.text);
+                    tag_preview.css({
+                        background: data.background,
+                        color: data.color,
+                        padding: data.padding,
+
+                    });
+
+                    if (data.rounded) {
+                        tag_preview.css('border-radius', '0.25rem');
+                        modal.find('input[name="tag_rounded"]').attr('checked', true);
+                    } else {
+                        tag_preview.css('border-radius', '0rem');
+                        modal.find('input[name="tag_rounded"]').attr('checked', false);
+                    }
+
+                    if (data.shadow) {
+                        tag_preview.css('box-shadow', '0 .5rem 1rem rgba(0,0,0,.15)');
+                        modal.find('input[name="tag_shadow"]').attr('checked', true);
+                    } else {
+                        tag_preview.css('box-shadow', '');
+                        modal.find('input[name="tag_shadow"]').attr('checked', false);
+                    }
+
+                } else {
+                    modal.find('.modal-body > .error').removeClass('hide');
+                    modal.find('.modal-body > .row').addClass('hide');
+                }
+
+            },
+            error: function(msg) {
+                modal.find('.modal-body > .error').removeClass('hide');
+                modal.find('.modal-body > .row').addClass('hide');
+            }
+        });
+    });
+
+    $('#banner_tag_edit .btn-primary').on('click', function() {
+        bannertag_button_add('PUT', $('#banner_tag_edit').find('input[name="tag_text"]').val(), $('input[name="id"]').val());
     });
 });
