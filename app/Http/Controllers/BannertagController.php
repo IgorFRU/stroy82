@@ -70,7 +70,14 @@ class BannertagController extends Controller
      */
     public function update(Request $request, Bannertag $bannertag)
     {
-        return $request->all();
+        if ($request->id) {
+            $tag = Bannertag::where('id', $request->id)->first();
+            $tag->update($request->except('id'));
+            return $tag;
+        } else {
+            return 0;
+        }
+        
     }
 
     /**
@@ -79,9 +86,15 @@ class BannertagController extends Controller
      * @param  \App\Bannertag  $bannertag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bannertag $bannertag)
+    public function destroy(Bannertag $bannertag, Request $request)
     {
-        //
+        if ($request->id) {
+            $tag = Bannertag::where('id', $request->id)->first();
+            $tag->delete();
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     public function getTag(Request $request) {

@@ -1423,6 +1423,10 @@ footer>div>div {
     font-size: 22px;
 }
 
+.carousel-item .banner_tags .banner_tag {
+    display: inline-block;
+}
+
 .close_button {
     cursor: pointer;
     font-size: 16px;

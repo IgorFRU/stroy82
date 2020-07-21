@@ -40,77 +40,80 @@
         <hr>
     </div>
 
-    <div class="col-lg-6">
-        <div class="card p-2 bannertags">
-            <div class="h5">Надписи на баннере</div>
+    @if (isset($banner->id))
+        <div class="col-lg-6">
+            <div class="card p-2 bannertags">
+                <div class="h5">Надписи на баннере</div>
 
-            <div class="row">
-                <div class="form-group col-md-5">
-                    <label for="tag_text" class="col-form-label">Текст</label>
-                    <div class="">
-                        <input type="text" name="tag_text" class="form-control bannertag_input" id="tag_text" maxlength="191" value="">
+                <div class="row">
+                    <div class="form-group col-md-5">
+                        <label for="tag_text" class="col-form-label">Текст</label>
+                        <div class="">
+                            <input type="text" name="tag_text" class="form-control bannertag_input" id="tag_text" maxlength="191" value="">
+                        </div>
+                    </div>
+
+                    <div class="col-md-7 bannertag_preview mt-4">
+                        <span class="banner_tag" style="padding: 5px; background: #4682B4; border-radius: 0rem; color: #ffffff; box-shadow: ;"></span>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="tag_background" class="col-form-label">Фон</label>
+                        <div class="">
+                            <input type="color" name="tag_background" class="form-control bannertag_input" id="tag_background" maxlength="20" value="#4682B4">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="tag_color" class="col-form-label">Цвет</label>
+                        <div class="">
+                            <input type="color" name="tag_color" class="form-control bannertag_input" id="tag_color" maxlength="20" value="#ffffff">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="tag_priority" class="col-form-label">Порядок</label>
+                        <div class="">
+                            <input type="number" name="tag_priority" class="form-control bannertag_input" id="tag_priority" min="0" max="30" value="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 ml-4 mb-2 mt-2">
+                        <input class="form-check-input" type="checkbox" name="tag_rounded" id="tag_rounded" value="rounded">
+                        <label class="form-check-label" for="tag_rounded">Скругление</label>
+
+                        
+                        <input class="form-check-input" type="checkbox" name="tag_shadow" id="tag_shadow" value="shadow">
+                        <label class="form-check-label" for="tag_shadow">Тень</label>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="tag_padding" class="col-form-label">Отступы, px</label>
+                        <div class="">
+                            <input type="number" name="tag_padding" class="form-control bannertag_input" id="tag_padding" min="2" max="30" value="5">
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-md-7 bannertag_preview mt-4">
-                    <span class="banner_tag" style="padding: 5px; background: #4682B4; border-radius: 0rem; color: #ffffff; box-shadow: ;"></span>
-                </div>
+                <div class="btn btn-lg btn-block btn-success bannertag_button_add disabled" disabled>Добавить</div>
 
-                <div class="form-group col-md-2">
-                    <label for="tag_background" class="col-form-label">Фон</label>
-                    <div class="">
-                        <input type="color" name="tag_background" class="form-control bannertag_input" id="tag_background" maxlength="20" value="#4682B4">
+                <hr>
+
+                @forelse ($banner->tags as $item)
+                    <div class="my-2 mr-2" data-id="{{ $item->id }}">
+                        <span class="banner_tag mr-2 {{ $item->shadow }} {{ $item->rounded }}" style="padding: {{ $item->padding }}px; background: {{ $item->background }}; color: {{ $item->color }}; box-shadow: ;">{{ $item->text }}</span>
+                        
+                        <span class="text-secondary">{{ $item->priority }}</span>
+                        <span class="btn btn-warning btn-sm mx-1 bannertag_button_edit" data-toggle="modal" data-target="#banner_tag_edit"><i class="fas fa-pen"></i></span>
+                        <span class="btn btn-danger btn-sm mx-1 bannertag_button_delete"><i class="far fa-trash-alt"></i></span>
                     </div>
-                </div>
-
-                <div class="form-group col-md-2">
-                    <label for="tag_color" class="col-form-label">Цвет</label>
-                    <div class="">
-                        <input type="color" name="tag_color" class="form-control bannertag_input" id="tag_color" maxlength="20" value="#ffffff">
-                    </div>
-                </div>
-
-                <div class="form-group col-md-2">
-                    <label for="tag_priority" class="col-form-label">Порядок</label>
-                    <div class="">
-                        <input type="number" name="tag_priority" class="form-control bannertag_input" id="tag_priority" min="0" max="30" value="0">
-                    </div>
-                </div>
-
-                <div class="col-md-2 ml-4 mb-2 mt-2">
-                    <input class="form-check-input" type="checkbox" name="tag_rounded" id="tag_rounded" value="rounded">
-                    <label class="form-check-label" for="tag_rounded">Скругление</label>
-
+                @empty
                     
-                    <input class="form-check-input" type="checkbox" name="tag_shadow" id="tag_shadow" value="shadow">
-                    <label class="form-check-label" for="tag_shadow">Тень</label>
-                </div>
-
-                <div class="form-group col-md-3">
-                    <label for="tag_padding" class="col-form-label">Отступы, px</label>
-                    <div class="">
-                        <input type="number" name="tag_padding" class="form-control bannertag_input" id="tag_padding" min="2" max="30" value="5">
-                    </div>
-                </div>
-            </div>
-
-            <div class="btn btn-lg btn-block btn-success bannertag_button_add disabled" disabled>Добавить</div>
-
-            <hr>
-
-            @forelse ($banner->tags as $item)
-                <div class="my-2 mr-2" data-id="{{ $item->id }}">
-                    <span class="banner_tag mr-2 {{ $item->shadow }} {{ $item->rounded }}" style="padding: {{ $item->padding }}px; background: {{ $item->background }}; color: {{ $item->color }}; box-shadow: ;">{{ $item->text }}</span>
-                    
-                    <span class="text-secondary">{{ $item->priority }}</span>
-                    <span class="btn btn-warning btn-sm mx-1 bannertag_button_edit" data-toggle="modal" data-target="#banner_tag_edit"><i class="fas fa-pen"></i></span>
-                    <span class="btn btn-danger btn-sm mx-1 bannertag_button_delete"><i class="far fa-trash-alt"></i></span>
-                </div>
-            @empty
-                
-            @endforelse
-        </div>        
-    </div>
+                @endforelse
+            </div>        
+        </div>
+    @endif
+    
 </div>
    
 <div class="edit_form_bottom_menu">
@@ -145,6 +148,7 @@
             <div class="modal-body">
                 <div class="error bg-warning p-4 hide">Ошибка! Обновите страницу. Если ошибка повторяется, обратитесь к вашему веб-мастеру.</div>
                 <div class="row">
+                    <input type="hidden" name="tag_id" value="0">
                     <div class="form-group col-md-5">
                         <label for="tag_text" class="col-form-label">Текст</label>
                         <div class="">

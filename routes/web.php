@@ -69,6 +69,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(functi
   Route::post('/bannertag_add', 'BannertagController@store');
   Route::put('/bannertag_update', 'BannertagController@update');
   Route::get('/bannertag_get', 'BannertagController@getTag');
+  Route::delete('/bannertag_delete', 'BannertagController@destroy');
 
   Route::resource('/consumers', 'ConsumerController');
   Route::get('/consumers/{consumer}', 'ConsumerController@consumer')->name('consumer');
