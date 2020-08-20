@@ -59,7 +59,9 @@ Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(functi
 
   Route::get('/import-export', 'ImportexportController@index')->name('import-export.index');
   Route::any('/import-export/import', 'ImportexportController@import')->name('import-export.import');
-  Route::get('/export/products', 'ProductController@export')->name('product.export');
+  Route::any('/import-export/export', 'ImportexportController@export')->name('import-export.export');
+
+  // Route::get('/export/products', 'ProductController@export')->name('product.export');
 
   Route::post('/setcookie', 'ProductController@setCookie');
 

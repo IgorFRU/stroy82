@@ -571,35 +571,35 @@ class ProductController extends Controller
         // echo json_encode($request->all());
     }
 
-    public function export() {
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
+    // public function export() {
+    //     $spreadsheet = new Spreadsheet();
+    //     $sheet = $spreadsheet->getActiveSheet();
 
-        $products = Product::published()->with(['category', 'manufacture', 'propertyvalue'])->get();
-        $sheet->setCellValue('A1', 'Hello World !');
-        $sheet->setCellValue('A4', '№');
-        $sheet->setCellValue('B4', 'Код товара');
-        $sheet->setCellValue('C4', 'Название, категория');
-        $sheet->setCellValue('D4', 'Производитель');
+    //     $products = Product::published()->with(['category', 'manufacture', 'propertyvalue'])->get();
+    //     $sheet->setCellValue('A1', 'Hello World !');
+    //     $sheet->setCellValue('A4', '№');
+    //     $sheet->setCellValue('B4', 'Код товара');
+    //     $sheet->setCellValue('C4', 'Название, категория');
+    //     $sheet->setCellValue('D4', 'Производитель');
 
-        $count = 5;
-        $number = 1;
-        foreach ($products as $key => $product) {
-            $sheet->setCellValue('A' . $count++, $number++);
-            $sheet->setCellValue('B' . $count, $product->autoscu);
-            if (isset($product->category)) {
-                $sheet->setCellValue('C' . $count, $product->product . ' ' . $product->category->category);
-            }
-            if (isset($product->manufacture)) {
-                $sheet->setCellValue('D' . $count, $product->manufacture->manufacture);
-            }
-        }
+    //     $count = 5;
+    //     $number = 1;
+    //     foreach ($products as $key => $product) {
+    //         $sheet->setCellValue('A' . $count++, $number++);
+    //         $sheet->setCellValue('B' . $count, $product->autoscu);
+    //         if (isset($product->category)) {
+    //             $sheet->setCellValue('C' . $count, $product->product . ' ' . $product->category->category);
+    //         }
+    //         if (isset($product->manufacture)) {
+    //             $sheet->setCellValue('D' . $count, $product->manufacture->manufacture);
+    //         }
+    //     }
 
-        $writer = new Xlsx($spreadsheet);
-        $writer->save('products.xlsx');
+    //     $writer = new Xlsx($spreadsheet);
+    //     $writer->save('products.xlsx');
 
-        return 'ok';
-    }
+    //     return 'ok';
+    // }
 
     public function getCategoryProperties(Request $request) {
 
