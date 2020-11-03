@@ -23,7 +23,17 @@
                             <a href="{{ route('admin.import-export.import') }}" class="card-link">Начать <i class="fas fa-angle-right"></i></a>
                         </div>
                     </div>
-                </div>                
+                </div>  
+                
+                <div class="col-4 mb-2">
+                    <div class="card mr-1 ml-1 text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Обновление цен из Excel</h5>
+                            <p class="card-text h1"></p>
+                            <a href="{{ route('admin.import-export.update') }}" class="card-link">Начать <i class="fas fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="w-100">
                 <div class="h5">Ранее импортированные товары (они не отображаются на сайте и в основном разделе товаров в админке)</div>

@@ -47,6 +47,8 @@ class ProductsImport implements ToCollection
         $this->manufacture     = ($columns['manufacture']) ? $columns['manufacture'] : NULL ;
         $this->size_type     = ($columns['size_type']) ? $columns['size_type'] : NULL ;
 
+        // dd($columns);
+
         if (isset($columns['property_values'])) {
             foreach ($columns['property_values'] as $key => $value) {
                 if (!empty($value)) {

@@ -30,6 +30,28 @@ class ImportexportController extends Controller
         return view('admin.importexport.index', $data);
     }
 
+    public function update(Request $request) {
+
+        if (isset($request->file)) {
+            
+            $request->validate([
+                'file' => 'required|file|max:10000|mimes:xls,xlsx',
+            ]);
+            
+            $excel = new ProductsUpdate($request->first_line - 1, $request->all(), $request->last_line);
+            Excel::import($excel, $request->file);
+
+            return redirect()->route('admin.import-export.index');
+        }
+
+        $data = array (
+            'title' => 'Обновление цен',
+            
+        );
+
+        return view('admin.import.update', $data);
+    }
+
     public function import(Request $request) {
         
         if (isset($request->file)) {
