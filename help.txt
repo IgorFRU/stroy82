@@ -1,0 +1,4 @@
+u u0805481
+p ibB7S9_K
+
+/opt/php/7.1/bin/php www/stroy82.com/artisan migrate 

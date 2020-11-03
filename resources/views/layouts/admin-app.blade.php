@@ -24,11 +24,13 @@
     {{-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> --}}
     <link href="https://fonts.googleapis.com/css?family=Cuprum:400,400i,700&display=swap&subset=cyrillic-ext" rel="stylesheet">
 
+    @section('styles')
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style-admin.css') }}" rel="stylesheet">
     <link href="{{ asset('css/select2.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+    @show
 </head>
 <body>
     <div id="app">

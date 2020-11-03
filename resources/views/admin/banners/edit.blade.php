@@ -5,29 +5,32 @@
 @endsection
 @section('scripts')
     @parent
-    <script src="https://cdn.tiny.cloud/1/4ogn001qp1t620kw68fag111as9qnq1nqba3n4ycar2puh9p/tinymce/5/tinymce.min.js"></script>
-    <script>
-        tinymce.init({
-            selector:'#description',
-            plugins: "anchor link insertdatetime lists"
-        });
-    </script>
+    
+    <script src="{{ asset('js/select2.min.js') }}" defer></script>
+    
 @endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card edit_form">
-                <div class="card-header"><p class="h3">Редактирование статьи 
-                    <button type="button" class="btn btn-primary">{{ $article->article }}</button></p>
-                </div>
+                <div class="card-header"><p class="h3">{{ $title }}</p></div>
                 <div class="card-body">
-                    <form action="{{route('admin.articles.update', ['id' => $article->id])}}" method="post" enctype="multipart/form-data">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    
+                    <form action="{{route('admin.banners.update', ['id' => $banner->id])}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="_method" value="put">
-                        @include('admin.articles.partials.form')
-                    
-                    </form>                    
+                        @include('admin.banners.partials.form')
+                    </form>   
                 </div>
             </div>
         </div>

@@ -603,8 +603,9 @@ main {
 }
 
 .header {
-    height: 500px;
+    max-height: 550px;
     margin-top: -40px;
+    height: 90vh;
 }
 
 .carousel_header {
@@ -612,11 +613,11 @@ main {
 }
 
 .carousel_header .carousel-indicators {
-    bottom: 50px;
+    bottom: 70px;
 }
 
 .carousel_header .carousel-caption {
-    bottom: 60px;
+    bottom: 80px;
 }
 
 .header_banner {
@@ -808,7 +809,7 @@ section.product {
 }
 
 .category_card__img {
-    height: 100px;
+    height: 300px;
     position: relative;
 }
 
@@ -1415,6 +1416,17 @@ footer>div>div {
     height: 100%;
 }
 
+.carousel-item .banner_tags {
+    position: absolute;
+    left: 110px;
+    top: 20px;
+    font-size: 22px;
+}
+
+.carousel-item .banner_tags .banner_tag {
+    display: inline-block;
+}
+
 .close_button {
     cursor: pointer;
     font-size: 16px;
@@ -1495,12 +1507,44 @@ footer>div>div {
 } */
 
 @media (max-width: 1200px) {
+    .header {
+        max-height: 500px;
+    }
+    .carousel_header .carousel-indicators {
+        bottom: 100px;
+    }
+    .carousel_header .carousel-caption {
+        bottom: 110px;
+    }
+    .carousel-item .banner_tags {
+        left: 90px;
+        top: 20px;
+        font-size: 20px;
+    }
     nav .nav_content {
         width: 98%;
+    }
+    .category_card__img {
+        height: 280px;
+        position: relative;
     }
 }
 
 @media (max-width: 992px) {
+    .header {
+        max-height: 400px;
+    }
+    .carousel_header .carousel-indicators {
+        bottom: 110px;
+    }
+    .carousel_header .carousel-caption {
+        bottom: 120px;
+    }
+    .carousel-item .banner_tags {
+        left: 70px;
+        top: 10px;
+        font-size: 18px;
+    }
     .cart {}
     nav .main_menu {
         flex-direction: column;
@@ -1536,9 +1580,28 @@ footer>div>div {
     nav .nav_contacts.nav_contacts_address {
         margin-left: 10px;
     }
+    .category_card__img {
+        height: 250px;
+        position: relative;
+    }
 }
 
 @media (max-width: 768px) {
+    .header {
+        max-height: 300px;
+        margin-top: -40px;
+    }
+    .carousel_header .carousel-indicators {
+        bottom: 120px;
+    }
+    .carousel_header .carousel-caption {
+        bottom: 130px;
+    }
+    .carousel-item .banner_tags {
+        left: 60px;
+        top: 10px;
+        font-size: 16px;
+    }
     nav .main_menu {
         width: 98%;
     }
@@ -1559,6 +1622,12 @@ footer>div>div {
 }
 
 @media (max-width: 576px) {
+    .header {
+        max-height: 250px;
+    }
+    .carousel-item .banner_tags {
+        display: none;
+    }
     nav .nav_contacts {
         margin-left: 110px;
     }

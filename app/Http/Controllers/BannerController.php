@@ -77,7 +77,7 @@ class BannerController extends Controller
         ]);
         $banner = Banner::create($request->except('image'));  
         $banner->image = $image;
-        $banner->update();     
+        $banner->save();
         
         return redirect()->route('admin.banners.index')->with('success', 'Баннер успешно создан!');
     }
@@ -99,9 +99,14 @@ class BannerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Banner $banner)
     {
-        //
+        $data = array (
+            'title' => 'Редактирование баннера',
+            'banner' => $banner,
+        );
+        
+        return view('admin.banners.edit', $data);
     }
 
     /**
@@ -111,9 +116,27 @@ class BannerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Banner $banner)
     {
-        //
+        // dd($banner);
+        $banner->update($request->except('image'));
+        if($request->image) {
+
+            if (file_exists(public_path().'/imgs/banners/' . $banner->image)) {                        
+                $file = new Filesystem;
+                $file->delete(public_path().'/imgs/banners/' . $banner->image);
+            }
+
+            $path = public_path().'/imgs/banners/';
+            $file = $request->image;
+            $img = new WorkWithImage($file, $path);
+            $banner->image = $img->saveImage();
+
+            $banner->save();
+
+        }   
+
+        return redirect()->route('admin.banners.index')->with('success', 'Баннер успешно изменен');
     }
 
     /**

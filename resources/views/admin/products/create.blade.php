@@ -2,6 +2,7 @@
 @section('scripts')
     @parent
     <script src="{{ asset('js/ajax_create_product.js') }}" defer></script>
+    <script src="{{ asset('js/dropzone.js') }}" defer></script>
     <script src="https://cdn.tiny.cloud/1/4ogn001qp1t620kw68fag111as9qnq1nqba3n4ycar2puh9p/tinymce/5/tinymce.min.js"></script>
     <script>
         tinymce.init({
@@ -10,6 +11,12 @@
         });
     </script>
 @endsection
+
+@section('styles')  
+    @parent  
+    <link href="{{ asset('css/dropzone.css') }}" rel="stylesheet">
+@endsection
+
 @section('adminmenu')
     @parent
     @include('admin.partials.adminmenu')

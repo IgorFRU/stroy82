@@ -62,10 +62,16 @@ Route::prefix('admin')->name('admin.')->middleware('admin.online')->group(functi
   Route::any('/import-export/update', 'ImportexportController@update')->name('import-export.update');
   Route::get('/export/products', 'ProductController@export')->name('product.export');
 
+
   Route::post('/setcookie', 'ProductController@setCookie');
 
   Route::resource('/units', 'UnitController');
   Route::resource('/banners', 'BannerController');
+
+  Route::post('/bannertag_add', 'BannertagController@store');
+  Route::put('/bannertag_update', 'BannertagController@update');
+  Route::get('/bannertag_get', 'BannertagController@getTag');
+  Route::delete('/bannertag_delete', 'BannertagController@destroy');
 
   Route::resource('/consumers', 'ConsumerController');
   Route::get('/consumers/{consumer}', 'ConsumerController@consumer')->name('consumer');

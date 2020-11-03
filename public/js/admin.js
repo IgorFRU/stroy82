@@ -1,3 +1,5 @@
+// const { data } = require("jquery");
+
 $(function() {
     var phone_masks = document.getElementsByClassName('phone-mask');
 
@@ -171,66 +173,68 @@ $(function() {
     });
 
     $('#add_image').on('click', function(e) {
-        e.preventDefault();
-        var method = $('#add_image').attr('data-method');
-        if (method == 'store') {
-            var filename = $('#filename').val();
-            var alt = $('#alt').val();
-            var formData = new FormData();
+        if (!$(this).hasClass('drop')) {
+            e.preventDefault();
+            var method = $('#add_image').attr('data-method');
+            if (method == 'store') {
+                var filename = $('#filename').val();
+                var alt = $('#alt').val();
+                var formData = new FormData();
 
-            formData.append('name', filename);
-            formData.append('alt', alt);
-            formData.append('path', 'product');
-            formData.append('method', method);
-            formData.append('image', $("#productImage").prop("files")[0]);
+                formData.append('name', filename);
+                formData.append('alt', alt);
+                formData.append('path', 'product');
+                formData.append('method', method);
+                formData.append('image', $("#productImage").prop("files")[0]);
 
-            console.log(FormData);
-        } else if (method == 'update') {
-            var filename = $('#filename').val();
-            var alt = $('#alt').val();
-            var image_id = $('#add_image').attr('data-id');
-            var formData = new FormData();
-
-            formData.append('method', method);
-            formData.append('name', filename);
-            formData.append('alt', alt);
-            formData.append('id', image_id);
-            formData.append('path', 'product');
-        }
-
-        $.ajax({
-            type: "POST",
-            url: '/admin/uploadimg',
-            data: formData,
-            cache: false,
-            processData: false,
-            contentType: false,
-            headers: {
-                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(data) {
-                var data = $.parseJSON(data);
+                console.log(FormData);
+            } else if (method == 'update') {
+                var filename = $('#filename').val();
+                var alt = $('#alt').val();
                 var image_id = $('#add_image').attr('data-id');
-                // console.log(data.id);
-                // console.log(image_id);
-                if (typeof(data.id) != "undefined" && data.id !== null && data.id != image_id) {
-                    $('#add_image').prop('disabled', true);
-                    $("#productImage").val("");
-                    $(".hidden_inputs").append("<input type='hidden' name='image_id[]' value=" + data.id + "> ");
-                    $('#ajaxUploadedImages').append("<img class='col-lg-2 bg-success rounded img-fluid img-thumbnail' data-id='" + data.id + "' data-name='" + data.name + " data-alt='" + data.alt + "' src='/imgs/products/thumbnails/" + data.thumbnail + "'>");
-                } else if (typeof(data.id) != "undefined" && data.id !== null && data.id == image_id) {
-                    var img = $("#ajaxUploadedImages").find("[data-id='" + data.id + "']");
-                    img.attr('data-name', data.name);
-                    img.attr('data-alt', data.alt);
-                    $('#add_image').attr('data-id', '');
-                    $('#add_image').prop('disabled', true);
-                    img.removeClass('bg-warning');
-                }
-            },
-            error: function(errResponse) {
-                console.log(errResponse);
+                var formData = new FormData();
+
+                formData.append('method', method);
+                formData.append('name', filename);
+                formData.append('alt', alt);
+                formData.append('id', image_id);
+                formData.append('path', 'product');
             }
-        });
+
+            $.ajax({
+                type: "POST",
+                url: '/admin/uploadimg',
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    var data = $.parseJSON(data);
+                    var image_id = $('#add_image').attr('data-id');
+                    // console.log(data.id);
+                    // console.log(image_id);
+                    if (typeof(data.id) != "undefined" && data.id !== null && data.id != image_id) {
+                        $('#add_image').prop('disabled', true);
+                        $("#productImage").val("");
+                        $(".hidden_inputs").append("<input type='hidden' name='image_id[]' value=" + data.id + "> ");
+                        $('#ajaxUploadedImages').append("<img class='col-lg-2 bg-success rounded img-fluid img-thumbnail' data-id='" + data.id + "' data-name='" + data.name + " data-alt='" + data.alt + "' src='/imgs/products/thumbnails/" + data.thumbnail + "'>");
+                    } else if (typeof(data.id) != "undefined" && data.id !== null && data.id == image_id) {
+                        var img = $("#ajaxUploadedImages").find("[data-id='" + data.id + "']");
+                        img.attr('data-name', data.name);
+                        img.attr('data-alt', data.alt);
+                        $('#add_image').attr('data-id', '');
+                        $('#add_image').prop('disabled', true);
+                        img.removeClass('bg-warning');
+                    }
+                },
+                error: function(errResponse) {
+                    console.log(errResponse);
+                }
+            });
+        }
     });
 
     $('#add_image_delete').on('click', function() {
@@ -835,4 +839,336 @@ $(function() {
             }
         });
     });
+
+    $('input[name="tag_text"]').on('keyup', function() {
+        let tag_preview = $('.bannertag_preview > .banner_tag');
+        let tag_text = $(this).val();
+
+        tag_preview.text(tag_text);
+
+        if (tag_text == '') {
+            $('.bannertag_button_add').addClass('disabled').attr('disabled', true);
+        } else {
+            $('.bannertag_button_add').removeClass('disabled').attr('disabled', false);
+        }
+    });
+
+    $('input[name="tag_background"]').on('change', function() {
+        let tag_preview = $('.bannertag_preview > .banner_tag');
+        let tag_background = $(this).val();
+        tag_preview.css('background', tag_background);
+    });
+
+    $('input[name="tag_color"]').on('change', function() {
+        let tag_preview = $('.bannertag_preview > .banner_tag');
+        let tag_color = $(this).val();
+        tag_preview.css('color', tag_color);
+    });
+
+    $('input[name="tag_padding"]').on('change', function() {
+        let tag_preview = $('.bannertag_preview > .banner_tag');
+        let tag_padding = $(this).val();
+        tag_preview.css('padding', tag_padding);
+    });
+
+    $('input[name="tag_rounded"]').on('change', function() {
+        let tag_preview = $('.bannertag_preview > .banner_tag');
+        if ($(this).is(':checked')) {
+            tag_preview.css('border-radius', '0.25rem');
+        } else {
+            tag_preview.css('border-radius', '0rem');
+        }
+    });
+
+    $('input[name="tag_shadow"]').on('change', function() {
+        let tag_preview = $('.bannertag_preview > .banner_tag');
+        if ($(this).is(':checked')) {
+            tag_preview.css('box-shadow', '0 .5rem 1rem rgba(0,0,0,.15)');
+        } else {
+            tag_preview.css('box-shadow', '');
+        }
+    });
+
+    $('.bannertag_button_add').on('click', function() {
+        bannertag_button_add(
+            'POST',
+            $('input[name="tag_text"]').val(),
+            $('input[name="tag_background"]').val(),
+            $('input[name="tag_color"]').val(),
+            $('input[name="tag_priority"]').val(),
+            $('input[name="tag_padding"]').val(),
+            $('input[name="id"]').val(),
+        );
+    });
+
+    function bannertag_button_add(type, text, background, color, priority, padding, id) {
+        if (text != '' && id != '') {
+            // console.log(type);
+            let rounded = '';
+            if ($('input[name="tag_rounded"]').is(':checked')) {
+                rounded = 'rounded';
+            }
+            let shadow = '';
+            if ($('input[name="tag_shadow"]').is(':checked')) {
+                shadow = 'shadow';
+            }
+
+            let typeRequest, typeUrl;
+            if (type == 'POST') {
+                typeUrl = "/admin/bannertag_add";
+            } else {
+                typeUrl = "/admin/bannertag_update";
+            }
+
+            let tag_id = $('input[name="tag_id"]').val();
+
+            $.ajax({
+                type: type,
+                url: typeUrl,
+                data: {
+                    text: text,
+                    background: background,
+                    color: color,
+                    priority: priority,
+                    padding: padding,
+                    rounded: rounded,
+                    shadow: shadow,
+                    banner_id: id,
+                    id: tag_id,
+                },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    location.reload(true);
+                    return data;
+                },
+                error: function(msg) {
+                    console.log(msg);
+                    return data;
+                }
+            });
+        }
+    }
+
+    $('.bannertag_button_edit').on('click', function() {
+        let id = $(this).parent().data('id');
+
+        $.ajax({
+            type: "GET",
+            url: "/admin/bannertag_get",
+            data: {
+                id: id,
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                let modal = $('#banner_tag_edit');
+                if (data.id) {
+
+                    modal.find('.modal-body > .error').addClass('hide');
+                    modal.find('.modal-body > .row').removeClass('hide');
+
+                    modal.find('input[name="tag_id"]').val(data.id);
+                    modal.find('input[name="tag_text"]').val(data.text);
+                    modal.find('input[name="tag_background"]').val(data.background);
+                    modal.find('input[name="tag_color"]').val(data.color);
+                    modal.find('input[name="tag_priority"]').val(data.priority);
+                    modal.find('input[name="tag_padding"]').val(data.padding);
+                    modal.find('input[name="tag_background"]').val(data.background);
+
+                    let tag_preview = modal.find('.bannertag_preview > .banner_tag');
+
+                    tag_preview.text(data.text);
+                    tag_preview.css({
+                        background: data.background,
+                        color: data.color,
+                        padding: data.padding,
+
+                    });
+
+                    if (data.rounded) {
+                        tag_preview.css('border-radius', '0.25rem');
+                        modal.find('input[name="tag_rounded"]').attr('checked', true);
+                    } else {
+                        tag_preview.css('border-radius', '0rem');
+                        modal.find('input[name="tag_rounded"]').attr('checked', false);
+                    }
+
+                    if (data.shadow) {
+                        tag_preview.css('box-shadow', '0 .5rem 1rem rgba(0,0,0,.15)');
+                        modal.find('input[name="tag_shadow"]').attr('checked', true);
+                    } else {
+                        tag_preview.css('box-shadow', '');
+                        modal.find('input[name="tag_shadow"]').attr('checked', false);
+                    }
+
+                } else {
+                    modal.find('.modal-body > .error').removeClass('hide');
+                    modal.find('.modal-body > .row').addClass('hide');
+                }
+
+            },
+            error: function(msg) {
+                modal.find('.modal-body > .error').removeClass('hide');
+                modal.find('.modal-body > .row').addClass('hide');
+            }
+        });
+    });
+
+    $('#banner_tag_edit .btn-primary').on('click', function() {
+        bannertag_button_add(
+            'PUT',
+            $('#banner_tag_edit').find('input[name="tag_text"]').val(),
+            $('#banner_tag_edit').find('input[name="tag_background"]').val(),
+            $('#banner_tag_edit').find('input[name="tag_color"]').val(),
+            $('#banner_tag_edit').find('input[name="tag_priority"]').val(),
+            $('#banner_tag_edit').find('input[name="tag_padding"]').val(),
+            $('input[name="id"]').val(),
+        );
+    });
+
+    $('.bannertag_button_delete').on('click', function() {
+        let id = $(this).parent().data('id');
+        $.ajax({
+            type: "DELETE",
+            url: "/admin/bannertag_delete",
+            data: {
+                id: id,
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                if (data) {
+                    location.reload(true);
+                }
+            },
+            error: function(msg) {
+
+            }
+        });
+    });
+
+    var export_column_numbers_array = new Map();
+    var export_column_numbers_array_2 = [];
+    $('.export_column_number').on('change', function() {
+        let selected = $('select.export_column_number');
+        let selected_id = $(this).data('count');
+
+        let columns = $('input[name="columns[]"]');
+        let values = $('input[name="values[]"]');
+
+        $.each(selected, function(i, elem) {
+
+            $.each(elem.childNodes, function() {
+                if ($(this)[0].selected) {
+                    let count = elem.attributes['data-count'].value;
+                    if ($(this).val() != 0) {
+                        export_column_numbers_array.set(count, $(this).val());
+                    } else {
+                        export_column_numbers_array.delete(count)
+                    }
+
+                }
+            });
+
+            $.each($(this)[0], function() {
+                // console.log($(this)[0]);
+                let current_option = $(this)[0];
+                current_option.disabled = false;
+
+                for (let val of export_column_numbers_array.values()) {
+                    if (val == current_option.value) {
+                        current_option.disabled = true;
+                    }
+                }
+            });
+        });
+
+        columns.val(Array.from(export_column_numbers_array.keys()));
+        values.val(Array.from(export_column_numbers_array.values()));
+        // console.log(Array.from(export_column_numbers_array.keys()), Array.from(export_column_numbers_array.values()));
+    });
+
+    $('input[name="category_not"]').on('click', function() {
+        let all_categories = [],
+            category_not;
+
+        if ($("#category_id option").length) {
+            $("#category_id option").each(function() {
+                all_categories.push($(this).val());
+            });
+        }
+
+        if ($('input[name="category_not"]').is(':checked')) {
+            category_not = 1;
+        } else {
+            category_not = 0;
+        }
+
+        let category = $('select[name="category[]"]').val();
+        if (!category_not) {
+            if (category.indexOf('0') > -1) {
+                category = [];
+                category[0] = 0;
+            }
+        } else {
+            let category_tmp = category;
+            category = [];
+            category = uniqueArray(all_categories, category_tmp);
+            if (category.indexOf('0') > -1) {
+                category.splice(category.indexOf('0'), 1);
+            }
+        }
+
+        $('input[name="category_not_hidden[]"]').val(category);
+    });
+
+    $('input[name="manufacture_not"]').on('click', function() {
+        let all_manufactures = [],
+            manufacture_not;
+
+        if ($("#manufacture option").length) {
+            $("#manufacture option").each(function() {
+                all_manufactures.push($(this).val());
+            });
+        }
+
+        if ($('input[name="manufacture_not"]').is(':checked')) {
+            manufacture_not = 1;
+        } else {
+            manufacture_not = 0;
+        }
+
+        let manufacture = $('select[name="manufacture[]"]').val();
+        if (!manufacture_not) {
+            if (manufacture.indexOf('0') > -1) {
+                manufacture = [];
+                manufacture[0] = 0;
+            }
+        } else {
+            let manufacture_tmp = manufacture;
+            manufacture = [];
+            manufacture = uniqueArray(all_manufactures, manufacture_tmp);
+            if (manufacture.indexOf('0') > -1) {
+                manufacture.splice(manufacture.indexOf('0'), 1);
+            }
+        }
+
+        $('input[name="manufacture_not_hidden[]"]').val(manufacture);
+    });
+
+    function uniqueArray(arr1, arr2) {
+
+        var elems = arr1.filter(
+            function(i) {
+                return this.indexOf(i) < 0;
+            },
+            arr2
+
+        );
+        return elems;
+    }
 });

@@ -111,6 +111,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        
         // dd($request->all());
         $category->update($request->except('alias'));
         if (isset($request->property_id) && $request->property_id != 0) {

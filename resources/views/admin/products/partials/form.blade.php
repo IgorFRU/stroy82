@@ -507,9 +507,12 @@
     
 
 
-    <form action="" id="uploadImagesForm" method="post" enctype="multipart/form-data">
+    <form action="" id="uploadImagesForm" name="uploadImagesForm" method="post" enctype="multipart/form-data">
         <div id="hiddenTypeForm"></div>
         @csrf
+        <div id="dropZone">
+            Для загрузки перетащите файл сюда.
+        </div>
         <div class="col-lg-7">  
             <div class="row">
                 <div class="col">
