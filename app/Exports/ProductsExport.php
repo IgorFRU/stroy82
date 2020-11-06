@@ -32,6 +32,7 @@ class ProductsExport
         'size_t'        => 'Толщина',
         'mass'          => 'Масса',
         'properties'    => 'Характеристики',
+        'image'         => 'Фотография',
     ];   
     
     static $alfabet = [
@@ -43,6 +44,7 @@ class ProductsExport
         8 => 'H',
         9 => 'I',
         10 => 'J',
+        11 => 'K',
     ];
 
     static $styleBold = [
@@ -174,6 +176,9 @@ class ProductsExport
                                         }
                                     }
                                 }                                
+                                break;
+                            case 'image':
+                                $cellData = (count($product->images)) ? asset('imgs/products/' . $product->main_or_first_image->image) : '' ;
                                 break;
                             default:
                                 $cellData = 'error!';

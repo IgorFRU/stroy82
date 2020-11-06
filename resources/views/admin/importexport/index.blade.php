@@ -279,6 +279,7 @@
                             <option value="size_t">Толщина</option>
                             <option value="mass">Масса</option>
                             <option value="properties">Характеристики</option>
+                            <option value="image">Фото (путь)</option>
                         </select>
                     </div>
 
@@ -299,6 +300,7 @@
                             <option value="size_t">Толщина</option>
                             <option value="mass">Масса</option>
                             <option value="properties">Характеристики</option>
+                            <option value="image">Фото (путь)</option>
                         </select>
                     </div>
 
@@ -319,6 +321,7 @@
                             <option value="size_t">Толщина</option>
                             <option value="mass">Масса</option>
                             <option value="properties">Характеристики</option>
+                            <option value="image">Фото (путь)</option>
                         </select>
                     </div>
 
@@ -339,6 +342,7 @@
                             <option value="size_t">Толщина</option>
                             <option value="mass">Масса</option>
                             <option value="properties">Характеристики</option>
+                            <option value="image">Фото (путь)</option>
                         </select>
                     </div>
 
@@ -360,6 +364,7 @@
                             <option value="size_t">Толщина</option>
                             <option value="mass">Масса</option>
                             <option value="properties">Характеристики</option>
+                            <option value="image">Фото (путь)</option>
                         </select>
                     </div>
 
@@ -380,6 +385,7 @@
                             <option value="size_t">Толщина</option>
                             <option value="mass">Масса</option>
                             <option value="properties">Характеристики</option>
+                            <option value="image">Фото (путь)</option>
                         </select>
                     </div>
                     
@@ -400,6 +406,7 @@
                             <option value="size_t">Толщина</option>
                             <option value="mass">Масса</option>
                             <option value="properties">Характеристики</option>
+                            <option value="image">Фото (путь)</option>
                         </select>
                     </div>
                     
@@ -420,6 +427,7 @@
                             <option value="size_t">Толщина</option>
                             <option value="mass">Масса</option>
                             <option value="properties">Характеристики</option>
+                            <option value="image">Фото (путь)</option>
                         </select>
                     </div>
                     
@@ -440,6 +448,28 @@
                             <option value="size_t">Толщина</option>
                             <option value="mass">Масса</option>
                             <option value="properties">Характеристики</option>
+                            <option value="image">Фото (путь)</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 mb-2">
+                        <label for="export_column_10">11 столбец</label>
+                        <select data-count='11' class="form-control export_column_number disabled" id="export_column_11" name="export_column_11">
+                            <option value="0">Пусто</option>
+                            <option value="scu">Артикул</option>
+                            <option value="product">Название товара</option>
+                            <option value="category">Категория</option>
+                            <option value="manufacture">Производитель</option>
+                            <option value="vendor">Поставщик</option>
+                            <option value="price">Цена</option>
+                            <option value="description">Описание товара</option>
+                            <option value="slug">Ссылка</option>
+                            <option value="size_l">Длина</option>
+                            <option value="size_w">Ширина</option>
+                            <option value="size_t">Толщина</option>
+                            <option value="mass">Масса</option>
+                            <option value="properties">Характеристики</option>
+                            <option value="image">Фото (путь)</option>
                         </select>
                     </div>
                 </div>
