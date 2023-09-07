@@ -6,7 +6,6 @@ use App\Category;
 use App\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
@@ -65,9 +64,6 @@ class CategoryController extends Controller
             $properties = Arr::sort($request->property_id);
             $category->property()->sync($properties, true);
         }
-
-        Cache::forget('categories');
-
         return redirect()->route('admin.categories.index')
             ->with('success', 'Категория успешно добавлена.');
     }
@@ -111,7 +107,6 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        
         // dd($request->all());
         $category->update($request->except('alias'));
         if (isset($request->property_id) && $request->property_id != 0) {

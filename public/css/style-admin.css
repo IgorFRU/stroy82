@@ -181,20 +181,8 @@ nav {
     max-width: 100%;
 } */
 
-.product_options_steps>.options_step {
-    display: none;
-}
-
-.product_options_steps>.options_step.active {
-    display: block;
-}
-
 .flash-messeges {
     position: fixed;
     right: 10px;
     bottom: 10px;
-}
-
-.banner_tag {
-    font-size: 22px;
 }

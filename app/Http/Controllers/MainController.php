@@ -475,6 +475,12 @@ class MainController extends Controller
             setcookie('scroll', $request->scroll, time()+60); 
         }
     }
+
+    public function sitemap() {
+        $categories = Category::with('products')->get();
+        // dd($categories);
+        return view('sitemap')->with(compact('categories'));
+    }
     
 
     public function comingsoon () {

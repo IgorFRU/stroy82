@@ -141,6 +141,8 @@ Route::group(['middleware' => 'user.online'], function () {
   Route::post('/contacts', 'MainController@sendQuestion')->name('send.question');
   Route::get('/search', 'SearchController@search')->name('search');
   Route::post('/search', 'SearchController@quickSearch');
+
+  Route::get('sitemap.xml', 'MainController@sitemap');
   
   Route::get('/{staticpage}', 'MainController@staticpage')->name('staticpage');
 });

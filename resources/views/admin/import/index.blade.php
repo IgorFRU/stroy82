@@ -83,9 +83,9 @@
         </div>
         <div class="h4 mt-3">Укажите соответствие колонок</div>
         <div class="form-row w-100">            
-            <div class="col-md-1 mb-3">
+            <div class="col-md-2 mb-3">
                 <label for="product" class="text-danger">Наименование*</label>
-                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="product" name="column_product" placeholder="Наименование" required>
+                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="product" name="column_product" placeholder="Наименование товара" required>
                 <div class="invalid-feedback">
                     Тут должно быть число!
                 </div>
@@ -181,14 +181,6 @@
             <div class="col-md-1 mb-3">
                 <label for="mass">Масса, кг.</label>
                 <input type="text" class="form-control check_numeric" data-success_check="success_check" id="mass" name="column_mass" placeholder="Масса, кг.">
-                <div class="invalid-feedback">
-                    Тут должно быть число!
-                </div>
-            </div>
-            
-            <div class="col-md-1 mb-3">
-                <label for="amount_in_package">Шт. в уп.</label>
-                <input type="text" class="form-control check_numeric" data-success_check="success_check" id="amount_in_package" name="column_amount_in_package" placeholder="Шт. в уп.">
                 <div class="invalid-feedback">
                     Тут должно быть число!
                 </div>

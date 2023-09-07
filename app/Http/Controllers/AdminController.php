@@ -90,43 +90,32 @@ class AdminController extends Controller
     }
 
     public function settings(Request $request) {
-         //dd($request->all());
-         try {
-             $settings = Setting::first();
-             $settings->update($request->except(['phone_main', 'phone_add']));
+        // dd($request->all());
+        $settings = Setting::first();
+        $settings->update($request->except(['phone_main', 'phone_add']));
 
-             if (isset($request->phone_main)) {
-                 $phone_main = str_replace(array('+', '-', '(', ')', ' '), '', $request->phone_main);
-                 if (strlen($phone_main) == 11) {
-                     $phone_main = substr($phone_main, 1);
-                 }
-                 $settings->phone_main = $phone_main;
-             }
+        if (isset($request->phone_main)) {
+            $phone_main = str_replace(array('+','-', '(', ')', ' '), '', $request->phone_main);
+            if (strlen($phone_main) == 11) {
+                $phone_main = substr($phone_main, 1);
+            }
+           $settings->phone_main = $phone_main;
+        }
+        
+        if (isset($request->phone_add)) {
+            $phone_add = str_replace(array('+','-', '(', ')', ' '), '', $request->phone_add);
+            if (strlen($phone_add) == 11) {
+                $phone_add = substr($phone_add, 1);
+            }
+           $settings->phone_add = $phone_add;
+        }
 
-             if (isset($request->phone_add)) {
-                 $phone_add = str_replace(array('+', '-', '(', ')', ' '), '', $request->phone_add);
-                 if (strlen($phone_add) == 11) {
-                     $phone_add = substr($phone_add, 1);
-                 }
-                 $settings->phone_add = $phone_add;
-             }
+        $settings->update([
+            'phone_main' => $phone_main,
+            'phone_add' => $phone_add,
+        ]);
 
-             $settings->update([
-                 'phone_main' => $phone_main,
-                 'phone_add' => $phone_add,
-             ]);
-
-             return redirect()->route('admin.index');
-
-         } catch (\Exception $e) {
-             dd([
-                 $e->getMessage(),
-                 $e->getFile(),
-                 $e->getLine(),
-                 $e->getCode(),
-                 $e->getTraceAsString()
-             ]);
-         }
+        return redirect()->route('admin.index');
     }
 
     public function profile() {
